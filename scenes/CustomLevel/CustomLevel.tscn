@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://buap2erp6f7bf"]
+
+[ext_resource type="Script" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_kiua1"]
+[ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/LevelContainer/LevelContainer.tscn" id="2_bjubq"]
+
+[node name="CustomLevel" type="Node2D" node_paths=PackedStringArray("level_container")]
+script = ExtResource("1_kiua1")
+level_container = NodePath("LevelContainer")
+
+[node name="LevelContainer" parent="." instance=ExtResource("2_bjubq")]
+editor_mode = null

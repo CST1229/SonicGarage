@@ -1,0 +1,96 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqv66ex06ep1o"]
+
+[ext_resource type="Script" path="res://scenes/TitleScreen/TitleScreen.gd" id="1_f1p6m"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8eswu"]
+font_size = 20
+
+[node name="TitleScreen" type="Node2D"]
+script = ExtResource("1_f1p6m")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+custom_minimum_size = Vector2(240, 0)
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_right = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -92.0
+offset_top = 8.0
+offset_right = 100.0
+offset_bottom = 36.0
+grow_horizontal = 2
+text = "sonic ggragaarage!!!"
+label_settings = SubResource("LabelSettings_8eswu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EditorButton" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 44.0
+offset_right = 80.0
+offset_bottom = 76.0
+grow_horizontal = 2
+text = "editor"
+
+[node name="PlayButton" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 84.0
+offset_right = 80.0
+offset_bottom = 116.0
+grow_horizontal = 2
+text = "load level"
+
+[node name="TestButton" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 152.0
+offset_right = 80.0
+offset_bottom = 177.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 12
+text = "test stage
+"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -40.0
+offset_right = 80.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "quit"
+
+[connection signal="pressed" from="CanvasLayer/Panel/EditorButton" to="." method="goto_editor"]
+[connection signal="pressed" from="CanvasLayer/Panel/PlayButton" to="." method="load_level"]
+[connection signal="pressed" from="CanvasLayer/Panel/TestButton" to="." method="goto_test"]
+[connection signal="pressed" from="CanvasLayer/Panel/QuitButton" to="." method="quit"]
