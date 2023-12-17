@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://cs7du7ueq66er"]
+
+[ext_resource type="Script" path="res://objects/level/Ring/Ring.gd" id="1_6udgv"]
+[ext_resource type="SpriteFrames" uid="uid://du05f742t6s71" path="res://objects/level/Ring/sprites/ring.tres" id="1_k7kbx"]
+[ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="3_fr61y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5v45g"]
+size = Vector2(13, 13)
+
+[node name="Ring" type="Node2D"]
+script = ExtResource("1_6udgv")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_k7kbx")
+animation = &"spin"
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_5v45g")
+
+[node name="EditorObjectBounds" parent="." instance=ExtResource("3_fr61y")]
+size = Vector2(16, 16)
+
+[connection signal="animation_finished" from="sprite" to="." method="animation_finished"]
+[connection signal="body_entered" from="Area2D" to="." method="collect"]

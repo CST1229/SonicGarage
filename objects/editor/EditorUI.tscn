@@ -1,0 +1,223 @@
+[gd_scene load_steps=3 format=3 uid="uid://6coikmp63mmn"]
+
+[ext_resource type="Script" path="res://objects/editor/EditorUI.gd" id="1_1imr5"]
+[ext_resource type="Script" path="res://objects/ui/SignalableMenuButton.gd" id="2_wor00"]
+
+[node name="EditorUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_1imr5")
+
+[node name="TerrainTools" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Tools" type="Panel" parent="TerrainTools"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 192.0
+offset_bottom = 36.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TerrainTools/Tools"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_vertical = 2
+
+[node name="PolySelectTool" type="Button" parent="TerrainTools/Tools/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Poly Select"
+
+[node name="VertSelectTool" type="Button" parent="TerrainTools/Tools/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Vert Select"
+
+[node name="LineTool" type="Button" parent="TerrainTools/Tools/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Line
+"
+
+[node name="PolyLayerButton" type="Button" parent="TerrainTools"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -32.0
+offset_right = -8.0
+offset_bottom = -7.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 12
+text = "Layer"
+
+[node name="ObjectTools" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Tools" type="Panel" parent="ObjectTools"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 92.0
+offset_bottom = 36.0
+
+[node name="ObjectSelectTool" type="Button" parent="ObjectTools/Tools"]
+layout_mode = 2
+offset_left = 4.0
+offset_top = 3.5
+offset_right = 47.0
+offset_bottom = 28.5
+theme_override_font_sizes/font_size = 12
+text = "Select"
+
+[node name="ObjectSelector" type="Control" parent="ObjectTools"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Flap" type="Button" parent="ObjectTools/ObjectSelector"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = 36.0
+offset_right = 40.0
+offset_bottom = 68.0
+grow_horizontal = 0
+grow_vertical = 2
+rotation = -1.5708
+text = "Objects"
+
+[node name="Selector" type="Panel" parent="ObjectTools/ObjectSelector"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -98.0
+offset_right = 196.0
+offset_bottom = 98.0
+grow_vertical = 2
+
+[node name="List" type="GridContainer" parent="ObjectTools/ObjectSelector/Selector"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+columns = 4
+
+[node name="Modes" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -36.0
+offset_right = 120.0
+offset_bottom = -4.0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modes"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_vertical = 2
+
+[node name="TerrainMode" type="Button" parent="Modes/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "Terrain
+"
+
+[node name="ObjectsMode" type="Button" parent="Modes/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "Objects
+"
+
+[node name="MenuButton" type="MenuButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.990566
+anchor_right = 1.0
+anchor_bottom = 0.0178571
+offset_left = -32.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = 32.0
+grow_horizontal = 0
+focus_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "⋯"
+flat = false
+clip_text = true
+item_count = 4
+popup/item_0/text = "Save Level"
+popup/item_0/id = 0
+popup/item_1/text = "Load Level"
+popup/item_1/id = 1
+popup/item_2/text = "Clear Level"
+popup/item_2/id = 2
+popup/item_3/text = "Exit"
+popup/item_3/id = 3
+script = ExtResource("2_wor00")
+
+[connection signal="pressed" from="TerrainTools/Tools/HBoxContainer/PolySelectTool" to="." method="poly_select_tool_pressed"]
+[connection signal="pressed" from="TerrainTools/Tools/HBoxContainer/VertSelectTool" to="." method="select_tool_pressed"]
+[connection signal="pressed" from="TerrainTools/Tools/HBoxContainer/LineTool" to="." method="line_tool_pressed"]
+[connection signal="pressed" from="TerrainTools/PolyLayerButton" to="." method="poly_layer_button_pressed"]
+[connection signal="pressed" from="ObjectTools/Tools/ObjectSelectTool" to="." method="object_select_tool_pressed"]
+[connection signal="pressed" from="ObjectTools/ObjectSelector/Flap" to="." method="objects_flap_pressed"]
+[connection signal="pressed" from="Modes/HBoxContainer/TerrainMode" to="." method="terrain_mode_pressed"]
+[connection signal="pressed" from="Modes/HBoxContainer/ObjectsMode" to="." method="objects_mode_pressed"]
+[connection signal="id_pressed" from="MenuButton" to="." method="menu_pressed"]

@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3 uid="uid://b60n02le4yvf0"]
+
+[ext_resource type="Script" path="res://objects/level/LayerSwitcher/LayerSwitcher.gd" id="1_oamhx"]
+[ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="2_oktun"]
+[ext_resource type="Script" path="res://objects/general/control_handles/HandleContainer.gd" id="3_bugb3"]
+[ext_resource type="PackedScene" uid="uid://shaxhqlgd6uq" path="res://objects/general/control_handles/RectResizerHandle/RectResizerHandle.tscn" id="4_shhxs"]
+[ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/themes/handle.tres" id="5_xqck4"]
+[ext_resource type="Texture2D" uid="uid://chlp5vbpdk5lc" path="res://sprites/icons/handle/layer_a.png" id="6_b34xs"]
+[ext_resource type="Texture2D" uid="uid://dludac6ocfykb" path="res://sprites/icons/handle/air.png" id="7_vlti0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3hue5"]
+size = Vector2(16, 16)
+
+[node name="LayerSwitcher" type="Node2D"]
+script = ExtResource("1_oamhx")
+
+[node name="area" type="Area2D" parent="."]
+
+[node name="shape" type="CollisionShape2D" parent="area"]
+shape = SubResource("RectangleShape2D_3hue5")
+debug_color = Color(0, 0.5, 1, 0.392157)
+
+[node name="bounds" parent="." instance=ExtResource("2_oktun")]
+size = Vector2(16, 16)
+outline_alpha = 0.5
+
+[node name="HandleContainer" type="Control" parent="." node_paths=PackedStringArray("target")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("3_bugb3")
+target = NodePath("..")
+
+[node name="RectResizerHandle" parent="HandleContainer" node_paths=PackedStringArray("target") instance=ExtResource("4_shhxs")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+snap = Vector2(8, 8)
+target = NodePath("../..")
+
+[node name="LayerHandle" type="Button" parent="HandleContainer"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -10.0
+offset_top = -13.0
+offset_right = -1.0
+offset_bottom = -4.0
+grow_horizontal = 2
+tooltip_text = "Switches to layer A"
+theme = ExtResource("5_xqck4")
+theme_type_variation = &"FlatButton"
+icon = ExtResource("6_b34xs")
+icon_alignment = 1
+
+[node name="GroundedOnlyHandle" type="Button" parent="HandleContainer"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 1.0
+offset_top = -13.0
+offset_right = 10.0
+offset_bottom = -4.0
+grow_horizontal = 2
+tooltip_text = "Grounded-only: Off"
+theme = ExtResource("5_xqck4")
+theme_type_variation = &"FlatButton"
+icon = ExtResource("7_vlti0")
+icon_alignment = 1
+
+[connection signal="pressed" from="HandleContainer/LayerHandle" to="." method="layer_handle_pressed"]
+[connection signal="pressed" from="HandleContainer/GroundedOnlyHandle" to="." method="grounded_only_handle_pressed"]

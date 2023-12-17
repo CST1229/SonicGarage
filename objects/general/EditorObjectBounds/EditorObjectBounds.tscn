@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dw7syfbdxqvkk"]
+
+[ext_resource type="Script" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.gd" id="1_bqcje"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_luahb"]
+size = Vector2(0, 0)
+
+[node name="EditorObjectBounds" type="Area2D"]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_bqcje")
+
+[node name="shape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_luahb")
+debug_color = Color(0.576471, 0.54902, 0.247059, 0.419608)

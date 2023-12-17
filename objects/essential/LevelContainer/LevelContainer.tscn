@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgbhgjr0rutts"]
+
+[ext_resource type="Script" path="res://objects/essential/LevelContainer/LevelContainer.gd" id="1_13lej"]
+
+[node name="LevelContainer" type="Node2D"]
+script = ExtResource("1_13lej")
+
+[node name="polygons" type="Node2D" parent="."]
+
+[node name="objects" type="Node2D" parent="."]

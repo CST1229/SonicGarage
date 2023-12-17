@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://yuarhiy4cytm"]
+
+[ext_resource type="Script" path="res://objects/essential/LevelContainer/Polygon.gd" id="1_nvdio"]
+[ext_resource type="Script" path="res://objects/essential/LevelContainer/PolygonDecoration.gd" id="2_23k0x"]
+
+[node name="Polygon" type="Node2D"]
+script = ExtResource("1_nvdio")
+
+[node name="collision" type="StaticBody2D" parent="."]
+show_behind_parent = true
+collision_mask = 35
+
+[node name="collision_polygon" type="CollisionPolygon2D" parent="collision"]
+
+[node name="polygon" type="Polygon2D" parent="."]
+clip_children = 2
+z_index = -2
+
+[node name="shadow_polygon" type="Polygon2D" parent="."]
+clip_children = 1
+z_index = -1
+
+[node name="shadow_decor" type="Node2D" parent="shadow_polygon"]
+modulate = Color(1, 1, 1, 0.498039)
+script = ExtResource("2_23k0x")
+is_shadow = true
+
+[node name="decor" type="Node2D" parent="."]
+show_behind_parent = true
+script = ExtResource("2_23k0x")
