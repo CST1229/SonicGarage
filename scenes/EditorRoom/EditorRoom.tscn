@@ -1,158 +1,36 @@
-[gd_scene load_steps=5 format=3 uid="uid://cwx5aqvbnwxeh"]
+[gd_scene load_steps=6 format=3 uid="uid://cwx5aqvbnwxeh"]
 
 [ext_resource type="Script" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_suyq5"]
-[ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/LevelContainer/LevelContainer.tscn" id="1_xpaws"]
+[ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/essential/LevelContainer/LevelContainer.tscn" id="1_xpaws"]
 [ext_resource type="PackedScene" uid="uid://c02hx83n7d86p" path="res://objects/editor/LevelEditor.tscn" id="1_yog1b"]
-[ext_resource type="Script" path="res://objects/UI/SignalableMenuButton.gd" id="4_bb7mq"]
+[ext_resource type="Texture2D" uid="uid://6kp6a1v2qc4v" path="res://objects/essential/Player/Sonic/stand.png" id="4_3eiji"]
+[ext_resource type="PackedScene" uid="uid://6coikmp63mmn" path="res://objects/editor/EditorUI.tscn" id="4_66box"]
 
 [node name="EditorRoom" type="Node2D" node_paths=PackedStringArray("level_container")]
 script = ExtResource("1_suyq5")
 level_container = NodePath("LevelContainer")
 playtest_room = "res://scenes/EditorRoom/EditorPlaytest.tscn"
 
-[node name="LevelContainer" parent="." instance=ExtResource("1_xpaws")]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.498039)
+texture = ExtResource("4_3eiji")
+offset = Vector2(1, 0)
+
+[node name="LevelContainer" parent="." node_paths=PackedStringArray("editor") instance=ExtResource("1_xpaws")]
 editor_mode = true
+editor = NodePath("../LevelEditor")
 
 [node name="Camera" type="Camera2D" parent="."]
 editor_draw_screen = false
 
-[node name="LevelEditor" parent="." node_paths=PackedStringArray("container", "camera", "terrain_tools") instance=ExtResource("1_yog1b")]
+[node name="LevelEditor" parent="." node_paths=PackedStringArray("container", "camera") instance=ExtResource("1_yog1b")]
 container = NodePath("../LevelContainer")
 camera = NodePath("../Camera")
-terrain_tools = NodePath("../UI/Control/TerrainTools")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="UI"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[node name="EditorUI" parent="UI" node_paths=PackedStringArray("editor") instance=ExtResource("4_66box")]
+editor = NodePath("../../LevelEditor")
 
-[node name="TerrainTools" type="Panel" parent="UI/Control"]
-visible = false
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 1
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 92.0
-offset_bottom = 36.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/TerrainTools"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
-grow_vertical = 2
-
-[node name="SelectTool" type="Button" parent="UI/Control/TerrainTools/HBoxContainer"]
-layout_mode = 2
-mouse_filter = 1
-theme_override_font_sizes/font_size = 12
-text = "Select"
-
-[node name="LineTool" type="Button" parent="UI/Control/TerrainTools/HBoxContainer"]
-layout_mode = 2
-mouse_filter = 1
-theme_override_font_sizes/font_size = 12
-text = "Line
-"
-
-[node name="ObjectTools" type="Panel" parent="UI/Control"]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 1
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 92.0
-offset_bottom = 36.0
-
-[node name="ObjectSelectTool" type="Button" parent="UI/Control/ObjectTools"]
-layout_mode = 2
-offset_left = 4.0
-offset_top = 3.5
-offset_right = 47.0
-offset_bottom = 28.5
-mouse_filter = 1
-theme_override_font_sizes/font_size = 12
-text = "Select"
-
-[node name="Modes" type="Panel" parent="UI/Control"]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = -36.0
-offset_right = 120.0
-offset_bottom = -4.0
-grow_vertical = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/Modes"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
-grow_vertical = 2
-
-[node name="TerrainMode" type="Button" parent="UI/Control/Modes/HBoxContainer"]
-layout_mode = 2
-mouse_filter = 1
-theme_override_font_sizes/font_size = 12
-text = "Terrain
-"
-
-[node name="ObjectsMode" type="Button" parent="UI/Control/Modes/HBoxContainer"]
-layout_mode = 2
-mouse_filter = 1
-theme_override_font_sizes/font_size = 12
-text = "Objects
-"
-
-[node name="MenuButton" type="MenuButton" parent="UI/Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.990566
-anchor_right = 1.0
-anchor_bottom = 0.0178571
-offset_left = -32.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = 32.0
-grow_horizontal = 0
-focus_mode = 2
-mouse_filter = 1
-theme_override_font_sizes/font_size = 16
-text = "⋯"
-flat = false
-clip_text = true
-item_count = 4
-popup/item_0/text = "Save Level"
-popup/item_0/id = 0
-popup/item_1/text = "Load Level"
-popup/item_1/id = 1
-popup/item_2/text = "Clear Level"
-popup/item_2/id = 2
-popup/item_3/text = "Exit"
-popup/item_3/id = 3
-script = ExtResource("4_bb7mq")
-
-[connection signal="mouse_entered" from="UI/Control" to="LevelEditor" method="_on_mouse_hover_gui"]
-[connection signal="mouse_exited" from="UI/Control" to="LevelEditor" method="_on_mouse_dehover_gui"]
-[connection signal="pressed" from="UI/Control/TerrainTools/HBoxContainer/SelectTool" to="LevelEditor" method="select_tool_pressed"]
-[connection signal="pressed" from="UI/Control/TerrainTools/HBoxContainer/LineTool" to="LevelEditor" method="line_tool_pressed"]
-[connection signal="pressed" from="UI/Control/ObjectTools/ObjectSelectTool" to="LevelEditor" method="object_select_tool_pressed"]
-[connection signal="pressed" from="UI/Control/Modes/HBoxContainer/TerrainMode" to="LevelEditor" method="terrain_mode_pressed"]
-[connection signal="pressed" from="UI/Control/Modes/HBoxContainer/ObjectsMode" to="LevelEditor" method="objects_mode_pressed"]
-[connection signal="id_pressed" from="UI/Control/MenuButton" to="LevelEditor" method="on_menu_press"]
+[connection signal="dehover_over_gui" from="UI/EditorUI" to="LevelEditor" method="_on_mouse_dehover_gui"]
+[connection signal="hover_over_gui" from="UI/EditorUI" to="LevelEditor" method="_on_mouse_hover_gui"]

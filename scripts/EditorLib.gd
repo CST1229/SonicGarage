@@ -1,5 +1,7 @@
 extends Node
 
+# utility functions used by the editor
+
 func create_vertex(pos: Vector2):
 	var vert = Vertex.new();
 	vert.position = pos;
@@ -10,6 +12,14 @@ func delete_vertex(vert: Vertex):
 	vert.polygon.vertices.erase(vert);
 	if vert.polygon.vertices.size() < 3:
 		vert.polygon.queue_free();
+
+func create_object(id: String, container: LevelContainer = null):
+	if !(id in Global.object_list): return null;
+	var obj: Global.ObjectDef = Global.object_list[id];
+	var node = obj.scene.instantiate();
+	if container && container.editor_mode: node.add_to_group(&"editor_objects");
+	if container: node.container = container;
+	return node;
 
 const VERT_COLOR = Color("#639bff");
 const VERT_OUTLINE_COLOR = Color("ffffff");

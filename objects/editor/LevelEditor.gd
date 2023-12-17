@@ -1,17 +1,13 @@
 extends Node2D
+class_name LevelEditor
 
 @export var container: LevelContainer = null;
 @export var camera: Camera2D = null;
 
-@export var terrain_tools: Node = null;
-@export var object_tools: Node = null;
-
-enum DrawingMode {
-	NONE,
-	LINE,
-	MOVE_VERT,
-	RECT_SELECT,
-}
+# the object detector looks for objects or polygons
+# (this is used when selecting them)
+@onready var object_detector: Area2D = $object_detector;
+@onready var object_detector_shape: CollisionShape2D = $object_detector/shape;
 
 enum Mode {
 	TERRAIN,
@@ -19,61 +15,99 @@ enum Mode {
 }
 
 enum Tool {
-	SELECT,
+	POLY_SELECT,
+	VERT_SELECT,
 	LINE,
+	
 	OBJECT_SELECT,
+	OBJECT_PLACE,
+}
+
+enum DrawingMode {
+	NONE,
+	LINE,
+	MOVE_VERT,
+	RECT_SELECT,
+	
+	MOVE_OBJECT,
 }
 
 var drawing: DrawingMode = DrawingMode.NONE;
 var drawing_polygon: Array[Vertex] = [];
 var selected_verts: Array[Vertex] = [];
-var snapped_vert;
 
-var mode: Mode = Mode.TERRAIN;
-var tool: Tool = Tool.SELECT;
+# a list of nodes to not select/deselect in the rect select mode.
+# when multiselecting this is set to the list of already selected objects
+# so you don't deselect objects you already selected
+var ignore_select_objects: Array[Node] = [];
 
 var grid_size: float = 8;
-const VERT_SNAP: float = 10 ** 2;
-
 const SCROLL_SPEED = 200;
 
+# vertex stuff
+var snapped_vert;
+const VERT_SNAP: float = 10 ** 2;
+
+var mode: Mode = Mode.TERRAIN;
+var tool: Tool = Tool.VERT_SELECT;
+
+# mouse things
 var mouse_pos: Vector2 = Vector2.ZERO;
 var actual_mp: Vector2 = Vector2.ZERO;
 var mouse_move: Vector2 = Vector2.ZERO;
 
+# rect select stuff
 var select_origin: Vector2 = Vector2.ZERO;
 var select_rect: Rect2;
 
-const DRAWING_LINE_COLOR: Color = Color("ffffff88");
-
-const POLYGON_SCENE = preload("res://objects/LevelContainer/Polygon.tscn");
+# object to place
+# setter does ghost object stuff
+var place_object = null:
+	set(value):
+		place_object = value
+		if ghost_object:
+			ghost_object.queue_free();
+			ghost_object = null;
+		if place_object != null:
+			ghost_object = EditorLib.create_object(place_object, container);
+			ghost_object.visible = !hovering_over_gui;
+			ghost_object.modulate = Color(1, 1, 1, 0.5);
+			add_child(ghost_object);
+# the "ghost object" is the ghost of an object,
+# used in the object place mode.
+# it's actually a full-on instance of the object
+var ghost_object = null;
 
 var hovering_over_gui: bool = false;
 
+const DRAWING_LINE_COLOR: Color = Color("ffffff88");
+const POLYGON_SCENE = preload("res://objects/essential/LevelContainer/Polygon.tscn");
+
 func _ready():
 	_process(0.33);
-
-func _enter_tree():
-	Global.editor_node = null;
-func _exit_tree():
-	if Global.editor_node == self:
-		Global.editor_node = null;
+	object_detector.area_entered.connect(do_object_detector.bind(false));
+	object_detector.area_exited.connect(do_object_detector.bind(true));
+	object_detector.body_entered.connect(do_polygon_detector.bind(false));
+	object_detector.body_exited.connect(do_polygon_detector.bind(true));
 
 func _draw():
-	if drawing == DrawingMode.NONE:
-		if (tool == Tool.LINE || (snapped_vert != null && !snapped_vert.selected)) && !hovering_over_gui:
+	if drawing == DrawingMode.NONE && !hovering_over_gui:
+		if (tool == Tool.LINE || (snapped_vert != null && !snapped_vert.selected)):
 			EditorLib.draw_vert(self, mouse_pos, 0.5);
 	elif drawing == DrawingMode.LINE:
 		var polyline = PackedVector2Array();
 		for vert in drawing_polygon:
 			polyline.append(vert.position);
 		if !hovering_over_gui: polyline.append(mouse_pos);
-		draw_polyline(polyline, DRAWING_LINE_COLOR, 3, false);
+		if polyline.size() >= 2: draw_polyline(polyline, DRAWING_LINE_COLOR, 3, false);
 		for vert in drawing_polygon:
 			EditorLib.draw_vert(self, vert.position);
 		if !hovering_over_gui: EditorLib.draw_vert(self, mouse_pos, 0.5);
 	elif drawing == DrawingMode.RECT_SELECT:
-		draw_rect(select_rect, Color.WHITE, false, 2);
+		if select_rect.size.x > 2 && select_rect.size.y > 2:
+			draw_rect(select_rect.grow(-1), Color.WHITE, false, 2);
+		elif select_rect.size.x > 0 && select_rect.size.y > 0:
+			draw_rect(select_rect, Color.WHITE, true);
 
 func finish_drawing(cancel: bool):
 	if drawing == DrawingMode.NONE: return;
@@ -102,26 +136,31 @@ func _process(delta):
 	var old_mouse_pos = mouse_pos;
 	mouse_pos = actual_mp.snapped(Vector2(grid_size, grid_size));
 	
-	var snapped_dist = INF;
-	snapped_vert = null;
-	for poly in container.polygons.get_children():
-		for vert in poly.vertices:
-			var dist = vert.position.distance_squared_to(actual_mp);
-			if dist < VERT_SNAP && dist < snapped_dist:
-				snapped_dist = dist;
-				mouse_pos = vert.position;
-				snapped_vert = vert;
+	if mode == Mode.TERRAIN:
+		object_detector.collision_layer = Global.LAYER_POLYGONS;
+		object_detector.collision_mask = object_detector.collision_layer;
+		if tool == Tool.VERT_SELECT || tool == Tool.LINE:
+			var snapped_dist = INF;
+			snapped_vert = null;
+			for poly in container.polygons.get_children():
+				for vert in poly.vertices:
+					var dist = vert.position.distance_squared_to(actual_mp);
+					if dist < VERT_SNAP && dist < snapped_dist:
+						snapped_dist = dist;
+						mouse_pos = vert.position;
+						snapped_vert = vert;
+		else:
+			snapped_vert = null;
+	else:
+		object_detector.collision_layer = Global.LAYER_EDITOR_OBJECTS;
+		object_detector.collision_mask = object_detector.collision_layer;
+		snapped_vert = null;
 	
 	mouse_move = mouse_pos - old_mouse_pos;
 	
-	if camera:
-		var scroll_x = Input.get_axis("editor_scroll_left", "editor_scroll_right");
-		var scroll_y = Input.get_axis("editor_scroll_up", "editor_scroll_down");
-		if Input.is_action_pressed("editor_scroll_fast"):
-			scroll_x *= 3;
-			scroll_y *= 3;
-		camera.position.x += scroll_x * SCROLL_SPEED * delta;
-		camera.position.y += scroll_y * SCROLL_SPEED * delta;
+	scroll_camera(delta);
+	update_ghost_object();
+	update_object_detector();
 	
 	if drawing == DrawingMode.MOVE_VERT:
 		var polys: Array[Polygon] = [];
@@ -151,18 +190,56 @@ func _process(delta):
 			poly.update_polygon();
 	elif drawing == DrawingMode.RECT_SELECT:
 		select_rect = Rect2(select_origin, actual_mp - select_origin).abs();
+		update_object_detector();
 		if !Input.is_action_pressed("editor_click"):
-			var polys: Array[Polygon] = [];
-			for poly in container.polygons.get_children():
-				for vert in poly.vertices:
-					if select_rect.has_point(vert.position):
-						select_vert(vert);
-						if !polys.has(poly): polys.append(poly);
-			for poly in polys:
-				poly.update_polygon();
-			
+			if tool == Tool.VERT_SELECT:
+				var polys: Array[Polygon] = [];
+				for poly in container.polygons.get_children():
+					for vert in poly.vertices:
+						if select_rect.has_point(vert.position):
+							select_vert(vert);
+							if !polys.has(poly): polys.append(poly);
+				for poly in polys:
+					poly.update_polygon();
+			drawing = DrawingMode.NONE;
+	elif drawing == DrawingMode.MOVE_OBJECT:
+		if Input.is_action_pressed("editor_click"):
+			for obj in get_tree().get_nodes_in_group(&"selected_objects"):
+				obj.position += mouse_move;
+			for obj in get_tree().get_nodes_in_group(&"selected_polygons"):
+				for vert in obj.vertices:
+					vert.position += mouse_move;
+				obj.update_polygon();
+		else:
 			drawing = DrawingMode.NONE;
 	
+	handle_delete();
+	queue_redraw();
+
+func scroll_camera(delta: float):
+	if camera:
+		var scroll_x = Input.get_axis("editor_scroll_left", "editor_scroll_right");
+		var scroll_y = Input.get_axis("editor_scroll_up", "editor_scroll_down");
+		if Input.is_action_pressed("editor_scroll_fast"):
+			scroll_x *= 3;
+			scroll_y *= 3;
+		camera.position.x += scroll_x * SCROLL_SPEED * delta;
+		camera.position.y += scroll_y * SCROLL_SPEED * delta;
+
+func update_ghost_object():
+	if ghost_object:
+		ghost_object.position = mouse_pos;
+		ghost_object.visible = !hovering_over_gui;
+
+func update_object_detector():
+	if drawing != DrawingMode.RECT_SELECT:
+		object_detector.position = actual_mp;
+		object_detector_shape.shape.size = Vector2.ZERO;
+	else:
+		object_detector.position = select_rect.position + (select_rect.size / 2.0);
+		object_detector_shape.shape.size = select_rect.size;
+
+func handle_delete():
 	if Input.is_action_pressed("editor_delete"):
 		var polys: Array[Polygon] = [];
 		for vert in selected_verts:
@@ -172,16 +249,19 @@ func _process(delta):
 				polys.append(vert.polygon);
 		for poly in polys:
 			poly.update_polygon();
+		for obj in get_tree().get_nodes_in_group(&"selected_objects"):
+			obj.queue_free();
+		for obj in get_tree().get_nodes_in_group(&"selected_polygons"):
+			obj.queue_free();
 		deselect_verts();
-	
-	queue_redraw();
+		deselect_objects();
 
-# things that should only run while not hovering hover gui
+# things that should only run while not hoveringhover gui
 # (mostly clicking)
 func _unhandled_input(ev: InputEvent):
 	if drawing == DrawingMode.NONE:
 		if ev.is_action_pressed("editor_click"):
-			if tool == Tool.SELECT:
+			if tool == Tool.VERT_SELECT:
 				if snapped_vert != null:
 					if !Input.is_action_pressed("editor_multiselect") && !snapped_vert.selected:
 						deselect_verts();
@@ -198,6 +278,76 @@ func _unhandled_input(ev: InputEvent):
 			elif tool == Tool.LINE:
 				drawing_polygon = [EditorLib.create_vertex(mouse_pos)];
 				drawing = DrawingMode.LINE;
+			elif tool == Tool.OBJECT_PLACE && place_object != null:
+				var node = EditorLib.create_object(place_object, container);
+				node.position = mouse_pos;
+				container.objects.add_child(node);
+			
+			elif tool == Tool.OBJECT_SELECT:
+				# select objects
+				var clicked_objects: Array[Node] = [];
+				for obj in object_detector.get_overlapping_areas():
+					if obj is EditorObjectBounds:
+						clicked_objects.append(obj);
+				
+				if drawing != DrawingMode.RECT_SELECT && clicked_objects.size() > 0:
+					# always select the frontmost object
+					clicked_objects.sort_custom(sort_objects);
+					var clicked_object = clicked_objects[-1].get_parent();
+					
+					if !Input.is_action_pressed("editor_multiselect") && !clicked_object.is_in_group(&"selected_objects"):
+						deselect_objects();
+					if !Input.is_action_pressed("editor_multiselect") || !clicked_object.selected:
+						select_object(clicked_object);
+						drawing = DrawingMode.MOVE_OBJECT;
+						
+						# move objects to front
+						if !Input.is_action_pressed("editor_multiselect"):
+							var selected_objects = get_tree().get_nodes_in_group(&"selected_objects");
+							selected_objects.sort_custom(sort_nodes);
+							for obj in selected_objects:
+								obj.get_parent().move_child(obj, -1);
+					else:
+						deselect_object(clicked_object);
+				else:
+					if !Input.is_action_pressed("editor_multiselect"): deselect_objects();
+					ignore_select_objects = get_tree().get_nodes_in_group(&"selected_objects");
+					select_origin = actual_mp;
+					select_rect = Rect2(actual_mp, Vector2.ZERO);
+					drawing = DrawingMode.RECT_SELECT;
+			
+			elif tool == Tool.POLY_SELECT:
+				# select polygons
+				var clicked_objects: Array[Polygon] = [];
+				for obj in object_detector.get_overlapping_bodies():
+					if obj.get_parent() is Polygon:
+						clicked_objects.append(obj.get_parent());
+				
+				if drawing != DrawingMode.RECT_SELECT && clicked_objects.size() > 0:
+					# always select the frontmost object
+					clicked_objects.sort_custom(sort_nodes);
+					var clicked_object = clicked_objects[-1];
+					
+					if !Input.is_action_pressed("editor_multiselect") && !clicked_object.is_in_group(&"selected_polygons"):
+						deselect_polygons();
+					if !Input.is_action_pressed("editor_multiselect") || !clicked_object.selected:
+						select_polygon(clicked_object);
+						drawing = DrawingMode.MOVE_OBJECT;
+						
+						# move objects to front
+						if !Input.is_action_pressed("editor_multiselect"):
+							var selected_objects = get_tree().get_nodes_in_group(&"selected_polygons");
+							selected_objects.sort_custom(sort_nodes);
+							for obj in selected_objects:
+								obj.get_parent().move_child(obj, -1);
+					else:
+						deselect_polygon(clicked_object);
+				else:
+					if !Input.is_action_pressed("editor_multiselect"): deselect_polygons();
+					ignore_select_objects = get_tree().get_nodes_in_group(&"selected_polygons");
+					select_origin = actual_mp;
+					select_rect = Rect2(actual_mp, Vector2.ZERO);
+					drawing = DrawingMode.RECT_SELECT;
 	elif drawing == DrawingMode.LINE:
 		if actual_mp.distance_squared_to(drawing_polygon[0].position) <= VERT_SNAP:
 			mouse_pos = drawing_polygon[0].position;
@@ -216,29 +366,28 @@ func _on_mouse_hover_gui():
 	hovering_over_gui = true;
 func _on_mouse_dehover_gui():
 	hovering_over_gui = false;
-func on_menu_press(id: int):
-	match id:
-		0: # Save Level
-			Global.load_level = container.serialize();
-			DisplayServer.file_dialog_show(
-				"Save Level", "",
-				"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
-				PackedStringArray(["*.sgl"]),
-				EditorLib.save_level
-			);
-		1: # Load Level
-			DisplayServer.file_dialog_show(
-				"Load Level", "",
-				"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
-				PackedStringArray(["*.sgl", "*"]),
-				EditorLib.load_level_editor
-			);
-		2: # Clear Level
-			Global.load_level = null;
-			get_tree().reload_current_scene();
-		3: # Exit
-			Global.load_level = container.serialize();
-			get_tree().change_scene_to_file("res://scenes/TitleScreen/TitleScreen.tscn");
+
+func do_object_detector(area: Area2D, exiting: bool):
+	if tool != Tool.OBJECT_SELECT || drawing != DrawingMode.RECT_SELECT: return;
+	var parent = area.get_parent();
+	if !parent || !parent.is_in_group(&"editor_objects"): return;
+	if parent in ignore_select_objects: return;
+	if exiting:
+		parent.remove_from_group(&"selected_objects");
+	else:
+		parent.add_to_group(&"selected_objects");
+	area.queue_redraw();
+
+func do_polygon_detector(body: CollisionObject2D, exiting: bool):
+	if tool != Tool.POLY_SELECT || drawing != DrawingMode.RECT_SELECT: return;
+	var poly = body.get_parent();
+	if !poly.is_in_group(&"polygons"): return;
+	if poly in ignore_select_objects: return;
+	if exiting:
+		poly.remove_from_group(&"selected_polygons");
+	else:
+		poly.add_to_group(&"selected_polygons");
+	poly.queue_redraw();
 
 # utilities
 func deselect_verts():
@@ -256,35 +405,61 @@ func select_vert(vert: Vertex):
 		selected_verts.append(vert);
 	if vert.polygon: vert.polygon.queue_redraw();
 
+func sort_nodes(a: Node, b: Node):
+	return a.get_index() < b.get_index();
+func sort_objects(a: Node, b: Node):
+	return a.get_parent().get_index() < b.get_parent().get_index();
+
+func select_object(obj: Node):
+	obj.add_to_group(&"selected_objects");
+	for child in obj.get_children():
+		if child is EditorObjectBounds: child.queue_redraw();
+func deselect_object(obj: Node):
+	obj.remove_from_group(&"selected_objects");
+	for child in obj.get_children():
+		if child is EditorObjectBounds: child.queue_redraw();
+func deselect_objects():
+	for obj in get_tree().get_nodes_in_group(&"selected_objects"):
+		deselect_object(obj);
+		
+func select_polygon(obj: Polygon):
+	obj.add_to_group(&"selected_polygons");
+	obj.queue_redraw();
+func deselect_polygon(obj: Polygon):
+	obj.remove_from_group(&"selected_polygons");
+	obj.queue_redraw();
+func deselect_polygons():
+	for obj in get_tree().get_nodes_in_group(&"selected_polygons"):
+		deselect_polygon(obj);
+
 # mode switching
 func select_tool(t: Tool):
 	if tool == t: return;
+	
 	deselect_verts();
+	deselect_objects();
+	deselect_polygons();
 	finish_drawing(true);
+	
+	place_object = null;
 	tool = t;
-func select_mode(m: Mode, t: Tool):
+func select_mode(m: Mode):
 	if mode == m: return;
 	mode = m;
-	deselect_verts();
-	finish_drawing(true);
-	tool = t;
+	place_object = null;
+
+func poly_layer_button():
+	var selected_polygons = get_tree().get_nodes_in_group(&"selected_polygons");
+	if selected_polygons.size() <= 0: return;
 	
-	tools_visible(terrain_tools, Mode.TERRAIN)
-	tools_visible(object_tools, Mode.OBJECTS)
-func tools_visible(tools: Node, m: Mode):
-	if tools:
-		tools.visible = mode == m;
-
-# tools
-func select_tool_pressed():
-	select_tool(Tool.SELECT);
-func line_tool_pressed():
-	select_tool(Tool.LINE);
-func object_select_tool_pressed():
-	pass # Replace with function body.
-
-# modes
-func terrain_mode_pressed():
-	select_mode(Mode.TERRAIN, Tool.SELECT);
-func objects_mode_pressed():
-	select_mode(Mode.OBJECTS, Tool.OBJECT_SELECT);
+	var layer = selected_polygons[0].layer;
+	for poly in selected_polygons:
+		if poly.layer != layer:
+			layer = "";
+	match layer:
+		"a": layer = "b";
+		"b": layer = "ab";
+		_: layer = "a";
+	
+	for poly in selected_polygons:
+		poly.layer = layer;

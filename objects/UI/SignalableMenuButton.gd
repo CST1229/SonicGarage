@@ -1,7 +1,7 @@
 extends MenuButton
 
+# MenuButton if it was good
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	get_popup().id_pressed.connect(_on_id_pressed);
 

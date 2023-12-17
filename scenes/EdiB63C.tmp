@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cwx5aqvbnwxeh"]
 
-[ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/LevelContainer/LevelContainer.tscn" id="1_xpaws"]
+[ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/essential/LevelContainer/LevelContainer.tscn" id="1_xpaws"]
 [ext_resource type="PackedScene" uid="uid://c02hx83n7d86p" path="res://objects/editor/Editor.tscn" id="1_yog1b"]
 
 [node name="EditorRoom" type="Node2D"]

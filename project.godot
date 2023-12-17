@@ -16,16 +16,23 @@ config/features=PackedStringArray("4.2", "GL Compatibility")
 boot_splash/show_image=false
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="res://audio_bus_layout.tres"
+
 [autoload]
 
 Global="*res://scripts/Global.gd"
 EditorLib="*res://scripts/EditorLib.gd"
+GlobalSounds="*res://scripts/GlobalSounds.gd"
+LevelDrawing="*res://scripts/LevelDrawing.gd"
 
 [display]
 
 window/size/viewport_width=424
 window/size/viewport_height=224
 window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [input]
 
@@ -111,6 +118,9 @@ editor_multiselect={
 2d_physics/layer_1="terrain_a"
 2d_physics/layer_2="terrain_b"
 2d_physics/layer_3="solid_objects"
+2d_physics/layer_4="objects"
+2d_physics/layer_5="player"
+2d_physics/layer_6="polygons"
 
 [physics]
 

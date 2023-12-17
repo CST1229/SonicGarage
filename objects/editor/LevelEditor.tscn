@@ -1,6 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://c02hx83n7d86p"]
+[gd_scene load_steps=3 format=3 uid="uid://c02hx83n7d86p"]
 
 [ext_resource type="Script" path="res://objects/editor/LevelEditor.gd" id="1_wmeon"]
 
-[node name="Editor" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xplnu"]
+size = Vector2(0, 0)
+
+[node name="LevelEditor" type="Node2D"]
 script = ExtResource("1_wmeon")
+
+[node name="object_detector" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="shape" type="CollisionShape2D" parent="object_detector"]
+shape = SubResource("RectangleShape2D_xplnu")
