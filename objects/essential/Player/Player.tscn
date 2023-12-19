@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://objects/essential/Player/Player.gd" id="1_cniba"]
 [ext_resource type="Script" path="res://objects/level/LayerSwitcher/LayerSwitcherSensor.gd" id="2_xh0bu"]
-[ext_resource type="Script" path="res://objects/essential/Player/SnappedCamera.gd" id="3_80yq4"]
 [ext_resource type="SpriteFrames" uid="uid://d23iwpusrgjcp" path="res://objects/essential/Player/Sonic/spriteframes.tres" id="3_js88t"]
+[ext_resource type="Script" path="res://objects/essential/Player/PlayerCamera.gd" id="3_q22vw"]
 [ext_resource type="AudioStream" uid="uid://d3w1grc7g4hit" path="res://objects/essential/Player/sounds/jump.wav" id="5_y8ctc"]
 [ext_resource type="AudioStream" uid="uid://ghu75tfy8l5a" path="res://objects/essential/Player/sounds/roll.wav" id="6_qv3jl"]
 [ext_resource type="AudioStream" uid="uid://bp0knqoy0yic0" path="res://objects/essential/Player/sounds/skid.wav" id="7_beujc"]
@@ -47,13 +47,13 @@ script = ExtResource("2_xh0bu")
 shape = SubResource("RectangleShape2D_cu8nw")
 debug_color = Color(1, 0.27451, 0.262745, 0.419608)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="."]
 top_level = true
-drag_horizontal_enabled = true
-drag_vertical_enabled = true
-drag_left_margin = 0.05
-drag_right_margin = 0.05
-script = ExtResource("3_80yq4")
+drag_left_margin = 0.0
+drag_top_margin = 0.0
+drag_right_margin = 0.0
+drag_bottom_margin = 0.0
+script = ExtResource("3_q22vw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("3_js88t")

@@ -4,6 +4,7 @@ extends Control
 
 @onready var terrain_tools = $TerrainTools;
 @onready var poly_layer_button = $TerrainTools/PolyLayerButton;
+@onready var line_edge_button = $TerrainTools/LineEdgeButton;
 
 @onready var object_tools = $ObjectTools;
 @onready var object_selector = $ObjectTools/ObjectSelector;
@@ -15,6 +16,7 @@ var objects_flap_transition: float = 0;
 var listed_objects: Array[String] = [
 	"ring",
 	"layer_switcher",
+	"signpost",
 ];
 
 func _ready():
@@ -59,7 +61,9 @@ func select_tool(t: LevelEditor.Tool):
 	if t != LevelEditor.Tool.OBJECT_PLACE: objects_flap_transition = 0;
 	
 	editor.select_tool(t);
+	
 	poly_layer_button.visible = editor.tool == LevelEditor.Tool.POLY_SELECT;
+	line_edge_button.visible = editor.tool == LevelEditor.Tool.VERT_SELECT;
 
 func select_mode(m: LevelEditor.Mode, t: LevelEditor.Tool):
 	objects_flap_open = false;
@@ -119,6 +123,8 @@ func menu_pressed(id: int):
 func poly_layer_button_pressed():
 	editor.poly_layer_button();
 
+func line_edge_button_pressed():
+	editor.line_edge_button();
+
 signal hover_over_gui
 signal dehover_over_gui
-

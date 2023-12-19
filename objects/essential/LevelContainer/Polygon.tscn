@@ -21,7 +21,6 @@ clip_children = 1
 z_index = -1
 
 [node name="shadow_decor" type="Node2D" parent="shadow_polygon"]
-modulate = Color(1, 1, 1, 0.498039)
 script = ExtResource("2_23k0x")
 is_shadow = true
 

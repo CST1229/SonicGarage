@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 # HUGE thanks to the Sonic Physics Guide
 # https://info.sonicretro.org/Sonic_Physics_Guide
@@ -73,8 +74,11 @@ var wall_dir: int = 0;
 
 var terrain_layer: int = Global.LAYER_A | Global.LAYER_B;
 
+var level_complete = false;
+
 @onready var shape: CollisionShape2D = $Shape;
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D;
+@onready var camera: Camera2D = $Camera;
 
 @onready var jump_sound: AudioStreamPlayer = $jump_sound;
 @onready var roll_sound: AudioStreamPlayer = $roll_sound;
@@ -92,6 +96,10 @@ func _draw():
 	pass
 
 func _physics_process(delta: float):
+	if level_complete:
+		tick_levelcomplete();
+		return;
+	
 	if is_on_floor():
 		falling = 0;
 	
@@ -283,12 +291,13 @@ func player_react_to_collision(prev_floor, prev_velocity, delta):
 	# ceiling collisions
 	var hit_floor = is_on_floor();
 	if !hit_floor && is_on_ceiling():
-		if !test_move(transform, Vector2(-8, -6), null, 0.08, true):
-			ground_normal = Vector2.LEFT;
-			hit_floor = true;
-		elif !test_move(transform, Vector2(8, -6), null, 0.08, true):
-			ground_normal = Vector2.RIGHT;
-			hit_floor = true;
+		if test_move(transform, Vector2(-2, -8)) && test_move(transform, Vector2(2, -8)):
+			if !test_move(transform, Vector2(-8, -6), null, 0.08, true):
+				ground_normal = Vector2.LEFT;
+				hit_floor = true;
+			elif !test_move(transform, Vector2(8, -6), null, 0.08, true):
+				ground_normal = Vector2.RIGHT;
+				hit_floor = true;
 		if hit_floor:
 			prev_floor = false;
 	
@@ -351,6 +360,21 @@ func set_hitbox_height():
 		global_position += Vector2(0, align).rotated(shape.global_rotation) * mult;
 		if is_on_floor():
 			apply_floor_snap();
+
+func tick_levelcomplete():
+	if sprite.animation != "levelcomplete_loop":
+		set_animation("levelcomplete");
+		if sprite.frame >= 2:
+			set_animation("levelcomplete_loop");
+	velocity.y += gravity;
+	floor_stop_on_slope = true;
+	floor_max_angle = deg_to_rad(89);
+	up_direction = Vector2.UP;
+	ground_normal = Vector2.UP;
+	shape.rotation = 0;
+	sprite.rotation = 0;
+	sprite.speed_scale = 1;
+	move_and_slide();
 
 func set_animation(anim: String):
 	if sprite.animation != anim:

@@ -11,14 +11,26 @@ script = ExtResource("1_suyq5")
 level_container = NodePath("LevelContainer")
 playtest_room = "res://scenes/EditorRoom/EditorPlaytest.tscn"
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -3
+
+[node name="BGColor" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.188235, 0.376471, 0.815686, 0.266667)
+
+[node name="PlayerGhost" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.498039)
 texture = ExtResource("4_3eiji")
 offset = Vector2(1, 0)
 
 [node name="LevelContainer" parent="." node_paths=PackedStringArray("editor") instance=ExtResource("1_xpaws")]
 editor_mode = true
-editor = NodePath("../LevelEditor")
+editor = NodePath("")
 
 [node name="Camera" type="Camera2D" parent="."]
 editor_draw_screen = false

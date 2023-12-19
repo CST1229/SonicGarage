@@ -7,6 +7,9 @@ var load_level = null;
 
 var level_manager: LevelManager = null;
 
+# settings
+var terrain_detail: int = 2;
+
 # layer ids
 const LAYER_A = (1 << 0);
 const LAYER_B = (1 << 1);
@@ -40,4 +43,13 @@ var object_list: Dictionary = {
 	ring = obj(
 		"Ring", preload("res://objects/level/Ring/Ring.tscn")
 	),
+	signpost = obj(
+		"Signpost", preload("res://objects/level/Signpost/Signpost.tscn")
+	),
 };
+
+func _process(_delta: float):
+	if Input.is_action_just_pressed("setting_detail"):
+		Global.terrain_detail = int(fposmod(Global.terrain_detail - 1, 3));
+		for node: Polygon in get_tree().get_nodes_in_group(&"polygons"):
+			node.redraw();

@@ -1,16 +1,21 @@
-[gd_resource type="SpriteFrames" load_steps=39 format=3 uid="uid://d23iwpusrgjcp"]
+[gd_resource type="SpriteFrames" load_steps=44 format=3 uid="uid://d23iwpusrgjcp"]
 
 [ext_resource type="Texture2D" uid="uid://kv7c542rx7k3" path="res://objects/essential/Player/Sonic/crouch1.png" id="1_p4ge6"]
 [ext_resource type="Texture2D" uid="uid://c2vy43hciav0i" path="res://objects/essential/Player/Sonic/crouch2.png" id="2_ne8vy"]
 [ext_resource type="Texture2D" uid="uid://c78nljqa0vn37" path="res://objects/essential/Player/Sonic/push1.png" id="3_0uq2h"]
+[ext_resource type="Texture2D" uid="uid://otb6j1n8hha" path="res://objects/essential/Player/Sonic/levelcomplete1.png" id="3_1vlmb"]
 [ext_resource type="Texture2D" uid="uid://6kp6a1v2qc4v" path="res://objects/essential/Player/Sonic/stand.png" id="3_ud0wm"]
 [ext_resource type="Texture2D" uid="uid://rqgoesb7omii" path="res://objects/essential/Player/Sonic/run1.png" id="4_jhg3j"]
+[ext_resource type="Texture2D" uid="uid://ciauptlmc6f57" path="res://objects/essential/Player/Sonic/levelcomplete2.png" id="4_pc3wl"]
 [ext_resource type="Texture2D" uid="uid://c8y8rbfmtrd8h" path="res://objects/essential/Player/Sonic/push2.png" id="4_ycytx"]
+[ext_resource type="Texture2D" uid="uid://bw25yueb7pxr4" path="res://objects/essential/Player/Sonic/levelcomplete3.png" id="5_7x585"]
 [ext_resource type="Texture2D" uid="uid://b5lfk30pyw3e5" path="res://objects/essential/Player/Sonic/run2.png" id="5_lh4k5"]
 [ext_resource type="Texture2D" uid="uid://bscgpcm1tytqf" path="res://objects/essential/Player/Sonic/push3.png" id="5_tid2r"]
 [ext_resource type="Texture2D" uid="uid://j5vu7m7sk7ym" path="res://objects/essential/Player/Sonic/run3.png" id="6_64hh5"]
+[ext_resource type="Texture2D" uid="uid://dl1idhgd7lmdr" path="res://objects/essential/Player/Sonic/levelcomplete4.png" id="6_cfws8"]
 [ext_resource type="Texture2D" uid="uid://csmt37x6fff3q" path="res://objects/essential/Player/Sonic/push4.png" id="6_ghgjr"]
 [ext_resource type="Texture2D" uid="uid://cimvl376nb42x" path="res://objects/essential/Player/Sonic/run4.png" id="7_dht8h"]
+[ext_resource type="Texture2D" uid="uid://bqk7lmslc14ew" path="res://objects/essential/Player/Sonic/levelcomplete5.png" id="7_vms24"]
 [ext_resource type="Texture2D" uid="uid://bmx08jskur12a" path="res://objects/essential/Player/Sonic/skid1.png" id="8_ql1ud"]
 [ext_resource type="Texture2D" uid="uid://bceul4q4ep5qi" path="res://objects/essential/Player/Sonic/skid2.png" id="9_g4kdg"]
 [ext_resource type="Texture2D" uid="uid://wk613sfvhhhe" path="res://objects/essential/Player/Sonic/skid3.png" id="10_4h5g7"]
@@ -51,6 +56,37 @@ animations = [{
 "loop": false,
 "name": &"crouch",
 "speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_1vlmb")
+}, {
+"duration": 3.0,
+"texture": ExtResource("4_pc3wl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_pc3wl")
+}],
+"loop": false,
+"name": &"levelcomplete",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_pc3wl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7x585")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_cfws8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_vms24")
+}],
+"loop": true,
+"name": &"levelcomplete_loop",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,

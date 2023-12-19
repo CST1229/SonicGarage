@@ -1,6 +1,6 @@
 extends Node
 
-func draw_ghz_grass(to: CanvasItem, vectors: PackedVector2Array, is_shadow: bool):
+func draw_ghz_grass(to: CanvasItem, verts: Array[Vertex], is_shadow: bool):
 	var edge_tex = preload("res://sprites/level_themes/GreenHill/grass_edge.png");
 	var grass_tex = preload("res://sprites/level_themes/GreenHill/grass.png");
 	
@@ -9,26 +9,27 @@ func draw_ghz_grass(to: CanvasItem, vectors: PackedVector2Array, is_shadow: bool
 	var grass_section = PackedVector2Array();
 	var is_grass = false;
 	
-	var size: int = vectors.size();
-	var vert: Vector2;
-	var next_vert: Vector2;
+	var size: int = verts.size();
+	var vert: Vertex;
+	var next_vert: Vertex;
 	for i: int in range(size):
-		vert = vectors[i];
-		next_vert = vectors[(i + 1) % size];
+		vert = verts[i];
+		next_vert = verts[(i + 1) % size];
 		
 		var prev_grass = is_grass;
 		is_grass = false;
 		
-		if abs(vert.angle_to_point(next_vert)) <= grass_angle: is_grass = true;
+		if vert.edge == "auto" && abs(vert.position.angle_to_point(next_vert.position)) <= grass_angle: 
+			is_grass = true;
 		if is_grass:
-			grass_section.append(vert);
+			grass_section.append(vert.position);
 		
 		if !is_grass && prev_grass:
-			grass_section.append(vert);
+			grass_section.append(vert.position);
 			LevelDrawing.draw_grass_section(to, grass_section, grass_tex, is_shadow, edge_tex);
 			grass_section.clear();
 	if is_grass:
-		grass_section.append(next_vert);
+		grass_section.append(next_vert.position);
 		LevelDrawing.draw_grass_section(to, grass_section, grass_tex, is_shadow, edge_tex);
 		grass_section.clear();
 
@@ -39,7 +40,7 @@ func draw_grass_section(to: CanvasItem, section: PackedVector2Array, tex: Textur
 	
 	var modulate = Color.WHITE;
 	if is_shadow:
-		modulate = Color.BLACK;
+		modulate = Color(0, 0, 0, 0.6);
 		off.y += tex_height * 0.5;
 	
 	var edge_width: float;

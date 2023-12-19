@@ -15,12 +15,15 @@ func _process(_delta):
 	if Input.is_action_just_pressed("editor_playtest"):
 		playtest();
 	elif Input.is_action_just_pressed("editor_quit"):
-		if level_container && level_container.editor_mode:
-			Global.load_level = level_container.serialize();
-		get_tree().change_scene_to_file("res://scenes/TitleScreen/TitleScreen.tscn");
+		exit();
 
 func playtest():
 	if playtest_room:
 		if level_container && level_container.editor_mode:
 			Global.load_level = level_container.serialize();
 		get_tree().change_scene_to_file(playtest_room);
+
+func exit():
+	if level_container && level_container.editor_mode:
+		Global.load_level = level_container.serialize();
+	get_tree().change_scene_to_file("res://scenes/TitleScreen/TitleScreen.tscn");

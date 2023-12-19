@@ -24,8 +24,13 @@ func deserialize(level):
 	for level_poly in level.polygons:
 		var poly = POLYGON_SCENE.instantiate();
 		poly.container = self;
-		for vert_arr in level_poly.vertices:
-			var vert = EditorLib.create_vertex(Vector2(vert_arr[0], vert_arr[1]));
+		for json_vert in level_poly.vertices:
+			var vert;
+			if json_vert is Array:
+				vert = EditorLib.create_vertex(Vector2(json_vert[0], json_vert[1]));
+			else:
+				vert = EditorLib.create_vertex(Vector2(json_vert.x, json_vert.y));
+				vert.edge = json_vert.edge;
 			poly.vertices.append(vert);
 			vert.polygon = poly;
 		if "layer" in level_poly:
@@ -52,7 +57,11 @@ func serialize():
 	for poly in polygons.get_children():
 		var verts_arr = [];
 		for vert in poly.vertices:
-			verts_arr.append([vert.position.x, vert.position.y]);
+			verts_arr.append({
+				x = vert.position.x,
+				y = vert.position.y,
+				edge = vert.edge,
+			});
 		data.polygons.append({
 			vertices = verts_arr,
 			layer = poly.layer,

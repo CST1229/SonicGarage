@@ -387,23 +387,23 @@ func do_polygon_detector(body: CollisionObject2D, exiting: bool):
 		poly.remove_from_group(&"selected_polygons");
 	else:
 		poly.add_to_group(&"selected_polygons");
-	poly.queue_redraw();
+	poly.redraw();
 
 # utilities
 func deselect_verts():
 	for vert in selected_verts:
 		vert.selected = false;
-		if vert.polygon: vert.polygon.queue_redraw();
+		if vert.polygon: vert.polygon.redraw();
 	selected_verts.clear();
 func deselect_vert(vert: Vertex):
 	vert.selected = false;
 	selected_verts.erase(vert);
-	if vert.polygon: vert.polygon.queue_redraw();
+	if vert.polygon: vert.polygon.redraw();
 func select_vert(vert: Vertex):
 	vert.selected = true;
 	if !selected_verts.has(vert):
 		selected_verts.append(vert);
-	if vert.polygon: vert.polygon.queue_redraw();
+	if vert.polygon: vert.polygon.redraw();
 
 func sort_nodes(a: Node, b: Node):
 	return a.get_index() < b.get_index();
@@ -463,3 +463,23 @@ func poly_layer_button():
 	
 	for poly in selected_polygons:
 		poly.layer = layer;
+
+func line_edge_button():
+	if selected_verts.size() <= 0: return;
+	
+	var edge = selected_verts[0].edge;
+	for vert in selected_verts:
+		if vert.edge != edge:
+			edge = "";
+	match edge:
+		"auto": edge = "none";
+		"none": edge = "auto";
+		_: edge = "auto";
+	
+	var polys: Array[Polygon] = [];
+	for vert in selected_verts:
+		vert.edge = edge;
+		if !(vert.polygon in polys):
+			polys.append(vert.polygon);
+	for poly in polys:
+		poly.update_polygon();

@@ -1,5 +1,8 @@
 extends Node2D
 
+@onready var menu_panel = $CanvasLayer/Menu;
+@onready var credits_panel = $CanvasLayer/Credits;
+
 func goto_editor():
 	get_tree().change_scene_to_file("res://scenes/EditorRoom/EditorRoom.tscn");
 	
@@ -7,6 +10,9 @@ func goto_test():
 	get_tree().change_scene_to_file("res://scenes/test.tscn");
 
 func load_level():
+	if Input.is_key_pressed(KEY_CTRL) && Input.is_key_pressed(KEY_SHIFT):
+		get_tree().change_scene_to_file("res://scenes/test.tscn");
+		return;
 	DisplayServer.file_dialog_show(
 		"Load Level", "",
 		"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
@@ -16,3 +22,7 @@ func load_level():
 
 func quit():
 	get_tree().quit();
+
+func toggle_credits():
+	menu_panel.visible = !menu_panel.visible;
+	credits_panel.visible = !credits_panel.visible;

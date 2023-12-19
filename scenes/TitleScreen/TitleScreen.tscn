@@ -1,16 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqv66ex06ep1o"]
+[gd_scene load_steps=4 format=3 uid="uid://bqv66ex06ep1o"]
 
 [ext_resource type="Script" path="res://scenes/TitleScreen/TitleScreen.gd" id="1_f1p6m"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8eswu"]
 font_size = 20
 
+[sub_resource type="LabelSettings" id="LabelSettings_vpqso"]
+font_size = 13
+
 [node name="TitleScreen" type="Node2D"]
 script = ExtResource("1_f1p6m")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Panel" type="Panel" parent="CanvasLayer"]
+[node name="Menu" type="Panel" parent="CanvasLayer"]
 custom_minimum_size = Vector2(240, 0)
 anchors_preset = 13
 anchor_left = 0.5
@@ -22,22 +25,23 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 
-[node name="Title" type="Label" parent="CanvasLayer/Panel"]
+[node name="Title" type="Label" parent="CanvasLayer/Menu"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -92.0
+offset_left = -99.0
 offset_top = 8.0
-offset_right = 100.0
+offset_right = 107.0
 offset_bottom = 36.0
 grow_horizontal = 2
-text = "sonic ggragaarage!!!"
+text = "Sonic Garage (v0.001)
+"
 label_settings = SubResource("LabelSettings_8eswu")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EditorButton" type="Button" parent="CanvasLayer/Panel"]
+[node name="EditorButton" type="Button" parent="CanvasLayer/Menu"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -47,9 +51,9 @@ offset_top = 44.0
 offset_right = 80.0
 offset_bottom = 76.0
 grow_horizontal = 2
-text = "editor"
+text = "Editor"
 
-[node name="PlayButton" type="Button" parent="CanvasLayer/Panel"]
+[node name="PlayButton" type="Button" parent="CanvasLayer/Menu"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -59,9 +63,9 @@ offset_top = 84.0
 offset_right = 80.0
 offset_bottom = 116.0
 grow_horizontal = 2
-text = "load level"
+text = "Load Level"
 
-[node name="TestButton" type="Button" parent="CanvasLayer/Panel"]
+[node name="CreditsButton" type="Button" parent="CanvasLayer/Menu"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -75,10 +79,9 @@ offset_bottom = -47.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 12
-text = "test stage
-"
+text = "Credits"
 
-[node name="QuitButton" type="Button" parent="CanvasLayer/Panel"]
+[node name="QuitButton" type="Button" parent="CanvasLayer/Menu"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -91,9 +94,71 @@ offset_right = 80.0
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "quit"
+text = "Quit"
 
-[connection signal="pressed" from="CanvasLayer/Panel/EditorButton" to="." method="goto_editor"]
-[connection signal="pressed" from="CanvasLayer/Panel/PlayButton" to="." method="load_level"]
-[connection signal="pressed" from="CanvasLayer/Panel/TestButton" to="." method="goto_test"]
-[connection signal="pressed" from="CanvasLayer/Panel/QuitButton" to="." method="quit"]
+[node name="Credits" type="Panel" parent="CanvasLayer"]
+visible = false
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -116.0
+offset_right = 116.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="CanvasLayer/Credits"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -99.0
+offset_top = 8.0
+offset_right = 107.0
+offset_bottom = 36.0
+grow_horizontal = 2
+text = "Credits"
+label_settings = SubResource("LabelSettings_8eswu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="Button" parent="CanvasLayer/Credits"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 72.0
+offset_top = -216.0
+offset_right = 108.0
+offset_bottom = -191.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 12
+text = "Back
+"
+
+[node name="Credits" type="Label" parent="CanvasLayer/Credits"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 40.0
+offset_right = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Made by CST1229
+Inspired by Sonic Studio
+    (by LapperDev)
+Sonic belongs to SEGA
+Made with Godot
+"
+label_settings = SubResource("LabelSettings_vpqso")
+
+[connection signal="pressed" from="CanvasLayer/Menu/EditorButton" to="." method="goto_editor"]
+[connection signal="pressed" from="CanvasLayer/Menu/PlayButton" to="." method="load_level"]
+[connection signal="pressed" from="CanvasLayer/Menu/CreditsButton" to="." method="toggle_credits"]
+[connection signal="pressed" from="CanvasLayer/Menu/QuitButton" to="." method="quit"]
+[connection signal="pressed" from="CanvasLayer/Credits/BackButton" to="." method="toggle_credits"]

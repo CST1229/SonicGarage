@@ -5,6 +5,7 @@ class_name Polygon
 # it's made out of Vertices
 
 var vertices: Array[Vertex] = [];
+var parsed_vertices: Array[Vertex] = [];
 var vectors: PackedVector2Array = PackedVector2Array();
 var valid: bool = false;
 
@@ -40,25 +41,39 @@ func get_color():
 		c = Color(c.r + 1, c.g + 0.5, c.b);
 	return c;
 
-func _draw():
+func redraw():
 	decor.visible = valid;
 	shadow_decor.visible = valid;
 	if valid:
-		decor.vectors = vectors;
+		decor.parsed_vertices = parsed_vertices;
 		decor.queue_redraw();
-		shadow_decor.vectors = vectors;
+		shadow_decor.parsed_vertices = parsed_vertices;
 		shadow_decor.queue_redraw();
-	
+	queue_redraw();
+
+func _draw():
 	if !container || !container.editor_mode: return;
 	
 	if !valid:
+		# invalid outline
 		draw_polyline(vectors, INVALID_COLOR, 3, false);
 		# close line
 		draw_line(vectors[0], vectors[-1], INVALID_COLOR, 3, false);
+	
+	# selection outline
 	if is_in_group(&"selected_polygons"):
-		draw_polyline(vectors, SELECTED_COLOR, 2, false);
+		var thickness = 3 if layer == "ab" else 4;
+		draw_polyline(vectors, SELECTED_COLOR, thickness, false);
 		# close line
-		draw_line(vectors[0], vectors[-1], SELECTED_COLOR, 2, false);
+		draw_line(vectors[0], vectors[-1], SELECTED_COLOR, thickness, false);
+	
+	if valid:
+		var thickness = 1 if layer == "ab" else 2;
+		# layer outline
+		var color = get_color();
+		draw_polyline(vectors, color, thickness, false);
+		# close line
+		draw_line(vectors[0], vectors[-1], color, thickness, false);
 		
 	# draw vertices
 	for vert in vertices:
@@ -69,10 +84,13 @@ func _draw():
 # (updating its collision and graphics)
 func update_polygon():
 	vectors.clear();
+	parsed_vertices.clear();
 	for vert in vertices:
 		vectors.append(vert.position);
+		parsed_vertices.append(vert);
 	if Geometry2D.is_polygon_clockwise(vectors):
 		vectors.reverse();
+		parsed_vertices.reverse();
 	
 	# check if the polygon self-intersects
 	# if it does, make it invalid
@@ -87,8 +105,7 @@ func update_polygon():
 		fill.texture = preload("res://sprites/level_themes/GreenHill/checkerboard.png")
 	else:
 		collision_polygon.polygon = PackedVector2Array();
-	
-	queue_redraw();
+	redraw();
 
 func update_layer():
 	if !collision: return;
@@ -99,4 +116,4 @@ func update_layer():
 		"ab": layer_num |= Global.LAYER_A | Global.LAYER_B;
 	collision.collision_layer = layer_num;
 	collision.collision_mask = layer_num;
-	queue_redraw();
+	redraw();

@@ -18,7 +18,7 @@ func create_object(id: String, container: LevelContainer = null):
 	var obj: Global.ObjectDef = Global.object_list[id];
 	var node = obj.scene.instantiate();
 	if container && container.editor_mode: node.add_to_group(&"editor_objects");
-	if container: node.container = container;
+	if container && "container" in node: node.container = container;
 	return node;
 
 const VERT_COLOR = Color("#639bff");

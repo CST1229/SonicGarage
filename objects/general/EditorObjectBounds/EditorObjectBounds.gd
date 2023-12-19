@@ -21,6 +21,11 @@ func _draw():
 func _ready():
 	if !Engine.is_editor_hint():
 		var parent = get_parent();
+		if !("container" in parent):
+			parent = parent.get_parent();
+			if !("container" in parent):
+				queue_free();
+				return;
 		if !parent || !parent.container || !parent.container.editor_mode:
 			queue_free();
 			return;

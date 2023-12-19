@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://b2qk3pxe4e8yu"]
+
+[ext_resource type="SpriteFrames" uid="uid://cblk8oa86ji4h" path="res://objects/level/Signpost/sprites/signpost.tres" id="1_inyhf"]
+[ext_resource type="Script" path="res://objects/level/Signpost/Signpost.gd" id="1_pge2w"]
+[ext_resource type="AudioStream" uid="uid://cxj0jh2ij55mh" path="res://objects/level/Signpost/sounds/pass.wav" id="3_884sj"]
+[ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="4_00plm"]
+[ext_resource type="AudioStream" uid="uid://dhxhh86datefl" path="res://objects/level/Signpost/sounds/levelcomplete.mp3" id="4_2c84b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q2gup"]
+size = Vector2(6, 192)
+
+[node name="Signpost" type="Area2D"]
+collision_layer = 8
+collision_mask = 16
+script = ExtResource("1_pge2w")
+
+[node name="shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -72)
+shape = SubResource("RectangleShape2D_q2gup")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_inyhf")
+animation = &"spin"
+frame = 2
+frame_progress = 0.783444
+
+[node name="sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_884sj")
+bus = &"SFX"
+
+[node name="complete_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2c84b")
+bus = &"Music"
+
+[node name="EditorObjectBounds" parent="." instance=ExtResource("4_00plm")]
+size = Vector2(48, 48)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

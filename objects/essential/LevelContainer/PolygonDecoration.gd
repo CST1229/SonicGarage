@@ -1,10 +1,12 @@
 extends Node2D
 
-var vectors: PackedVector2Array;
+var parsed_vertices: Array[Vertex];
 
 @export var is_shadow: bool = false;
 
 func _draw():
-	if !vectors:
+	if !parsed_vertices:
 		return;
-	LevelDrawing.draw_ghz_grass(self, vectors, is_shadow);
+	if Global.terrain_detail <= 0 || (is_shadow && Global.terrain_detail <= 1):
+		return;
+	LevelDrawing.draw_ghz_grass(self, parsed_vertices, is_shadow);
