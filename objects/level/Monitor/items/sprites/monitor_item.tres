@@ -1,0 +1,43 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://daws4vpbx1dlo"]
+
+[ext_resource type="Texture2D" uid="uid://bef27pbqcl8yn" path="res://objects/level/Monitor/items/sprites/eggman.png" id="1_jkftv"]
+[ext_resource type="Texture2D" uid="uid://c54oybbhtabmi" path="res://objects/level/Monitor/items/sprites/static1.png" id="2_vftme"]
+[ext_resource type="Texture2D" uid="uid://c2df6s4040mem" path="res://objects/level/Monitor/items/sprites/static2.png" id="3_8dm5g"]
+[ext_resource type="Texture2D" uid="uid://70fircrsw7xe" path="res://objects/level/Monitor/items/sprites/ring.png" id="4_igni0"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_jkftv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_vftme")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_jkftv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_8dm5g")
+}],
+"loop": true,
+"name": &"eggman",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_igni0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_vftme")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_igni0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_8dm5g")
+}],
+"loop": true,
+"name": &"ring",
+"speed": 30.0
+}]

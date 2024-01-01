@@ -30,7 +30,7 @@ offset = Vector2(1, 0)
 
 [node name="LevelContainer" parent="." node_paths=PackedStringArray("editor") instance=ExtResource("1_xpaws")]
 editor_mode = true
-editor = NodePath("")
+editor = NodePath("../LevelEditor")
 
 [node name="Camera" type="Camera2D" parent="."]
 editor_draw_screen = false

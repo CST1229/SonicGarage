@@ -2,14 +2,14 @@
 extends Area2D
 class_name EditorObjectBounds
 
-@onready var shape = $shape;
+@onready var shape: CollisionShape2D = $shape;
 @export var size: Vector2 = Vector2.ZERO:
 	set(value):
 		size = value;
 		if shape && size.x >= 0 && size.y >= 0: shape.shape.size = size;
 		queue_redraw();
 
-@export_range(0, 1) var outline_alpha: float = 1;
+@export_range(0, 1) var outline_alpha := 1.0;
 
 func _draw():
 	if Engine.is_editor_hint(): return;
@@ -20,13 +20,18 @@ func _draw():
 
 func _ready():
 	if !Engine.is_editor_hint():
+		var container: LevelContainer;
 		var parent = get_parent();
-		if !("container" in parent):
-			parent = parent.get_parent();
-			if !("container" in parent):
+		if "container" in parent:
+			container = parent.container;
+		else:
+			parent = get_tree().current_scene as EditorRoom;
+			if "level_container" in parent:
+				container = parent.level_container;
+			else:
 				queue_free();
 				return;
-		if !parent || !parent.container || !parent.container.editor_mode:
+		if !container || !container.editor_mode:
 			queue_free();
 			return;
 	shape.shape = shape.shape.duplicate();

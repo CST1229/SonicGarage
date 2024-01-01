@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://dwyp3iksn6d1t"]
+
+[ext_resource type="Script" path="res://objects/enemies/Motobug/Motobug.gd" id="1_drjwk"]
+[ext_resource type="SpriteFrames" uid="uid://b7lsms7gobydo" path="res://objects/enemies/Motobug/sprites/motobug.tres" id="2_n7703"]
+[ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="3_25e30"]
+[ext_resource type="Script" path="res://objects/general/ConstantMonitorArea2D.gd" id="3_im2wx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ekxf3"]
+size = Vector2(20, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l4kdt"]
+size = Vector2(40, 29)
+
+[node name="Motobug" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 67
+floor_constant_speed = true
+floor_max_angle = 1.0472
+floor_snap_length = 8.0
+script = ExtResource("1_drjwk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ekxf3")
+
+[node name="visuals" type="Node2D" parent="."]
+
+[node name="sprite" type="AnimatedSprite2D" parent="visuals"]
+sprite_frames = ExtResource("2_n7703")
+frame_progress = 0.403392
+
+[node name="smoke_sprite" type="AnimatedSprite2D" parent="visuals"]
+visible = false
+position = Vector2(-24, 0)
+sprite_frames = ExtResource("2_n7703")
+animation = &"smoke"
+frame_progress = 0.0888012
+
+[node name="hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 16
+script = ExtResource("3_im2wx")
+check_areas = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_l4kdt")
+debug_color = Color(0.984314, 0, 0.356863, 0.419608)
+
+[node name="EditorObjectBounds" parent="." instance=ExtResource("3_25e30")]
+position = Vector2(0, -1)
+size = Vector2(40, 29)
+
+[connection signal="hurt" from="." to="." method="pop"]
+[connection signal="body_inside" from="hitbox" to="." method="_on_touch_hitbox"]

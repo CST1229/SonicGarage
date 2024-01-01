@@ -1,0 +1,43 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://b7lsms7gobydo"]
+
+[ext_resource type="Texture2D" uid="uid://cg832ob03jjp" path="res://objects/enemies/Motobug/sprites/motobug1.png" id="1_se5va"]
+[ext_resource type="Texture2D" uid="uid://xu0xru6q70ie" path="res://objects/enemies/Motobug/sprites/motobug2.png" id="2_q4vna"]
+[ext_resource type="Texture2D" uid="uid://dsq4ecofjgkt7" path="res://objects/enemies/Motobug/sprites/motobug3.png" id="3_us8hh"]
+[ext_resource type="Texture2D" uid="uid://cft5qcwo7btu3" path="res://objects/enemies/Motobug/sprites/motobug4.png" id="4_gmgjx"]
+[ext_resource type="Texture2D" uid="uid://mklwnwaw85w7" path="res://objects/enemies/Motobug/sprites/smoke1.png" id="5_2i4a0"]
+[ext_resource type="Texture2D" uid="uid://boxtdqnln3fbf" path="res://objects/enemies/Motobug/sprites/smoke2.png" id="6_pxbw1"]
+[ext_resource type="Texture2D" uid="uid://ibl2ognh7pkr" path="res://objects/enemies/Motobug/sprites/smoke3.png" id="7_xjctd"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_se5va")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_q4vna")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_us8hh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gmgjx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_2i4a0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_pxbw1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_xjctd")
+}],
+"loop": true,
+"name": &"smoke",
+"speed": 5.0
+}]

@@ -2,8 +2,8 @@ extends Node
 
 # utility functions used by the editor
 
-func create_vertex(pos: Vector2):
-	var vert = Vertex.new();
+func create_vertex(pos: Vector2) -> Vertex:
+	var vert := Vertex.new();
 	vert.position = pos;
 	return vert;
 
@@ -13,10 +13,11 @@ func delete_vertex(vert: Vertex):
 	if vert.polygon.vertices.size() < 3:
 		vert.polygon.queue_free();
 
-func create_object(id: String, container: LevelContainer = null):
-	if !(id in Global.object_list): return null;
+func create_object(id: String, container: LevelContainer = null) -> Node2D:
+	if !(id in Global.object_list):
+		return null;
 	var obj: Global.ObjectDef = Global.object_list[id];
-	var node = obj.scene.instantiate();
+	var node: Node2D = obj.scene.instantiate();
 	if container && container.editor_mode: node.add_to_group(&"editor_objects");
 	if container && "container" in node: node.container = container;
 	return node;
@@ -25,10 +26,10 @@ const VERT_COLOR = Color("#639bff");
 const VERT_OUTLINE_COLOR = Color("ffffff");
 
 func draw_vert(to: CanvasItem, pos: Vector2, alpha: float = 1, selected: bool = false):
-	var blend = Color(1, 1, 1, alpha);
-	var radius = 4 if !selected else 6;
-	to.draw_circle(pos,  radius + 1, VERT_OUTLINE_COLOR * blend);
-	to.draw_circle(pos,  radius, VERT_COLOR * blend);
+	var blend := Color(1, 1, 1, alpha);
+	var radius := 4.0 if !selected else 6.0;
+	to.draw_circle(pos, radius + 1, VERT_OUTLINE_COLOR * blend);
+	to.draw_circle(pos, radius, VERT_COLOR * blend);
 
 func save_level(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
 	if !status: return;

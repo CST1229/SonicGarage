@@ -10,9 +10,9 @@ func layerify():
 	tile_set.set_physics_layer_collision_layer(0, Global.LAYER_A | Global.LAYER_B);
 	tile_set.set_physics_layer_collision_layer(1, Global.LAYER_A);
 	tile_set.set_physics_layer_collision_layer(2, Global.LAYER_B);
-	tile_set.set_physics_layer_collision_mask(0, Global.LAYER_A | Global.LAYER_B | Global.LAYER_OBJECTS);
-	tile_set.set_physics_layer_collision_mask(1, Global.LAYER_A | Global.LAYER_B | Global.LAYER_OBJECTS);
-	tile_set.set_physics_layer_collision_mask(2, Global.LAYER_A | Global.LAYER_B | Global.LAYER_OBJECTS);
+	tile_set.set_physics_layer_collision_mask(0, Global.LAYER_A | Global.LAYER_B);
+	tile_set.set_physics_layer_collision_mask(1, Global.LAYER_A | Global.LAYER_B);
+	tile_set.set_physics_layer_collision_mask(2, Global.LAYER_A | Global.LAYER_B);
 	
 	var source_map = {};
 	for i in range(tile_set.get_source_count()):

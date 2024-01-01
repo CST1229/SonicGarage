@@ -17,6 +17,8 @@ var listed_objects: Array[String] = [
 	"ring",
 	"layer_switcher",
 	"signpost",
+	"motobug",
+	"monitor",
 ];
 
 func _ready():

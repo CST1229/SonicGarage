@@ -1,0 +1,23 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://btcw48fsrt1hl"]
+
+[ext_resource type="Texture2D" uid="uid://b24wmssfxtidl" path="res://objects/level/Monitor/sprites/broken.png" id="1_46sd2"]
+[ext_resource type="Texture2D" uid="uid://bcu021n0q0rnt" path="res://objects/level/Monitor/sprites/monitor.png" id="2_lfc6u"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_46sd2")
+}],
+"loop": true,
+"name": &"broken",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lfc6u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

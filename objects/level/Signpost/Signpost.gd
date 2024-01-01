@@ -12,14 +12,14 @@ var exit_timer = 0;
 func _ready():
 	sprite.play("eggman");
 	 
-func _process(delta):
+func _process(delta: float):
 	if end_timer > 0:
 		end_timer = move_toward(end_timer, 0, delta);
 		if end_timer <= 0:
 			sprite.play("sonic");
 			passed_player.velocity.x = 0;
 			if passed_player.velocity.y < 0: passed_player.velocity.y = 0;
-			passed_player.level_complete = true;
+			passed_player.state = Player.State.LEVEL_COMPLETE;
 			
 			var scene = get_tree().current_scene;
 			if "playtest_room" in scene && scene.playtest_room:

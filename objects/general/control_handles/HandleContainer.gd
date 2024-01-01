@@ -18,7 +18,7 @@ var use_size = false;
 func _ready():
 	mouse_filter = Control.MOUSE_FILTER_IGNORE;
 	visible = false;
-	var container = find_container();
+	var container: LevelContainer = find_container();
 	if !target || !container || !container.editor_mode:
 		queue_free();
 		return;

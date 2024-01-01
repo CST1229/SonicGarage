@@ -13,7 +13,7 @@ var container: LevelContainer;
 @onready var layer_handle = $HandleContainer/LayerHandle;
 @onready var grounded_only_handle = $HandleContainer/GroundedOnlyHandle;
 
-@export var size: Vector2 = Vector2(16, 16):
+@export var size: Vector2 = Vector2(32, 32):
 	set(value):
 		size = value;
 		set_size();

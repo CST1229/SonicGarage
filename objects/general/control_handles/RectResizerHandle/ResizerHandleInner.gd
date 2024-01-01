@@ -4,7 +4,7 @@ extends Control
 # this is what actually scales the object
 # and is shown to the user
 
-const HANDLE_RADIUS = 3;
+const HANDLE_RADIUS = 4;
 
 var handle: Vector2 = Vector2.ONE;
 var dragging: bool = false;

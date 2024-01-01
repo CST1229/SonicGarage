@@ -1,13 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://bcjbkb73mtovm"]
+[gd_scene load_steps=14 format=3 uid="uid://bcjbkb73mtovm"]
 
 [ext_resource type="Script" path="res://objects/essential/Player/Player.gd" id="1_cniba"]
 [ext_resource type="Script" path="res://objects/level/LayerSwitcher/LayerSwitcherSensor.gd" id="2_xh0bu"]
-[ext_resource type="SpriteFrames" uid="uid://d23iwpusrgjcp" path="res://objects/essential/Player/Sonic/spriteframes.tres" id="3_js88t"]
 [ext_resource type="Script" path="res://objects/essential/Player/PlayerCamera.gd" id="3_q22vw"]
+[ext_resource type="SpriteFrames" uid="uid://d23iwpusrgjcp" path="res://objects/essential/Player/Sonic/sonic.tres" id="4_voifm"]
 [ext_resource type="AudioStream" uid="uid://d3w1grc7g4hit" path="res://objects/essential/Player/sounds/jump.wav" id="5_y8ctc"]
 [ext_resource type="AudioStream" uid="uid://ghu75tfy8l5a" path="res://objects/essential/Player/sounds/roll.wav" id="6_qv3jl"]
 [ext_resource type="AudioStream" uid="uid://bp0knqoy0yic0" path="res://objects/essential/Player/sounds/skid.wav" id="7_beujc"]
+[ext_resource type="AudioStream" uid="uid://doe6b03ov51ex" path="res://objects/essential/Player/sounds/die.wav" id="9_5gunf"]
 [ext_resource type="AudioStream" uid="uid://bjsw3nlef0d2x" path="res://objects/essential/Player/sounds/dash.wav" id="9_qc8l6"]
+[ext_resource type="AudioStream" uid="uid://swfmynw0abdm" path="res://objects/essential/Player/sounds/ringloss.wav" id="10_l3uft"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r84wf"]
 size = Vector2(18, 38)
@@ -22,6 +24,7 @@ size = Vector2(0, 0)
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 15
 collision_mask = 7
+collision_priority = 3.0
 floor_stop_on_slope = false
 floor_max_angle = 1.39626
 floor_snap_length = 8.0
@@ -55,8 +58,8 @@ drag_right_margin = 0.0
 drag_bottom_margin = 0.0
 script = ExtResource("3_q22vw")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = ExtResource("3_js88t")
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("4_voifm")
 animation = &"push"
 offset = Vector2(0, 0.5)
 
@@ -76,4 +79,11 @@ bus = &"SFX"
 stream = ExtResource("9_qc8l6")
 bus = &"SFX"
 
+[node name="hurt_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_5gunf")
+
+[node name="ringloss_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_l3uft")
+
+[connection signal="touch_badnik" from="." to="." method="_on_touch_badnik"]
 [connection signal="layer_switch" from="LayerSwitcherSensor" to="." method="_on_layer_switch"]

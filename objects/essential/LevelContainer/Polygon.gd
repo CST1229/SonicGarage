@@ -20,12 +20,12 @@ const SELECTED_COLOR = EditorLib.VERT_COLOR;
 
 var container: LevelContainer;
 
-@onready var collision = $collision;
-@onready var collision_polygon = $collision/collision_polygon;
-@onready var fill = $polygon;
-@onready var decor = $decor;
-@onready var shadow_clip = $shadow_polygon;
-@onready var shadow_decor = $shadow_polygon/shadow_decor;
+@onready var collision: StaticBody2D = $collision;
+@onready var collision_polygon: CollisionPolygon2D = $collision/collision_polygon;
+@onready var fill: Polygon2D = $polygon;
+@onready var decor: PolygonDecoration = $decor;
+@onready var shadow_clip: Polygon2D = $shadow_polygon;
+@onready var shadow_decor: PolygonDecoration = $shadow_polygon/shadow_decor;
 
 func _ready():
 	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED;
@@ -34,7 +34,7 @@ func _ready():
 	update_layer();
 	
 func get_color():
-	var c = Color.BLACK;
+	var c := Color.BLACK;
 	if layer_num & Global.LAYER_A:
 		c = Color(c.r, c.g + 0.5, c.b + 1);
 	if layer_num & Global.LAYER_B:
@@ -62,13 +62,13 @@ func _draw():
 	
 	# selection outline
 	if is_in_group(&"selected_polygons"):
-		var thickness = 3 if layer == "ab" else 4;
+		var thickness := 3 if layer == "ab" else 4;
 		draw_polyline(vectors, SELECTED_COLOR, thickness, false);
 		# close line
 		draw_line(vectors[0], vectors[-1], SELECTED_COLOR, thickness, false);
 	
 	if valid:
-		var thickness = 1 if layer == "ab" else 2;
+		var thickness := 1 if layer == "ab" else 2;
 		# layer outline
 		var color = get_color();
 		draw_polyline(vectors, color, thickness, false);

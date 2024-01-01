@@ -7,16 +7,15 @@ extends Control
 @export var snap: Vector2 = Vector2.ONE;
 
 const HANDLES: Array[Vector2] = [
-	Vector2(-0.5, -0.5),
 	Vector2(0, -0.5),
-	Vector2(0.5, -0.5),
-	
+	Vector2(0, 0.5),
 	Vector2(-0.5, 0),
 	Vector2(0.5, 0),
 	
+	Vector2(-0.5, -0.5),
 	Vector2(-0.5, 0.5),
-	Vector2(0, 0.5),
 	Vector2(0.5, 0.5),
+	Vector2(0.5, -0.5),
 ];
 
 # handle position -> node map

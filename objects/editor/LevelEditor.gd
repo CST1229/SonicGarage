@@ -45,7 +45,7 @@ var grid_size: float = 8;
 const SCROLL_SPEED = 200;
 
 # vertex stuff
-var snapped_vert;
+var snapped_vert: Vertex;
 const VERT_SNAP: float = 10 ** 2;
 
 var mode: Mode = Mode.TERRAIN;
@@ -64,7 +64,7 @@ var select_rect: Rect2;
 # setter does ghost object stuff
 var place_object = null:
 	set(value):
-		place_object = value
+		place_object = value;
 		if ghost_object:
 			ghost_object.queue_free();
 			ghost_object = null;
@@ -76,7 +76,7 @@ var place_object = null:
 # the "ghost object" is the ghost of an object,
 # used in the object place mode.
 # it's actually a full-on instance of the object
-var ghost_object = null;
+var ghost_object: Node = null;
 
 var hovering_over_gui: bool = false;
 
@@ -95,11 +95,12 @@ func _draw():
 		if (tool == Tool.LINE || (snapped_vert != null && !snapped_vert.selected)):
 			EditorLib.draw_vert(self, mouse_pos, 0.5);
 	elif drawing == DrawingMode.LINE:
-		var polyline = PackedVector2Array();
+		var polyline := PackedVector2Array();
 		for vert in drawing_polygon:
 			polyline.append(vert.position);
 		if !hovering_over_gui: polyline.append(mouse_pos);
-		if polyline.size() >= 2: draw_polyline(polyline, DRAWING_LINE_COLOR, 3, false);
+		if polyline.size() >= 2:
+			draw_polyline(polyline, DRAWING_LINE_COLOR, 3, false);
 		for vert in drawing_polygon:
 			EditorLib.draw_vert(self, vert.position);
 		if !hovering_over_gui: EditorLib.draw_vert(self, mouse_pos, 0.5);
@@ -118,8 +119,8 @@ func finish_drawing(cancel: bool):
 	
 	if drawing == DrawingMode.LINE:
 		if drawing_polygon.size() > 2:
-			var new_poly = drawing_polygon.duplicate();
-			var poly = POLYGON_SCENE.instantiate();
+			var new_poly := drawing_polygon.duplicate();
+			var poly: Polygon = POLYGON_SCENE.instantiate();
 			poly.container = container;
 			for vert in new_poly:
 				vert.polygon = poly;
@@ -129,22 +130,22 @@ func finish_drawing(cancel: bool):
 	drawing = DrawingMode.NONE;
 	drawing_polygon.clear();
 
-func _process(delta):
+func _process(delta: float):
 	if !container: return;
 	
 	actual_mp = get_local_mouse_position();
-	var old_mouse_pos = mouse_pos;
+	var old_mouse_pos := mouse_pos;
 	mouse_pos = actual_mp.snapped(Vector2(grid_size, grid_size));
 	
 	if mode == Mode.TERRAIN:
 		object_detector.collision_layer = Global.LAYER_POLYGONS;
 		object_detector.collision_mask = object_detector.collision_layer;
 		if tool == Tool.VERT_SELECT || tool == Tool.LINE:
-			var snapped_dist = INF;
+			var snapped_dist := INF;
 			snapped_vert = null;
-			for poly in container.polygons.get_children():
-				for vert in poly.vertices:
-					var dist = vert.position.distance_squared_to(actual_mp);
+			for poly: Polygon in container.polygons.get_children():
+				for vert: Vertex in poly.vertices:
+					var dist := vert.position.distance_squared_to(actual_mp);
 					if dist < VERT_SNAP && dist < snapped_dist:
 						snapped_dist = dist;
 						mouse_pos = vert.position;
@@ -171,12 +172,12 @@ func _process(delta):
 					polys.append(vert.polygon);
 		else:
 			# If the vertex was dragged on top of a neighboring vertex, delete it
-			for vert in selected_verts:
-				var poly = vert.polygon;
+			for vert: Vertex in selected_verts:
+				var poly := vert.polygon;
 				if poly.is_queued_for_deletion(): continue;
-				var verts = poly.vertices;
-				var vert_index = verts.find(vert);
-				var vpos = vert.position;
+				var verts := poly.vertices;
+				var vert_index := verts.find(vert);
+				var vpos := vert.position;
 				if verts[(vert_index - 1) % verts.size()].position == vpos:
 					EditorLib.delete_vertex(vert);
 					selected_verts.erase(vert);
@@ -186,7 +187,7 @@ func _process(delta):
 				if !polys.has(poly):
 					polys.append(poly);
 			drawing = DrawingMode.NONE;
-		for poly in polys:
+		for poly: Polygon in polys:
 			poly.update_polygon();
 	elif drawing == DrawingMode.RECT_SELECT:
 		select_rect = Rect2(select_origin, actual_mp - select_origin).abs();
@@ -194,20 +195,20 @@ func _process(delta):
 		if !Input.is_action_pressed("editor_click"):
 			if tool == Tool.VERT_SELECT:
 				var polys: Array[Polygon] = [];
-				for poly in container.polygons.get_children():
-					for vert in poly.vertices:
+				for poly: Polygon in container.polygons.get_children():
+					for vert: Vertex in poly.vertices:
 						if select_rect.has_point(vert.position):
 							select_vert(vert);
 							if !polys.has(poly): polys.append(poly);
-				for poly in polys:
+				for poly: Polygon in polys:
 					poly.update_polygon();
 			drawing = DrawingMode.NONE;
 	elif drawing == DrawingMode.MOVE_OBJECT:
 		if Input.is_action_pressed("editor_click"):
-			for obj in get_tree().get_nodes_in_group(&"selected_objects"):
+			for obj: Node2D in get_tree().get_nodes_in_group(&"selected_objects"):
 				obj.position += mouse_move;
-			for obj in get_tree().get_nodes_in_group(&"selected_polygons"):
-				for vert in obj.vertices:
+			for obj: Polygon in get_tree().get_nodes_in_group(&"selected_polygons"):
+				for vert: Vertex in obj.vertices:
 					vert.position += mouse_move;
 				obj.update_polygon();
 		else:
@@ -218,8 +219,8 @@ func _process(delta):
 
 func scroll_camera(delta: float):
 	if camera:
-		var scroll_x = Input.get_axis("editor_scroll_left", "editor_scroll_right");
-		var scroll_y = Input.get_axis("editor_scroll_up", "editor_scroll_down");
+		var scroll_x := Input.get_axis("editor_scroll_left", "editor_scroll_right");
+		var scroll_y := Input.get_axis("editor_scroll_up", "editor_scroll_down");
 		if Input.is_action_pressed("editor_scroll_fast"):
 			scroll_x *= 3;
 			scroll_y *= 3;
@@ -247,7 +248,7 @@ func handle_delete():
 			EditorLib.delete_vertex(vert);
 			if !polys.has(vert.polygon):
 				polys.append(vert.polygon);
-		for poly in polys:
+		for poly: Polygon in polys:
 			poly.update_polygon();
 		for obj in get_tree().get_nodes_in_group(&"selected_objects"):
 			obj.queue_free();
@@ -279,7 +280,7 @@ func _unhandled_input(ev: InputEvent):
 				drawing_polygon = [EditorLib.create_vertex(mouse_pos)];
 				drawing = DrawingMode.LINE;
 			elif tool == Tool.OBJECT_PLACE && place_object != null:
-				var node = EditorLib.create_object(place_object, container);
+				var node: Node2D = EditorLib.create_object(place_object, container);
 				node.position = mouse_pos;
 				container.objects.add_child(node);
 			
@@ -293,7 +294,7 @@ func _unhandled_input(ev: InputEvent):
 				if drawing != DrawingMode.RECT_SELECT && clicked_objects.size() > 0:
 					# always select the frontmost object
 					clicked_objects.sort_custom(sort_objects);
-					var clicked_object = clicked_objects[-1].get_parent();
+					var clicked_object: Node2D = clicked_objects[-1].get_parent();
 					
 					if !Input.is_action_pressed("editor_multiselect") && !clicked_object.is_in_group(&"selected_objects"):
 						deselect_objects();
@@ -305,7 +306,7 @@ func _unhandled_input(ev: InputEvent):
 						if !Input.is_action_pressed("editor_multiselect"):
 							var selected_objects = get_tree().get_nodes_in_group(&"selected_objects");
 							selected_objects.sort_custom(sort_nodes);
-							for obj in selected_objects:
+							for obj: Node in selected_objects:
 								obj.get_parent().move_child(obj, -1);
 					else:
 						deselect_object(clicked_object);
@@ -324,9 +325,9 @@ func _unhandled_input(ev: InputEvent):
 						clicked_objects.append(obj.get_parent());
 				
 				if drawing != DrawingMode.RECT_SELECT && clicked_objects.size() > 0:
-					# always select the frontmost object
+					# always select the frontmost polygon
 					clicked_objects.sort_custom(sort_nodes);
-					var clicked_object = clicked_objects[-1];
+					var clicked_object: Polygon = clicked_objects[-1];
 					
 					if !Input.is_action_pressed("editor_multiselect") && !clicked_object.is_in_group(&"selected_polygons"):
 						deselect_polygons();
@@ -336,9 +337,9 @@ func _unhandled_input(ev: InputEvent):
 						
 						# move objects to front
 						if !Input.is_action_pressed("editor_multiselect"):
-							var selected_objects = get_tree().get_nodes_in_group(&"selected_polygons");
+							var selected_objects := get_tree().get_nodes_in_group(&"selected_polygons");
 							selected_objects.sort_custom(sort_nodes);
-							for obj in selected_objects:
+							for obj: Polygon in selected_objects:
 								obj.get_parent().move_child(obj, -1);
 					else:
 						deselect_polygon(clicked_object);
@@ -380,7 +381,7 @@ func do_object_detector(area: Area2D, exiting: bool):
 
 func do_polygon_detector(body: CollisionObject2D, exiting: bool):
 	if tool != Tool.POLY_SELECT || drawing != DrawingMode.RECT_SELECT: return;
-	var poly = body.get_parent();
+	var poly: Polygon = body.get_parent();
 	if !poly.is_in_group(&"polygons"): return;
 	if poly in ignore_select_objects: return;
 	if exiting:
@@ -452,8 +453,8 @@ func poly_layer_button():
 	var selected_polygons = get_tree().get_nodes_in_group(&"selected_polygons");
 	if selected_polygons.size() <= 0: return;
 	
-	var layer = selected_polygons[0].layer;
-	for poly in selected_polygons:
+	var layer: String = selected_polygons[0].layer;
+	for poly: Polygon in selected_polygons:
 		if poly.layer != layer:
 			layer = "";
 	match layer:

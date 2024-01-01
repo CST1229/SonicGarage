@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bidfy100d6cjh"]
+
+[ext_resource type="SpriteFrames" uid="uid://ce4oh1ypc1i1j" path="res://objects/enemies/badnik/sprites/pop.tres" id="1_0h8dj"]
+[ext_resource type="Script" path="res://objects/enemies/badnik/BadnikPop.gd" id="2_ijtd3"]
+[ext_resource type="AudioStream" uid="uid://cam24mv676fns" path="res://objects/enemies/badnik/sounds/pop.wav" id="3_fq8b6"]
+
+[node name="BadnikPop" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_0h8dj")
+animation = &"pop"
+script = ExtResource("2_ijtd3")
+
+[node name="sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_fq8b6")
+bus = &"SFX"
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

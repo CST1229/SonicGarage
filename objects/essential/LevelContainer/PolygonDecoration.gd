@@ -1,4 +1,5 @@
 extends Node2D
+class_name PolygonDecoration
 
 var parsed_vertices: Array[Vertex];
 

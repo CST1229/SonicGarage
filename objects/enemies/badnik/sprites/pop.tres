@@ -1,0 +1,30 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://ce4oh1ypc1i1j"]
+
+[ext_resource type="Texture2D" uid="uid://br34mepeb8wrc" path="res://objects/enemies/badnik/sprites/pop1.png" id="1_ltp4i"]
+[ext_resource type="Texture2D" uid="uid://dvt8nq7idmsj8" path="res://objects/enemies/badnik/sprites/pop2.png" id="2_lw3eu"]
+[ext_resource type="Texture2D" uid="uid://d0n4tenf7acps" path="res://objects/enemies/badnik/sprites/pop3.png" id="3_tqtd6"]
+[ext_resource type="Texture2D" uid="uid://bdmbg4o8lqdij" path="res://objects/enemies/badnik/sprites/pop4.png" id="4_dq8qs"]
+[ext_resource type="Texture2D" uid="uid://bfhbuw3f0b5hx" path="res://objects/enemies/badnik/sprites/pop5.png" id="5_8eoq3"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ltp4i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_lw3eu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_tqtd6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_dq8qs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_8eoq3")
+}],
+"loop": false,
+"name": &"pop",
+"speed": 12.0
+}]

@@ -9,6 +9,7 @@ script = ExtResource("1_nvdio")
 [node name="collision" type="StaticBody2D" parent="."]
 show_behind_parent = true
 collision_mask = 35
+collision_priority = 5.0
 
 [node name="collision_polygon" type="CollisionPolygon2D" parent="collision"]
 

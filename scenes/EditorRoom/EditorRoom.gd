@@ -1,4 +1,5 @@
 extends Node2D
+class_name EditorRoom
 
 # a room used by the editor
 # (and custom levels)
@@ -11,7 +12,7 @@ func _ready():
 	if level_container && Global.load_level:
 		level_container.deserialize(Global.load_level);
 
-func _process(_delta):
+func _process(_delta: float):
 	if Input.is_action_just_pressed("editor_playtest"):
 		playtest();
 	elif Input.is_action_just_pressed("editor_quit"):
