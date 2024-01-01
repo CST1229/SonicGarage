@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://shaxhqlgd6uq"]
-
-[ext_resource type="Script" path="res://objects/general/control_handles/RectResizerHandle/RectResizerHandle.gd" id="1_w3r5g"]
-
-[node name="RectResizerHandle" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-script = ExtResource("1_w3r5g")
