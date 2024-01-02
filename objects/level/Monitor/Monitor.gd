@@ -1,12 +1,15 @@
 extends AnimatableBody2D
+class_name Monitor
 
-@onready var sprite = $sprite;
-@onready var pop_sound = $sound;
-@onready var hitbox = $hitbox;
+@onready var sprite: AnimatedSprite2D = $sprite;
+@onready var pop_sound: AudioStreamPlayer = $sound;
+@onready var hitbox: Area2D = $hitbox;
+
+@onready var item_handle: Button = $HandleContainer/MonitorItemHandle;
 
 const items = {
-	ring = preload("res://objects/level/Monitor/items/MonitorRing.gd"),
-	eggman = preload("res://objects/level/Monitor/items/MonitorEggman.gd"),
+	&"ring": preload("res://objects/level/Monitor/items/MonitorRing.gd"),
+	&"eggman": preload("res://objects/level/Monitor/items/MonitorEggman.gd"),
 };
 
 var gravity := 0.0;
@@ -34,7 +37,18 @@ func update_item():
 		item_node.script = items[item];
 		item_node.position.y = -2;
 		item_node.container = container;
+		if item_handle:
+			item_node.ready.connect(update_item_handle);
 		add_child(item_node);
+
+func update_item_handle():
+	if item_handle && item_node:
+		item_handle.icon = item_node.sprite_frames.get_frame_texture(item_node.animation, 0);
+
+func _on_item_handle_pressed():
+	var keys := items.keys();
+	var i := keys.find(item);
+	item = keys[(i + 1) % keys.size()];
 
 func _physics_process(delta: float):
 	if gravity == 0.0:

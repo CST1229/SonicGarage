@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://b8q0kjk13674u"]
+[gd_scene load_steps=10 format=3 uid="uid://b8q0kjk13674u"]
 
 [ext_resource type="Script" path="res://objects/level/Monitor/Monitor.gd" id="1_3s5mw"]
 [ext_resource type="SpriteFrames" uid="uid://btcw48fsrt1hl" path="res://objects/level/Monitor/sprites/monitor.tres" id="2_2trqc"]
 [ext_resource type="AudioStream" uid="uid://cam24mv676fns" path="res://objects/enemies/badnik/sounds/pop.wav" id="3_1wk54"]
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="4_3hsxn"]
+[ext_resource type="Script" path="res://objects/general/control_handles/HandleContainer.gd" id="5_b3oyq"]
+[ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="6_2d471"]
+[ext_resource type="Script" path="res://objects/level/Monitor/MonitorItemHandle.gd" id="7_541oi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_okmh3"]
 size = Vector2(30, 30)
@@ -41,4 +44,31 @@ stream = ExtResource("3_1wk54")
 position = Vector2(0, 1)
 size = Vector2(30, 30)
 
+[node name="HandleContainer" type="Control" parent="." node_paths=PackedStringArray("target")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -15.0
+offset_top = -14.0
+offset_right = 15.0
+offset_bottom = 16.0
+script = ExtResource("5_b3oyq")
+target = NodePath("..")
+
+[node name="MonitorItemHandle" type="Button" parent="HandleContainer" node_paths=PackedStringArray("target")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -10.0
+offset_top = -24.0
+offset_right = 10.0
+offset_bottom = -4.0
+grow_horizontal = 2
+theme = ExtResource("6_2d471")
+theme_type_variation = &"HandleButton"
+icon_alignment = 1
+script = ExtResource("7_541oi")
+target = NodePath("../..")
+
 [connection signal="body_entered" from="hitbox" to="." method="on_hit_hitbox"]
+[connection signal="pressed" from="HandleContainer/MonitorItemHandle" to="." method="_on_item_handle_pressed"]

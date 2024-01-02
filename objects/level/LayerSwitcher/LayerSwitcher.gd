@@ -6,12 +6,12 @@ extends Node2D
 
 @onready var area: Area2D = $area;
 @onready var shape: CollisionShape2D = $area/shape;
-@onready var bounds = $bounds;
+@onready var bounds: EditorObjectBounds = $bounds;
 
 var container: LevelContainer;
 
-@onready var layer_handle = $HandleContainer/LayerHandle;
-@onready var grounded_only_handle = $HandleContainer/GroundedOnlyHandle;
+@onready var layer_handle: Button = $HandleContainer/LayerHandle;
+@onready var grounded_only_handle: Button = $HandleContainer/GroundedOnlyHandle;
 
 @export var size: Vector2 = Vector2(32, 32):
 	set(value):

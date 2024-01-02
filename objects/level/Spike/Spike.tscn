@@ -29,6 +29,7 @@ texture = ExtResource("2_uj04i")
 
 [node name="spike_sound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_7oaxf")
+bus = &"SFX"
 
 [node name="EditorObjectBounds" parent="." instance=ExtResource("4_c622h")]
 size = Vector2(32, 32)
