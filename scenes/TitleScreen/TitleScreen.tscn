@@ -1,17 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqv66ex06ep1o"]
+[gd_scene load_steps=9 format=3 uid="uid://bqv66ex06ep1o"]
 
 [ext_resource type="Script" path="res://scenes/TitleScreen/TitleScreen.gd" id="1_f1p6m"]
+[ext_resource type="Script" path="res://objects/ui/URLRichTextLabel.gd" id="2_ick4f"]
+[ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="2_trggm"]
+[ext_resource type="FontFile" uid="uid://xls5o5ivk6xs" path="res://sprites/ui/m6x11plus.ttf" id="3_byyyj"]
+[ext_resource type="Texture2D" uid="uid://y877yjmp8jq3" path="res://sprites/ui/logo.png" id="3_pj35e"]
+[ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/ui/Habbo.ttf" id="4_1tjes"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hhabw"]
+font = ExtResource("4_1tjes")
 
 [sub_resource type="LabelSettings" id="LabelSettings_8eswu"]
-font_size = 20
-
-[sub_resource type="LabelSettings" id="LabelSettings_vpqso"]
-font_size = 13
+font = ExtResource("3_byyyj")
+font_size = 36
 
 [node name="TitleScreen" type="Node2D"]
 script = ExtResource("1_f1p6m")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BGColor" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.188235, 0.376471, 0.815686, 0.266667)
 
 [node name="Menu" type="Panel" parent="CanvasLayer"]
 custom_minimum_size = Vector2(240, 0)
@@ -20,24 +35,37 @@ anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -120.0
+offset_top = -1.0
 offset_right = 120.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+theme = ExtResource("2_trggm")
 
-[node name="Title" type="Label" parent="CanvasLayer/Menu"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Menu"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 13.0
+offset_right = 199.0
+offset_bottom = 61.0
+texture = ExtResource("3_pj35e")
+
+[node name="Verison" type="Label" parent="CanvasLayer/Menu"]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -99.0
-offset_top = 8.0
-offset_right = 107.0
-offset_bottom = 36.0
-grow_horizontal = 2
-text = "Sonic Garage (v0.001)
-"
-label_settings = SubResource("LabelSettings_8eswu")
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -17.0
+offset_right = -5.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "v0.0.1"
+label_settings = SubResource("LabelSettings_hhabw")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -47,10 +75,11 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -80.0
-offset_top = 44.0
+offset_top = 73.0
 offset_right = 80.0
-offset_bottom = 76.0
+offset_bottom = 98.0
 grow_horizontal = 2
+theme = ExtResource("2_trggm")
 text = "Editor"
 
 [node name="PlayButton" type="Button" parent="CanvasLayer/Menu"]
@@ -59,10 +88,11 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -80.0
-offset_top = 84.0
+offset_top = 105.0
 offset_right = 80.0
-offset_bottom = 116.0
+offset_bottom = 129.0
 grow_horizontal = 2
+theme = ExtResource("2_trggm")
 text = "Load Level"
 
 [node name="ControlsButton" type="Button" parent="CanvasLayer/Menu"]
@@ -73,11 +103,12 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -80.0
-offset_top = -80.0
+offset_top = -65.0
 offset_right = 80.0
-offset_bottom = -48.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("2_trggm")
 text = "Controls"
 
 [node name="CreditsButton" type="Button" parent="CanvasLayer/Menu"]
@@ -88,10 +119,11 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -80.0
-offset_top = -40.0
+offset_top = -33.0
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("2_trggm")
 text = "Credits"
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/Menu"]
@@ -102,11 +134,12 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = 8.0
-offset_top = -40.0
+offset_top = -33.0
 offset_right = 80.0
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("2_trggm")
 text = "Quit"
 
 [node name="Credits" type="Panel" parent="CanvasLayer"]
@@ -116,19 +149,22 @@ anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -116.0
+offset_top = -1.0
 offset_right = 116.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_trggm")
 
 [node name="Title" type="Label" parent="CanvasLayer/Credits"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -99.0
-offset_top = 8.0
-offset_right = 107.0
-offset_bottom = 36.0
+offset_left = -100.0
+offset_top = 5.0
+offset_right = 106.0
+offset_bottom = 41.0
 grow_horizontal = 2
 text = "Credits"
 label_settings = SubResource("LabelSettings_8eswu")
@@ -149,23 +185,31 @@ theme_override_font_sizes/font_size = 12
 text = "Back
 "
 
-[node name="Credits" type="Label" parent="CanvasLayer/Credits"]
+[node name="Credits" type="RichTextLabel" parent="CanvasLayer/Credits"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 12.0
-offset_top = 40.0
+offset_top = 45.0
 offset_right = -12.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("4_1tjes")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
 text = "Made by CST1229
-Inspired by Sonic Studio
+Inspired by [url=https://sonicstudiofangame.weebly.com/information.html]Sonic Studio[/url]
     (by LapperDev)
 Sonic belongs to SEGA
-Made with Godot
-"
-label_settings = SubResource("LabelSettings_vpqso")
+   (and also a lot of the sprites and sounds)
+Made with [url=https://godotengine.org]Godot[/url]
+Special thanks to the [url=https://info.sonicretro.org/Sonic_Physics_Guide]Sonic Physics Guide[/url]
+
+Fonts used:
+[url=https://managore.itch.io/m6x11][font_size=18][font=res://sprites/ui/m6x11plus.ttf]m6x11 by Daniel Linssen[/font][/font_size][/url]
+[url=https://nimblebeastscollective.itch.io/nb-pixel-font-bundle][font_size=16][font=res://sprites/ui/Habbo.ttf]Habbo by Omni[/font][/font_size][/url]"
+script = ExtResource("2_ick4f")
 
 [node name="Controls" type="Panel" parent="CanvasLayer"]
 visible = false
@@ -174,9 +218,12 @@ anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -132.0
+offset_top = -1.0
 offset_right = 132.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_trggm")
 
 [node name="Title" type="Label" parent="CanvasLayer/Controls"]
 layout_mode = 1
@@ -184,9 +231,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -100.0
-offset_top = 4.0
+offset_top = 1.0
 offset_right = 106.0
-offset_bottom = 32.0
+offset_bottom = 37.0
 grow_horizontal = 2
 text = "Controls
 "
@@ -204,6 +251,7 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = 33.0
 grow_horizontal = 0
+theme = ExtResource("2_trggm")
 theme_override_font_sizes/font_size = 12
 text = "Back
 "
@@ -219,17 +267,20 @@ offset_right = -12.0
 offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 10
+theme_override_fonts/normal_font = ExtResource("4_1tjes")
+theme_override_fonts/bold_font = ExtResource("3_byyyj")
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/bold_font_size = 18
 bbcode_enabled = true
-text = "[font_size=14][b]Gameplay[/b][/font_size]
+text = "[b]Gameplay[/b]
 Left/Right: Move;  Space: Jump
 Down: Crouch/Roll
-[font_size=14][b]Editor[/b][/font_size]
+[b]Editor[/b]
 WASD: Scroll;  LMB: Place/Interact
 Shift: Scroll Fast/Multiselect
 RMB: Cancel Drawing; Delete/Backspace: Delete
 Enter: Playtest
-[font_size=14][b]Misc[/b][/font_size]
+[b]Misc[/b]
 F2: Change Terrain Quality
 Escape: Exit Editor/Level
 No controller support or remapping... yet"

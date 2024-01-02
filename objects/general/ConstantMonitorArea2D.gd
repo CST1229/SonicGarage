@@ -1,4 +1,5 @@
 extends Area2D
+class_name ConstantMonitorArea2D
 
 @export var check_areas := true;
 @export var check_bodies := true;

@@ -72,4 +72,7 @@ func _gui_input(event: InputEvent):
 		dragging = true;
 
 func _draw():
-	draw_style_box(Global.handle_theme.get_stylebox(&"normal", &"Button"), Rect2(Vector2.ZERO, size));
+	draw_style_box(
+		Global.UI_THEME.get_stylebox(&"normal", &"HandleButton"),
+		Rect2(Vector2.ZERO, size)
+	);

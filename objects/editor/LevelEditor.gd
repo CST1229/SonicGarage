@@ -84,11 +84,12 @@ const DRAWING_LINE_COLOR: Color = Color("ffffff88");
 const POLYGON_SCENE = preload("res://objects/essential/LevelContainer/Polygon.tscn");
 
 func _ready():
-	_process(0.33);
+	_process(0.16);
 	object_detector.area_entered.connect(do_object_detector.bind(false));
 	object_detector.area_exited.connect(do_object_detector.bind(true));
 	object_detector.body_entered.connect(do_polygon_detector.bind(false));
 	object_detector.body_exited.connect(do_polygon_detector.bind(true));
+	selection_changed.emit();
 
 func _draw():
 	if drawing == DrawingMode.NONE && !hovering_over_gui:
@@ -202,6 +203,7 @@ func _process(delta: float):
 							if !polys.has(poly): polys.append(poly);
 				for poly: Polygon in polys:
 					poly.update_polygon();
+				selection_changed.emit();
 			drawing = DrawingMode.NONE;
 	elif drawing == DrawingMode.MOVE_OBJECT:
 		if Input.is_action_pressed("editor_click"):
@@ -256,6 +258,7 @@ func handle_delete():
 			obj.queue_free();
 		deselect_verts();
 		deselect_objects();
+		selection_changed.emit();
 
 # things that should only run while not hoveringhover gui
 # (mostly clicking)
@@ -271,8 +274,10 @@ func _unhandled_input(ev: InputEvent):
 						drawing = DrawingMode.MOVE_VERT;
 					else:
 						deselect_vert(snapped_vert);
+					selection_changed.emit();
 				else:
 					if !Input.is_action_pressed("editor_multiselect"): deselect_verts();
+					selection_changed.emit();
 					select_origin = actual_mp;
 					select_rect = Rect2(actual_mp, Vector2.ZERO);
 					drawing = DrawingMode.RECT_SELECT;
@@ -310,8 +315,10 @@ func _unhandled_input(ev: InputEvent):
 								obj.get_parent().move_child(obj, -1);
 					else:
 						deselect_object(clicked_object);
+					selection_changed.emit();
 				else:
 					if !Input.is_action_pressed("editor_multiselect"): deselect_objects();
+					selection_changed.emit();
 					ignore_select_objects = get_tree().get_nodes_in_group(&"selected_objects");
 					select_origin = actual_mp;
 					select_rect = Rect2(actual_mp, Vector2.ZERO);
@@ -343,8 +350,10 @@ func _unhandled_input(ev: InputEvent):
 								obj.get_parent().move_child(obj, -1);
 					else:
 						deselect_polygon(clicked_object);
+					selection_changed.emit();
 				else:
 					if !Input.is_action_pressed("editor_multiselect"): deselect_polygons();
+					selection_changed.emit();
 					ignore_select_objects = get_tree().get_nodes_in_group(&"selected_polygons");
 					select_origin = actual_mp;
 					select_rect = Rect2(actual_mp, Vector2.ZERO);
@@ -377,6 +386,7 @@ func do_object_detector(area: Area2D, exiting: bool):
 		parent.remove_from_group(&"selected_objects");
 	else:
 		parent.add_to_group(&"selected_objects");
+	selection_changed.emit();
 	area.queue_redraw();
 
 func do_polygon_detector(body: CollisionObject2D, exiting: bool):
@@ -388,6 +398,7 @@ func do_polygon_detector(body: CollisionObject2D, exiting: bool):
 		poly.remove_from_group(&"selected_polygons");
 	else:
 		poly.add_to_group(&"selected_polygons");
+	selection_changed.emit();
 	poly.redraw();
 
 # utilities
@@ -440,6 +451,7 @@ func select_tool(t: Tool):
 	deselect_verts();
 	deselect_objects();
 	deselect_polygons();
+	selection_changed.emit();
 	finish_drawing(true);
 	
 	place_object = null;
@@ -484,3 +496,5 @@ func line_edge_button():
 			polys.append(vert.polygon);
 	for poly in polys:
 		poly.update_polygon();
+
+signal selection_changed

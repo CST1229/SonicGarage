@@ -13,7 +13,7 @@ func _ready():
 		level_container.deserialize(Global.load_level);
 
 func _process(_delta: float):
-	if Input.is_action_just_pressed("editor_playtest"):
+	if Input.is_action_just_pressed("editor_playtest") && !Input.is_action_pressed("setting_fullscreen"):
 		playtest();
 	elif Input.is_action_just_pressed("editor_quit"):
 		exit();

@@ -31,10 +31,15 @@ func draw_vert(to: CanvasItem, pos: Vector2, alpha: float = 1, selected: bool = 
 	to.draw_circle(pos, radius + 1, VERT_OUTLINE_COLOR * blend);
 	to.draw_circle(pos, radius, VERT_COLOR * blend);
 
-func save_level(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+func save_level(status: bool, selected_paths: PackedStringArray, selected_filter_index: int):
 	if !status: return;
 	if selected_paths.size() < 1: return;
 	var path = selected_paths[0];
+	
+	if selected_filter_index == 1:
+		# Add file extension
+		if !(path.to_lower().ends_with(".sgl")):
+			path += ".sgl";
 	
 	var file = FileAccess.open(path, FileAccess.WRITE);
 	if file == null:

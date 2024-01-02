@@ -17,7 +17,7 @@ func load_level():
 	DisplayServer.file_dialog_show(
 		"Load Level", "",
 		"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
-		PackedStringArray(["*.sgl", "*"]),
+		PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
 		EditorLib.load_level_play
 	);
 

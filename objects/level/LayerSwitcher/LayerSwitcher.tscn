@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="2_oktun"]
 [ext_resource type="Script" path="res://objects/general/control_handles/HandleContainer.gd" id="3_bugb3"]
 [ext_resource type="PackedScene" uid="uid://shaxhqlgd6uq" path="res://objects/general/control_handles/RectResizerHandle/RectResizerHandle.tscn" id="4_shhxs"]
-[ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/themes/handle.tres" id="5_xqck4"]
+[ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="5_nqj72"]
 [ext_resource type="Texture2D" uid="uid://chlp5vbpdk5lc" path="res://sprites/icons/handle/layer_a.png" id="6_b34xs"]
 [ext_resource type="Texture2D" uid="uid://dludac6ocfykb" path="res://sprites/icons/handle/air.png" id="7_vlti0"]
 
@@ -56,8 +56,8 @@ offset_right = -2.0
 offset_bottom = -6.0
 grow_horizontal = 2
 tooltip_text = "Switches to layer A"
-theme = ExtResource("5_xqck4")
-theme_type_variation = &"FlatButton"
+theme = ExtResource("5_nqj72")
+theme_type_variation = &"HandleButton"
 icon = ExtResource("6_b34xs")
 icon_alignment = 1
 
@@ -72,8 +72,8 @@ offset_right = 13.0
 offset_bottom = -6.0
 grow_horizontal = 2
 tooltip_text = "Grounded-only: Off"
-theme = ExtResource("5_xqck4")
-theme_type_variation = &"FlatButton"
+theme = ExtResource("5_nqj72")
+theme_type_variation = &"HandleButton"
 icon = ExtResource("7_vlti0")
 icon_alignment = 1
 

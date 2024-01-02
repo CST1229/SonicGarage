@@ -3,8 +3,8 @@ extends Control
 @export var editor: LevelEditor;
 
 @onready var terrain_tools = $TerrainTools;
-@onready var poly_layer_button = $TerrainTools/PolyLayerButton;
-@onready var line_edge_button = $TerrainTools/LineEdgeButton;
+@onready var poly_layer_button = %PolyLayerButton;
+@onready var line_edge_button = %LineEdgeButton;
 
 @onready var object_tools = $ObjectTools;
 @onready var object_selector = $ObjectTools/ObjectSelector;
@@ -19,12 +19,41 @@ var listed_objects: Array[String] = [
 	"signpost",
 	"motobug",
 	"monitor",
+	"spike",
 ];
+
+@onready var tool_buttons = {
+	LevelEditor.Tool.POLY_SELECT: %PolySelectTool,
+	LevelEditor.Tool.VERT_SELECT: %VertSelectTool,
+	LevelEditor.Tool.LINE: %LineTool,
+	LevelEditor.Tool.OBJECT_SELECT: %ObjectSelectTool,
+};
+@onready var mode_buttons = {
+	LevelEditor.Mode.TERRAIN: %TerrainMode,
+	LevelEditor.Mode.OBJECTS: %ObjectsMode,
+};
+@onready var mode_default_tools = {
+	LevelEditor.Mode.TERRAIN: LevelEditor.Tool.VERT_SELECT,
+	LevelEditor.Mode.OBJECTS: LevelEditor.Tool.OBJECT_SELECT,
+};
 
 func _ready():
 	select_mode(LevelEditor.Mode.TERRAIN, LevelEditor.Tool.VERT_SELECT);
 	populate_object_list(listed_objects);
 	do_gui_hover(self);
+	
+	editor.selection_changed.connect(self.selection_changed);
+	
+	for tool: LevelEditor.Tool in tool_buttons.keys():
+		var button: Button = tool_buttons[tool];
+		button.pressed.connect(select_tool.bind(tool));
+	
+	for mode: LevelEditor.Mode in mode_buttons.keys():
+		var button: Button = mode_buttons[mode];
+		var default_tool: LevelEditor.Tool = mode_default_tools[mode];
+		button.pressed.connect(select_mode.bind(mode, default_tool));
+	
+	selection_changed();
 
 func do_gui_hover(node: Node):
 	for child in node.get_children():
@@ -40,7 +69,7 @@ func do_dehover():
 
 func _process(delta: float):
 	objects_flap_transition = move_toward(objects_flap_transition, float(objects_flap_open), delta * 5);
-	object_selector.offset_left = ease(objects_flap_transition, -2) * -196;
+	object_selector.offset_right = ease(objects_flap_transition, -2) * -196;
 
 func populate_object_list(objects: Array[String]):
 	for obj_id in objects:
@@ -66,34 +95,33 @@ func select_tool(t: LevelEditor.Tool):
 	
 	poly_layer_button.visible = editor.tool == LevelEditor.Tool.POLY_SELECT;
 	line_edge_button.visible = editor.tool == LevelEditor.Tool.VERT_SELECT;
+	
+	for tool: LevelEditor.Tool in tool_buttons.keys():
+		var button: Button = tool_buttons[tool];
+		button.theme_type_variation = &"SelectedButton" if editor.tool == tool else &"Button";
 
 func select_mode(m: LevelEditor.Mode, t: LevelEditor.Tool):
 	objects_flap_open = false;
 	if t != LevelEditor.Tool.OBJECT_PLACE: objects_flap_transition = 0;
 	
 	editor.select_mode(m);
-	editor.select_tool(t);
+	select_tool(t);
 	
 	tools_visible(terrain_tools, LevelEditor.Mode.TERRAIN);
 	tools_visible(object_tools, LevelEditor.Mode.OBJECTS);
+	
+	for mode: LevelEditor.Mode in mode_buttons.keys():
+		var button: Button = mode_buttons[mode];
+		button.theme_type_variation = &"SelectedButton" if editor.mode == mode else &"Button";
+
 func tools_visible(tools: Node, m: LevelEditor.Mode):
 	if tools:
 		tools.visible = editor.mode == m;
 
-# buttons
-
-func poly_select_tool_pressed():
-	select_tool(LevelEditor.Tool.POLY_SELECT);
-func select_tool_pressed():
-	select_tool(LevelEditor.Tool.VERT_SELECT);
-func line_tool_pressed():
-	select_tool(LevelEditor.Tool.LINE);
-func object_select_tool_pressed():
-	select_tool(LevelEditor.Tool.OBJECT_SELECT);
-func terrain_mode_pressed():
-	select_mode(LevelEditor.Mode.TERRAIN, LevelEditor.Tool.VERT_SELECT);
-func objects_mode_pressed():
-	select_mode(LevelEditor.Mode.OBJECTS, LevelEditor.Tool.OBJECT_SELECT);
+func selection_changed():
+	var has_selection: bool = editor.selected_verts.size() > 0 || get_tree().get_nodes_in_group(&"selected_polygons").size() > 0;
+	poly_layer_button.disabled = !has_selection;
+	line_edge_button.disabled = !has_selection;
 
 func objects_flap_pressed():
 	objects_flap_open = !objects_flap_open;
@@ -105,14 +133,14 @@ func menu_pressed(id: int):
 			DisplayServer.file_dialog_show(
 				"Save Level", "",
 				"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
-				PackedStringArray(["*.sgl"]),
+				PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
 				EditorLib.save_level
 			);
 		1: # Load Level
 			DisplayServer.file_dialog_show(
 				"Load Level", "",
 				"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
-				PackedStringArray(["*.sgl", "*"]),
+				PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
 				EditorLib.load_level_editor
 			);
 		2: # Clear Level

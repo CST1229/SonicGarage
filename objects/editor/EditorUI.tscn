@@ -1,7 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://6coikmp63mmn"]
+[gd_scene load_steps=16 format=3 uid="uid://6coikmp63mmn"]
 
 [ext_resource type="Script" path="res://objects/editor/EditorUI.gd" id="1_1imr5"]
 [ext_resource type="Script" path="res://objects/ui/SignalableMenuButton.gd" id="2_wor00"]
+[ext_resource type="Texture2D" uid="uid://db4xdgglk11ip" path="res://sprites/icons/tools/more.png" id="3_3i0ho"]
+[ext_resource type="Texture2D" uid="uid://cogpggkowmc4k" path="res://sprites/icons/tools/poly_select.png" id="3_61nxk"]
+[ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="3_mmcx7"]
+[ext_resource type="Texture2D" uid="uid://05krgriqv8jq" path="res://sprites/icons/tools/vert_select.png" id="4_oyu41"]
+[ext_resource type="Texture2D" uid="uid://cxetvfhaijidv" path="res://sprites/icons/tools/line.png" id="5_rj8fn"]
+[ext_resource type="Texture2D" uid="uid://cfs6mivvknn4x" path="res://sprites/icons/tools/layer.png" id="6_x21v6"]
+[ext_resource type="Texture2D" uid="uid://cy23x0oisxa50" path="res://sprites/icons/tools/edge.png" id="7_nkwlo"]
+[ext_resource type="Texture2D" uid="uid://bjca3r0nwy6gf" path="res://sprites/icons/tools/obj_select.png" id="8_x7gqc"]
+[ext_resource type="Texture2D" uid="uid://48151eejh1ux" path="res://sprites/icons/tools/terrain.png" id="9_cimw5"]
+[ext_resource type="Texture2D" uid="uid://b2r3w5uqgankr" path="res://sprites/icons/tools/objects.png" id="10_vtoee"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6sugx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mp7ux"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hpb2m"]
 
 [node name="EditorUI" type="Control"]
 layout_mode = 3
@@ -19,25 +35,29 @@ anchors_preset = -1
 anchor_left = 0.990566
 anchor_right = 1.0
 anchor_bottom = 0.0178571
-offset_left = -32.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = 32.0
+offset_left = -34.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 34.0
 grow_horizontal = 0
 focus_mode = 2
+theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 16
-text = "⋯"
+icon = ExtResource("3_3i0ho")
 flat = false
 clip_text = true
-item_count = 4
+item_count = 5
 popup/item_0/text = "Save Level"
 popup/item_0/id = 0
 popup/item_1/text = "Load Level"
 popup/item_1/id = 1
 popup/item_2/text = "Clear Level"
 popup/item_2/id = 2
-popup/item_3/text = "Exit"
-popup/item_3/id = 3
+popup/item_3/text = ""
+popup/item_3/id = 4
+popup/item_3/separator = true
+popup/item_4/text = "Exit"
+popup/item_4/id = 3
 script = ExtResource("2_wor00")
 
 [node name="TerrainTools" type="Control" parent="."]
@@ -54,9 +74,10 @@ mouse_filter = 2
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
 offset_left = 4.0
-offset_top = 4.0
-offset_right = 192.0
-offset_bottom = 36.0
+offset_top = 8.0
+offset_right = 196.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_6sugx")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TerrainTools/Tools"]
 layout_mode = 1
@@ -70,38 +91,50 @@ offset_bottom = -4.0
 grow_vertical = 2
 
 [node name="PolySelectTool" type="Button" parent="TerrainTools/Tools/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Select Polygons"
+theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
-text = "Poly Select"
+icon = ExtResource("3_61nxk")
 
 [node name="VertSelectTool" type="Button" parent="TerrainTools/Tools/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Select Vertices"
+theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
-text = "Vert Select"
+icon = ExtResource("4_oyu41")
 
 [node name="LineTool" type="Button" parent="TerrainTools/Tools/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Line"
+theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
-text = "Line
-"
+icon = ExtResource("5_rj8fn")
 
 [node name="PolyLayerButton" type="Button" parent="TerrainTools"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -48.0
-offset_top = -32.0
+offset_left = -40.0
+offset_top = -40.0
 offset_right = -8.0
-offset_bottom = -7.0
+offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
+tooltip_text = "Change Layer"
+theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
-text = "Layer"
+icon = ExtResource("6_x21v6")
 
 [node name="LineEdgeButton" type="Button" parent="TerrainTools"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 3
@@ -109,14 +142,16 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -48.0
-offset_top = -32.0
+offset_left = -40.0
+offset_top = -40.0
 offset_right = -8.0
-offset_bottom = -7.0
+offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
+tooltip_text = "Edge Style"
+theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
-text = "Edge"
+icon = ExtResource("7_nkwlo")
 
 [node name="ObjectTools" type="Control" parent="."]
 layout_mode = 1
@@ -133,16 +168,20 @@ layout_mode = 1
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 92.0
-offset_bottom = 36.0
+offset_bottom = 44.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mp7ux")
 
 [node name="ObjectSelectTool" type="Button" parent="ObjectTools/Tools"]
+unique_name_in_owner = true
 layout_mode = 2
 offset_left = 4.0
-offset_top = 3.5
-offset_right = 47.0
-offset_bottom = 28.5
+offset_top = 5.0
+offset_right = 34.0
+offset_bottom = 35.0
+tooltip_text = "Select Objects"
+theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
-text = "Select"
+icon = ExtResource("8_x7gqc")
 
 [node name="ObjectSelector" type="Control" parent="ObjectTools"]
 layout_mode = 1
@@ -156,16 +195,19 @@ mouse_filter = 1
 
 [node name="Flap" type="Button" parent="ObjectTools/ObjectSelector"]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 6
+anchor_left = 1.0
 anchor_top = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = 36.0
-offset_right = 40.0
-offset_bottom = 68.0
+offset_left = -23.0
+offset_top = 26.0
+offset_right = 30.0
+offset_bottom = 50.0
 grow_horizontal = 0
 grow_vertical = 2
 rotation = -1.5708
+theme = ExtResource("3_mmcx7")
 text = "Objects"
 
 [node name="Selector" type="Panel" parent="ObjectTools/ObjectSelector"]
@@ -177,6 +219,7 @@ offset_top = -98.0
 offset_right = 196.0
 offset_bottom = 98.0
 grow_vertical = 2
+theme = ExtResource("3_mmcx7")
 
 [node name="List" type="HFlowContainer" parent="ObjectTools/ObjectSelector/Selector"]
 clip_contents = true
@@ -199,10 +242,11 @@ anchors_preset = -1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
-offset_top = -36.0
-offset_right = 120.0
-offset_bottom = -4.0
+offset_top = -40.0
+offset_right = 124.0
+offset_bottom = -8.0
 grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hpb2m")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Modes"]
 layout_mode = 1
@@ -216,26 +260,25 @@ offset_bottom = -4.0
 grow_vertical = 2
 
 [node name="TerrainMode" type="Button" parent="Modes/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Terrain"
 mouse_filter = 1
+theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
-text = "Terrain
-"
+icon = ExtResource("9_cimw5")
+icon_alignment = 1
 
 [node name="ObjectsMode" type="Button" parent="Modes/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Objects"
 mouse_filter = 1
+theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
-text = "Objects
-"
+icon = ExtResource("10_vtoee")
 
 [connection signal="id_pressed" from="MenuButton" to="." method="menu_pressed"]
-[connection signal="pressed" from="TerrainTools/Tools/HBoxContainer/PolySelectTool" to="." method="poly_select_tool_pressed"]
-[connection signal="pressed" from="TerrainTools/Tools/HBoxContainer/VertSelectTool" to="." method="select_tool_pressed"]
-[connection signal="pressed" from="TerrainTools/Tools/HBoxContainer/LineTool" to="." method="line_tool_pressed"]
 [connection signal="pressed" from="TerrainTools/PolyLayerButton" to="." method="poly_layer_button_pressed"]
 [connection signal="pressed" from="TerrainTools/LineEdgeButton" to="." method="line_edge_button_pressed"]
-[connection signal="pressed" from="ObjectTools/Tools/ObjectSelectTool" to="." method="object_select_tool_pressed"]
 [connection signal="pressed" from="ObjectTools/ObjectSelector/Flap" to="." method="objects_flap_pressed"]
-[connection signal="pressed" from="Modes/HBoxContainer/TerrainMode" to="." method="terrain_mode_pressed"]
-[connection signal="pressed" from="Modes/HBoxContainer/ObjectsMode" to="." method="objects_mode_pressed"]

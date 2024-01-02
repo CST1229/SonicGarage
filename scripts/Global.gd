@@ -33,6 +33,9 @@ var object_list: Dictionary = {
 	monitor = obj(
 		"Item Monitor", preload("res://objects/level/Monitor/Monitor.tscn")
 	),
+	spike = obj(
+		"Spikes", preload("res://objects/level/Spike/Spike.tscn")
+	),
 };
 
 # settings
@@ -51,7 +54,7 @@ const LAYER_MONITORS = (1 << 6);
 const LAYER_A_NAME = "Collision A";
 const LAYER_B_NAME = "Collision B";
 
-var handle_theme: Theme = preload("res://sprites/themes/handle.tres");
+const UI_THEME: Theme = preload("res://sprites/ui/ui_theme.tres");
 
 var windowed_mode: Window.Mode = Window.Mode.MODE_WINDOWED;
 

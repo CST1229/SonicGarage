@@ -186,6 +186,10 @@ func tick_normal(delta: float):
 	player_react_to_collision(prev_floor, prev_velocity, delta);
 	set_hitbox_height();
 	
+	var collision: KinematicCollision2D = get_last_slide_collision();
+	if collision && collision.get_collider() is SpikeHurtbox:
+		hurt();
+	
 	player_sprites(direction);
 
 func player_control_grounded(direction: float, delta: float):
@@ -227,7 +231,7 @@ func player_control_grounded(direction: float, delta: float):
 			crouching = false;
 			rolling = false;
 			roll_sound.stop();
-		if Input.is_action_just_pressed("player_jump") && !rolling:
+		if jump_buffer > 0 && crouching && !rolling && !spindashing:
 			spindashing = true;
 			started_spindashing = true;
 			spindash_charge = 0.0;
@@ -311,6 +315,7 @@ func player_control_grounded(direction: float, delta: float):
 	velocity = Vector2(ground_speed, 0).rotated(ground_angle);
 
 func player_control_falling(direction: float, delta: float):
+	no_rollcancel = false;
 	if direction:
 		if !crouching || rolling:
 			facing_dir = direction;
@@ -434,6 +439,10 @@ func tick_hurt(delta: float):
 	on_wall = 0;
 	floor_max_angle = deg_to_rad(80);
 	
+	shape.rotation = 0;
+	sprite.rotation = 0;
+	sprite.speed_scale = 1;
+	
 	controllock_timer = 0;
 	
 	velocity.x = HURT_SPEED_X * hurt_direction;
@@ -461,6 +470,10 @@ func tick_dead(delta: float):
 	collision_layer = 0;
 	collision_mask = 0;
 	
+	shape.rotation = 0;
+	sprite.rotation = 0;
+	sprite.speed_scale = 1;
+	
 	dead_timer = move_toward(dead_timer, 0, delta);
 	if dead_timer <= 0:
 		var scene = get_tree().current_scene as EditorRoom;
@@ -470,13 +483,13 @@ func tick_dead(delta: float):
 			else:
 				scene.exit();
 
-func hurt(direction := 0):
+func hurt(direction := 0) -> bool:
 	if state != State.NORMAL || invulnerable > 0:
-		return;
+		return false;
 	
 	if Global.level_manager && Global.level_manager.rings <= 0:
 		kill();
-		return;
+		return true;
 	
 	hurt_sound.play();
 	
@@ -493,6 +506,7 @@ func hurt(direction := 0):
 		hurt_direction = direction;
 	velocity.x = HURT_SPEED_X * hurt_direction;
 	set_animation("hurt");
+	return true;
 
 # https://info.sonicretro.org/SPG:Ring_Loss#Ring_Distribution
 func scatter_rings(rings: int):
