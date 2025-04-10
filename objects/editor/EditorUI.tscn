@@ -29,37 +29,6 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_1imr5")
 
-[node name="MenuButton" type="MenuButton" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.990566
-anchor_right = 1.0
-anchor_bottom = 0.0178571
-offset_left = -34.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = 34.0
-grow_horizontal = 0
-focus_mode = 2
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 16
-icon = ExtResource("3_3i0ho")
-flat = false
-clip_text = true
-item_count = 5
-popup/item_0/text = "Save Level"
-popup/item_0/id = 0
-popup/item_1/text = "Load Level"
-popup/item_1/id = 1
-popup/item_2/text = "Clear Level"
-popup/item_2/id = 2
-popup/item_3/text = ""
-popup/item_3/id = 4
-popup/item_3/separator = true
-popup/item_4/text = "Exit"
-popup/item_4/id = 3
-script = ExtResource("2_wor00")
-
 [node name="TerrainTools" type="Control" parent="."]
 visible = false
 layout_mode = 1
@@ -77,6 +46,7 @@ offset_left = 4.0
 offset_top = 8.0
 offset_right = 196.0
 offset_bottom = 40.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_6sugx")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TerrainTools/Tools"]
@@ -85,9 +55,9 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
-offset_top = 4.0
+offset_top = 1.0
 offset_right = -4.0
-offset_bottom = -4.0
+offset_bottom = -1.0
 grow_vertical = 2
 
 [node name="PolySelectTool" type="Button" parent="TerrainTools/Tools/HBoxContainer"]
@@ -169,6 +139,7 @@ offset_left = 4.0
 offset_top = 4.0
 offset_right = 92.0
 offset_bottom = 44.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mp7ux")
 
 [node name="ObjectSelectTool" type="Button" parent="ObjectTools/Tools"]
@@ -246,6 +217,7 @@ offset_top = -40.0
 offset_right = 124.0
 offset_bottom = -8.0
 grow_vertical = 0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_hpb2m")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Modes"]
@@ -263,7 +235,6 @@ grow_vertical = 2
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Terrain"
-mouse_filter = 1
 theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
 icon = ExtResource("9_cimw5")
@@ -273,12 +244,42 @@ icon_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Objects"
-mouse_filter = 1
 theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
 icon = ExtResource("10_vtoee")
 
-[connection signal="id_pressed" from="MenuButton" to="." method="menu_pressed"]
+[node name="MenuButton" type="MenuButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.990566
+anchor_right = 1.0
+anchor_bottom = 0.0178571
+offset_left = -34.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 34.0
+grow_horizontal = 0
+focus_mode = 2
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 16
+icon = ExtResource("3_3i0ho")
+flat = false
+clip_text = true
+item_count = 5
+popup/item_0/text = "Save Level"
+popup/item_0/id = 0
+popup/item_1/text = "Load Level"
+popup/item_1/id = 1
+popup/item_2/text = "Clear Level"
+popup/item_2/id = 2
+popup/item_3/text = ""
+popup/item_3/id = 4
+popup/item_3/separator = true
+popup/item_4/text = "Exit"
+popup/item_4/id = 3
+script = ExtResource("2_wor00")
+
 [connection signal="pressed" from="TerrainTools/PolyLayerButton" to="." method="poly_layer_button_pressed"]
 [connection signal="pressed" from="TerrainTools/LineEdgeButton" to="." method="line_edge_button_pressed"]
 [connection signal="pressed" from="ObjectTools/ObjectSelector/Flap" to="." method="objects_flap_pressed"]
+[connection signal="id_pressed" from="MenuButton" to="." method="menu_pressed"]

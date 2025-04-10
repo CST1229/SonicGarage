@@ -25,6 +25,7 @@ func quit():
 	get_tree().quit();
 
 func toggle_controls():
+	print(get_tree().get_edited_scene_root());
 	menu_panel.visible = !menu_panel.visible;
 	controls_panel.visible = !controls_panel.visible;
 

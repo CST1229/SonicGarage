@@ -1,0 +1,79 @@
+[gd_scene load_steps=11 format=3 uid="uid://c85u6jwayp4be"]
+
+[ext_resource type="Script" path="res://objects/level/Spring/Spring.gd" id="1_bylbm"]
+[ext_resource type="SpriteFrames" uid="uid://c6y2il3h8ub3k" path="res://objects/level/Spring/sprites/spring.tres" id="2_5vw6i"]
+[ext_resource type="Script" path="res://objects/general/Touchbox.gd" id="3_168u6"]
+[ext_resource type="AudioStream" uid="uid://dj5ql0m486xjv" path="res://objects/level/Spring/sounds/spring.wav" id="4_d0uql"]
+[ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="5_33lpl"]
+[ext_resource type="Script" path="res://objects/general/control_handles/HandleContainer.gd" id="6_lmdxh"]
+[ext_resource type="PackedScene" uid="uid://dsdn8hir6i58f" path="res://objects/level/Spring/SpringHandle/SpringHandle.tscn" id="7_um7gj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rhwg4"]
+size = Vector2(31, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u3v7p"]
+size = Vector2(32, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yxkmp"]
+size = Vector2(24, 24)
+
+[node name="Spring" type="Node2D"]
+script = ExtResource("1_bylbm")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_5vw6i")
+animation = &"yellow_vertical"
+
+[node name="sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_d0uql")
+bus = &"SFX"
+
+[node name="body" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="shape" type="CollisionShape2D" parent="body"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_rhwg4")
+
+[node name="hitbox" type="StaticBody2D" parent="body"]
+collision_layer = 3
+collision_mask = 16
+script = ExtResource("3_168u6")
+
+[node name="hitbox_shape" type="CollisionShape2D" parent="body/hitbox"]
+position = Vector2(0.5, -6.5)
+shape = SubResource("RectangleShape2D_u3v7p")
+one_way_collision = true
+one_way_collision_margin = 3.0
+
+[node name="hitbox_diagonal" type="Area2D" parent="body"]
+visible = false
+collision_layer = 3
+collision_mask = 16
+
+[node name="hitbox_shape_diagonal" type="CollisionShape2D" parent="body/hitbox_diagonal"]
+shape = SubResource("RectangleShape2D_yxkmp")
+one_way_collision_margin = 2.0
+
+[node name="EditorObjectBounds" parent="." instance=ExtResource("5_33lpl")]
+size = Vector2(32, 16)
+
+[node name="HandleContainer" type="Control" parent="." node_paths=PackedStringArray("target")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 32.0
+offset_bottom = 32.0
+script = ExtResource("6_lmdxh")
+target = NodePath("..")
+
+[node name="SpringHandle" parent="HandleContainer" node_paths=PackedStringArray("target") instance=ExtResource("7_um7gj")]
+layout_mode = 1
+offset_top = -32.0
+offset_bottom = -24.0
+target = NodePath("../..")
+
+[connection signal="animation_finished" from="sprite" to="." method="_on_sprite_animation_finished"]
+[connection signal="animation_finished" from="sprite" to="body" method="_on_sprite_animation_finished"]
+[connection signal="touched" from="body/hitbox" to="." method="spring"]
+[connection signal="body_entered" from="body/hitbox_diagonal" to="." method="spring"]

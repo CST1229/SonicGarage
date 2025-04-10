@@ -1,12 +1,17 @@
 extends CharacterBody2D
 class_name Badnik
 
+## A style of rebound.
 enum BounceType {
+	## Normal badnik rebound.
 	NORMAL,
+	## Boss rebound.
 	BOSS,
-	NONE
+	## No rebound.
+	NONE,
 }
 
+## The type of rebound to use.
 var bounce_type := BounceType.NORMAL;
 
 # unused argument so it can be easily connected

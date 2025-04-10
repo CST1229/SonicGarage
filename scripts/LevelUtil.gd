@@ -2,6 +2,7 @@ extends Node
 
 const POP_SCENE := preload("res://objects/enemies/badnik/BadnikPop.tscn");
 
+## Spwans a [BadnikPop].
 # unused argument so it can be easily connected
 # to the hurt signal (which is the case for most badniks)
 func pop(node: Node2D):

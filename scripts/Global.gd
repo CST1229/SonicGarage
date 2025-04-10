@@ -1,8 +1,7 @@
+## global stuff
 extends Node
 
-# global stuff
-
-# this is where the level is stored between scenes
+## this is where the serialized level is stored between scenes.
 var load_level = null;
 
 var level_manager: LevelManager = null;
@@ -16,7 +15,7 @@ func obj(ui_name: String, scene: PackedScene):
 	def.scene = scene;
 	return def;
 
-# list of objects (used by deserialization)
+## The list of objects (used by deserialization).
 var object_list: Dictionary = {
 	layer_switcher = obj(
 		"Layer Switcher", preload("res://objects/level/LayerSwitcher/LayerSwitcher.tscn")
@@ -35,6 +34,9 @@ var object_list: Dictionary = {
 	),
 	spike = obj(
 		"Spikes", preload("res://objects/level/Spike/Spike.tscn")
+	),
+	spring = obj(
+		"Spring", preload("res://objects/level/Spring/Spring.tscn")
 	),
 };
 

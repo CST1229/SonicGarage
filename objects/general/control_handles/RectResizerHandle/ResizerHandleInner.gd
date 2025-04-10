@@ -1,8 +1,8 @@
+## An inner handle used by RectResizerHandle.
+##
+## This is what actually scales the object
+## and is shown to the user.
 extends Control
-
-# an inner handle used by RectResizerHandle
-# this is what actually scales the object
-# and is shown to the user
 
 const HANDLE_RADIUS = 4;
 

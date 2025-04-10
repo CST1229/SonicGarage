@@ -256,7 +256,7 @@ theme_override_font_sizes/font_size = 12
 text = "Back
 "
 
-[node name="Credits" type="RichTextLabel" parent="CanvasLayer/Controls"]
+[node name="Controls" type="RichTextLabel" parent="CanvasLayer/Controls"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

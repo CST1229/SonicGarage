@@ -1,4 +1,5 @@
-extends Node;
+## A global level manager.
+extends Node
 class_name LevelManager
 
 var rings: int = 0;

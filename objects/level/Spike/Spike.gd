@@ -5,6 +5,10 @@ extends StaticBody2D
 func play_sound():
 	spike_sound.play();
 
+func _on_hurtbox_touched(node: Node2D):
+	if node is Player:
+		node.hurt();
+
 func serialize():
 	return {
 		id = "spike",

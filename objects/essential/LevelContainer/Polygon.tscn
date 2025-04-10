@@ -15,16 +15,14 @@ collision_priority = 5.0
 
 [node name="polygon" type="Polygon2D" parent="."]
 clip_children = 2
-z_index = -2
-
-[node name="shadow_polygon" type="Polygon2D" parent="."]
-clip_children = 1
 z_index = -1
 
-[node name="shadow_decor" type="Node2D" parent="shadow_polygon"]
+[node name="shadow_decor" type="Node2D" parent="polygon"]
+modulate = Color(1, 1, 1, 0.6)
 script = ExtResource("2_23k0x")
 is_shadow = true
 
 [node name="decor" type="Node2D" parent="."]
-show_behind_parent = true
+z_index = -1
 script = ExtResource("2_23k0x")
+is_shadow = null

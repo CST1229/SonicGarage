@@ -1,67 +1,96 @@
+## Handles editing the level. Usually controlled by an [EditorUI].
 extends Node2D
 class_name LevelEditor
 
+## The level to control.
 @export var container: LevelContainer = null;
+## The camera to control.
 @export var camera: Camera2D = null;
 
-# the object detector looks for objects or polygons
-# (this is used when selecting them)
+## The object detector looks for objects or polygons
+## (this is used when selecting them).
 @onready var object_detector: Area2D = $object_detector;
+## THe collision shape of the object detector.
 @onready var object_detector_shape: CollisionShape2D = $object_detector/shape;
 
+## Modes are essentially completely different work modes,
+## with their own set of tools.
 enum Mode {
 	TERRAIN,
 	OBJECTS,
 }
 
+## Tools are mode-specific.
 enum Tool {
+	## Lets you select whole polygons (to change collision layer, etc).
 	POLY_SELECT,
+	## Lets you select individual vertices.
 	VERT_SELECT,
+	## Lets you create polygons by drawing lines.
 	LINE,
 	
+	## Lets you select objects.
 	OBJECT_SELECT,
+	## Lets you place objects.
 	OBJECT_PLACE,
 }
 
+## Drawing modes.
 enum DrawingMode {
+	## Nothing is currently being drawn.
 	NONE,
+	## The line tool.
 	LINE,
+	## The vertex select tool, moving vertices.
 	MOVE_VERT,
+	## The vertex/object select tool, drawing a rectangle.
 	RECT_SELECT,
 	
+	## The object select tool, moving objects.
 	MOVE_OBJECT,
 }
 
+## The current drawing mode.
 var drawing: DrawingMode = DrawingMode.NONE;
+## The polygon currently being drawn.
 var drawing_polygon: Array[Vertex] = [];
+## A list of selected vertices.
 var selected_verts: Array[Vertex] = [];
 
-# a list of nodes to not select/deselect in the rect select mode.
-# when multiselecting this is set to the list of already selected objects
-# so you don't deselect objects you already selected
+## A list of nodes to not select/deselect in the rect select mode.
+## When multiselecting, this is set to the list of already selected objects
+## so you don't deselect objects you already selected.
 var ignore_select_objects: Array[Node] = [];
-
+## The size of the grid.
 var grid_size: float = 8;
+## The maximum speed the camera scrolls at
+## (can be lower with analog controls),
 const SCROLL_SPEED = 200;
 
-# vertex stuff
+## The vertex that is currently being snapped to.
 var snapped_vert: Vertex;
+## The distance that vertex snapping should happen.
 const VERT_SNAP: float = 10 ** 2;
 
+## The currently selected tool.
 var mode: Mode = Mode.TERRAIN;
+## The currently selected tool.
 var tool: Tool = Tool.VERT_SELECT;
 
-# mouse things
+## The grid-snapped position of the mouse.
 var mouse_pos: Vector2 = Vector2.ZERO;
+## The non-grid-snapped position of the mouse.
 var actual_mp: Vector2 = Vector2.ZERO;
+## The distance the mouse moved this frame.
 var mouse_move: Vector2 = Vector2.ZERO;
 
-# rect select stuff
+## The origin of the selection rectangle.
 var select_origin: Vector2 = Vector2.ZERO;
+## The selection rectangle itself.
 var select_rect: Rect2;
 
-# object to place
-# setter does ghost object stuff
+## The object ID to place.
+## Setter does ghost object stuff.
 var place_object = null:
 	set(value):
 		place_object = value;
@@ -73,15 +102,19 @@ var place_object = null:
 			ghost_object.visible = !hovering_over_gui;
 			ghost_object.modulate = Color(1, 1, 1, 0.5);
 			add_child(ghost_object);
-# the "ghost object" is the ghost of an object,
-# used in the object place mode.
-# it's actually a full-on instance of the object
+## The "ghost object" is the ghost of an object,
+## used in the object place mode.
+## It's actually a full-on instance of the object.
 var ghost_object: Node = null;
 
+## Whether the mouse is hovering over GUI or not.
+## If true, clicking actions will be ignored.
 var hovering_over_gui: bool = false;
 
+## Color of drawn lines.
 const DRAWING_LINE_COLOR: Color = Color("ffffff88");
-const POLYGON_SCENE = preload("res://objects/essential/LevelContainer/Polygon.tscn");
+## for some reason preloading this scene makes it not work?????
+var POLYGON_SCENE = load("res://objects/essential/LevelContainer/Polygon.tscn");
 
 func _ready():
 	_process(0.16);
@@ -111,6 +144,8 @@ func _draw():
 		elif select_rect.size.x > 0 && select_rect.size.y > 0:
 			draw_rect(select_rect, Color.WHITE, true);
 
+## Finishes drawing. If [param cancel] is true,
+## cancels the drawing instead of finishing it.
 func finish_drawing(cancel: bool):
 	if drawing == DrawingMode.NONE: return;
 	if cancel:
@@ -219,21 +254,24 @@ func _process(delta: float):
 	handle_delete();
 	queue_redraw();
 
+## Handles the camera scroll controls.
 func scroll_camera(delta: float):
 	if camera:
 		var scroll_x := Input.get_axis("editor_scroll_left", "editor_scroll_right");
 		var scroll_y := Input.get_axis("editor_scroll_up", "editor_scroll_down");
-		if Input.is_action_pressed("editor_scroll_fast"):
-			scroll_x *= 3;
-			scroll_y *= 3;
+		var multiplier = 1 + Input.get_action_strength("editor_scroll_fast") * 2;
+		scroll_x *= multiplier;
+		scroll_y *= multiplier;
 		camera.position.x += scroll_x * SCROLL_SPEED * delta;
 		camera.position.y += scroll_y * SCROLL_SPEED * delta;
 
+## Updates the ghost object.
 func update_ghost_object():
 	if ghost_object:
 		ghost_object.position = mouse_pos;
 		ghost_object.visible = !hovering_over_gui;
 
+## Updates the object detector.
 func update_object_detector():
 	if drawing != DrawingMode.RECT_SELECT:
 		object_detector.position = actual_mp;
@@ -242,6 +280,7 @@ func update_object_detector():
 		object_detector.position = select_rect.position + (select_rect.size / 2.0);
 		object_detector_shape.shape.size = select_rect.size;
 
+## Handles stuff that happens when the Delete button is pressed.
 func handle_delete():
 	if Input.is_action_pressed("editor_delete"):
 		var polys: Array[Polygon] = [];
@@ -260,8 +299,8 @@ func handle_delete():
 		deselect_objects();
 		selection_changed.emit();
 
-# things that should only run while not hoveringhover gui
-# (mostly clicking)
+## Things that should only run while not hovering over gui
+## (mostly clicking).
 func _unhandled_input(ev: InputEvent):
 	if drawing == DrawingMode.NONE:
 		if ev.is_action_pressed("editor_click"):
@@ -338,7 +377,7 @@ func _unhandled_input(ev: InputEvent):
 					
 					if !Input.is_action_pressed("editor_multiselect") && !clicked_object.is_in_group(&"selected_polygons"):
 						deselect_polygons();
-					if !Input.is_action_pressed("editor_multiselect") || !clicked_object.selected:
+					if !Input.is_action_pressed("editor_multiselect") || !clicked_object.is_in_group(&"selected_polygons"):
 						select_polygon(clicked_object);
 						drawing = DrawingMode.MOVE_OBJECT;
 						

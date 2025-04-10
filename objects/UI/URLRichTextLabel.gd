@@ -1,3 +1,4 @@
+## RichTextLabel if it was good
 extends RichTextLabel
 
 func _ready():

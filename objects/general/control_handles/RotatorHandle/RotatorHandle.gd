@@ -1,6 +1,5 @@
+## A control handle that lets you rotate an object.
 extends Control
-
-# a control handle that lets you rotate an object
 
 @export_range(0, 6.28319) var snap: float = deg_to_rad(45);
 @export var target: Node2D;
@@ -10,9 +9,6 @@ extends Control
 var dragging: bool = false;
 var drag_offset: Vector2 = Vector2.ZERO;
 
-func _ready():
-	pass # Replace with function body.
-
 func _process(_delta: float):
 	if dragging:
 		var target_pos := target.global_position;
@@ -20,7 +16,7 @@ func _process(_delta: float):
 		
 		var angle: float = target_pos.angle_to_point(mouse_pos) + deg_to_rad(90);
 		if snap > 0.0:
-			angle = roundf(angle / snap) * snap;
+			angle = snappedf(angle, snap);
 		target.rotation = angle;
 		
 		if !Input.is_action_pressed("editor_click"):

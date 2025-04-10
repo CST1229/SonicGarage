@@ -51,5 +51,3 @@ func _physics_process(delta: float):
 			move_speed = 28 * 60;
 		
 		global_position.y = move_toward(global_position.y, target.global_position.y + v_focus, move_speed * delta);
-	
-	global_position = global_position.floor();

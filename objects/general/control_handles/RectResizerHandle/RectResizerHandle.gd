@@ -1,8 +1,8 @@
+## A control handle that lets the user resize the object as a rectangle.
+##
+## Requires a "size" property on the target object,
+## and is made for objects which scale from the center.
 extends Control
-
-# a control handle that lets the user resize the object as a rectangle.
-# requires a "size" property on the target object,
-# and is made for objects which scale from the center
 
 @export var snap: Vector2 = Vector2.ONE;
 

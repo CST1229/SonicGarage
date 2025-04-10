@@ -23,14 +23,14 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.188235, 0.376471, 0.815686, 0.266667)
 
+[node name="LevelContainer" parent="." node_paths=PackedStringArray("editor") instance=ExtResource("1_xpaws")]
+editor_mode = true
+editor = NodePath("../LevelEditor")
+
 [node name="PlayerGhost" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.498039)
 texture = ExtResource("4_3eiji")
 offset = Vector2(1, 0)
-
-[node name="LevelContainer" parent="." node_paths=PackedStringArray("editor") instance=ExtResource("1_xpaws")]
-editor_mode = true
-editor = NodePath("../LevelEditor")
 
 [node name="Camera" type="Camera2D" parent="."]
 editor_draw_screen = false

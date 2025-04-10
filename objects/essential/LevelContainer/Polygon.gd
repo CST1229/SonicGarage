@@ -1,11 +1,11 @@
+## A Polygon is a part of the terrain, made out of [Vertex]es.
 extends Node2D
 class_name Polygon
 
-# a polygon is a part of the terrain.
-# it's made out of Vertices
-
 var vertices: Array[Vertex] = [];
+## An array of [Vertex]es after being parsed, e.g flattening curves.
 var parsed_vertices: Array[Vertex] = [];
+var decor_sections: Array[DecorSection];
 var vectors: PackedVector2Array = PackedVector2Array();
 var valid: bool = false;
 
@@ -24,8 +24,7 @@ var container: LevelContainer;
 @onready var collision_polygon: CollisionPolygon2D = $collision/collision_polygon;
 @onready var fill: Polygon2D = $polygon;
 @onready var decor: PolygonDecoration = $decor;
-@onready var shadow_clip: Polygon2D = $shadow_polygon;
-@onready var shadow_decor: PolygonDecoration = $shadow_polygon/shadow_decor;
+@onready var shadow_decor: PolygonDecoration = $polygon/shadow_decor;
 
 func _ready():
 	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED;
@@ -46,8 +45,10 @@ func redraw():
 	shadow_decor.visible = valid;
 	if valid:
 		decor.parsed_vertices = parsed_vertices;
+		decor.decor_sections = decor_sections;
 		decor.queue_redraw();
 		shadow_decor.parsed_vertices = parsed_vertices;
+		shadow_decor.decor_sections = decor_sections;
 		shadow_decor.queue_redraw();
 	queue_redraw();
 
@@ -85,8 +86,9 @@ func _draw():
 func update_polygon():
 	vectors.clear();
 	parsed_vertices.clear();
-	for vert in vertices:
-		vectors.append(vert.position);
+	for vert: Vertex in vertices:
+		var vect := vert.position;
+		vectors.append(vect);
 		parsed_vertices.append(vert);
 	if Geometry2D.is_polygon_clockwise(vectors):
 		vectors.reverse();
@@ -97,14 +99,14 @@ func update_polygon():
 	var triangulated = Geometry2D.triangulate_polygon(vectors);
 	valid = triangulated.size() > 0;
 	fill.visible = valid;
-	shadow_clip.visible = valid;
 	if valid:
 		collision_polygon.polygon = vectors;
 		fill.polygon = vectors;
-		shadow_clip.polygon = vectors;
 		fill.texture = preload("res://sprites/level_themes/GreenHill/checkerboard.png")
+		decor_sections = LevelDrawing.compute_decor(parsed_vertices);
 	else:
 		collision_polygon.polygon = PackedVector2Array();
+		decor_sections = [];
 	redraw();
 
 func update_layer():

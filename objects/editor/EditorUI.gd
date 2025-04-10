@@ -1,5 +1,8 @@
+## Handles the editor's UI. Controls a [LevelEditor].
 extends Control
+class_name EditorUI
 
+## The [LevelEditor] to control.
 @export var editor: LevelEditor;
 
 @onready var terrain_tools = $TerrainTools;
@@ -13,6 +16,7 @@ extends Control
 var objects_flap_open: bool = false;
 var objects_flap_transition: float = 0;
 
+## A list of object IDs to use in the object selector.
 var listed_objects: Array[String] = [
 	"ring",
 	"layer_switcher",
@@ -20,18 +24,22 @@ var listed_objects: Array[String] = [
 	"motobug",
 	"monitor",
 	"spike",
+	"spring",
 ];
 
+## A map of [enum LevelEditor.Tool] to a [Button] that selects the tool.
 @onready var tool_buttons = {
 	LevelEditor.Tool.POLY_SELECT: %PolySelectTool,
 	LevelEditor.Tool.VERT_SELECT: %VertSelectTool,
 	LevelEditor.Tool.LINE: %LineTool,
 	LevelEditor.Tool.OBJECT_SELECT: %ObjectSelectTool,
 };
+## A map of [enum LevelEditor.Mode] to a [Button] that selects the mode.
 @onready var mode_buttons = {
 	LevelEditor.Mode.TERRAIN: %TerrainMode,
 	LevelEditor.Mode.OBJECTS: %ObjectsMode,
 };
+## The default [enum LevelEditor.Tool]s for each [LevelEditor.Mode].
 @onready var mode_default_tools = {
 	LevelEditor.Mode.TERRAIN: LevelEditor.Tool.VERT_SELECT,
 	LevelEditor.Mode.OBJECTS: LevelEditor.Tool.OBJECT_SELECT,
@@ -81,12 +89,13 @@ func populate_object_list(objects: Array[String]):
 		button.text = obj.name;
 		object_list.add_child(button);
 
+## Selects an object ID to place.
 func select_object(obj_id: String):
 	select_mode(LevelEditor.Mode.OBJECTS, LevelEditor.Tool.OBJECT_PLACE);
 	select_tool(LevelEditor.Tool.OBJECT_PLACE);
 	editor.place_object = obj_id;
 
-# mode switching
+## Selects a [enum LevelEditor.Tool].
 func select_tool(t: LevelEditor.Tool):
 	objects_flap_open = false;
 	if t != LevelEditor.Tool.OBJECT_PLACE: objects_flap_transition = 0;
@@ -100,6 +109,7 @@ func select_tool(t: LevelEditor.Tool):
 		var button: Button = tool_buttons[tool];
 		button.theme_type_variation = &"SelectedButton" if editor.tool == tool else &"Button";
 
+## Selects a [enum LevelEditor.Mode] and a default [enum LevelEditor.Tool].
 func select_mode(m: LevelEditor.Mode, t: LevelEditor.Tool):
 	objects_flap_open = false;
 	if t != LevelEditor.Tool.OBJECT_PLACE: objects_flap_transition = 0;
@@ -114,6 +124,7 @@ func select_mode(m: LevelEditor.Mode, t: LevelEditor.Tool):
 		var button: Button = mode_buttons[mode];
 		button.theme_type_variation = &"SelectedButton" if editor.mode == mode else &"Button";
 
+## Helper function for [method select_mode].
 func tools_visible(tools: Node, m: LevelEditor.Mode):
 	if tools:
 		tools.visible = editor.mode == m;
@@ -156,5 +167,7 @@ func poly_layer_button_pressed():
 func line_edge_button_pressed():
 	editor.line_edge_button();
 
+## Fired when hovering over any GUI element.
 signal hover_over_gui
+## Fired when dehovering from any GUI element.
 signal dehover_over_gui

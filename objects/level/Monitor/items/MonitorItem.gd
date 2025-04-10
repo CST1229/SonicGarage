@@ -1,3 +1,4 @@
+## An item that pops up from a [Monitor].
 extends AnimatedSprite2D
 class_name MonitorItem
 

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d3enod7glh1k2" path="res://objects/level/Spike/sprites/spikes.png" id="2_uj04i"]
 [ext_resource type="AudioStream" uid="uid://c2lw8neqs0rqf" path="res://objects/essential/Player/sounds/spike.wav" id="3_7oaxf"]
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="4_c622h"]
-[ext_resource type="Script" path="res://objects/general/SpikeHurtbox.gd" id="5_f3tjn"]
+[ext_resource type="Script" path="res://objects/general/Touchbox.gd" id="5_hyikx"]
 [ext_resource type="Script" path="res://objects/general/control_handles/HandleContainer.gd" id="6_0gxb3"]
 [ext_resource type="PackedScene" uid="uid://cf7cd7p1j51lc" path="res://objects/general/control_handles/RotatorHandle/RotatorHandle.tscn" id="7_yugeh"]
 
@@ -37,7 +37,7 @@ size = Vector2(32, 32)
 [node name="hurtbox" type="StaticBody2D" parent="."]
 collision_layer = 3
 collision_mask = 16
-script = ExtResource("5_f3tjn")
+script = ExtResource("5_hyikx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
 position = Vector2(0, -14.75)
@@ -64,3 +64,5 @@ offset_top = -12.0
 offset_bottom = -4.0
 grow_horizontal = 2
 target = NodePath("../..")
+
+[connection signal="touched" from="hurtbox" to="." method="_on_hurtbox_touched"]

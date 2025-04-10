@@ -1,8 +1,7 @@
+## Switches the player between layers.
+## Most of the code is editor-related stuff.
 @tool
 extends Node2D
-
-# switches the player between layers.
-# most of this is editor-related stuff
 
 @onready var area: Area2D = $area;
 @onready var shape: CollisionShape2D = $area/shape;
@@ -31,7 +30,7 @@ var layer_num: int = 1;
 		update_icons();
 		queue_redraw();
 
-# "grounded only" layer switchers only work when the player is on the ground
+## "Grounded only" layer switchers only work when the player is on the ground-
 @export var grounded_only: bool = false:
 	set(value):
 		grounded_only = value;

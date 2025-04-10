@@ -28,6 +28,7 @@ func _ready():
 	if !item_node:
 		update_item();
 	sprite.play("default");
+	update_item_handle();
 
 func update_item():
 	if item_node:
@@ -74,7 +75,7 @@ func on_hit_hitbox(body: Node2D):
 		return;
 	var player: Player = body as Player;
 	
-	if player.velocity.y < 0 && (player.falling >= 0.075 || player.jumping):
+	if player.velocity.y <= 0 && (player.falling >= 0.075 || player.jumping || player.springing):
 		if player.global_position.y >= (global_position.y + 16):
 			velocity.y = -1.5 * 60;
 			gravity = 0.21875 * 60 * 60;

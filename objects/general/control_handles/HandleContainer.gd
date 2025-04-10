@@ -1,16 +1,20 @@
+## Contains control handles for customizing objects.
+##
+## Gets destroyed when not in the editor,
+## and otherwise shown/hidden while the object is selected/deselected.
+## Is to be placed inside objects, like:
+## [codeblock]
+## AnObject
+## |- [Control]<script: HandleContainer> ([member HandleContainer.target] = AnObject)
+##    |- [RectResizerHandle] ([member RectResizerHandle.target] = AnObject)
+## [/codeblock]
 extends Control
+class_name HandleContainer
 
-# contains control handles.
-# gets destroyed when not in the editor
-# and otherwise shown/hidden while the object is selected/deselected
-# to be placed inside objects, like:
-#
-# AnObject
-# |- Control<script: HandleContainer> (target = AnObject)
-#    |- RectResizerHandle (target = AnObject)
-
-# the node the container looks for
+## The node the container is for.
 @export var target: Node;
+## The editor to check for. If none is present,
+## the container destroys itself.
 var editor: LevelEditor;
 
 var use_size = false;
@@ -34,8 +38,8 @@ func update_size():
 	size = target.size;
 	position = size * -0.5;
 
-# find the level container
-# TODO maybe this should be part of EditorLib
+## Finds the level container.
+## TODO: maybe this should be part of [EditorLib].
 func find_container():
 	var container = self;
 	while !(container is LevelContainer):

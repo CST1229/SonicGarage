@@ -1,9 +1,8 @@
+## A room used by the editor and custom levels.
+##
+## This handles loading the level and switching between playtest modes.
 extends Node2D
 class_name EditorRoom
-
-# a room used by the editor
-# (and custom levels)
-# this handles loading the level and switching between playtest modes
 
 @export var level_container: Node2D;
 @export_file("*.tscn", "*.scn") var playtest_room: String;

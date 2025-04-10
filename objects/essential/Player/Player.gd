@@ -1,15 +1,21 @@
+## The player.
+##
+## HUGE thanks to the Sonic Physics Guide!!
+## https://info.sonicretro.org/Sonic_Physics_Guide
 extends CharacterBody2D
 class_name Player
 
-# HUGE thanks to the Sonic Physics Guide
-# https://info.sonicretro.org/Sonic_Physics_Guide
-
+## If true, enables stuff like instant speed boosts.
 const DEBUG_MODE := false;
 
 enum State {
+	## Normal gameplay.
 	NORMAL,
+	## Level completion state.
 	LEVEL_COMPLETE,
+	## Hurt state.
 	HURT,
+	## Death state.
 	DEAD,
 }
 var state := State.NORMAL;
@@ -72,6 +78,8 @@ var jumping := false;
 var crouching := false;
 var rolling := false;
 var on_floor := 0.0;
+var springing := false;
+var just_sprung := 0;
 
 var controllock_timer := 0.0;
 var jump_buffer := 0.0;
@@ -142,12 +150,12 @@ func _physics_process(delta: float):
 			tick_hurt(delta);
 		State.DEAD:
 			tick_dead(delta);
+	
+	if just_sprung > 0:
+		just_sprung -= 1;
 
 func tick_normal(delta: float):
-	if is_on_floor():
-		falling = 0;
-	
-	var direction: float = Input.get_axis("player_left", "player_right");
+	var direction: float = signf(Input.get_axis("player_left", "player_right"));
 	if controllock_timer > 0:
 		controllock_timer = move_toward(controllock_timer, 0, delta);
 		if falling < 0.1:
@@ -187,8 +195,8 @@ func tick_normal(delta: float):
 	set_hitbox_height();
 	
 	var collision: KinematicCollision2D = get_last_slide_collision();
-	if collision && collision.get_collider() is SpikeHurtbox:
-		hurt();
+	if collision && collision.get_collider() is Touchbox:
+		collision.get_collider().touched.emit(self);
 	
 	player_sprites(direction);
 
@@ -308,7 +316,7 @@ func player_control_grounded(direction: float, delta: float):
 	if direction != 0 && signf(ground_speed) != -signf(direction) && !crouching:
 		facing_dir = direction;
 	
-	if is_on_wall():
+	if is_on_wall() && !just_sprung:
 		ground_speed = 0;
 	
 	# apply the ground speed
@@ -381,9 +389,11 @@ func player_react_to_collision(prev_floor: bool, prev_velocity: Vector2, delta: 
 			roll_sound.play();
 		
 		const SNAP = deg_to_rad(45);
-		shape.rotation = round(-up_direction.angle_to(Vector2.UP) / SNAP) * SNAP;
+		shape.rotation = snappedf(-up_direction.angle_to(Vector2.UP), SNAP);
 		# shape.rotation = -up_direction.angle_to(Vector2.UP);
 		on_floor += delta;
+	if is_on_floor():
+		falling = 0;
 
 func set_hitbox_height():
 	# in the classic games, crouching makes your hitbox thinner too
@@ -529,7 +539,7 @@ func scatter_rings(rings: int):
 		
 		ring.global_position = global_position;
 		ring.velocity.x = cos(ring_angle) * ring_speed;
-		ring.velocity.y = sin(ring_angle) * ring_speed;
+		ring.velocity.y = sin(ring_angle) * -ring_speed;
 		
 		if ring_flip:
 			ring.velocity.x *= -1;
@@ -566,7 +576,7 @@ func player_sprites(direction: float):
 	elif falling > COYOTE_TIME:
 		if crouching:
 			set_animation("crouch");
-		elif velocity.y < -200:
+		elif velocity.y < -200 || (springing && velocity.y < 0):
 			set_animation("spring");
 		elif absf(ground_speed) >= RUN_SPEED:
 			set_animation("run");

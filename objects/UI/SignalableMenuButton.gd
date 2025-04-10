@@ -1,6 +1,5 @@
+## MenuButton if it was good
 extends MenuButton
-
-# MenuButton if it was good
 
 func _ready():
 	get_popup().id_pressed.connect(_on_id_pressed);

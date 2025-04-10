@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b8q0kjk13674u"]
+[gd_scene load_steps=9 format=3 uid="uid://b8q0kjk13674u"]
 
 [ext_resource type="Script" path="res://objects/level/Monitor/Monitor.gd" id="1_3s5mw"]
 [ext_resource type="SpriteFrames" uid="uid://btcw48fsrt1hl" path="res://objects/level/Monitor/sprites/monitor.tres" id="2_2trqc"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="4_3hsxn"]
 [ext_resource type="Script" path="res://objects/general/control_handles/HandleContainer.gd" id="5_b3oyq"]
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="6_2d471"]
-[ext_resource type="Script" path="res://objects/level/Monitor/MonitorItemHandle.gd" id="7_541oi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_okmh3"]
 size = Vector2(30, 30)
@@ -54,7 +53,7 @@ offset_bottom = 16.0
 script = ExtResource("5_b3oyq")
 target = NodePath("..")
 
-[node name="MonitorItemHandle" type="Button" parent="HandleContainer" node_paths=PackedStringArray("target")]
+[node name="MonitorItemHandle" type="Button" parent="HandleContainer"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -67,8 +66,6 @@ grow_horizontal = 2
 theme = ExtResource("6_2d471")
 theme_type_variation = &"HandleButton"
 icon_alignment = 1
-script = ExtResource("7_541oi")
-target = NodePath("../..")
 
 [connection signal="body_entered" from="hitbox" to="." method="on_hit_hitbox"]
 [connection signal="pressed" from="HandleContainer/MonitorItemHandle" to="." method="_on_item_handle_pressed"]

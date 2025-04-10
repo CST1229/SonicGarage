@@ -1,18 +1,20 @@
+## Utility functions used by the editor.
 extends Node
 
-# utility functions used by the editor
-
+## Creates a Vertex object with a position.
 func create_vertex(pos: Vector2) -> Vertex:
 	var vert := Vertex.new();
 	vert.position = pos;
 	return vert;
 
+## Properly removes a Vertex object.
 func delete_vertex(vert: Vertex):
 	if !vert.polygon: return;
 	vert.polygon.vertices.erase(vert);
 	if vert.polygon.vertices.size() < 3:
 		vert.polygon.queue_free();
 
+## Creates an object from an object ID.
 func create_object(id: String, container: LevelContainer = null) -> Node2D:
 	if !(id in Global.object_list):
 		return null;
@@ -22,15 +24,20 @@ func create_object(id: String, container: LevelContainer = null) -> Node2D:
 	if container && "container" in node: node.container = container;
 	return node;
 
+## The fill color of vertices.
+## epic CST color yay
 const VERT_COLOR = Color("#639bff");
+## The outline color of vertices.
 const VERT_OUTLINE_COLOR = Color("ffffff");
 
+## Draws a vertex at a certain position.
 func draw_vert(to: CanvasItem, pos: Vector2, alpha: float = 1, selected: bool = false):
 	var blend := Color(1, 1, 1, alpha);
 	var radius := 4.0 if !selected else 6.0;
 	to.draw_circle(pos, radius + 1, VERT_OUTLINE_COLOR * blend);
 	to.draw_circle(pos, radius, VERT_COLOR * blend);
 
+## Saves a level to a path.
 func save_level(status: bool, selected_paths: PackedStringArray, selected_filter_index: int):
 	if !status: return;
 	if selected_paths.size() < 1: return;
@@ -47,12 +54,15 @@ func save_level(status: bool, selected_paths: PackedStringArray, selected_filter
 		return;
 	file.store_string(JSON.stringify(Global.load_level));
 
+## Loads a level for editing.
 func load_level_editor(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
 	_load_level(true, status, selected_paths, _selected_filter_index);
 
+## Loads a level for playing.
 func load_level_play(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
 	_load_level(false, status, selected_paths, _selected_filter_index);
 
+## Loads a level.
 func _load_level(editor: bool, status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
 	if !status: return;
 	if selected_paths.size() < 1: return;

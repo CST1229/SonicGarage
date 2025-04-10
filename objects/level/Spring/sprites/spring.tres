@@ -1,0 +1,65 @@
+[gd_resource type="SpriteFrames" load_steps=11 format=3 uid="uid://c6y2il3h8ub3k"]
+
+[ext_resource type="Texture2D" uid="uid://03si4r43wqu4" path="res://objects/level/Spring/sprites/red_diag1.png" id="1_amfru"]
+[ext_resource type="Texture2D" uid="uid://j6y1qv7vropl" path="res://objects/level/Spring/sprites/red_diag2.png" id="2_tx7k3"]
+[ext_resource type="Texture2D" uid="uid://ba7bymo4aedak" path="res://objects/level/Spring/sprites/red_diag3.png" id="3_usc65"]
+[ext_resource type="Texture2D" uid="uid://c6ttpcot6x3av" path="res://objects/level/Spring/sprites/red_vert1.png" id="4_rjquw"]
+[ext_resource type="Texture2D" uid="uid://magvkqmljtlv" path="res://objects/level/Spring/sprites/red_vert2.png" id="5_0s7io"]
+[ext_resource type="Texture2D" uid="uid://btfdu3jagibig" path="res://objects/level/Spring/sprites/yellow_diag1.png" id="6_y7tq4"]
+[ext_resource type="Texture2D" uid="uid://5djp0ah6nthi" path="res://objects/level/Spring/sprites/yellow_diag2.png" id="7_o8ebg"]
+[ext_resource type="Texture2D" uid="uid://ovvj0lyngg2r" path="res://objects/level/Spring/sprites/yellow_diag3.png" id="8_upm8l"]
+[ext_resource type="Texture2D" uid="uid://dd17xyiqpcpg1" path="res://objects/level/Spring/sprites/yellow_vert1.png" id="9_udlox"]
+[ext_resource type="Texture2D" uid="uid://bqi00tvfapcil" path="res://objects/level/Spring/sprites/yellow_vert2.png" id="10_00uui"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_amfru")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_tx7k3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_usc65")
+}],
+"loop": false,
+"name": &"red_diagonal",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_rjquw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_0s7io")
+}],
+"loop": false,
+"name": &"red_vertical",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_y7tq4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_o8ebg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_upm8l")
+}],
+"loop": false,
+"name": &"yellow_diagonal",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_udlox")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_00uui")
+}],
+"loop": false,
+"name": &"yellow_vertical",
+"speed": 10.0
+}]

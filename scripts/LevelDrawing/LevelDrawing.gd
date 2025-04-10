@@ -1,13 +1,16 @@
+## Functions for drawing levels.
 extends Node
 
-func draw_ghz_grass(to: CanvasItem, verts: Array[Vertex], is_shadow: bool):
-	const edge_tex := preload("res://sprites/level_themes/GreenHill/grass_edge.png");
-	const grass_tex := preload("res://sprites/level_themes/GreenHill/grass.png");
-	
+## Computes what decor (e.g grass edges) to render, based off of vertices.
+func compute_decor(verts: Array[Vertex]) -> Array[DecorSection]:
 	var grass_angle := deg_to_rad(70);
 	
-	var grass_section := PackedVector2Array();
-	var is_grass := false;
+	var current_decor_type := Decor.NONE;
+	var prev_section_type := current_decor_type;
+	var current_section: PackedVector2Array = PackedVector2Array();
+	var _sections: Dictionary = {};
+	# List of decoration sections to render
+	var sections_arr: Array[DecorSection] = [];
 	
 	var size: int = verts.size();
 	var vert: Vertex;
@@ -16,31 +19,48 @@ func draw_ghz_grass(to: CanvasItem, verts: Array[Vertex], is_shadow: bool):
 		vert = verts[i];
 		next_vert = verts[(i + 1) % size];
 		
-		var prev_grass = is_grass;
-		is_grass = false;
+		prev_section_type = current_decor_type;
 		
+		current_decor_type = Decor.NONE;
 		if vert.edge == "auto" && absf(vert.position.angle_to_point(next_vert.position)) <= grass_angle: 
-			is_grass = true;
-		if is_grass:
-			grass_section.append(vert.position);
+			current_decor_type = Decor.GHZ_GRASS;
 		
-		if !is_grass && prev_grass:
-			grass_section.append(vert.position);
-			LevelDrawing.draw_grass_section(to, grass_section, grass_tex, is_shadow, edge_tex);
-			grass_section.clear();
-	if is_grass:
-		grass_section.append(next_vert.position);
-		LevelDrawing.draw_grass_section(to, grass_section, grass_tex, is_shadow, edge_tex);
-		grass_section.clear();
+		if current_decor_type != prev_section_type:
+			if prev_section_type != Decor.NONE && current_section.size() >= 1:
+				current_section.append(vert.position);
+				sections_arr.append(DecorSection.create(prev_section_type, current_section));
+			else:
+				current_section = PackedVector2Array();
+				current_section.append(vert.position);
+		elif current_decor_type != Decor.NONE:
+			current_section.append(vert.position);
+	if current_decor_type != Decor.NONE && current_section.size() >= 1:
+		current_section.append(next_vert.position);
+		sections_arr.append(DecorSection.create(current_decor_type, current_section));
+	
+	return sections_arr;
 
-func draw_grass_section(to: CanvasItem, section: PackedVector2Array, tex: Texture2D, is_shadow: bool = false, edge_tex: Texture2D = null):
-	if section.size() <= 0: return;
+func draw_decor(to: CanvasItem, sections: Array[DecorSection], is_shadow: bool):
+	var size: int = sections.size();
+	var section: DecorSection;
+	for i: int in range(size):
+		section = sections[i];
+		
+		match section.decor.type:
+			&"grass":
+				LevelDrawing.draw_grass_section(to, section, is_shadow);
+
+func draw_grass_section(to: CanvasItem, section: DecorSection, is_shadow: bool = false):
+	var verts: PackedVector2Array = section.verts;
+	var tex: Texture2D = section.decor.texture;
+	var edge_tex: Texture2D = section.decor.edge;
+	
 	var tex_height := float(tex.get_height());
 	var off := Vector2(0, tex_height * -0.5);
 	
 	var modulate := Color.WHITE;
 	if is_shadow:
-		modulate = Color(0, 0, 0, 0.6);
+		modulate = Color(0, 0, 0);
 		off.y += tex_height * 0.5;
 	
 	var edge_width: float;
@@ -50,22 +70,22 @@ func draw_grass_section(to: CanvasItem, section: PackedVector2Array, tex: Textur
 		overhang_width = edge_width / 2;
 	
 	if edge_tex:
-		var vert: Vector2 = section[0];
-		var next_vert: Vector2 = section[1 % section.size()];
+		var vert: Vector2 = verts[0];
+		var next_vert: Vector2 = verts[1 % verts.size()];
 		var prev_width := absf(next_vert.x - vert.x);
 		var skew_pixels: float = (next_vert.y - vert.y) * (edge_width / prev_width);
 		var _off: Vector2 = off + Vector2(overhang_width, skew_pixels);
 		draw_skew_texture(to, vert + _off, vert + _off - Vector2(edge_width, skew_pixels), edge_tex, false, 0, modulate);
 	
 	var offset: float = 0.0;
-	for i in range(section.size() - 1):
-		var vert: Vector2 = section[i];
-		var next_vert: Vector2 = section[i + 1];
+	for i in range(verts.size() - 1):
+		var vert: Vector2 = verts[i];
+		var next_vert: Vector2 = verts[i + 1];
 		if i == 0 && edge_tex:
 			var section_width := absf(next_vert.x - vert.x);
 			vert.y += (next_vert.y - vert.y) * (edge_width / section_width);
 			vert.x += overhang_width;
-		if i == (section.size() - 2) && edge_tex:
+		if i == (verts.size() - 2) && edge_tex:
 			var section_width := absf(next_vert.x - vert.x);
 			next_vert.y -= (next_vert.y - vert.y) * (edge_width / section_width);
 			next_vert.x -= overhang_width;
@@ -73,8 +93,8 @@ func draw_grass_section(to: CanvasItem, section: PackedVector2Array, tex: Textur
 		offset += next_vert.x - vert.x;
 	
 	if edge_tex:
-		var vert: Vector2 = section[-1];
-		var prev_vert: Vector2  = section[-2 % section.size()];
+		var vert: Vector2 = verts[-1];
+		var prev_vert: Vector2  = verts[-2 % verts.size()];
 		var prev_width := absf(vert.x - prev_vert.x);
 		var skew_pixels: float = (vert.y - prev_vert.y) * (edge_width / prev_width);
 		var _off: Vector2 = off - Vector2(overhang_width, skew_pixels);
