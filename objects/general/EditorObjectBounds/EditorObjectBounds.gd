@@ -30,7 +30,7 @@ func _ready():
 		if "container" in parent:
 			container = parent.container;
 		else:
-			parent = get_tree().current_scene as EditorRoom;
+			parent = Fades.current_scene as EditorRoom;
 			if "level_container" in parent:
 				container = parent.level_container;
 			else:

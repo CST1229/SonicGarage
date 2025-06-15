@@ -7,12 +7,12 @@ func layerify():
 	tile_set = tile_set.duplicate(true);
 	while tile_set.get_physics_layers_count() < 3:
 		tile_set.add_physics_layer();
-	tile_set.set_physics_layer_collision_layer(0, Global.LAYER_A | Global.LAYER_B);
-	tile_set.set_physics_layer_collision_layer(1, Global.LAYER_A);
-	tile_set.set_physics_layer_collision_layer(2, Global.LAYER_B);
-	tile_set.set_physics_layer_collision_mask(0, Global.LAYER_A | Global.LAYER_B);
-	tile_set.set_physics_layer_collision_mask(1, Global.LAYER_A | Global.LAYER_B);
-	tile_set.set_physics_layer_collision_mask(2, Global.LAYER_A | Global.LAYER_B);
+	tile_set.set_physics_layer_collision_layer(0, LevelUtil.LAYER_A | LevelUtil.LAYER_B);
+	tile_set.set_physics_layer_collision_layer(1, LevelUtil.LAYER_A);
+	tile_set.set_physics_layer_collision_layer(2, LevelUtil.LAYER_B);
+	tile_set.set_physics_layer_collision_mask(0, LevelUtil.LAYER_A | LevelUtil.LAYER_B);
+	tile_set.set_physics_layer_collision_mask(1, LevelUtil.LAYER_A | LevelUtil.LAYER_B);
+	tile_set.set_physics_layer_collision_mask(2, LevelUtil.LAYER_A | LevelUtil.LAYER_B);
 	
 	var source_map = {};
 	for i in range(tile_set.get_source_count()):
@@ -37,8 +37,8 @@ func layerify():
 	
 	for layerid in range(get_layers_count()):
 		var layer_name = get_layer_name(layerid);
-		if layer_name != Global.LAYER_A_NAME && layer_name != Global.LAYER_B_NAME: continue;
-		var source_i = 1 if (layer_name == Global.LAYER_B_NAME) else 0;
+		if layer_name != LevelUtil.LAYER_A_NAME && layer_name != LevelUtil.LAYER_B_NAME: continue;
+		var source_i = 1 if (layer_name == LevelUtil.LAYER_B_NAME) else 0;
 		for cell in get_used_cells(layerid):
 			var tile_source = get_cell_source_id(layerid, cell);
 			if tile_source in source_map:

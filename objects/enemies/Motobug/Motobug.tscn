@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://dwyp3iksn6d1t"]
 
-[ext_resource type="Script" path="res://objects/enemies/Motobug/Motobug.gd" id="1_drjwk"]
+[ext_resource type="Script" uid="uid://d1rupueur7d2y" path="res://objects/enemies/Motobug/Motobug.gd" id="1_drjwk"]
 [ext_resource type="SpriteFrames" uid="uid://b7lsms7gobydo" path="res://objects/enemies/Motobug/sprites/motobug.tres" id="2_n7703"]
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="3_25e30"]
-[ext_resource type="Script" path="res://objects/general/ConstantMonitorArea2D.gd" id="3_im2wx"]
+[ext_resource type="Script" uid="uid://4lfph3v84b75" path="res://objects/general/ConstantMonitorArea2D.gd" id="3_im2wx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ekxf3"]
 size = Vector2(20, 28)

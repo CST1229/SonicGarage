@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://b2qk3pxe4e8yu"]
 
 [ext_resource type="SpriteFrames" uid="uid://cblk8oa86ji4h" path="res://objects/level/Signpost/sprites/signpost.tres" id="1_inyhf"]
-[ext_resource type="Script" path="res://objects/level/Signpost/Signpost.gd" id="1_pge2w"]
+[ext_resource type="Script" uid="uid://bkhgbggxlvlxi" path="res://objects/level/Signpost/Signpost.gd" id="1_pge2w"]
 [ext_resource type="AudioStream" uid="uid://cxj0jh2ij55mh" path="res://objects/level/Signpost/sounds/pass.wav" id="3_884sj"]
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="4_00plm"]
 [ext_resource type="AudioStream" uid="uid://dhxhh86datefl" path="res://objects/level/Signpost/sounds/levelcomplete.mp3" id="4_2c84b"]

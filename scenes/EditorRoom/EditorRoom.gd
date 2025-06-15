@@ -4,12 +4,15 @@
 extends Node2D
 class_name EditorRoom
 
-@export var level_container: Node2D;
+@export var level_container: LevelContainer;
 @export_file("*.tscn", "*.scn") var playtest_room: String;
 
 func _ready():
-	if level_container && Global.load_level:
-		level_container.deserialize(Global.load_level);
+	if level_container && LevelUtil.load_level:
+		var err := level_container.deserialize(LevelUtil.load_level);
+		if err != "":
+			OS.alert(err, "Error loading level!");
+			push_error(err);
 
 func _process(_delta: float):
 	if Input.is_action_just_pressed("editor_playtest") && !Input.is_action_pressed("setting_fullscreen"):
@@ -20,10 +23,10 @@ func _process(_delta: float):
 func playtest():
 	if playtest_room:
 		if level_container && level_container.editor_mode:
-			Global.load_level = level_container.serialize();
-		get_tree().change_scene_to_file(playtest_room);
+			LevelUtil.load_level = level_container.serialize();
+		Fades.change_scene_to_file(playtest_room);
 
 func exit():
 	if level_container && level_container.editor_mode:
-		Global.load_level = level_container.serialize();
-	get_tree().change_scene_to_file("res://scenes/TitleScreen/TitleScreen.tscn");
+		LevelUtil.load_level = level_container.serialize();
+	Fades.fade_to_scene("res://scenes/TitleScreen/TitleScreen.tscn");

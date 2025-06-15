@@ -10,6 +10,6 @@ var decor_sections: Array[DecorSection];
 func _draw():
 	if !parsed_vertices:
 		return;
-	if Global.terrain_detail <= 0 || (is_shadow && Global.terrain_detail <= 1):
+	if Settings.terrain_detail <= 0 || (is_shadow && Settings.terrain_detail <= 1):
 		return;
 	LevelDrawing.draw_decor(self, decor_sections, is_shadow);

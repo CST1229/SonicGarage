@@ -13,7 +13,7 @@ var layer: String = "ab":
 	set(value):
 		layer = value;
 		update_layer();
-var layer_num: int = Global.LAYER_A | Global.LAYER_B;
+var layer_num: int = LevelUtil.LAYER_A | LevelUtil.LAYER_B;
 
 const INVALID_COLOR = Color(1, 0.2, 0.1);
 const SELECTED_COLOR = EditorLib.VERT_COLOR;
@@ -34,9 +34,9 @@ func _ready():
 	
 func get_color():
 	var c := Color.BLACK;
-	if layer_num & Global.LAYER_A:
+	if layer_num & LevelUtil.LAYER_A:
 		c = Color(c.r, c.g + 0.5, c.b + 1);
-	if layer_num & Global.LAYER_B:
+	if layer_num & LevelUtil.LAYER_B:
 		c = Color(c.r + 1, c.g + 0.5, c.b);
 	return c;
 
@@ -111,11 +111,11 @@ func update_polygon():
 
 func update_layer():
 	if !collision: return;
-	layer_num = Global.LAYER_POLYGONS;
+	layer_num = LevelUtil.LAYER_POLYGONS;
 	match layer:
-		"a": layer_num |= Global.LAYER_A;
-		"b": layer_num |= Global.LAYER_B;
-		"ab": layer_num |= Global.LAYER_A | Global.LAYER_B;
+		"a": layer_num |= LevelUtil.LAYER_A;
+		"b": layer_num |= LevelUtil.LAYER_B;
+		"ab": layer_num |= LevelUtil.LAYER_A | LevelUtil.LAYER_B;
 	collision.collision_layer = layer_num;
 	collision.collision_mask = layer_num;
 	redraw();

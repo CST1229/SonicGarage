@@ -21,7 +21,7 @@ func collect(_body: Node2D):
 			return;
 	
 	if sprite.animation != &"collect":
-		if Global.level_manager: Global.level_manager.rings += 1;
+		if LevelUtil.level_manager: LevelUtil.level_manager.rings += 1;
 		sprite.play(&"collect");
 		sprite.speed_scale = 1;
 		GlobalSounds.play_ring();

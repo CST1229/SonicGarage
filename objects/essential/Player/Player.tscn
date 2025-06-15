@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=3 uid="uid://bcjbkb73mtovm"]
 
-[ext_resource type="Script" path="res://objects/essential/Player/Player.gd" id="1_cniba"]
-[ext_resource type="Script" path="res://objects/level/LayerSwitcher/LayerSwitcherSensor.gd" id="2_xh0bu"]
-[ext_resource type="Script" path="res://objects/essential/Player/PlayerCamera.gd" id="3_q22vw"]
+[ext_resource type="Script" uid="uid://dkft2a8s2bw18" path="res://objects/essential/Player/Player.gd" id="1_cniba"]
+[ext_resource type="Script" uid="uid://blu08lbp3rht1" path="res://objects/level/LayerSwitcher/LayerSwitcherSensor.gd" id="2_xh0bu"]
+[ext_resource type="Script" uid="uid://bsouo14gf6pcr" path="res://objects/essential/Player/PlayerCamera.gd" id="3_q22vw"]
 [ext_resource type="SpriteFrames" uid="uid://d23iwpusrgjcp" path="res://objects/essential/Player/Sonic/sonic.tres" id="4_voifm"]
 [ext_resource type="AudioStream" uid="uid://d3w1grc7g4hit" path="res://objects/essential/Player/sounds/jump.wav" id="5_y8ctc"]
 [ext_resource type="AudioStream" uid="uid://ghu75tfy8l5a" path="res://objects/essential/Player/sounds/roll.wav" id="6_qv3jl"]

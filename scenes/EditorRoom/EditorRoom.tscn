@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cwx5aqvbnwxeh"]
 
-[ext_resource type="Script" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_suyq5"]
+[ext_resource type="Script" uid="uid://5v60k3oa1gxk" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_suyq5"]
 [ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/essential/LevelContainer/LevelContainer.tscn" id="1_xpaws"]
 [ext_resource type="PackedScene" uid="uid://c02hx83n7d86p" path="res://objects/editor/LevelEditor.tscn" id="1_yog1b"]
 [ext_resource type="Texture2D" uid="uid://6kp6a1v2qc4v" path="res://objects/essential/Player/Sonic/stand.png" id="4_3eiji"]

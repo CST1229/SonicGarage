@@ -1,18 +1,19 @@
 extends Node2D
 
-@onready var menu_panel = $CanvasLayer/Menu;
-@onready var credits_panel = $CanvasLayer/Credits;
-@onready var controls_panel = $CanvasLayer/Controls;
+@onready var menu_panel = $CanvasLayer/Tabs/Menu;
+@onready var credits_panel = $CanvasLayer/Tabs/Credits;
+@onready var settings_panel = $CanvasLayer/Tabs/Settings;
+@onready var settings_menu: SettingsMenu = $CanvasLayer/Tabs/Settings/HMargin/ScrollContainer/VMargin/SettingsMenu;
+
+func _ready():
+	goto_menu();
 
 func goto_editor():
-	get_tree().change_scene_to_file("res://scenes/EditorRoom/EditorRoom.tscn");
-	
-func goto_test():
-	get_tree().change_scene_to_file("res://scenes/test.tscn");
+	Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
 
 func load_level():
 	if Input.is_key_pressed(KEY_CTRL) && Input.is_key_pressed(KEY_SHIFT):
-		get_tree().change_scene_to_file("res://scenes/test.tscn");
+		Fades.fade_to_scene("res://scenes/test.tscn");
 		return;
 	DisplayServer.file_dialog_show(
 		"Load Level", "",
@@ -24,12 +25,15 @@ func load_level():
 func quit():
 	get_tree().quit();
 
-func toggle_controls():
-	print(get_tree().get_edited_scene_root());
-	menu_panel.visible = !menu_panel.visible;
-	controls_panel.visible = !controls_panel.visible;
+func goto_menu():
+	menu_panel.visible = true;
 
-func toggle_credits():
-	menu_panel.visible = !menu_panel.visible;
-	credits_panel.visible = !credits_panel.visible;
+func goto_settings():
+	settings_panel.visible = true;
 
+func goto_credits():
+	credits_panel.visible = true;
+
+
+func _on_open_folder_button_pressed() -> void:
+	OS.shell_show_in_file_manager(ProjectSettings.globalize_path("user://"));

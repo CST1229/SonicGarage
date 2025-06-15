@@ -1,6 +1,5 @@
 ## Switches the player between layers.
 ## Most of the code is editor-related stuff.
-@tool
 extends Node2D
 
 @onready var area: Area2D = $area;
@@ -24,9 +23,9 @@ var layer_num: int = 1;
 		layer = value;
 		layer_num = 0;
 		match value:
-			"a": layer_num = Global.LAYER_A;
-			"b": layer_num = Global.LAYER_B;
-			"ab": layer_num = Global.LAYER_A | Global.LAYER_B;
+			"a": layer_num = LevelUtil.LAYER_A;
+			"b": layer_num = LevelUtil.LAYER_B;
+			"ab": layer_num = LevelUtil.LAYER_A | LevelUtil.LAYER_B;
 		update_icons();
 		queue_redraw();
 
@@ -38,9 +37,9 @@ var layer_num: int = 1;
 
 func get_color():
 	var c = Color.BLACK;
-	if layer_num & Global.LAYER_A:
+	if layer_num & LevelUtil.LAYER_A:
 		c = Color(c.r, c.g + 0.5, c.b + 1);
-	if layer_num & Global.LAYER_B:
+	if layer_num & LevelUtil.LAYER_B:
 		c = Color(c.r + 1, c.g + 0.5, c.b);
 	return c;
 

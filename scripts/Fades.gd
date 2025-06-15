@@ -1,0 +1,67 @@
+## Global object for scene transitions and fades.
+extends Node
+
+const SCENE_MANAGER_PATH = "res://scenes/SceneManager/SceneManager.tscn";
+const FADE_SCENE = preload("res://objects/ui/Fade/Fade.tscn");
+const FADE_DURATION = 0.4;
+
+@onready var fade_container: CanvasLayer = CanvasLayer.new();
+
+var scene_manager_default_scene: PackedScene = preload("res://scenes/TitleScreen/TitleScreen.tscn");
+var is_fading_to_scene: bool = false;
+
+var scene_manager: SceneManager;
+var current_scene: Node:
+	get:
+		return scene_manager.current_scene;
+
+func _ready() -> void:
+	fade_container.layer = 10;
+	add_child(fade_container);
+	check_run_current_scene.call_deferred();
+
+func check_run_current_scene():
+	create_fade(false, true);
+	if get_tree().current_scene.scene_file_path != SCENE_MANAGER_PATH:
+		scene_manager_default_scene = load(get_tree().current_scene.scene_file_path);
+		get_tree().change_scene_to_file(SCENE_MANAGER_PATH);
+
+func fade_to_scene(path: String, is_white: bool = false):
+	if is_fading_to_scene: return;
+	ResourceLoader.load_threaded_request(path);
+	is_fading_to_scene = true;
+	create_fade(true, false, func(fade):
+		is_fading_to_scene = false;
+		on_change_scene.emit(ResourceLoader.load_threaded_get(path));
+		fade_existing(fade, false, true);
+	, is_white);
+
+func create_fade(is_in: bool = false, destroy: bool = false, callback: Callable = Callable(), is_white: bool = false) -> void:
+	var fade: Fade = FADE_SCENE.instantiate();
+	fade.is_white = is_white;
+	fade_container.add_child(fade);
+	
+	fade_existing(fade, is_in, destroy, callback);
+
+func fade_existing(fade: Fade, is_in: bool = false, destroy: bool = false, callback: Callable = Callable()) -> void:
+	var tween: Tween = create_tween();
+	fade.fade = 0.0 if is_in else 1.0;
+	tween.set_trans(Tween.TRANS_SINE);
+	tween.tween_property(fade, "fade", 1.0 if is_in else 0.0, FADE_DURATION);
+	tween.tween_callback(callback.bind(fade));
+	if destroy:
+		tween.tween_callback(fade.queue_free);
+
+func change_scene_to_file(path: String) -> Error:
+	on_change_scene.emit(load(path));
+	return OK;
+
+func change_scene_to_packed(scene: PackedScene) -> Error:
+	on_change_scene.emit(scene);
+	return OK;
+
+func reload_current_scene() -> Error:
+	on_change_scene.emit(load(current_scene.scene_file_path));
+	return OK;
+
+signal on_change_scene(scene: PackedScene);

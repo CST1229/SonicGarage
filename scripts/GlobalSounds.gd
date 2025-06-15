@@ -37,12 +37,13 @@ func play_ring():
 ## Plays a spindash sound.
 func play_spindash():
 	if !spindash_player.playing: spindash_pitch = 1;
-	var bus = AudioServer.get_bus_index("Spindash");
-	for i in range(AudioServer.get_bus_effect_count(bus)):
-		var effect = AudioServer.get_bus_effect(bus, i);
-		if effect is AudioEffectPitchShift:
-			effect.pitch_scale = spindash_pitch;
+	#var bus = AudioServer.get_bus_index("Spindash");
+	#for i in range(AudioServer.get_bus_effect_count(bus)):
+		#var effect = AudioServer.get_bus_effect(bus, i);
+		#if effect is AudioEffectPitchShift:
+			#effect.pitch_scale = spindash_pitch;
 	spindash_player.play();
+	spindash_player.pitch_scale = spindash_pitch;
 	spindash_pitch += 0.075;
 	spindash_pitch = clamp(spindash_pitch, 1, 3);
 

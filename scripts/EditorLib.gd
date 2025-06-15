@@ -19,7 +19,7 @@ func create_object(id: String, container: LevelContainer = null) -> Node2D:
 	if !(id in Global.object_list):
 		return null;
 	var obj: Global.ObjectDef = Global.object_list[id];
-	var node: Node2D = obj.scene.instantiate();
+	var node: Node2D = load(obj.scene).instantiate();
 	if container && container.editor_mode: node.add_to_group(&"editor_objects");
 	if container && "container" in node: node.container = container;
 	return node;
@@ -52,7 +52,7 @@ func save_level(status: bool, selected_paths: PackedStringArray, selected_filter
 	if file == null:
 		OS.alert(error_string(FileAccess.get_open_error()), "Error saving level!");
 		return;
-	file.store_string(JSON.stringify(Global.load_level));
+	file.store_string(JSON.stringify(LevelUtil.load_level));
 
 ## Loads a level for editing.
 func load_level_editor(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
@@ -69,23 +69,22 @@ func _load_level(editor: bool, status: bool, selected_paths: PackedStringArray, 
 	var path = selected_paths[0];
 	
 	var file = FileAccess.get_file_as_string(path);
-	if file == null:
+	if FileAccess.get_open_error() != OK:
 		OS.alert(error_string(FileAccess.get_open_error()), "Error loading level!");
 		return;
 	
 	var parser = JSON.new();
-	
 	var err = parser.parse(file);
-	if err != Error.OK:
+	if err != OK:
 		OS.alert(
 			"{0}\nat line {1}".format([parser.get_error_message(), parser.get_error_line()]),
 			"Error loading level!"
 		);
 		return;
 	var json = parser.data;
-	Global.load_level = json;
+	LevelUtil.load_level = json;
 	
 	if editor:
-		get_tree().change_scene_to_file("res://scenes/EditorRoom/EditorRoom.tscn");
+		Fades.change_scene_to_file("res://scenes/EditorRoom/EditorRoom.tscn");
 	else:
-		get_tree().change_scene_to_file("res://scenes/CustomLevel/CustomLevel.tscn");
+		Fades.fade_to_scene("res://scenes/CustomLevel/CustomLevel.tscn");

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dsdn8hir6i58f"]
 
-[ext_resource type="Script" path="res://objects/level/Spring/SpringHandle/SpringHandle.gd" id="1_a5ooe"]
+[ext_resource type="Script" uid="uid://chrq4u0f83p6q" path="res://objects/level/Spring/SpringHandle/SpringHandle.gd" id="1_a5ooe"]
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="2_0hgxt"]
 
 [node name="SpringHandle" type="Control"]

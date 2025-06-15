@@ -2,13 +2,11 @@ class_name DecorSection
 
 var decor: Decor;
 var verts: PackedVector2Array;
-var normals: PackedVector2Array;
+var angles: PackedFloat32Array;
 
-static var PV2ARR_EMPTY = PackedVector2Array();
+static var PF32ARR_EMPTY = PackedFloat32Array();
 
-static func create(s_decor: Decor, s_verts: PackedVector2Array, s_normals: PackedVector2Array = PV2ARR_EMPTY):
-	var section := new();
-	section.decor = s_decor;
-	section.verts = s_verts;
-	section.normals = s_normals;
-	return section;
+func _init(s_decor: Decor, s_verts: PackedVector2Array = PackedVector2Array(), s_angles: PackedFloat32Array = PackedFloat32Array()):
+	decor = s_decor;
+	verts = s_verts;
+	angles = s_angles;

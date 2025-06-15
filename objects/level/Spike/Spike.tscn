@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://b5tqrs3li0kgk"]
 
-[ext_resource type="Script" path="res://objects/level/Spike/Spike.gd" id="1_xsti5"]
+[ext_resource type="Script" uid="uid://dftqenhflhhvr" path="res://objects/level/Spike/Spike.gd" id="1_xsti5"]
 [ext_resource type="Texture2D" uid="uid://d3enod7glh1k2" path="res://objects/level/Spike/sprites/spikes.png" id="2_uj04i"]
 [ext_resource type="AudioStream" uid="uid://c2lw8neqs0rqf" path="res://objects/essential/Player/sounds/spike.wav" id="3_7oaxf"]
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="4_c622h"]
-[ext_resource type="Script" path="res://objects/general/Touchbox.gd" id="5_hyikx"]
-[ext_resource type="Script" path="res://objects/general/control_handles/HandleContainer.gd" id="6_0gxb3"]
+[ext_resource type="Script" uid="uid://c6iasft8phkul" path="res://objects/general/Touchbox.gd" id="5_hyikx"]
+[ext_resource type="Script" uid="uid://dtas51h8j5xkw" path="res://objects/general/control_handles/HandleContainer.gd" id="6_0gxb3"]
 [ext_resource type="PackedScene" uid="uid://cf7cd7p1j51lc" path="res://objects/general/control_handles/RotatorHandle/RotatorHandle.tscn" id="7_yugeh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qiyfb"]

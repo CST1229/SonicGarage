@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://b60n02le4yvf0"]
 
-[ext_resource type="Script" path="res://objects/level/LayerSwitcher/LayerSwitcher.gd" id="1_oamhx"]
+[ext_resource type="Script" uid="uid://cjnme3nbvobkg" path="res://objects/level/LayerSwitcher/LayerSwitcher.gd" id="1_oamhx"]
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="2_oktun"]
-[ext_resource type="Script" path="res://objects/general/control_handles/HandleContainer.gd" id="3_bugb3"]
+[ext_resource type="Script" uid="uid://dtas51h8j5xkw" path="res://objects/general/control_handles/HandleContainer.gd" id="3_bugb3"]
 [ext_resource type="PackedScene" uid="uid://shaxhqlgd6uq" path="res://objects/general/control_handles/RectResizerHandle/RectResizerHandle.tscn" id="4_shhxs"]
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="5_nqj72"]
 [ext_resource type="Texture2D" uid="uid://chlp5vbpdk5lc" path="res://sprites/icons/handle/layer_a.png" id="6_b34xs"]

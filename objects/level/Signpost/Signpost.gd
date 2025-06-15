@@ -21,7 +21,7 @@ func _process(delta: float):
 			if passed_player.velocity.y < 0: passed_player.velocity.y = 0;
 			passed_player.state = Player.State.LEVEL_COMPLETE;
 			
-			var scene = get_tree().current_scene;
+			var scene = Fades.current_scene;
 			if "playtest_room" in scene && scene.playtest_room:
 				exit_timer = 2;
 			else:
@@ -31,7 +31,7 @@ func _process(delta: float):
 	if exit_timer > 0:
 		exit_timer = move_toward(exit_timer, 0, delta);
 		if exit_timer <= 0:
-			var scene = get_tree().current_scene;
+			var scene = Fades.current_scene;
 			if scene.has_method("playtest") && scene.has_method("exit"):
 				if "playtest_room" in scene && scene.playtest_room:
 					scene.playtest();

@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://cs7du7ueq66er"]
 
-[ext_resource type="Script" path="res://objects/level/Ring/Ring.gd" id="1_6udgv"]
+[ext_resource type="Script" uid="uid://d0d7j4thl40ip" path="res://objects/level/Ring/Ring.gd" id="1_6udgv"]
 [ext_resource type="SpriteFrames" uid="uid://du05f742t6s71" path="res://objects/level/Ring/sprites/ring.tres" id="1_k7kbx"]
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="3_fr61y"]
-[ext_resource type="Script" path="res://objects/general/ConstantMonitorArea2D.gd" id="3_mkw3l"]
+[ext_resource type="Script" uid="uid://4lfph3v84b75" path="res://objects/general/ConstantMonitorArea2D.gd" id="3_mkw3l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5v45g"]
 size = Vector2(13, 13)

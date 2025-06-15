@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://buap2erp6f7bf"]
 
-[ext_resource type="Script" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_kiua1"]
+[ext_resource type="Script" uid="uid://5v60k3oa1gxk" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_kiua1"]
 [ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/essential/LevelContainer/LevelContainer.tscn" id="2_bjubq"]
 [ext_resource type="PackedScene" uid="uid://di2h7pqwt8bpr" path="res://objects/essential/LevelManager/LevelManager.tscn" id="3_1x3rk"]
 
@@ -21,6 +21,5 @@ mouse_filter = 2
 color = Color(0.188235, 0.376471, 0.815686, 1)
 
 [node name="LevelContainer" parent="." instance=ExtResource("2_bjubq")]
-editor_mode = null
 
 [node name="LevelManager" parent="." instance=ExtResource("3_1x3rk")]

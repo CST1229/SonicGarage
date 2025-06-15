@@ -1,15 +1,10 @@
-## global stuff
+## global stuff and utilities
 extends Node
 
-## this is where the serialized level is stored between scenes.
-var load_level = null;
-
-var level_manager: LevelManager = null;
-
 class ObjectDef:
-	var scene: PackedScene;
+	var scene: String;
 	var name: String;
-func obj(ui_name: String, scene: PackedScene):
+func obj(ui_name: String, scene: String):
 	var def = ObjectDef.new();
 	def.name = ui_name;
 	def.scene = scene;
@@ -18,59 +13,93 @@ func obj(ui_name: String, scene: PackedScene):
 ## The list of objects (used by deserialization).
 var object_list: Dictionary = {
 	layer_switcher = obj(
-		"Layer Switcher", preload("res://objects/level/LayerSwitcher/LayerSwitcher.tscn")
+		"Layer Switcher", "res://objects/level/LayerSwitcher/LayerSwitcher.tscn"
 	),
 	ring = obj(
-		"Ring", preload("res://objects/level/Ring/Ring.tscn")
+		"Ring", "res://objects/level/Ring/Ring.tscn"
 	),
 	signpost = obj(
-		"Signpost", preload("res://objects/level/Signpost/Signpost.tscn")
+		"Signpost", "res://objects/level/Signpost/Signpost.tscn"
 	),
 	motobug = obj(
-		"Motobug", preload("res://objects/enemies/Motobug/Motobug.tscn")
+		"Motobug", "res://objects/enemies/Motobug/Motobug.tscn"
 	),
 	monitor = obj(
-		"Item Monitor", preload("res://objects/level/Monitor/Monitor.tscn")
+		"Item Monitor", "res://objects/level/Monitor/Monitor.tscn"
 	),
 	spike = obj(
-		"Spikes", preload("res://objects/level/Spike/Spike.tscn")
+		"Spikes", "res://objects/level/Spike/Spike.tscn"
 	),
 	spring = obj(
-		"Spring", preload("res://objects/level/Spring/Spring.tscn")
+		"Spring", "res://objects/level/Spring/Spring.tscn"
 	),
 };
 
-# settings
-var terrain_detail: int = 2;
-
-# layer ids
-const LAYER_A = (1 << 0);
-const LAYER_B = (1 << 1);
-const LAYER_EDITOR_OBJECTS = (1 << 3);
-const LAYER_PLAYER = (1 << 4);
-const LAYER_POLYGONS = (1 << 5);
-const LAYER_MONITORS = (1 << 6);
-
-# names of layers.
-# this is used by LayeredTileset
-const LAYER_A_NAME = "Collision A";
-const LAYER_B_NAME = "Collision B";
-
 const UI_THEME: Theme = preload("res://sprites/ui/ui_theme.tres");
 
-var windowed_mode: Window.Mode = Window.Mode.MODE_WINDOWED;
+# reactive-ish objects
 
-func _process(_delta: float):
-	if Input.is_action_just_pressed("setting_detail"):
-		Global.terrain_detail = int(fposmod(Global.terrain_detail - 1, 3));
-		for node: Polygon in get_tree().get_nodes_in_group(&"polygons"):
-			node.redraw();
-	if Input.is_action_just_pressed("setting_fullscreen"):
-		var window: Window = get_window();
-		if window.mode == Window.Mode.MODE_FULLSCREEN:
-			window.mode = windowed_mode;
-		else:
-			windowed_mode = window.mode;
-			window.mode = Window.Mode.MODE_FULLSCREEN;
-		window.borderless = window.mode == Window.Mode.MODE_FULLSCREEN;
-		
+# a linked signal connection is deleted when either of the objects it is linked to is also deleted
+class ConnectionLink:
+	static var links: Array[ConnectionLink] = [];
+	static func garbage_collect() -> void:
+		for i in range(ConnectionLink.links.size() - 1, -1, -1):
+			var link := ConnectionLink.links[i];
+			if !is_instance_valid(link.link_to.get_ref()) || !is_instance_valid(link.linked.get_ref()):
+				if is_instance_valid(link.linked_signal.get_object()):
+					link.linked_signal.disconnect(link.linked_callable);
+				ConnectionLink.links.remove_at(i);
+	static func add(_linked: Object, _linked_signal: Signal, _linked_callable: Callable, _link_to: Object) -> void:
+		var link := new();
+		link.linked = weakref(_linked);
+		link.linked_signal = _linked_signal;
+		link.linked_callable = _linked_callable;
+		link.link_to = weakref(_link_to);
+		ConnectionLink.links.append(link);
+	static func add_and_connect(_linked: Object, _linked_signal: Signal, _linked_callable: Callable, _link_to: Object) -> void:
+		_linked_signal.connect(_linked_callable);
+		add(_linked, _linked_signal, _linked_callable, _link_to);
+	
+	var linked: WeakRef;
+	var linked_signal: Signal;
+	var linked_callable: Callable;
+	var link_to: WeakRef;
+
+func _process(_delta: float) -> void:
+	ConnectionLink.garbage_collect();
+
+static var CALLABLE_IDENTITY = func(value: Variant) -> Variant:
+	return value;
+
+func binding(source: Object, source_property: StringName, source_changed: Signal, target: Object, target_property: StringName, target_changed: Signal, map_source_to_target: Callable = CALLABLE_IDENTITY, map_target_to_source: Callable = CALLABLE_IDENTITY):
+	target.set(target_property, map_source_to_target.call(source.get(source_property)));
+	ConnectionLink.add_and_connect(source, source_changed, func(value: Variant):
+		var mapped_value = map_source_to_target.call(value);
+		if mapped_value != target.get(target_property):
+			target.set(target_property, mapped_value);
+	, target);
+	ConnectionLink.add_and_connect(target, target_changed, func(value: Variant):
+		var mapped_value = map_target_to_source.call(value);
+		if mapped_value != source.get(source_property):
+			source.set(source_property, mapped_value);
+	, source);
+	
+# for cases where the source's "property changed" signal is one signal with a StringName argument for which property changed
+func wildcard_binding(source: Node, source_property: StringName, source_changed: Signal, target: Node, target_property: StringName, target_changed: Signal, map_source_to_target: Callable = CALLABLE_IDENTITY, map_target_to_source: Callable = CALLABLE_IDENTITY):
+	target.set(target_property, map_source_to_target.call(source.get(source_property)));
+	ConnectionLink.add_and_connect(source, source_changed, func(prop: StringName):
+		if prop != source_property:
+			return;
+		var new_value = map_source_to_target.call(source.get(source_property));
+		if new_value != target.get(target_property):
+			target.set(target_property, new_value);
+	, target);
+	ConnectionLink.add_and_connect(target, target_changed, func(value: Variant):
+		var mapped_value = map_target_to_source.call(value);
+		if mapped_value != source.get(source_property):
+			source.set(source_property, mapped_value);
+	, source);
+
+# bind specifically a setting
+func setting_binding(setting: StringName, target: Node, target_property: StringName, target_changed: Signal, map_setting_to_target: Callable = CALLABLE_IDENTITY, map_target_to_setting: Callable = CALLABLE_IDENTITY):
+	wildcard_binding(Settings, setting, Settings.changed, target, target_property, target_changed, map_setting_to_target, map_target_to_setting);

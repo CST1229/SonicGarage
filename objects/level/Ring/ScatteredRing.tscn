@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bfx3wfrxpn0xc"]
 
-[ext_resource type="Script" path="res://objects/level/Ring/ScatteredRing.gd" id="1_63o4s"]
+[ext_resource type="Script" uid="uid://ctf3df664lp5u" path="res://objects/level/Ring/ScatteredRing.gd" id="1_63o4s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_whfgt"]
 size = Vector2(16, 16)

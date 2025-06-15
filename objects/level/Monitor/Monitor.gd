@@ -68,7 +68,7 @@ func pop(player: Player):
 	
 	hitbox.queue_free();
 	collision_layer = 0;
-	collision_mask &= ~(Global.LAYER_PLAYER | Global.LAYER_MONITORS);
+	collision_mask &= ~(LevelUtil.LAYER_PLAYER | LevelUtil.LAYER_MONITORS);
 
 func on_hit_hitbox(body: Node2D):
 	if !(body is Player):

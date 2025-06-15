@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cf7cd7p1j51lc"]
 
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="1_j11mh"]
-[ext_resource type="Script" path="res://objects/general/control_handles/RotatorHandle/RotatorHandle.gd" id="1_t6t2t"]
+[ext_resource type="Script" uid="uid://dff2vlhpcgww8" path="res://objects/general/control_handles/RotatorHandle/RotatorHandle.gd" id="1_t6t2t"]
 
 [node name="RotatorHandle" type="Control"]
 layout_mode = 3

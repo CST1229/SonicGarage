@@ -174,7 +174,7 @@ func _process(delta: float):
 	mouse_pos = actual_mp.snapped(Vector2(grid_size, grid_size));
 	
 	if mode == Mode.TERRAIN:
-		object_detector.collision_layer = Global.LAYER_POLYGONS;
+		object_detector.collision_layer = LevelUtil.LAYER_POLYGONS;
 		object_detector.collision_mask = object_detector.collision_layer;
 		if tool == Tool.VERT_SELECT || tool == Tool.LINE:
 			var snapped_dist := INF;
@@ -189,7 +189,7 @@ func _process(delta: float):
 		else:
 			snapped_vert = null;
 	else:
-		object_detector.collision_layer = Global.LAYER_EDITOR_OBJECTS;
+		object_detector.collision_layer = LevelUtil.LAYER_EDITOR_OBJECTS;
 		object_detector.collision_mask = object_detector.collision_layer;
 		snapped_vert = null;
 	
@@ -524,8 +524,8 @@ func line_edge_button():
 		if vert.edge != edge:
 			edge = "";
 	match edge:
-		"auto": edge = "none";
-		"none": edge = "auto";
+		"auto": edge = "edge";
+		"edge": edge = "none";
 		_: edge = "auto";
 	
 	var polys: Array[Polygon] = [];

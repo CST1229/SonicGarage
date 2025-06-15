@@ -6,7 +6,7 @@ extends CharacterBody2D
 class_name Player
 
 ## If true, enables stuff like instant speed boosts.
-const DEBUG_MODE := false;
+var DEBUG_MODE: bool = OS.has_feature("editor");
 
 enum State {
 	## Normal gameplay.
@@ -97,7 +97,7 @@ var ground_speed := 0.0;
 var on_wall := 0.0;
 var wall_dir: int = 0;
 
-var terrain_layer: int = Global.LAYER_A | Global.LAYER_B;
+var terrain_layer: int = LevelUtil.LAYER_A | LevelUtil.LAYER_B;
 
 var invulnerable := 0.0;
 var dead_timer := 0.0;
@@ -120,8 +120,8 @@ func _ready():
 
 func _draw():
 	# the debug line(tm)
-	# draw_line(Vector2.ZERO, ground_normal * 32, Color.CYAN, 2, false);
-	pass
+	if DEBUG_MODE:
+		draw_line(Vector2.ZERO, ground_normal * 32, Color.CYAN, 2, false);
 
 func _physics_process(delta: float):
 	# inputs
@@ -153,6 +153,9 @@ func _physics_process(delta: float):
 	
 	if just_sprung > 0:
 		just_sprung -= 1;
+	
+	if DEBUG_MODE:
+		queue_redraw();
 
 func tick_normal(delta: float):
 	var direction: float = signf(Input.get_axis("player_left", "player_right"));
@@ -486,7 +489,7 @@ func tick_dead(delta: float):
 	
 	dead_timer = move_toward(dead_timer, 0, delta);
 	if dead_timer <= 0:
-		var scene = get_tree().current_scene as EditorRoom;
+		var scene = Fades.current_scene as EditorRoom;
 		if scene.has_method("playtest") && scene.has_method("exit"):
 			if scene.playtest_room:
 				scene.playtest();
@@ -497,16 +500,16 @@ func hurt(direction := 0) -> bool:
 	if state != State.NORMAL || invulnerable > 0:
 		return false;
 	
-	if Global.level_manager && Global.level_manager.rings <= 0:
+	if LevelUtil.level_manager && LevelUtil.level_manager.rings <= 0:
 		kill();
 		return true;
 	
 	hurt_sound.play();
 	
-	if Global.level_manager.rings > 0:
+	if LevelUtil.level_manager.rings > 0:
 		ringloss_sound.play();
-		scatter_rings(Global.level_manager.rings);
-	Global.level_manager.rings = 0;
+		scatter_rings(LevelUtil.level_manager.rings);
+	LevelUtil.level_manager.rings = 0;
 	
 	state = State.HURT;
 	velocity.y = HURT_SPEED_Y;
@@ -606,11 +609,11 @@ func player_sprites(direction: float):
 		sprite.rotation = lerp_angle(sprite.rotation, -ground_normal.angle_to(Vector2.UP), 0.25);
 	
 	if sprite.animation == "walk" || sprite.animation == "run":
-		sprite.speed_scale = 1.0 / max(0.016, 8 - absf(ground_speed) / 60.0);
+		sprite.speed_scale = 1.0 / (0.016 + max(0, 8 - absf(ground_speed) / 60.0));
 	elif sprite.animation == "spin":
-		sprite.speed_scale = 1.0 / max(0.016, 4 - absf(ground_speed) / 60.0);
+		sprite.speed_scale = 1.0 / (0.016 + max(0, 4 - absf(ground_speed) / 60.0));
 	elif sprite.animation == "push":
-		sprite.speed_scale = 1.0 / max(0.016, 8 - absf(ground_speed) / 60.0 * 4);
+		sprite.speed_scale = 1.0 / (0.016 + max(0, 8 - absf(ground_speed) / 60.0 * 4));
 	else:
 		sprite.speed_scale = 1;
 	
@@ -655,10 +658,10 @@ func _on_touch_badnik(badnik: Node2D, bounce_type: Badnik.BounceType):
 		hurt(int(signf(badnik.global_position.x - global_position.x)));
 
 func update_layer():
-	collision_layer = Global.LAYER_PLAYER;
+	collision_layer = LevelUtil.LAYER_PLAYER;
 	collision_mask = terrain_layer;
 	if !is_curled():
-		collision_mask |= Global.LAYER_MONITORS;
+		collision_mask |= LevelUtil.LAYER_MONITORS;
 
 func do_layer_color():
 	var c = Color.BLACK;

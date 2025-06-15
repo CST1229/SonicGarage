@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://b8q0kjk13674u"]
 
-[ext_resource type="Script" path="res://objects/level/Monitor/Monitor.gd" id="1_3s5mw"]
+[ext_resource type="Script" uid="uid://c8512uky86pra" path="res://objects/level/Monitor/Monitor.gd" id="1_3s5mw"]
 [ext_resource type="SpriteFrames" uid="uid://btcw48fsrt1hl" path="res://objects/level/Monitor/sprites/monitor.tres" id="2_2trqc"]
 [ext_resource type="AudioStream" uid="uid://cam24mv676fns" path="res://objects/enemies/badnik/sounds/pop.wav" id="3_1wk54"]
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="4_3hsxn"]
-[ext_resource type="Script" path="res://objects/general/control_handles/HandleContainer.gd" id="5_b3oyq"]
+[ext_resource type="Script" uid="uid://dtas51h8j5xkw" path="res://objects/general/control_handles/HandleContainer.gd" id="5_b3oyq"]
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="6_2d471"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_okmh3"]

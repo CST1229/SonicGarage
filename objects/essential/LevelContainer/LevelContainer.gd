@@ -3,6 +3,7 @@
 ## A LevelContainer contains the level ([Polygon]s and objects).
 ## It also handles serializing and deserializing the level
 ## and acts as a link between objects and the [LevelEditor].
+@tool
 extends Node
 class_name LevelContainer
 
@@ -19,8 +20,15 @@ const POLYGON_SCENE = preload("res://objects/essential/LevelContainer/Polygon.ts
 const PLAYER_SCENE = preload("res://objects/essential/Player/Player.tscn");
 
 func deserialize(level) -> String:
-	if !(level is Dictionary) || !("format" in level):
-		return "Invalid level";
+	if !(level is Dictionary):
+		return "Invalid level (not a dictionary)";
+		
+	if !("format" in level):
+		if "polygons" in level && level["polygons"] is Array:
+			# Old, old level
+			level.format = 1;
+		else:
+			return "Invalid level (missing objects/polygons key or format version)";
 	
 	if level.format > FORMAT_VERSION:
 		return "Level is too new! Has format version: {0} (current is {1})".format([level.format, FORMAT_VERSION])

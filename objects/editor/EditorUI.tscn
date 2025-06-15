@@ -1,13 +1,13 @@
 [gd_scene load_steps=16 format=3 uid="uid://6coikmp63mmn"]
 
-[ext_resource type="Script" path="res://objects/editor/EditorUI.gd" id="1_1imr5"]
-[ext_resource type="Script" path="res://objects/ui/SignalableMenuButton.gd" id="2_wor00"]
+[ext_resource type="Script" uid="uid://2sp8dkbve0go" path="res://objects/editor/EditorUI.gd" id="1_1imr5"]
+[ext_resource type="Script" uid="uid://drlipnqaug6em" path="res://objects/ui/SignalableMenuButton.gd" id="2_wor00"]
 [ext_resource type="Texture2D" uid="uid://db4xdgglk11ip" path="res://sprites/icons/tools/more.png" id="3_3i0ho"]
 [ext_resource type="Texture2D" uid="uid://cogpggkowmc4k" path="res://sprites/icons/tools/poly_select.png" id="3_61nxk"]
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="3_mmcx7"]
 [ext_resource type="Texture2D" uid="uid://05krgriqv8jq" path="res://sprites/icons/tools/vert_select.png" id="4_oyu41"]
 [ext_resource type="Texture2D" uid="uid://cxetvfhaijidv" path="res://sprites/icons/tools/line.png" id="5_rj8fn"]
-[ext_resource type="Texture2D" uid="uid://cfs6mivvknn4x" path="res://sprites/icons/tools/layer.png" id="6_x21v6"]
+[ext_resource type="Texture2D" uid="uid://ux480ax0dk75" path="res://sprites/icons/tools/layer_ab.png" id="6_4y0eu"]
 [ext_resource type="Texture2D" uid="uid://cy23x0oisxa50" path="res://sprites/icons/tools/edge.png" id="7_nkwlo"]
 [ext_resource type="Texture2D" uid="uid://bjca3r0nwy6gf" path="res://sprites/icons/tools/obj_select.png" id="8_x7gqc"]
 [ext_resource type="Texture2D" uid="uid://48151eejh1ux" path="res://sprites/icons/tools/terrain.png" id="9_cimw5"]
@@ -101,7 +101,7 @@ grow_vertical = 0
 tooltip_text = "Change Layer"
 theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
-icon = ExtResource("6_x21v6")
+icon = ExtResource("6_4y0eu")
 
 [node name="LineEdgeButton" type="Button" parent="TerrainTools"]
 unique_name_in_owner = true
@@ -272,7 +272,6 @@ popup/item_1/text = "Load Level"
 popup/item_1/id = 1
 popup/item_2/text = "Clear Level"
 popup/item_2/id = 2
-popup/item_3/text = ""
 popup/item_3/id = 4
 popup/item_3/separator = true
 popup/item_4/text = "Exit"

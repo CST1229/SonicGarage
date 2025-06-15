@@ -1,5 +1,22 @@
 extends Node
 
+## this is where the serialized level is stored between scenes.
+var load_level = null;
+var level_manager: LevelManager = null;
+
+# layer ids
+const LAYER_A = (1 << 0);
+const LAYER_B = (1 << 1);
+const LAYER_EDITOR_OBJECTS = (1 << 3);
+const LAYER_PLAYER = (1 << 4);
+const LAYER_POLYGONS = (1 << 5);
+const LAYER_MONITORS = (1 << 6);
+
+# names of layers.
+# this is used by LayeredTileset
+const LAYER_A_NAME = "Collision A";
+const LAYER_B_NAME = "Collision B";
+
 const POP_SCENE := preload("res://objects/enemies/badnik/BadnikPop.tscn");
 
 ## Spwans a [BadnikPop].
