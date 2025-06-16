@@ -25,6 +25,7 @@ var container: LevelContainer;
 @onready var fill: Polygon2D = $polygon;
 @onready var decor: PolygonDecoration = $decor;
 @onready var shadow_decor: PolygonDecoration = $polygon/shadow_decor;
+@onready var highlight_decor: PolygonDecoration = $polygon/highlight_decor;
 
 func _ready():
 	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED;
@@ -41,15 +42,9 @@ func get_color():
 	return c;
 
 func redraw():
-	decor.visible = valid;
-	shadow_decor.visible = valid;
-	if valid:
-		decor.parsed_vertices = parsed_vertices;
-		decor.decor_sections = decor_sections;
-		decor.queue_redraw();
-		shadow_decor.parsed_vertices = parsed_vertices;
-		shadow_decor.decor_sections = decor_sections;
-		shadow_decor.queue_redraw();
+	decor.maybe_redraw(valid, parsed_vertices, decor_sections);
+	shadow_decor.maybe_redraw(valid, parsed_vertices, decor_sections);
+	highlight_decor.maybe_redraw(valid, parsed_vertices, decor_sections);
 	queue_redraw();
 
 func _draw():

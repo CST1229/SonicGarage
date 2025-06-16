@@ -2,10 +2,16 @@
 extends Node
 
 ## Computes what decor (e.g grass edges) to render, based off of vertices.
-func compute_decor(verts: Array[Vertex]) -> Array[DecorSection]:	
+func compute_decor(verts: Array[Vertex]) -> Array[DecorSection]:
 	# TODO: don't hardcode the decor type
 	var decors: Array = Decor.GHZ_DECOR;
 	var decor_sections: Dictionary[Decor, DecorSection] = {};
+	
+	# Indexes that decide which decor takes precedence in case of a
+	# MUTUALLY_EXCLUSIVE conflict.
+	var decor_precedence: Dictionary[Decor, int] = {};
+	for i in range(decors.size()):
+		decor_precedence[decors[i]] = i;
 	
 	# List of decoration sections to render
 	var sections_arr: Array[DecorSection] = [];
@@ -21,6 +27,12 @@ func compute_decor(verts: Array[Vertex]) -> Array[DecorSection]:
 		
 		for decor: Decor in decors:
 			var matches = decor.matches(vert, angle);
+			if matches && decor in Decor.MUTUALLY_EXCLUSIVE:
+				for exclusive in Decor.MUTUALLY_EXCLUSIVE[decor]:
+					if exclusive in decor_sections:
+						if decor_precedence[decor] > decor_precedence[exclusive]:
+							matches = false;
+							break;
 			if matches && decor not in decor_sections:
 				var section := DecorSection.new(decor);
 				decor_sections[decor] = section;
@@ -36,17 +48,20 @@ func compute_decor(verts: Array[Vertex]) -> Array[DecorSection]:
 	
 	return sections_arr;
 
-func draw_decor(to: CanvasItem, sections: Array[DecorSection], is_shadow: bool):
+func draw_decor(to: CanvasItem, sections: Array[DecorSection], layer: Decor.Layer):
 	var size: int = sections.size();
 	var section: DecorSection;
 	for i: int in range(size):
 		section = sections[i];
 		
+		if (section.decor.layer & layer) == 0:
+			continue;
+		
 		match section.decor.type:
 			&"grass":
-				LevelDrawing.draw_grass_section(to, section, is_shadow);
+				LevelDrawing.draw_grass_section(to, section, layer == Decor.Layer.SHADOW);
 			&"shade":
-				LevelDrawing.draw_shade(to, section, is_shadow);
+				LevelDrawing.draw_shade(to, section);
 
 func draw_grass_section(to: CanvasItem, section: DecorSection, is_shadow: bool = false):
 	var verts: PackedVector2Array = section.verts;
@@ -139,9 +154,7 @@ func draw_skew_texture(to: CanvasItem, p1: Vector2, p2: Vector2, texture: Textur
 	
 	# clipping apparently breaks some culling thing
 
-func draw_shade(to: CanvasItem, section: DecorSection, is_shadow: bool = false):
-	if !is_shadow:
-		return;
+func draw_shade(to: CanvasItem, section: DecorSection):
 	# TODO: proper shade drawing
-	var shade_width = 8.0 * 2;
+	var shade_width = 8.0 * 3;
 	to.draw_polyline(section.verts, section.decor.color, shade_width);

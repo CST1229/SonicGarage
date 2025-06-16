@@ -6,6 +6,7 @@ var type: StringName;
 var texture: Texture2D;
 var edge: Texture2D;
 var color: Color;
+var layer: int = Layer.SOLID;
 
 
 ## Array of angles to match (optional).
@@ -23,18 +24,34 @@ enum SurfaceType {
 	ALL = BASE | FLOOR | EDGE | BORDER,
 }
 
+enum Layer {
+	NONE = 0,
+	SOLID = 1,
+	SHADOW = 2,
+	HIGHLIGHT = 4,
+}
+
 var surface_type: SurfaceType = SurfaceType.NONE;
 
 static var NONE := define_none();
 static var GHZ_GRASS := define_grass(
 	preload("res://sprites/level_themes/GreenHill/grass.png"),
 	preload("res://sprites/level_themes/GreenHill/grass_edge.png"),
-).match_angles(SurfaceType.FLOOR, [Vector2(0, 60)]);
-static var GHZ_HIGHLIGHT := define_shade(Color(1, 1, 0.8)).match_angles(SurfaceType.FLOOR_EDGE, [Vector2(-45, 90)]);
-static var GHZ_SHADOW := define_shade(Color(0, 0, 0)).match_angles(SurfaceType.FLOOR_EDGE, [Vector2(180, 90)]);
+).match_angles(SurfaceType.FLOOR, [Vector2(0, 60)]).set_layer(Layer.SOLID | Layer.SHADOW);
+static var GHZ_HIGHLIGHT := define_shade(Color(0.3, 0.2, 0)).match_angles(SurfaceType.FLOOR_EDGE, [Vector2(-45, 90)]).set_layer(Layer.HIGHLIGHT);
+static var GHZ_SHADOW := define_shade(Color(0, 0, 0)).match_angles(SurfaceType.FLOOR_EDGE, [Vector2(135, 90)]).set_layer(Layer.SHADOW);
 
 # TODO: themes should define their decor
 static var GHZ_DECOR = [GHZ_GRASS, GHZ_HIGHLIGHT, GHZ_SHADOW];
+
+# Decors that can't coexist on one vertex.
+# If both decors match a vertex, the one that wins will be
+# the one earlier in the theme's decors array.
+static var MUTUALLY_EXCLUSIVE: Dictionary[Decor, Array] = {
+	GHZ_GRASS: [GHZ_HIGHLIGHT, GHZ_SHADOW],
+	GHZ_HIGHLIGHT: [GHZ_GRASS, GHZ_SHADOW],
+	GHZ_SHADOW: [GHZ_HIGHLIGHT, GHZ_GRASS],
+};
 
 func matches(vert: Vertex, angle: float) -> bool:
 	var vert_surf_type := vertex_surface_type(vert);
@@ -62,6 +79,7 @@ static func vertex_surface_type(vert: Vertex) -> int:
 static func define_none() -> Decor:
 	var decor := new();
 	decor.type = &"none";
+	decor.layer = Layer.NONE;
 	return decor;
 
 static func define_grass(d_texture: Texture2D, d_edge: Texture2D) -> Decor:
@@ -83,9 +101,10 @@ func match_angles(surf_type: SurfaceType, _angles: Array[Vector2]) -> Decor:
 	
 	var angles := match_angles_arr;
 	for i in match_angles_arr.size():
-		var angle = angles[i];
-		if angle.x > angle.y:
-			angle = Vector2(angle.y, angle.x);
-		
+		var angle := angles[i];
 		angles[i] = Vector2(deg_to_rad(angle.x), deg_to_rad(angle.y));
+	return self;
+
+func set_layer(value: int) -> Decor:
+	layer = value;
 	return self;
