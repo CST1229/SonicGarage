@@ -26,6 +26,7 @@ color = Color(0.188235, 0.376471, 0.815686, 0.266667)
 [node name="LevelContainer" parent="." node_paths=PackedStringArray("editor") instance=ExtResource("1_xpaws")]
 editor_mode = true
 editor = NodePath("../LevelEditor")
+music = null
 
 [node name="PlayerGhost" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.498039)

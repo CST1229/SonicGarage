@@ -43,10 +43,11 @@ var music_volume: float = 1.0:
 		set_bus_volume(&"Music", value);
 		changed.emit(&"music_volume");
 
+var keybinds: Dictionary[StringName, Array] = {};
+
 func set_bus_volume(bus_name: StringName, volume: float) -> void:
 	var bus := AudioServer.get_bus_index(bus_name);
 	AudioServer.set_bus_volume_linear(bus, volume);
-
 
 # opt: func(Variant (value to set to), StringName (JSON name)) -> Variant (value that gets get)
 func do_settings(opt: Callable) -> void:
@@ -57,7 +58,7 @@ func do_settings(opt: Callable) -> void:
 	save_verbatim.call(&"master_volume");
 	save_verbatim.call(&"sfx_volume");
 	save_verbatim.call(&"music_volume");
-
+	deserialize_binds(opt.call(serialize_binds(keybinds), &"keybinds"));
 
 func _ready():
 	load_settings();
@@ -128,5 +129,120 @@ func deep_get(dict: Dictionary, key: String, default_value: Variant):
 		return default_value;
 	else:
 		return dict[key] if key in dict else default_value;
+
+# i took most of this keybind serialization code from multibranches lol
+var BINDABLE_KEYS: Array[StringName] = InputMap.get_actions().filter(func(action_name: StringName):
+	return action_name.begins_with("player_") || action_name.begins_with("editor_");
+) as Array[StringName];
+
+func serialize_binds(binds: Dictionary[StringName, Array]) -> Dictionary[StringName, Array]:
+	for key: StringName in BINDABLE_KEYS:
+		binds[key] = serialize_action(key);
+	return binds;
+
+# should be Dictionary[StringName, Array] but godot compound types are dumb
+func deserialize_binds(binds: Dictionary) -> void:
+	for key: StringName in BINDABLE_KEYS:
+		if key in binds and binds[key] is Array:
+			deserialize_action(Array(binds[key]), key);
+
+func serialize_action(action: StringName) -> Array[Array]:
+	var arr: Array[Array] = [];
+	if !InputMap.has_action(action):
+		return arr;
+	for event: InputEvent in InputMap.action_get_events(action):
+		var device = event.device;
+		if event is InputEventKey:
+			arr.append(["key", device, (event as InputEventKey).physical_keycode
+]);
+		elif event is InputEventJoypadButton:
+			arr.append(["joypadbutton", device, (event as InputEventJoypadButton).button_index]);
+		elif event is InputEventMouseButton:
+			arr.append(["mousebutton", device, (event as InputEventMouseButton).button_index]);
+		elif event is InputEventJoypadMotion:
+			arr.append(["joypadmotion", device, (event as InputEventJoypadMotion).axis, (event as InputEventJoypadMotion).axis_value]);
+	return arr;
+
+func deserialize_action(events: Array, action: StringName) -> void:
+	if !InputMap.has_action(action):
+		InputMap.add_action(action);
+	InputMap.action_erase_events(action);
+	for serialized: Array in events:
+		var type: String = serialized[0];
+		var device: int = serialized[1];
+		match type:
+			"key":
+				var ev := InputEventKey.new();
+				ev.device = device;
+				ev.pressed = true;
+				ev.physical_keycode = serialized[2];
+				InputMap.action_add_event(action, ev);
+			"joypadbutton":
+				var ev := InputEventJoypadButton.new();
+				ev.device = device;
+				ev.pressed = true;
+				ev.button_index = serialized[2];
+				InputMap.action_add_event(action, ev);
+			"joypadmotion":
+				var ev := InputEventJoypadMotion.new();
+				ev.device = device;
+				ev.axis = serialized[2];
+				ev.axis_value = serialized[3];
+				InputMap.action_add_event(action, ev);
+			"mousebutton":
+				var ev := InputEventMouseButton.new();
+				ev.device = device;
+				ev.pressed = true;
+				ev.button_index = serialized[2];
+				InputMap.action_add_event(action, ev);
+			_:
+				push_error("{0} has unknown keybind type {1}".format([action, type]));
+
+func get_bind_name(event: InputEvent, include_pad: bool = true) -> String:
+	if event is InputEventJoypadButton:
+		var pad_name: String = "Pad{0}: ".format([event.device + 1]) if include_pad else "";
+		return "{0}{1}".format([pad_name, get_joypad_button_name(event.button_index)])
+	elif event is InputEventJoypadMotion:
+		var pad_name: String = "Pad{0}: ".format([event.device + 1]) if include_pad else "";
+		return "{0}{1}".format([pad_name, get_joypad_axis_name(event.axis, event.axis_value)])
+	else:
+		return event.as_text().replace(" (Physical)", "");
+
+func get_joypad_button_name(button: JoyButton) -> String:
+	match button:
+		JOY_BUTTON_A: return "A";
+		JOY_BUTTON_B: return "B";
+		JOY_BUTTON_X: return "X";
+		JOY_BUTTON_Y: return "Y";
+		JOY_BUTTON_BACK: return "Back";
+		JOY_BUTTON_START: return "Start";
+		JOY_BUTTON_GUIDE: return "Guide";
+		JOY_BUTTON_DPAD_UP: return "D-Pad Up";
+		JOY_BUTTON_DPAD_DOWN: return "D-Pad Down";
+		JOY_BUTTON_DPAD_LEFT: return "D-Pad Left";
+		JOY_BUTTON_DPAD_RIGHT: return "D-Pad Right";
+		JOY_BUTTON_LEFT_STICK: return "L Stick Press";
+		JOY_BUTTON_RIGHT_STICK: return "R Stick Press";
+		JOY_BUTTON_LEFT_SHOULDER: return "L Shoulder";
+		JOY_BUTTON_RIGHT_SHOULDER: return "R Shoulder";
+		JOY_BUTTON_MISC1: return "Misc.";
+		JOY_BUTTON_PADDLE1: return "Paddle 1";
+		JOY_BUTTON_PADDLE2: return "Paddle 2";
+		JOY_BUTTON_PADDLE3: return "Paddle 3";
+		JOY_BUTTON_PADDLE4: return "Paddle 4";
+		JOY_BUTTON_TOUCHPAD: return "Touchpad";
+		_: return "Unknown";
+
+func get_joypad_axis_name(axis: JoyAxis, value: float = 1) -> String:
+	var hor_axis := "Left" if value < 0 else "Right";
+	var ver_axis := "Up" if value < 0 else "Down";
+	match axis:
+		JOY_AXIS_LEFT_X: return "L Stick {0}".format([hor_axis]);
+		JOY_AXIS_LEFT_Y: return "L Stick {0}".format([ver_axis]);
+		JOY_AXIS_RIGHT_X: return "R Stick {0}".format([hor_axis]);
+		JOY_AXIS_RIGHT_Y: return "R Stick {0}".format([ver_axis]);
+		JOY_AXIS_TRIGGER_LEFT: return "L Trigger";
+		JOY_AXIS_TRIGGER_RIGHT: return "R Trigger";
+		_: return "Unknown";
 
 signal changed(setting: StringName);

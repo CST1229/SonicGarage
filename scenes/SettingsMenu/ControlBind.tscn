@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvmqcpflnh551"]
+
+[ext_resource type="Script" uid="uid://cqvkiark0mcng" path="res://scenes/SettingsMenu/ControlBind.gd" id="1_hlbix"]
+
+[node name="ControlBind" type="HFlowContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+script = ExtResource("1_hlbix")

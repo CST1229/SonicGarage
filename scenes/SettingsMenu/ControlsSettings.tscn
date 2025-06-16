@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bk04l2wckr1cn"]
+
+[ext_resource type="Script" uid="uid://c46ai1g1ec7cd" path="res://scenes/SettingsMenu/ControlsSettings.gd" id="1_2uxs1"]
+
+[node name="ControlsSettings" type="GridContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+script = ExtResource("1_2uxs1")

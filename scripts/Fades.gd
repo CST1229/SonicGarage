@@ -30,18 +30,21 @@ func fade_to_scene(path: String, is_white: bool = false):
 	if is_fading_to_scene: return;
 	ResourceLoader.load_threaded_request(path);
 	is_fading_to_scene = true;
-	create_fade(true, false, func(fade):
+	var created_fade := create_fade(true, false, func(fade):
 		is_fading_to_scene = false;
-		on_change_scene.emit(ResourceLoader.load_threaded_get(path));
+		fade.affects_volume = false;
+		scene_changed.emit(ResourceLoader.load_threaded_get(path));
 		fade_existing(fade, false, true);
 	, is_white);
+	created_fade.affects_volume = true;
 
-func create_fade(is_in: bool = false, destroy: bool = false, callback: Callable = Callable(), is_white: bool = false) -> void:
+func create_fade(is_in: bool = false, destroy: bool = false, callback: Callable = Callable(), is_white: bool = false) -> Fade:
 	var fade: Fade = FADE_SCENE.instantiate();
 	fade.is_white = is_white;
 	fade_container.add_child(fade);
 	
 	fade_existing(fade, is_in, destroy, callback);
+	return fade;
 
 func fade_existing(fade: Fade, is_in: bool = false, destroy: bool = false, callback: Callable = Callable()) -> void:
 	var tween: Tween = create_tween();
@@ -53,15 +56,15 @@ func fade_existing(fade: Fade, is_in: bool = false, destroy: bool = false, callb
 		tween.tween_callback(fade.queue_free);
 
 func change_scene_to_file(path: String) -> Error:
-	on_change_scene.emit(load(path));
+	scene_changed.emit(load(path));
 	return OK;
 
 func change_scene_to_packed(scene: PackedScene) -> Error:
-	on_change_scene.emit(scene);
+	scene_changed.emit(scene);
 	return OK;
 
 func reload_current_scene() -> Error:
-	on_change_scene.emit(load(current_scene.scene_file_path));
+	scene_changed.emit(load(current_scene.scene_file_path));
 	return OK;
 
-signal on_change_scene(scene: PackedScene);
+signal scene_changed(scene: PackedScene);

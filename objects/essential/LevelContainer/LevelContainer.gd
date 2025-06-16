@@ -9,6 +9,7 @@ class_name LevelContainer
 
 @export var editor_mode: bool = false;
 @export var editor: LevelEditor = null;
+@export var music: String = "green_hill_zone";
 
 @onready var polygons = $polygons;
 @onready var objects = $objects;
@@ -18,6 +19,9 @@ const FORMAT_VERSION = 2;
 
 const POLYGON_SCENE = preload("res://objects/essential/LevelContainer/Polygon.tscn");
 const PLAYER_SCENE = preload("res://objects/essential/Player/Player.tscn");
+
+func create_new() -> void:
+	pass;
 
 func deserialize(level) -> String:
 	if !(level is Dictionary):

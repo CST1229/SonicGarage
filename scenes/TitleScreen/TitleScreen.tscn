@@ -1,21 +1,22 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqv66ex06ep1o"]
+[gd_scene load_steps=12 format=3 uid="uid://bqv66ex06ep1o"]
 
 [ext_resource type="Script" uid="uid://bd8plq48iafjt" path="res://scenes/TitleScreen/TitleScreen.gd" id="1_f1p6m"]
-[ext_resource type="Script" uid="uid://dqkv4fxuoh7si" path="res://objects/ui/URLRichTextLabel.gd" id="2_ick4f"]
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="2_trggm"]
 [ext_resource type="FontFile" uid="uid://xls5o5ivk6xs" path="res://sprites/ui/m6x11plus.ttf" id="3_byyyj"]
 [ext_resource type="Texture2D" uid="uid://y877yjmp8jq3" path="res://sprites/ui/logo.png" id="3_pj35e"]
+[ext_resource type="Script" uid="uid://hwpdc2sgmx0f" path="res://scenes/TitleScreen/DancingLogo.gd" id="3_u37po"]
 [ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/ui/Habbo.ttf" id="4_1tjes"]
-[ext_resource type="PackedScene" uid="uid://bxn8phu0hnwsu" path="res://scenes/TitleScreen/SettingsMenu.tscn" id="7_d07el"]
+[ext_resource type="Script" uid="uid://duy18kavhs3co" path="res://scenes/TitleScreen/Credits.gd" id="7_u37po"]
+[ext_resource type="PackedScene" uid="uid://rjjanteyns7o" path="res://scenes/SettingsMenu/SettingsMenu.tscn" id="8_u37po"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hhabw"]
 font = ExtResource("4_1tjes")
 
-[sub_resource type="LabelSettings" id="LabelSettings_8eswu"]
+[sub_resource type="LabelSettings" id="LabelSettings_c6vk0"]
 font = ExtResource("3_byyyj")
 font_size = 36
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucmnd"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7spu"]
 content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
@@ -48,7 +49,7 @@ offset_right = 140.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 2
+current_tab = 1
 tabs_visible = false
 
 [node name="Menu" type="Panel" parent="CanvasLayer/Tabs"]
@@ -59,17 +60,39 @@ size_flags_horizontal = 3
 theme = ExtResource("2_trggm")
 metadata/_tab_index = 0
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Tabs/Menu"]
+[node name="LogoContainer" type="Control" parent="CanvasLayer/Tabs/Menu" node_paths=PackedStringArray("logo", "ghost_logo")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 12.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+script = ExtResource("3_u37po")
+logo = NodePath("Logo")
+ghost_logo = NodePath("GhostLogo")
+
+[node name="GhostLogo" type="TextureRect" parent="CanvasLayer/Tabs/Menu/LogoContainer"]
+visible = false
+modulate = Color(1, 1, 1, 0.392157)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -79.5
-offset_top = 10.0
-offset_right = 79.5
+offset_left = -79.0
 offset_bottom = 48.0
-grow_horizontal = 2
 texture = ExtResource("3_pj35e")
+
+[node name="Logo" type="TextureButton" parent="CanvasLayer/Tabs/Menu/LogoContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -79.0
+focus_mode = 0
+texture_normal = ExtResource("3_pj35e")
 
 [node name="Version" type="Label" parent="CanvasLayer/Tabs/Menu"]
 layout_mode = 1
@@ -163,7 +186,6 @@ theme = ExtResource("2_trggm")
 text = "Quit"
 
 [node name="Credits" type="Panel" parent="CanvasLayer/Tabs"]
-visible = false
 layout_mode = 2
 theme = ExtResource("2_trggm")
 metadata/_tab_index = 1
@@ -174,12 +196,13 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -100.0
-offset_top = 5.0
+offset_top = 1.0
 offset_right = 106.0
-offset_bottom = 41.0
+offset_bottom = 37.0
 grow_horizontal = 2
-text = "Credits"
-label_settings = SubResource("LabelSettings_8eswu")
+text = "Credits
+"
+label_settings = SubResource("LabelSettings_c6vk0")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -188,26 +211,45 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -29.0
+offset_left = -37.0
 offset_top = 8.0
 offset_right = -8.0
-offset_bottom = 19.0
+offset_bottom = 27.0
 grow_horizontal = 0
 theme_override_fonts/font = ExtResource("4_1tjes")
 theme_override_font_sizes/font_size = 16
 text = "Back
 "
 
-[node name="Credits" type="RichTextLabel" parent="CanvasLayer/Tabs/Credits"]
+[node name="HMargin" type="MarginContainer" parent="CanvasLayer/Tabs/Credits"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 12.0
-offset_top = 45.0
-offset_right = -12.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Tabs/Credits/HMargin"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u7spu")
+follow_focus = true
+
+[node name="VMargin" type="MarginContainer" parent="CanvasLayer/Tabs/Credits/HMargin/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 16
+
+[node name="Credits" type="RichTextLabel" parent="CanvasLayer/Tabs/Credits/HMargin/ScrollContainer/VMargin"]
+layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("4_1tjes")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
@@ -221,84 +263,16 @@ Special thanks to the [url=https://info.sonicretro.org/Sonic_Physics_Guide]Sonic
 
 Fonts used:
 [url=https://managore.itch.io/m6x11][font_size=18][font=res://sprites/ui/m6x11plus.ttf]m6x11 by Daniel Linssen[/font][/font_size][/url]
-[url=https://nimblebeastscollective.itch.io/nb-pixel-font-bundle][font_size=16][font=res://sprites/ui/Habbo.ttf]Habbo by Omni[/font][/font_size][/url]"
-script = ExtResource("2_ick4f")
+[url=https://nimblebeastscollective.itch.io/nb-pixel-font-bundle][font_size=16][font=res://sprites/ui/Habbo.ttf]Habbo by Omni[/font][/font_size][/url]
 
-[node name="Settings" type="Panel" parent="CanvasLayer/Tabs"]
+Songs used:
+[music_credits]"
+fit_content = true
+script = ExtResource("7_u37po")
+
+[node name="Settings" parent="CanvasLayer/Tabs" instance=ExtResource("8_u37po")]
+visible = false
 layout_mode = 2
-theme = ExtResource("2_trggm")
-metadata/_tab_index = 2
-
-[node name="Title" type="Label" parent="CanvasLayer/Tabs/Settings"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -100.0
-offset_top = 1.0
-offset_right = 106.0
-offset_bottom = 37.0
-grow_horizontal = 2
-text = "Settings"
-label_settings = SubResource("LabelSettings_8eswu")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HMargin" type="MarginContainer" parent="CanvasLayer/Tabs/Settings"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 1
-theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 1
-theme_override_constants/margin_bottom = 0
-
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Tabs/Settings/HMargin"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ucmnd")
-
-[node name="VMargin" type="MarginContainer" parent="CanvasLayer/Tabs/Settings/HMargin/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 16
-
-[node name="SettingsMenu" parent="CanvasLayer/Tabs/Settings/HMargin/ScrollContainer/VMargin" instance=ExtResource("7_d07el")]
-layout_mode = 2
-
-[node name="BackButton" type="Button" parent="CanvasLayer/Tabs/Settings"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -29.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = 19.0
-grow_horizontal = 0
-theme = ExtResource("2_trggm")
-theme_override_fonts/font = ExtResource("4_1tjes")
-theme_override_font_sizes/font_size = 16
-text = "Back"
-
-[node name="OpenFolderButton" type="Button" parent="CanvasLayer/Tabs/Settings"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 36.0
-offset_bottom = 25.0
-theme = ExtResource("2_trggm")
-theme_override_fonts/font = ExtResource("4_1tjes")
-theme_override_font_sizes/font_size = 16
-text = "Open Folder
-"
 
 [connection signal="pressed" from="CanvasLayer/Tabs/Menu/EditorButton" to="." method="goto_editor"]
 [connection signal="pressed" from="CanvasLayer/Tabs/Menu/PlayButton" to="." method="load_level"]
@@ -306,5 +280,4 @@ text = "Open Folder
 [connection signal="pressed" from="CanvasLayer/Tabs/Menu/CreditsButton" to="." method="goto_credits"]
 [connection signal="pressed" from="CanvasLayer/Tabs/Menu/QuitButton" to="." method="quit"]
 [connection signal="pressed" from="CanvasLayer/Tabs/Credits/BackButton" to="." method="goto_menu"]
-[connection signal="pressed" from="CanvasLayer/Tabs/Settings/BackButton" to="." method="goto_menu"]
-[connection signal="pressed" from="CanvasLayer/Tabs/Settings/OpenFolderButton" to="." method="_on_open_folder_button_pressed"]
+[connection signal="go_back" from="CanvasLayer/Tabs/Settings" to="." method="goto_menu"]

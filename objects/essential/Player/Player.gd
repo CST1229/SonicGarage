@@ -6,7 +6,7 @@ extends CharacterBody2D
 class_name Player
 
 ## If true, enables stuff like instant speed boosts.
-var DEBUG_MODE: bool = OS.has_feature("editor");
+@export var DEBUG_MODE: bool = OS.has_feature("editor");
 
 enum State {
 	## Normal gameplay.

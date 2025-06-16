@@ -6,7 +6,7 @@ var current_scene: Node;
 func _ready() -> void:
 	Fades.scene_manager = self;
 	change_scene_to_packed(Fades.scene_manager_default_scene);
-	Fades.on_change_scene.connect(change_scene_to_packed);
+	Fades.scene_changed.connect(change_scene_to_packed);
 
 func change_scene_to_file(path: String) -> Error:
 	change_scene_to_packed(load(path));

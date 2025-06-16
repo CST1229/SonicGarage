@@ -60,7 +60,8 @@ script = ExtResource("3_q22vw")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("4_voifm")
-animation = &"push"
+animation = &"stand"
+autoplay = "stand"
 offset = Vector2(0, 0.5)
 
 [node name="jump_sound" type="AudioStreamPlayer" parent="."]

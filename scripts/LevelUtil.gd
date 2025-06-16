@@ -4,6 +4,26 @@ extends Node
 var load_level = null;
 var level_manager: LevelManager = null;
 
+const MUSIC_PATH = "res://music/";
+class SongDef:
+	var name: String = "Unknown";
+	var author: String = "Unknown";
+	var as_seen_in: String = "Unknown";
+	var path: String;
+	
+	func _init(_name: String, _author: String, _music_path: String, _as_seen_in: String = "") -> void:
+		name = _name;
+		author = _author;
+		path = MUSIC_PATH + _music_path if _music_path != "" else _music_path;
+		as_seen_in = _as_seen_in;
+
+var songs: Dictionary[StringName, SongDef] = {
+	none = SongDef.new("Silence", "", "", "None"),
+	green_hill_zone = SongDef.new("Green Hill Zone - Sonic the Hedgehog", "SEGA Sound Team", "green_hill_zone.mp3", "Green Hill Zone"),
+	takeoff = SongDef.new("Take Off - Knuckles Chaotix", "SEGA Sound Team", "takeoff.mp3", "Title Screen"),
+	blue_ska = SongDef.new("Blue Ska", "Kevin MacLeod", "blue_ska.mp3", "Secret"),
+};
+
 # layer ids
 const LAYER_A = (1 << 0);
 const LAYER_B = (1 << 1);

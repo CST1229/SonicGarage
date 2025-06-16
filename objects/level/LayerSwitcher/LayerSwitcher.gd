@@ -17,6 +17,8 @@ var container: LevelContainer;
 		set_size();
 		queue_redraw();
 
+@export var force_visible: bool = false;
+
 var layer_num: int = 1;
 @export_enum("a", "b", "ab") var layer: String = "a":
 	set(value):
@@ -44,7 +46,7 @@ func get_color():
 	return c;
 
 func _draw():
-	if Engine.is_editor_hint() || !container || !container.editor_mode: return;
+	if Engine.is_editor_hint() || (!force_visible && (!container || !container.editor_mode)): return;
 	var color = get_color();
 	var transparent_color = Color(color.r, color.g, color.b, 0.25);
 	var rect = Rect2(-size / 2.0, size);
@@ -52,6 +54,9 @@ func _draw():
 	draw_rect(rect, color, false, 1);
 
 func _ready():
+	if scale != Vector2.ONE:
+		size *= scale;
+		scale = Vector2.ONE;
 	area.area_entered.connect(_on_enter);
 	area.body_entered.connect(_on_enter);
 	set_size();

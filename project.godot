@@ -31,6 +31,7 @@ EditorLib="*res://scripts/EditorLib.gd"
 GlobalSounds="*res://scripts/GlobalSounds.gd"
 LevelDrawing="*res://scripts/LevelDrawing/LevelDrawing.gd"
 LevelUtil="*res://scripts/LevelUtil.gd"
+Music="*res://scripts/Music.gd"
 
 [debug]
 
@@ -49,10 +50,19 @@ window/stretch/aspect="expand"
 [editor]
 
 naming/scene_name_casing=1
+naming/script_name_casing=1
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
+
+[gui]
+
+theme/custom="uid://dsc2sl34kqmp"
+theme/custom_font="uid://c4bitm3hxvmo8"
+theme/default_font_antialiasing=0
+theme/default_font_hinting=0
+theme/default_font_subpixel_positioning=0
 
 [input]
 

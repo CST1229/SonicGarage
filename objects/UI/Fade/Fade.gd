@@ -24,3 +24,9 @@ extends Control
 		fade = value;
 		tint_rect.modulate.a = value;
 		fade_rect.modulate.a = value;
+
+@export var affects_volume = false;
+
+func _process(_delta: float) -> void:
+	if affects_volume:
+		Music.fade_volume = 1.0 - fade;

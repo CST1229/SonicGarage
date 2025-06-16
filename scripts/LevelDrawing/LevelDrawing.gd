@@ -68,6 +68,9 @@ func draw_grass_section(to: CanvasItem, section: DecorSection, is_shadow: bool =
 		overhang_width = edge_width / 2;
 	
 	if edge_tex:
+		# for some reason draw_primitive draws the wrong texture if i don't do this
+		# godot bug????
+		to.draw_texture(edge_tex, verts[0], Color(0,0,0,0));
 		var vert: Vector2 = verts[0];
 		var next_vert: Vector2 = verts[1 % verts.size()];
 		if vert.x != next_vert.x:
@@ -75,6 +78,8 @@ func draw_grass_section(to: CanvasItem, section: DecorSection, is_shadow: bool =
 			var skew_pixels: float = (next_vert.y - vert.y) * (edge_width / prev_width);
 			var _off: Vector2 = off + Vector2(overhang_width, skew_pixels);
 			draw_skew_texture(to, vert + _off, vert + _off - Vector2(edge_width, skew_pixels), edge_tex, false, 0, modulate);
+	
+	to.draw_texture(tex, verts[0], Color(0,0,0,0));
 	
 	var offset: float = 0.0;
 	for i in range(verts.size() - 1):
@@ -94,6 +99,7 @@ func draw_grass_section(to: CanvasItem, section: DecorSection, is_shadow: bool =
 		offset += next_vert.x - vert.x;
 	
 	if edge_tex:
+		to.draw_texture(edge_tex, verts[0], Color(0,0,0,0));
 		var vert: Vector2 = verts[-1];
 		var prev_vert: Vector2  = verts[-2 % verts.size()];
 		if vert.x != prev_vert.x:
@@ -110,19 +116,15 @@ func draw_skew_texture(to: CanvasItem, p1: Vector2, p2: Vector2, texture: Textur
 	
 	h_offset = h_offset / texture.get_width();
 	
-	if is_nan(p1.x):
-		push_error("draw_skew_texture: p1.x is nan");
-	elif is_nan(p1.y):
-		push_error("draw_skew_texture: p1.y is nan");
-	elif is_nan(p2.x):
-		push_error("draw_skew_texture: p2.x is nan");
-	elif is_nan(p2.y):
-		push_error("draw_skew_texture: p2.y is nan");
+	#if is_nan(p1.x):
+		#push_error("draw_skew_texture: p1.x is nan");
+	#elif is_nan(p1.y):
+		#push_error("draw_skew_texture: p1.y is nan");
+	#elif is_nan(p2.x):
+		#push_error("draw_skew_texture: p2.x is nan");
+	#elif is_nan(p2.y):
+		#push_error("draw_skew_texture: p2.y is nan");
 	
-	# for some reason draw_primitive draws the wrong texture if i don't do this
-	# godot bug????
-	# quadaa
-	to.draw_texture(texture, p1, Color(0,0,0,0));
 	to.draw_primitive(
 		PackedVector2Array([p1, p2, (p2 + th_v), (p1 + th_v)]),
 		PackedColorArray([modulate, modulate, modulate, modulate]),
