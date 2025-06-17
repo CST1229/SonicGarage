@@ -1,4 +1,5 @@
 ## RichTextLabel if it was good
+class_name URLRichTextLabel
 extends RichTextLabel
 
 func _ready():

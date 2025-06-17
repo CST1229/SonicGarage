@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://c4bitm3hxvmo8"
-path="res://.godot/imported/Habbo.ttf-a8d2024f16a739fbcbf1b1ad4568bb63.fontdata"
+uid="uid://xls5o5ivk6xs"
+path="res://.godot/imported/m6x11plus.ttf-45453ef9f174061ad08036bdfd653309.fontdata"
 
 [deps]
 
-source_file="res://sprites/ui/Habbo.ttf"
-dest_files=["res://.godot/imported/Habbo.ttf-a8d2024f16a739fbcbf1b1ad4568bb63.fontdata"]
+source_file="res://sprites/fonts/m6x11plus.ttf"
+dest_files=["res://.godot/imported/m6x11plus.ttf-45453ef9f174061ad08036bdfd653309.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=0
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null

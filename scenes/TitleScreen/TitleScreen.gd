@@ -23,7 +23,10 @@ func load_level():
 	);
 
 func quit():
-	get_tree().quit();
+	var fade := Fades.create_fade(true, false, func(_fade):
+		get_tree().quit();
+	);
+	fade.affects_volume = true;
 
 func goto_menu():
 	menu_panel.visible = true;

@@ -1,6 +1,7 @@
-extends RichTextLabel
+extends URLRichTextLabel
 
 func _ready():
+	super();
 	text = text.replace("[music_credits]", get_music_credits());
 
 func get_music_credits() -> String:

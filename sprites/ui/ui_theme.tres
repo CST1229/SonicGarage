@@ -1,12 +1,12 @@
 [gd_resource type="Theme" load_steps=34 format=3 uid="uid://dsc2sl34kqmp"]
 
-[ext_resource type="FontFile" uid="uid://xls5o5ivk6xs" path="res://sprites/ui/m6x11plus.ttf" id="1_4kctx"]
+[ext_resource type="FontFile" uid="uid://bwoa021kuhdit" path="res://sprites/fonts/ui_font.png" id="1_wup4d"]
 [ext_resource type="Texture2D" uid="uid://b8s1hrp0e76ns" path="res://sprites/ui/slider_grabber.png" id="2_c4i6b"]
 [ext_resource type="Texture2D" uid="uid://dubvdp5dewdqd" path="res://sprites/ui/checkbutton_checked.png" id="2_ig84p"]
 [ext_resource type="Texture2D" uid="uid://dmj24osi6lqok" path="res://sprites/ui/slider_grabber_pressed.png" id="3_nu61b"]
 [ext_resource type="Texture2D" uid="uid://b0wgamqk5ouk5" path="res://sprites/ui/checkbutton_unchecked.png" id="3_nvays"]
 [ext_resource type="Texture2D" uid="uid://d3lqxbbjxr1sm" path="res://sprites/ui/dropdown_arrow.png" id="4_nu61b"]
-[ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/ui/Habbo.ttf" id="5_s0aln"]
+[ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/fonts/Habbo.ttf" id="5_s0aln"]
 [ext_resource type="FontFile" uid="uid://dcjbl32ea48c0" path="res://sprites/hud/font_hud_numbers.png" id="7_mbk3s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xrwuv"]
@@ -283,15 +283,15 @@ anti_aliasing = false
 default_font = ExtResource("5_s0aln")
 default_font_size = 16
 Button/colors/font_color = Color(1, 1, 1, 1)
-Button/font_sizes/font_size = 18
-Button/fonts/font = ExtResource("1_4kctx")
+Button/font_sizes/font_size = 14
+Button/fonts/font = ExtResource("1_wup4d")
 Button/styles/disabled = SubResource("StyleBoxFlat_xrwuv")
 Button/styles/focus = SubResource("StyleBoxEmpty_82opt")
 Button/styles/hover = SubResource("StyleBoxFlat_3fcow")
 Button/styles/normal = SubResource("StyleBoxFlat_y1aaj")
 Button/styles/pressed = SubResource("StyleBoxFlat_lxshk")
-CheckButton/font_sizes/font_size = 18
-CheckButton/fonts/font = ExtResource("1_4kctx")
+CheckButton/font_sizes/font_size = 14
+CheckButton/fonts/font = ExtResource("1_wup4d")
 CheckButton/icons/checked = ExtResource("2_ig84p")
 CheckButton/icons/unchecked = ExtResource("3_nvays")
 HSlider/icons/grabber = ExtResource("2_c4i6b")
@@ -307,11 +307,11 @@ HandleButton/styles/normal = SubResource("StyleBoxFlat_gpekc")
 HandleButton/styles/pressed = SubResource("StyleBoxFlat_4htmb")
 HandlePanel/base_type = &"Panel"
 HandlePanel/styles/panel = SubResource("StyleBoxFlat_vjoc2")
-Label/font_sizes/font_size = 18
-Label/fonts/font = ExtResource("1_4kctx")
+Label/font_sizes/font_size = 14
+Label/fonts/font = ExtResource("1_wup4d")
 OptionButton/constants/arrow_margin = 8
-OptionButton/font_sizes/font_size = 18
-OptionButton/fonts/font = ExtResource("1_4kctx")
+OptionButton/font_sizes/font_size = 14
+OptionButton/fonts/font = ExtResource("1_wup4d")
 OptionButton/icons/arrow = ExtResource("4_nu61b")
 Panel/styles/panel = SubResource("StyleBoxFlat_cadxf")
 PopupMenu/colors/font_color = Color(1, 1, 1, 1)
@@ -321,10 +321,10 @@ PopupMenu/colors/font_separator_color = Color(1, 1, 1, 1)
 PopupMenu/colors/font_separator_outline_color = Color(1, 1, 1, 1)
 PopupMenu/constants/item_end_padding = 4
 PopupMenu/constants/item_start_padding = 4
-PopupMenu/font_sizes/font_separator_size = 36
-PopupMenu/font_sizes/font_size = 18
-PopupMenu/fonts/font = ExtResource("1_4kctx")
-PopupMenu/fonts/font_separator = ExtResource("1_4kctx")
+PopupMenu/font_sizes/font_separator_size = 28
+PopupMenu/font_sizes/font_size = 14
+PopupMenu/fonts/font = ExtResource("1_wup4d")
+PopupMenu/fonts/font_separator = ExtResource("1_wup4d")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_h1epi")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_tqfsi")
 PopupMenu/styles/separator = SubResource("StyleBoxLine_epmwg")
@@ -344,8 +344,8 @@ SmallLabel/font_sizes/font_size = 16
 SmallLabel/fonts/font = ExtResource("5_s0aln")
 TooltipLabel/base_type = &"Label"
 TooltipLabel/colors/font_color = Color(1, 1, 1, 1)
-TooltipLabel/font_sizes/font_size = 18
-TooltipLabel/fonts/font = ExtResource("1_4kctx")
+TooltipLabel/font_sizes/font_size = 14
+TooltipLabel/fonts/font = ExtResource("1_wup4d")
 TooltipPanel/base_type = &"Panel"
 TooltipPanel/styles/panel = SubResource("StyleBoxFlat_rf4yr")
 VScrollBar/styles/grabber = SubResource("StyleBoxFlat_nv56j")

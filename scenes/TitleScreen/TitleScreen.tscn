@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bd8plq48iafjt" path="res://scenes/TitleScreen/TitleScreen.gd" id="1_f1p6m"]
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="2_trggm"]
-[ext_resource type="FontFile" uid="uid://xls5o5ivk6xs" path="res://sprites/ui/m6x11plus.ttf" id="3_byyyj"]
 [ext_resource type="Texture2D" uid="uid://y877yjmp8jq3" path="res://sprites/ui/logo.png" id="3_pj35e"]
 [ext_resource type="Script" uid="uid://hwpdc2sgmx0f" path="res://scenes/TitleScreen/DancingLogo.gd" id="3_u37po"]
-[ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/ui/Habbo.ttf" id="4_1tjes"]
+[ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/fonts/Habbo.ttf" id="4_1tjes"]
+[ext_resource type="FontFile" uid="uid://bwoa021kuhdit" path="res://sprites/fonts/ui_font.png" id="6_u37po"]
 [ext_resource type="Script" uid="uid://duy18kavhs3co" path="res://scenes/TitleScreen/Credits.gd" id="7_u37po"]
 [ext_resource type="PackedScene" uid="uid://rjjanteyns7o" path="res://scenes/SettingsMenu/SettingsMenu.tscn" id="8_u37po"]
 
@@ -13,8 +13,8 @@
 font = ExtResource("4_1tjes")
 
 [sub_resource type="LabelSettings" id="LabelSettings_c6vk0"]
-font = ExtResource("3_byyyj")
-font_size = 36
+font = ExtResource("6_u37po")
+font_size = 28
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7spu"]
 content_margin_left = 0.0
@@ -49,11 +49,10 @@ offset_right = 140.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 1
+current_tab = 0
 tabs_visible = false
 
 [node name="Menu" type="Panel" parent="CanvasLayer/Tabs"]
-visible = false
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -136,7 +135,7 @@ offset_right = 80.0
 offset_bottom = 129.0
 grow_horizontal = 2
 theme = ExtResource("2_trggm")
-text = "Load Level"
+text = "Play Level"
 
 [node name="SettingsButton" type="Button" parent="CanvasLayer/Tabs/Menu"]
 layout_mode = 1
@@ -186,6 +185,7 @@ theme = ExtResource("2_trggm")
 text = "Quit"
 
 [node name="Credits" type="Panel" parent="CanvasLayer/Tabs"]
+visible = false
 layout_mode = 2
 theme = ExtResource("2_trggm")
 metadata/_tab_index = 1
@@ -200,8 +200,7 @@ offset_top = 1.0
 offset_right = 106.0
 offset_bottom = 37.0
 grow_horizontal = 2
-text = "Credits
-"
+text = "Credits"
 label_settings = SubResource("LabelSettings_c6vk0")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -262,8 +261,9 @@ Made with [url=https://godotengine.org]Godot[/url]
 Special thanks to the [url=https://info.sonicretro.org/Sonic_Physics_Guide]Sonic Physics Guide[/url]
 
 Fonts used:
-[url=https://managore.itch.io/m6x11][font_size=18][font=res://sprites/ui/m6x11plus.ttf]m6x11 by Daniel Linssen[/font][/font_size][/url]
-[url=https://nimblebeastscollective.itch.io/nb-pixel-font-bundle][font_size=16][font=res://sprites/ui/Habbo.ttf]Habbo by Omni[/font][/font_size][/url]
+[url=https://www.spriters-resource.com/sega_genesis_32x/sonicth3/sheet/85193/][font_size=14][font=res://sprites/fonts/ui_font.png]Font from Sonic 3, sourced from TSR, extended by CST1229[/font][/font_size][/url]
+[url=https://managore.itch.io/m6x11][font_size=18][font=res://sprites/fonts/m6x11plus.ttf]m6x11 by Daniel Linssen[/font][/font_size][/url]
+[url=https://nimblebeastscollective.itch.io/nb-pixel-font-bundle][font_size=16][font=res://sprites/fonts/Habbo.ttf]Habbo by Omni[/font][/font_size][/url]
 
 Songs used:
 [music_credits]"

@@ -2,7 +2,6 @@ extends Area2D
 
 @onready var sprite = $sprite;
 @onready var sound = $sound;
-@onready var complete_music = $complete_music;
 
 var passed_player: Player;
 
@@ -26,7 +25,7 @@ func _process(delta: float):
 				exit_timer = 2;
 			else:
 				exit_timer = 8;
-				complete_music.play();
+				Music.play(load("res://music/levelcomplete.mp3"))
 	
 	if exit_timer > 0:
 		exit_timer = move_toward(exit_timer, 0, delta);
