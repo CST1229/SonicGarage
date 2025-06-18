@@ -1,20 +1,39 @@
-extends HFlowContainer
 class_name MultiKeybind
+extends HFlowContainer
 
 @export var action: StringName = &"left";
 @export var player: int = 0;
 
-var ignore_input: float = 0;
+var padding: Control;
+var add_binds_button: Button;
+var reset_button: Button;
+
+var rebinding_event: InputEvent = null;
+
+const UNBIND_ICON = preload("res://sprites/icons/ui/unbind_x.png");
+const ADD_BIND_ICON = preload("res://sprites/icons/ui/add_binding.png");
+const RESET_BINDS_ICON = preload("res://sprites/icons/ui/reset_binds.png");
 
 func _ready():
+	add_binds_button = add_button("", start_binding, "Add");
+	add_binds_button.icon = ADD_BIND_ICON;
+	reset_button = add_button("", func(_button: Button):
+		if action in Settings.default_keybinds:
+			Settings.deserialize_action(Settings.default_keybinds[action], action);
+		else:
+			InputMap.action_erase_events(action);
+		update_labels();
+		Settings.save_settings();
+	, "Reset");
+	reset_button.icon = RESET_BINDS_ICON;
+	padding = Control.new();
+	padding.custom_minimum_size.x = 3;
+	add_child(padding);
 	update_labels();
 
-func _process(delta: float):
-	ignore_input = move_toward(ignore_input, 0, delta);
-
-func _on_add_button_pressed() -> void:
-	if !get_tree().get_nodes_in_group(&"currently_binding").is_empty():
-		return
+func start_binding(_button: Button = null) -> void:
+	for binder: MultiKeybind in get_tree().get_nodes_in_group(&"currently_binding"):
+		binder.cancel_bind();
 	
 	add_to_group(&"currently_binding");
 	process_mode = Node.PROCESS_MODE_ALWAYS;
@@ -24,17 +43,31 @@ func _input(event: InputEvent) -> void:
 	if !is_in_group(&"currently_binding"):
 		return
 		
-	if ignore_input <= 0 && (event is InputEventKey || event is InputEventJoypadButton || event is InputEventJoypadMotion):
+	get_tree().root.set_input_as_handled();
+	if event is InputEventKey || event is InputEventJoypadButton || event is InputEventJoypadMotion || event is InputEventMouseButton:
 		if event is InputEventJoypadMotion:
 			if absf(event.axis_value) < 0.8: return;
-			
-		InputMap.action_add_event(action, event);
-		add_button(event);
+		if event is InputEventKey:
+			if !event.is_released():
+				return;
+			if event.echo:
+				return;
+		else:
+			if !event.is_pressed():
+				return;
 		
-		Settings.save_settings();
+		var filtered_event: InputEvent = Settings.filter_input_event(event);
+		var already_exists: bool = false;
+		for existing_event in InputMap.action_get_events(action):
+			if filtered_event.is_match(existing_event):
+				already_exists = true;
+				break;
+		if !already_exists:
+			InputMap.action_add_event(action, filtered_event);
+			add_input_button(filtered_event);
+			Settings.save_settings();
 		
 		cancel_bind();
-		get_tree().root.set_input_as_handled();
 
 func cancel_bind():
 	remove_from_group(&"currently_binding");
@@ -51,20 +84,29 @@ func update_labels() -> void:
 		if child.is_in_group(&"binds"):
 			child.queue_free();
 	for event: InputEvent in InputMap.action_get_events(action):
-		add_button(event);
+		add_input_button(event);
 
-func add_button(event: InputEvent):
+func add_input_button(event: InputEvent) -> void:
+	var button := add_button(Settings.get_bind_name(event), remove_event.bind(event), "Click to remove");
+	button.add_to_group(&"binds");
+	button.icon = UNBIND_ICON;
+	button.icon_alignment = HORIZONTAL_ALIGNMENT_RIGHT;
+
+func add_button(text: String, callback: Callable = Callable(), tooltip: String = "") -> Button:
 	var button := Button.new();
 	button.theme_type_variation = &"SmallButton";
-	button.text = Settings.get_bind_name(event);
-	button.pressed.connect(remove_event.bind(event, button));
+	button.text = text;
+	button.tooltip_text = tooltip;
+	button.pressed.connect(callback.bind(button));
 	
 	add_child(button);
+	return button;
 
-func remove_event(event: InputEvent, node: Node = null) -> void:
+func remove_event(node: Node, event: InputEvent) -> void:
 	InputMap.action_erase_event(action, event);
 	if node:
 		node.queue_free();
+	Settings.save_settings();
 
 signal bind_start;
 signal bind_end;

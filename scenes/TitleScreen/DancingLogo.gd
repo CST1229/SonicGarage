@@ -1,3 +1,4 @@
+class_name DancingLogo
 extends Control
 
 @export var logo: BaseButton;
@@ -36,7 +37,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if recording:
-		if Input.is_action_pressed("editor_cancel"):
+		if Input.is_action_just_pressed(&"editor_cancel") || Input.is_action_just_pressed(&"editor_quit"):
 			_on_click_logo();
 		elif Music.position >= SONG_BEGIN:
 			if !recording_begun:
@@ -85,22 +86,30 @@ func write_logo_movements(path: String, from: PackedVector2Array) -> void:
 		file.store_half(vector.y);
 
 func _on_click_logo() -> void:
+	if !recording:
+		start_recording();
+	else:
+		cancel_recording();
+	Music.restart();
+
+func start_recording() -> void:
 	recording_begun = false;
 	if !recording:
 		recording = true;
 		current_position = Vector2.ZERO;
 		last_recorded_time = SONG_BEGIN - FRAME;
 		positions = PackedVector2Array();
-	else:
+
+func cancel_recording() -> void:
+	recording_begun = false;
+	if recording:
 		recording = false;
 		positions = vanilla_positions.duplicate();
 		if FileAccess.file_exists(CUSTOM_MOVEMENTS_PATH):
 			DirAccess.remove_absolute(CUSTOM_MOVEMENTS_PATH);
-	Music.restart();
 
 func _on_reset_recording() -> void:
 	recording = false;
 	positions = vanilla_positions.duplicate();
 	if FileAccess.file_exists(CUSTOM_MOVEMENTS_PATH):
 		DirAccess.remove_absolute(CUSTOM_MOVEMENTS_PATH);
-		

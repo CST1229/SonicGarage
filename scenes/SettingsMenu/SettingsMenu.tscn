@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://rjjanteyns7o"]
+[gd_scene load_steps=10 format=3 uid="uid://rjjanteyns7o"]
 
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="1_nwtdr"]
 [ext_resource type="Script" uid="uid://c24343omfvf2u" path="res://scenes/SettingsMenu/SettingsMenu.gd" id="2_0il6q"]
-[ext_resource type="FontFile" uid="uid://xls5o5ivk6xs" path="res://sprites/fonts/m6x11plus.ttf" id="2_hm052"]
 [ext_resource type="Script" uid="uid://xmsycv5o766h" path="res://scenes/SettingsMenu/SettingsList.gd" id="2_lasjk"]
 [ext_resource type="FontFile" uid="uid://bwoa021kuhdit" path="res://sprites/fonts/ui_font.png" id="3_0f8tw"]
 [ext_resource type="Script" uid="uid://cm6j04skkafab" path="res://objects/ui/FixedOptionButton.gd" id="3_hm052"]
@@ -11,7 +10,7 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_8eswu"]
 font = ExtResource("3_0f8tw")
-font_size = 28
+font_size = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucmnd"]
 content_margin_left = 0.0
@@ -37,13 +36,13 @@ metadata/_tab_index = 2
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -100.0
 offset_top = 1.0
 offset_right = 106.0
-offset_bottom = 37.0
+offset_bottom = 40.0
 grow_horizontal = 2
 text = "Settings"
 label_settings = SubResource("LabelSettings_8eswu")
@@ -179,6 +178,17 @@ max_value = 1.0
 step = 0.0
 value = 0.001
 
+[node name="Label5" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_0f8tw")
+text = "Mute on Focus Lost"
+
+[node name="MuteOnFocusLost" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+flat = true
+
 [node name="ControlsHeading" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -187,28 +197,23 @@ horizontal_alignment = 1
 
 [node name="ControlsSettings" parent="HMargin/ScrollContainer/VMargin/SettingsList" instance=ExtResource("4_gedgt")]
 layout_mode = 2
+theme_override_constants/h_separation = 2
 
 [node name="ControlsExplanation" type="RichTextLabel" parent="HMargin/ScrollContainer/VMargin/SettingsList"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/normal_font = ExtResource("4_slc4v")
-theme_override_fonts/bold_font = ExtResource("2_hm052")
+theme_override_fonts/bold_font = ExtResource("3_0f8tw")
 theme_override_font_sizes/normal_font_size = 16
 theme_override_font_sizes/bold_font_size = 18
 bbcode_enabled = true
-text = "[font_size=36]Controls[/font_size]
-[b]Gameplay[/b]
-Left/Right: Move;  Space: Jump
-Down: Crouch/Roll
-[b]Editor[/b]
+text = "[b]Editor (no rebinding yet)[/b]
 WASD: Scroll;  LMB: Place/Interact
 Shift: Scroll Fast/Multiselect
 RMB: Cancel Drawing; Delete/Backspace: Delete
 Enter: Playtest
-[b]Misc[/b]
-F2: Change Terrain Quality
-Escape: Exit Editor/Level
-No controller support or remapping... yet"
+[b]Misc (no rebinding yet)[/b]
+Escape: Exit Editor/Level"
 fit_content = true
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

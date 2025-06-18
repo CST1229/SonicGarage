@@ -15,7 +15,9 @@ config/description="A dumb Sonic Studio recreation"
 config/version="0.0.1"
 run/main_scene="uid://c1m2cm6yym2j5"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-boot_splash/show_image=false
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/use_filter=false
+boot_splash/image="uid://bdhdmiina8pem"
 config/icon="res://icon.png"
 
 [audio]
@@ -25,13 +27,13 @@ buses/default_bus_layout="res://audio_bus_layout.tres"
 [autoload]
 
 Settings="*res://scripts/Settings.gd"
-Fades="*res://scripts/Fades.gd"
 Global="*res://scripts/Global.gd"
 EditorLib="*res://scripts/EditorLib.gd"
 GlobalSounds="*res://scripts/GlobalSounds.gd"
 LevelDrawing="*res://scripts/LevelDrawing/LevelDrawing.gd"
 LevelUtil="*res://scripts/LevelUtil.gd"
 Music="*res://scripts/Music.gd"
+Fades="*res://scripts/Fades.gd"
 
 [debug]
 

@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dubvdp5dewdqd" path="res://sprites/ui/checkbutton_checked.png" id="2_ig84p"]
 [ext_resource type="Texture2D" uid="uid://dmj24osi6lqok" path="res://sprites/ui/slider_grabber_pressed.png" id="3_nu61b"]
 [ext_resource type="Texture2D" uid="uid://b0wgamqk5ouk5" path="res://sprites/ui/checkbutton_unchecked.png" id="3_nvays"]
-[ext_resource type="Texture2D" uid="uid://d3lqxbbjxr1sm" path="res://sprites/ui/dropdown_arrow.png" id="4_nu61b"]
+[ext_resource type="Texture2D" uid="uid://d3lqxbbjxr1sm" path="res://sprites/icons/ui/dropdown_arrow.png" id="4_nu61b"]
 [ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/fonts/Habbo.ttf" id="5_s0aln"]
 [ext_resource type="FontFile" uid="uid://dcjbl32ea48c0" path="res://sprites/hud/font_hud_numbers.png" id="7_mbk3s"]
 

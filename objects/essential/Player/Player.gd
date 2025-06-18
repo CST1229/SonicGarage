@@ -319,9 +319,6 @@ func player_control_grounded(direction: float, delta: float):
 	if direction != 0 && signf(ground_speed) != -signf(direction) && !crouching:
 		facing_dir = direction;
 	
-	if is_on_wall() && !just_sprung:
-		ground_speed = 0;
-	
 	# apply the ground speed
 	velocity = Vector2(ground_speed, 0).rotated(ground_angle);
 

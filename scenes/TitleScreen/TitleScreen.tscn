@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bqv66ex06ep1o"]
+[gd_scene load_steps=11 format=3 uid="uid://bqv66ex06ep1o"]
 
 [ext_resource type="Script" uid="uid://bd8plq48iafjt" path="res://scenes/TitleScreen/TitleScreen.gd" id="1_f1p6m"]
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="2_trggm"]
@@ -9,12 +9,9 @@
 [ext_resource type="Script" uid="uid://duy18kavhs3co" path="res://scenes/TitleScreen/Credits.gd" id="7_u37po"]
 [ext_resource type="PackedScene" uid="uid://rjjanteyns7o" path="res://scenes/SettingsMenu/SettingsMenu.tscn" id="8_u37po"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_hhabw"]
-font = ExtResource("4_1tjes")
-
-[sub_resource type="LabelSettings" id="LabelSettings_c6vk0"]
+[sub_resource type="LabelSettings" id="LabelSettings_u37po"]
 font = ExtResource("6_u37po")
-font_size = 28
+font_size = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7spu"]
 content_margin_left = 0.0
@@ -60,6 +57,7 @@ theme = ExtResource("2_trggm")
 metadata/_tab_index = 0
 
 [node name="LogoContainer" type="Control" parent="CanvasLayer/Tabs/Menu" node_paths=PackedStringArray("logo", "ghost_logo")]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -107,7 +105,6 @@ offset_bottom = -4.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "v0.0.2"
-label_settings = SubResource("LabelSettings_hhabw")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -192,16 +189,16 @@ metadata/_tab_index = 1
 
 [node name="Title" type="Label" parent="CanvasLayer/Tabs/Credits"]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -100.0
 offset_top = 1.0
 offset_right = 106.0
-offset_bottom = 37.0
+offset_bottom = 40.0
 grow_horizontal = 2
 text = "Credits"
-label_settings = SubResource("LabelSettings_c6vk0")
+label_settings = SubResource("LabelSettings_u37po")
 horizontal_alignment = 1
 vertical_alignment = 1
 

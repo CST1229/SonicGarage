@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bk04l2wckr1cn"]
+[gd_scene load_steps=3 format=3 uid="uid://bk04l2wckr1cn"]
 
 [ext_resource type="Script" uid="uid://c46ai1g1ec7cd" path="res://scenes/SettingsMenu/ControlsSettings.gd" id="1_2uxs1"]
+[ext_resource type="PackedScene" uid="uid://l73uwkha7tgl" path="res://objects/ui/Fade/Fade.tscn" id="2_wtmpj"]
 
 [node name="ControlsSettings" type="GridContainer"]
 anchors_preset = 15
@@ -12,3 +13,28 @@ theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 2
 script = ExtResource("1_2uxs1")
+
+[node name="BindWindow" type="CanvasLayer" parent="."]
+process_mode = 3
+layer = 5
+visible = false
+
+[node name="Fade" parent="BindWindow" instance=ExtResource("2_wtmpj")]
+fade = 0.33
+
+[node name="Label" type="Label" parent="BindWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press any key or button to bind:
+{0}
+Cancelling in {1}"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="CancelTimer" type="Timer" parent="BindWindow"]
+
+[connection signal="timeout" from="BindWindow/CancelTimer" to="." method="_on_cancel_timer_timeout"]

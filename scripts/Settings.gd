@@ -26,28 +26,27 @@ var master_volume: float = 1.0:
 		if value == 0.001:
 			value = 0;
 		master_volume = value;
-		set_bus_volume(&"Master", value);
 		changed.emit(&"master_volume");
 var sfx_volume: float = 1.0:
 	set(value):
 		if value == 0.001:
 			value = 0;
 		sfx_volume = value;
-		set_bus_volume(&"SFX", value);
 		changed.emit(&"sfx_volume");
 var music_volume: float = 1.0:
 	set(value):
 		if value == 0.001:
 			value = 0;
 		music_volume = value;
-		set_bus_volume(&"Music", value);
 		changed.emit(&"music_volume");
+var mute_on_focus_lost: bool = true:
+	set(value):
+		mute_on_focus_lost = value;
+		changed.emit(&"mute_on_focus_lost");
 
 var keybinds: Dictionary[StringName, Array] = {};
+var default_keybinds: Dictionary[StringName, Array] = {};
 
-func set_bus_volume(bus_name: StringName, volume: float) -> void:
-	var bus := AudioServer.get_bus_index(bus_name);
-	AudioServer.set_bus_volume_linear(bus, volume);
 
 # opt: func(Variant (value to set to), StringName (JSON name)) -> Variant (value that gets get)
 func do_settings(opt: Callable) -> void:
@@ -59,8 +58,10 @@ func do_settings(opt: Callable) -> void:
 	save_verbatim.call(&"sfx_volume");
 	save_verbatim.call(&"music_volume");
 	deserialize_binds(opt.call(serialize_binds(keybinds), &"keybinds"));
+	save_verbatim.call(&"mute_on_focus_lost");
 
 func _ready():
+	serialize_binds(default_keybinds);
 	load_settings();
 
 func _process(_delta: float) -> void:
@@ -152,15 +153,9 @@ func serialize_action(action: StringName) -> Array[Array]:
 		return arr;
 	for event: InputEvent in InputMap.action_get_events(action):
 		var device = event.device;
-		if event is InputEventKey:
-			arr.append(["key", device, (event as InputEventKey).physical_keycode
-]);
-		elif event is InputEventJoypadButton:
-			arr.append(["joypadbutton", device, (event as InputEventJoypadButton).button_index]);
-		elif event is InputEventMouseButton:
-			arr.append(["mousebutton", device, (event as InputEventMouseButton).button_index]);
-		elif event is InputEventJoypadMotion:
-			arr.append(["joypadmotion", device, (event as InputEventJoypadMotion).axis, (event as InputEventJoypadMotion).axis_value]);
+		var serialized = serialize_input_event(event);
+		if serialized.size() > 0:
+			arr.append(serialized);
 	return arr;
 
 func deserialize_action(events: Array, action: StringName) -> void:
@@ -168,35 +163,57 @@ func deserialize_action(events: Array, action: StringName) -> void:
 		InputMap.add_action(action);
 	InputMap.action_erase_events(action);
 	for serialized: Array in events:
-		var type: String = serialized[0];
-		var device: int = serialized[1];
-		match type:
-			"key":
-				var ev := InputEventKey.new();
-				ev.device = device;
-				ev.pressed = true;
-				ev.physical_keycode = serialized[2];
-				InputMap.action_add_event(action, ev);
-			"joypadbutton":
-				var ev := InputEventJoypadButton.new();
-				ev.device = device;
-				ev.pressed = true;
-				ev.button_index = serialized[2];
-				InputMap.action_add_event(action, ev);
-			"joypadmotion":
-				var ev := InputEventJoypadMotion.new();
-				ev.device = device;
-				ev.axis = serialized[2];
-				ev.axis_value = serialized[3];
-				InputMap.action_add_event(action, ev);
-			"mousebutton":
-				var ev := InputEventMouseButton.new();
-				ev.device = device;
-				ev.pressed = true;
-				ev.button_index = serialized[2];
-				InputMap.action_add_event(action, ev);
-			_:
-				push_error("{0} has unknown keybind type {1}".format([action, type]));
+		var ev := deserialize_input_event(serialized);
+		if ev == null:
+			push_error("{0} has unknown keybind type {1}".format([action, serialized[0]]));
+		else:
+			InputMap.action_add_event(action, ev);
+
+func serialize_input_event(event: InputEvent) -> Array:
+	var device := event.device;
+	if event is InputEventKey:
+		return ["key", device, (event as InputEventKey).get_physical_keycode_with_modifiers()
+];
+	elif event is InputEventJoypadButton:
+		return ["joypadbutton", device, (event as InputEventJoypadButton).button_index];
+	elif event is InputEventMouseButton:
+		return ["mousebutton", device, (event as InputEventMouseButton).button_index];
+	elif event is InputEventJoypadMotion:
+		return ["joypadmotion", device, (event as InputEventJoypadMotion).axis, (event as InputEventJoypadMotion).axis_value];
+	return [];
+
+func filter_input_event(event: InputEvent) -> InputEvent:
+	return deserialize_input_event(serialize_input_event(event));
+
+func deserialize_input_event(serialized: Array) -> InputEvent:
+	var type: String = serialized[0];
+	var device: int = serialized[1];
+	match type:
+		"key":
+			var ev := InputEventKey.new();
+			ev.device = device;
+			ev.pressed = true;
+			ev.physical_keycode = serialized[2];
+			return ev;
+		"joypadbutton":
+			var ev := InputEventJoypadButton.new();
+			ev.device = device;
+			ev.pressed = true;
+			ev.button_index = serialized[2];
+			return ev;
+		"joypadmotion":
+			var ev := InputEventJoypadMotion.new();
+			ev.device = device;
+			ev.axis = serialized[2];
+			ev.axis_value = serialized[3];
+			return ev;
+		"mousebutton":
+			var ev := InputEventMouseButton.new();
+			ev.device = device;
+			ev.pressed = true;
+			ev.button_index = serialized[2];
+			return ev;
+	return null;
 
 func get_bind_name(event: InputEvent, include_pad: bool = true) -> String:
 	if event is InputEventJoypadButton:

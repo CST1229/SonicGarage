@@ -3,6 +3,7 @@ extends Node2D
 @onready var menu_panel = $CanvasLayer/Tabs/Menu;
 @onready var credits_panel = $CanvasLayer/Tabs/Credits;
 @onready var settings_panel = $CanvasLayer/Tabs/Settings;
+@onready var logo_container: DancingLogo = $CanvasLayer/Tabs/Menu/LogoContainer;
 
 func _ready():
 	Music.play(preload("res://music/takeoff.mp3"));
@@ -30,9 +31,12 @@ func quit():
 
 func goto_menu():
 	menu_panel.visible = true;
+	logo_container.cancel_recording();
 
 func goto_settings():
 	settings_panel.visible = true;
+	logo_container.cancel_recording();
 
 func goto_credits():
 	credits_panel.visible = true;
+	logo_container.cancel_recording();

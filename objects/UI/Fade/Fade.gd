@@ -27,6 +27,10 @@ extends Control
 
 @export var affects_volume = false;
 
+func _ready():
+	# do setter
+	is_white = is_white;
+
 func _process(_delta: float) -> void:
 	if affects_volume:
 		Music.fade_volume = 1.0 - fade;

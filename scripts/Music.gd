@@ -1,3 +1,4 @@
+# music and other sound stuff
 extends Node
 
 var player := AudioStreamPlayer.new();
@@ -23,12 +24,34 @@ var fade_volume: float = 1.0:
 		volume = volume;
 const EDITOR_VOLUME_MULTIPLIER = 0.5;
 
+var focus_volume: float = 1.0;
+const FOCUS_VOLUME_SPEED = 1.0 / 0.2;
+
 var current_song := "";
 
 func _ready():
+	focus_volume = 0 if should_focus_mute() else 1;
+	update_audio();
+	
 	player.bus = &"Music";
 	add_child(player);
 	Fades.scene_changed.connect.call_deferred(_on_scene_changed);
+
+func _process(delta: float) -> void:
+	focus_volume = move_toward(focus_volume, 0 if should_focus_mute() else 1, FOCUS_VOLUME_SPEED * delta);
+	update_audio();
+
+func update_audio() -> void:
+	set_bus_volume(&"Master", Settings.master_volume * focus_volume);
+	set_bus_volume(&"Music", Settings.music_volume);
+	set_bus_volume(&"SFX", Settings.sfx_volume);
+	
+func should_focus_mute() -> bool:
+	return Settings.mute_on_focus_lost && !DisplayServer.window_is_focused();
+
+func set_bus_volume(bus_name: StringName, volume: float) -> void:
+	var bus := AudioServer.get_bus_index(bus_name);
+	AudioServer.set_bus_volume_linear(bus, volume);
 
 func play(song: AudioStream):
 	if current_song != song.resource_path:
