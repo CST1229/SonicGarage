@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Sonic Garage"
 config/description="A dumb Sonic Studio recreation"
-config/version="0.0.1"
+config/version="0.0.2"
 run/main_scene="uid://c1m2cm6yym2j5"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
@@ -44,6 +44,7 @@ gdscript/warnings/unsafe_cast=1
 
 window/size/viewport_width=424
 window/size/viewport_height=224
+window/size/initial_position_type=5
 window/size/window_width_override=848
 window/size/window_height_override=448
 window/stretch/mode="viewport"

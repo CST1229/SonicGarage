@@ -4,8 +4,10 @@ extends Node2D
 @onready var credits_panel = $CanvasLayer/Tabs/Credits;
 @onready var settings_panel = $CanvasLayer/Tabs/Settings;
 @onready var logo_container: DancingLogo = $CanvasLayer/Tabs/Menu/LogoContainer;
+@onready var version: Label = $CanvasLayer/Tabs/Menu/Version;
 
 func _ready():
+	version.text = "v" + str(ProjectSettings.get_setting("application/config/version"));
 	Music.play(preload("res://music/takeoff.mp3"));
 	goto_menu();
 

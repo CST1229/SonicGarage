@@ -152,7 +152,6 @@ func serialize_action(action: StringName) -> Array[Array]:
 	if !InputMap.has_action(action):
 		return arr;
 	for event: InputEvent in InputMap.action_get_events(action):
-		var device = event.device;
 		var serialized = serialize_input_event(event);
 		if serialized.size() > 0:
 			arr.append(serialized);

@@ -39,7 +39,7 @@ func add_control(text: String, action: StringName) -> void:
 		bind_cancel_timer.start();
 		
 		bind_window.visible = true;
-		bind_label.grab_focus.call_deferred();
+		bind_label.grab_click_focus.call_deferred();
 		Fades.current_scene.process_mode = PROCESS_MODE_DISABLED;
 	);
 	bind.bind_end.connect(func():
