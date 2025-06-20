@@ -1,11 +1,20 @@
 ## Functions for drawing levels.
 extends Node
 
+var semisolid_decor_cache: Dictionary[Array, Array] = {};
+
 ## Computes what decor (e.g grass edges) to render, based off of vertices.
-func compute_decor(verts: Array[Vertex]) -> Array[DecorSection]:
+func compute_decor(verts: Array[Vertex], polygon: Polygon) -> Array[DecorSection]:
 	# TODO: don't hardcode the decor type
 	var decors: Array = Decor.GHZ_DECOR;
 	var decor_sections: Dictionary[Decor, DecorSection] = {};
+	
+	if polygon.is_in_editor() && polygon.semisolid:
+		if decors not in semisolid_decor_cache:
+			var new_decors := decors.duplicate();
+			new_decors.append(Decor.EDITOR_SEMISOLID);
+			semisolid_decor_cache[decors] = new_decors;
+		decors = semisolid_decor_cache[decors];
 	
 	# Indexes that decide which decor takes precedence in case of a
 	# MUTUALLY_EXCLUSIVE conflict.

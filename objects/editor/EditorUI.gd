@@ -5,13 +5,17 @@ class_name EditorUI
 ## The [LevelEditor] to control.
 @export var editor: LevelEditor;
 
-@onready var terrain_tools: Control = $TerrainTools;
+@onready var terrain_tools: Control = %TerrainTools;
+@onready var polygon_actions: HBoxContainer = %PolygonActions
+@onready var vertex_actions: HBoxContainer = %VertexActions
+
 @onready var poly_layer_button: Button = %PolyLayerButton;
+@onready var toggle_semisolid_button: Button = %ToggleSemisolidButton;
 @onready var line_edge_button: Button = %LineEdgeButton;
 
-@onready var object_tools: Control = $ObjectTools;
-@onready var object_selector: Control = $ObjectTools/ObjectSelector;
-@onready var object_list: FlowContainer = $ObjectTools/ObjectSelector/Selector/List;
+@onready var object_tools: Control = %ObjectTools;
+@onready var object_selector: Control = %ObjectSelector;
+@onready var object_list: FlowContainer = %ObjectList;
 
 var objects_flap_open := false;
 var objects_flap_transition := 0.0;
@@ -106,8 +110,8 @@ func select_tool(t: LevelEditor.Tool) -> void:
 	
 	editor.select_tool(t);
 	
-	poly_layer_button.visible = editor.tool == LevelEditor.Tool.POLY_SELECT;
-	line_edge_button.visible = editor.tool == LevelEditor.Tool.VERT_SELECT;
+	polygon_actions.visible = editor.tool == LevelEditor.Tool.POLY_SELECT;
+	vertex_actions.visible = editor.tool == LevelEditor.Tool.VERT_SELECT;
 	
 	for tool: LevelEditor.Tool in tool_buttons.keys():
 		var button: Button = tool_buttons[tool];
@@ -137,6 +141,7 @@ func selection_changed() -> void:
 	var selected_polygons: Array = get_tree().get_nodes_in_group(&"selected_polygons");
 	var has_selection: bool = editor.selected_verts.size() > 0 || selected_polygons.size() > 0;
 	poly_layer_button.disabled = !has_selection;
+	toggle_semisolid_button.disabled = !has_selection;
 	line_edge_button.disabled = !has_selection;
 	if has_selection:
 		var poly_layer: String = "";
@@ -184,6 +189,9 @@ func menu_pressed(id: int) -> void:
 func poly_layer_button_pressed() -> void:
 	editor.poly_layer_button();
 	selection_changed();
+
+func semisolid_button_pressed() -> void:
+	editor.semisolid_button();
 
 func line_edge_button_pressed() -> void:
 	editor.line_edge_button();

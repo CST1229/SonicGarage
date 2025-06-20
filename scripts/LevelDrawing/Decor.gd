@@ -40,6 +40,10 @@ static var GHZ_GRASS := define_grass(
 ).match_angles(SurfaceType.FLOOR, [Vector2(0, 60)]).set_layer(Layer.SOLID | Layer.SHADOW);
 static var GHZ_HIGHLIGHT := define_shade(Color(0.3, 0.2, 0)).match_angles(SurfaceType.FLOOR_EDGE, [Vector2(-45, 90)]).set_layer(Layer.HIGHLIGHT);
 static var GHZ_SHADOW := define_shade(Color(0, 0, 0)).match_angles(SurfaceType.FLOOR_EDGE, [Vector2(135, 90)]).set_layer(Layer.SHADOW);
+static var EDITOR_SEMISOLID := define_grass(
+	preload("res://sprites/level_themes/semisolid_indicator.png"),
+	null,
+).match_angles(SurfaceType.ALL, [Vector2(0, 80)]).set_layer(Layer.SOLID);
 
 # TODO: themes should define their decor
 static var GHZ_DECOR = [GHZ_GRASS, GHZ_HIGHLIGHT, GHZ_SHADOW];

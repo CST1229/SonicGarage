@@ -418,7 +418,7 @@ func _on_mouse_dehover_gui():
 
 func do_object_detector(area: Area2D, exiting: bool):
 	if tool != Tool.OBJECT_SELECT || drawing != DrawingMode.RECT_SELECT: return;
-	var parent = area.get_parent();
+	var parent := area.get_parent();
 	if !parent || !parent.is_in_group(&"editor_objects"): return;
 	if parent in ignore_select_objects: return;
 	if exiting:
@@ -501,10 +501,10 @@ func select_mode(m: Mode):
 	place_object = null;
 
 func poly_layer_button():
-	var selected_polygons = get_tree().get_nodes_in_group(&"selected_polygons");
+	var selected_polygons := get_tree().get_nodes_in_group(&"selected_polygons");
 	if selected_polygons.size() <= 0: return;
 	
-	var layer: String = selected_polygons[0].layer;
+	var layer := (selected_polygons[0] as Polygon).layer;
 	for poly: Polygon in selected_polygons:
 		if poly.layer != layer:
 			layer = "";
@@ -515,6 +515,16 @@ func poly_layer_button():
 	
 	for poly in selected_polygons:
 		poly.layer = layer;
+
+func semisolid_button():
+	var selected_polygons := get_tree().get_nodes_in_group(&"selected_polygons");
+	if selected_polygons.size() <= 0: return;
+	
+	var semisolid := !(selected_polygons[0] as Polygon).semisolid;
+	for poly: Polygon in selected_polygons:
+		if poly.semisolid != semisolid:
+			poly.semisolid = semisolid;
+			poly.update_polygon();
 
 func line_edge_button():
 	if selected_verts.size() <= 0: return;

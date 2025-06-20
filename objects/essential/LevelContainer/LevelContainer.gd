@@ -60,6 +60,8 @@ func deserialize_polygons(polys: Array) -> void:
 			vert.polygon = poly;
 		if "layer" in level_poly:
 			poly.layer = level_poly.layer;
+		if "semisolid" in level_poly:
+			poly.semisolid = level_poly.semisolid;
 		polygons.add_child(poly);
 
 func deserialize_objects(objs: Array) -> void:
@@ -95,6 +97,7 @@ func serialize() -> Dictionary:
 		data.polygons.append({
 			vertices = verts_arr,
 			layer = poly.layer,
+			semisolid = poly.semisolid,
 		});
 		
 	for obj in objects.get_children():
