@@ -139,6 +139,16 @@ popup/item_2/text = "No Details"
 popup/item_2/id = 0
 script = ExtResource("3_hm052")
 
+[node name="DetailBtn2" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+layout_mode = 2
+text = "High Res Mode (F3)"
+
+[node name="RetroScale" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+flat = true
+
 [node name="Label" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 text = "Master Volume"

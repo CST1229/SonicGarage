@@ -114,8 +114,7 @@ func update_polygon() -> void:
 	if valid:
 		collision_polygon.polygon = vectors;
 		fill.polygon = vectors;
-		fill.texture = preload("res://sprites/level_themes/GreenHill/checkerboard.png")
-		decor_sections = LevelDrawing.compute_decor(parsed_vertices, self);
+		decor_sections = LevelDrawing.compute_polygon(parsed_vertices, self);
 	else:
 		collision_polygon.polygon = PackedVector2Array();
 		decor_sections = [];

@@ -49,9 +49,9 @@ func update_audio() -> void:
 func should_focus_mute() -> bool:
 	return Settings.mute_on_focus_lost && !DisplayServer.window_is_focused();
 
-func set_bus_volume(bus_name: StringName, volume: float) -> void:
+func set_bus_volume(bus_name: StringName, new_volume: float) -> void:
 	var bus := AudioServer.get_bus_index(bus_name);
-	AudioServer.set_bus_volume_linear(bus, volume);
+	AudioServer.set_bus_volume_linear(bus, new_volume);
 
 func play(song: AudioStream):
 	if current_song != song.resource_path:

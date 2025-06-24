@@ -3,6 +3,7 @@ extends VBoxContainer
 
 @onready var fullscreen: CheckButton = $Options/Fullscreen;
 @onready var terrain_detail: OptionButton = $Options/TerrainDetail
+@onready var retro_scale: CheckButton = $Options/RetroScale;
 @onready var master_volume: HSlider = $Options/MasterVolume;
 @onready var sfx_volume: HSlider = $Options/SFXVolume;
 @onready var music_volume: HSlider = $Options/MusicVolume;
@@ -11,12 +12,13 @@ extends VBoxContainer
 func _ready() -> void:
 	Global.setting_binding(&"fullscreen", fullscreen, &"button_pressed", fullscreen.toggled);
 	handle_save(fullscreen.toggled);
-	Global.setting_binding(&"terrain_detail", terrain_detail, &"selected", terrain_detail.item_selected, func(value: int) -> int:
-		return 2 - value;
-	, func(value: int) -> int:
-		return 2 - value;
+	Global.setting_binding(&"terrain_detail", terrain_detail, &"selected", terrain_detail.item_selected,
+		func(value: int) -> int: return 2 - value;
+	, func(value: int) -> int: return 2 - value;
 	);
 	handle_save(terrain_detail.item_selected);
+	Global.setting_binding(&"hd", retro_scale, &"button_pressed", retro_scale.toggled);
+	handle_save(retro_scale.toggled);
 	
 	Global.setting_binding(&"master_volume", master_volume, &"value", master_volume.value_changed);
 	handle_save_slider(master_volume.drag_ended);

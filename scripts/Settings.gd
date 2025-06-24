@@ -2,8 +2,6 @@ extends Node
 
 const SETTINGS_PATH = "user://settings.json";
 
-# TODO: controls customization
-
 var settings_dict: Dictionary = {};
 
 var terrain_detail: int = 2:
@@ -44,6 +42,13 @@ var mute_on_focus_lost: bool = true:
 		mute_on_focus_lost = value;
 		changed.emit(&"mute_on_focus_lost");
 
+var hd: bool = false:
+	set(value):
+		hd = value;
+		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT if !hd else Window.CONTENT_SCALE_MODE_CANVAS_ITEMS;
+		get_window().snap_2d_transforms_to_pixel = !hd;
+		changed.emit(&"hd");
+
 var keybinds: Dictionary[StringName, Array] = {};
 var default_keybinds: Dictionary[StringName, Array] = {};
 
@@ -59,6 +64,7 @@ func do_settings(opt: Callable) -> void:
 	save_verbatim.call(&"music_volume");
 	deserialize_binds(opt.call(serialize_binds(keybinds), &"keybinds"));
 	save_verbatim.call(&"mute_on_focus_lost");
+	save_verbatim.call(&"hd");
 
 func _ready():
 	serialize_binds(default_keybinds);
@@ -71,6 +77,8 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("setting_fullscreen"):
 		fullscreen = !fullscreen;
 		save_settings();
+	if Input.is_action_just_pressed("setting_hd"):
+		hd = !hd;
 
 
 func load_settings() -> void:
