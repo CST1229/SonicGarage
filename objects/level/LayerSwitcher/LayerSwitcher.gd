@@ -117,5 +117,7 @@ func layer_handle_pressed():
 		"b": layer = "ab";
 		"ab": layer = "a";
 		_: layer = "a";
+	container.dirty = true;
 func grounded_only_handle_pressed():
 	grounded_only = !grounded_only;
+	container.dirty = true;

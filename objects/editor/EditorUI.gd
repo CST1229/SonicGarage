@@ -165,6 +165,13 @@ func objects_flap_pressed() -> void:
 func menu_pressed(id: int) -> void:
 	match id:
 		0: # Save Level
+			print(LevelUtil.level_path);
+			if LevelUtil.level_path == "":
+				menu_pressed(4);
+			else:
+				LevelUtil.load_level = editor.container.serialize();
+				EditorLib.save_level(true, PackedStringArray([LevelUtil.level_path]), 0);
+		4: # Save As
 			LevelUtil.load_level = editor.container.serialize();
 			DisplayServer.file_dialog_show(
 				"Save Level", "",

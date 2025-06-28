@@ -41,7 +41,7 @@ func draw_vert(to: CanvasItem, pos: Vector2, alpha: float = 1, selected: bool = 
 func save_level(status: bool, selected_paths: PackedStringArray, selected_filter_index: int):
 	if !status: return;
 	if selected_paths.size() < 1: return;
-	var path = selected_paths[0];
+	var path := selected_paths[0];
 	
 	if selected_filter_index == 1:
 		# Add file extension
@@ -53,6 +53,7 @@ func save_level(status: bool, selected_paths: PackedStringArray, selected_filter
 		OS.alert(error_string(FileAccess.get_open_error()), "Error saving level!");
 		return;
 	file.store_string(JSON.stringify(LevelUtil.load_level));
+	LevelUtil.level_path = path;
 
 ## Loads a level for editing.
 func load_level_editor(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
@@ -66,15 +67,15 @@ func load_level_play(status: bool, selected_paths: PackedStringArray, _selected_
 func _load_level(editor: bool, status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
 	if !status: return;
 	if selected_paths.size() < 1: return;
-	var path = selected_paths[0];
+	var path := selected_paths[0];
 	
-	var file = FileAccess.get_file_as_string(path);
+	var file := FileAccess.get_file_as_string(path);
 	if FileAccess.get_open_error() != OK:
 		OS.alert(error_string(FileAccess.get_open_error()), "Error loading level!");
 		return;
 	
-	var parser = JSON.new();
-	var err = parser.parse(file);
+	var parser := JSON.new();
+	var err := parser.parse(file);
 	if err != OK:
 		OS.alert(
 			"{0}\nat line {1}".format([parser.get_error_message(), parser.get_error_line()]),
@@ -85,6 +86,8 @@ func _load_level(editor: bool, status: bool, selected_paths: PackedStringArray, 
 	LevelUtil.load_level = json;
 	
 	if editor:
+		LevelUtil.level_path = path;
 		Fades.change_scene_to_file("res://scenes/EditorRoom/EditorRoom.tscn");
 	else:
+		LevelUtil.level_path = "";
 		Fades.fade_to_scene("res://scenes/CustomLevel/CustomLevel.tscn");

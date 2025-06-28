@@ -50,6 +50,7 @@ func _on_item_handle_pressed():
 	var keys := items.keys();
 	var i := keys.find(item);
 	item = keys[(i + 1) % keys.size()];
+	container.dirty = true;
 
 func _physics_process(delta: float):
 	if gravity == 0.0:

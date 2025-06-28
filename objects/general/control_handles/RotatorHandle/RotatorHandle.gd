@@ -4,6 +4,7 @@ extends Control
 @export_range(0, 6.28319) var snap: float = deg_to_rad(45);
 @export var target: Node2D;
 
+@onready var handle_container = get_parent();
 @onready var panel: Panel = $Panel;
 
 var dragging: bool = false;
@@ -14,10 +15,14 @@ func _process(_delta: float):
 		var target_pos := target.global_position;
 		var mouse_pos := target.get_global_mouse_position() + drag_offset;
 		
-		var angle: float = target_pos.angle_to_point(mouse_pos) + deg_to_rad(90);
+		var angle := target_pos.angle_to_point(mouse_pos) + deg_to_rad(90);
 		if snap > 0.0:
 			angle = snappedf(angle, snap);
+		var old_rotation := target.rotation;
 		target.rotation = angle;
+		
+		if old_rotation != target.rotation:
+			handle_container.container.dirty = true;
 		
 		if !Input.is_action_pressed("editor_click"):
 			dragging = false;

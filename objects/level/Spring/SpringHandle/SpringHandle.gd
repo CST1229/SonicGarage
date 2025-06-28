@@ -8,7 +8,7 @@ const YELLOW_Y = 32;
 const RED_Y = 64;
 
 @onready var panel: Panel = $Panel;
-@onready var container = get_parent();
+@onready var handle_container = get_parent();
 
 var dragging: bool = false;
 var drag_offset: Vector2 = Vector2.ZERO;
@@ -27,6 +27,9 @@ func _process(_delta: float):
 		
 		var distance = target_pos.distance_to(mouse_pos);
 		
+		var old_dir := target.direction;
+		var old_type := target.type;
+		
 		var vector: Vector2 = Vector2.from_angle(-angle).rotated(deg_to_rad(90));
 		target.flip_h = vector.x < -0.01;
 		target.flip_v = vector.y < -0.01;
@@ -40,7 +43,9 @@ func _process(_delta: float):
 			target.direction = Spring.SpringDirection.HORIZONTAL;
 		else:
 			target.direction = Spring.SpringDirection.DIAGONAL;
-		target.update_spring();
+		if target.direction != old_dir || target.type != old_type:
+			target.update_spring();
+			handle_container.container.dirty = true;
 		do_angle();
 		
 		if !Input.is_action_pressed("editor_click"):
@@ -58,7 +63,7 @@ func do_angle():
 		vector.x *= -1;
 	if target.flip_v:
 		vector.y *= -1;
-	container.rotation = vector.angle() + deg_to_rad(90);
+	handle_container.rotation = vector.angle() + deg_to_rad(90);
 	position.y = -RED_Y if target.type == &"red" else -YELLOW_Y;
 
 func _gui_input(event: InputEvent):

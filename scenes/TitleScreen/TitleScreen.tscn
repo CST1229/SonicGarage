@@ -46,10 +46,11 @@ offset_right = 140.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 0
+current_tab = 1
 tabs_visible = false
 
 [node name="Menu" type="Panel" parent="CanvasLayer/Tabs"]
+visible = false
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -182,7 +183,6 @@ theme = ExtResource("2_trggm")
 text = "Quit"
 
 [node name="Credits" type="Panel" parent="CanvasLayer/Tabs"]
-visible = false
 layout_mode = 2
 theme = ExtResource("2_trggm")
 metadata/_tab_index = 1
@@ -249,9 +249,9 @@ layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("4_1tjes")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
-text = "Made by CST1229
+text = "Made by [url=https://cst1229.eu.org/]CST1229[/url]
 Inspired by [url=https://sonicstudiofangame.weebly.com/information.html]Sonic Studio[/url]
-    (by LapperDev)
+    (by [url=https://twitter.com/LapperDev]LapperDev[/url])
 Sonic belongs to SEGA
    (and also a lot of the sprites and sounds)
 Made with [url=https://godotengine.org]Godot[/url]

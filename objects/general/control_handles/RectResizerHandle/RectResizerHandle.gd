@@ -6,6 +6,8 @@ extends Control
 
 @export var snap: Vector2 = Vector2.ONE;
 
+@onready var handle_container = get_parent();
+
 const HANDLES: Array[Vector2] = [
 	Vector2(0, -0.5),
 	Vector2(0, 0.5),

@@ -16,7 +16,25 @@ func _ready() -> void:
 	add_control("Move Right", &"player_right");
 	add_control("Jump", &"player_jump");
 	add_control("Crouch/Roll", &"player_down");
-	# add_controls_heading("Editor");
+	
+	add_controls_heading("Editor");
+	add_control("Scroll Up", &"editor_scroll_up");
+	add_control("Scroll Down", &"editor_scroll_down");
+	add_control("Scroll Left", &"editor_scroll_left");
+	add_control("Scroll Right", &"editor_scroll_right");
+	add_control("Mouse Up", &"editor_mouse_up");
+	add_control("Mouse Down", &"editor_mouse_down");
+	add_control("Mouse Left", &"editor_mouse_left");
+	add_control("Mouse Right", &"editor_mouse_right");
+	add_control("Move Faster", &"editor_scroll_fast");
+	add_control("Click", &"editor_click");
+	add_control("Cancel Drawing", &"editor_cancel");
+	add_control("Delete", &"editor_delete");
+	add_control("Multiselect", &"editor_multiselect");
+	
+	add_controls_heading("Misc");
+	add_control("Toggle Playtest", &"editor_playtest");
+	add_control("Exit Editor/Level", &"editor_quit");
 
 func add_controls_heading(text: String) -> void:
 	var heading := Label.new();

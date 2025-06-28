@@ -11,6 +11,8 @@ class_name LevelContainer
 @export var editor: LevelEditor = null;
 @export var music: String = "green_hill_zone";
 
+@export var dirty: bool = true;
+
 @onready var polygons = $polygons;
 @onready var objects = $objects;
 @onready var players = $players;

@@ -2,6 +2,7 @@ extends Node
 
 ## this is where the serialized level is stored between scenes.
 var load_level = null;
+var level_path := "";
 var level_manager: LevelManager = null;
 
 const MUSIC_PATH = "res://music/";

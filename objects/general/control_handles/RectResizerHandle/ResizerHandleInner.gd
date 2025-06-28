@@ -24,12 +24,12 @@ func _ready():
 func _process(_delta: float):
 	if dragging:
 		var origin = target.global_position + target.size * -handle;
-		var mouse_pos = get_global_mouse_position().snapped(snap);
+		var mouse_pos := get_global_mouse_position().snapped(snap);
 		# this is a TOTAL HOT MESS
 		# and i had like 50 brain attacks while writing and debugging this code
 		if Input.is_action_pressed("editor_click"):
-			var d_handle = handle * 2;
-			var rect = Rect2(origin, (mouse_pos - origin) * d_handle);
+			var d_handle := handle * 2;
+			var rect := Rect2(origin, (mouse_pos - origin) * d_handle);
 			rect.position += rect.size * (handle - Vector2(0.5, 0.5));
 			
 			var old_size = target.size;
@@ -62,8 +62,10 @@ func _process(_delta: float):
 				dragging = false;
 				opposite_node.dragging = true;
 				opposite_node._process(_delta);
-			if resizer:
-				resizer.get_parent().update_size();
+			if old_size != target.size || old_pos != target.global_position:
+				if resizer:
+					resizer.get_parent().update_size();
+				resizer.handle_container.container.dirty = true;
 		else:
 			dragging = false;
 

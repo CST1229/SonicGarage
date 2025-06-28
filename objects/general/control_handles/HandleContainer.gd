@@ -17,12 +17,14 @@ class_name HandleContainer
 ## the container destroys itself.
 var editor: LevelEditor;
 
+var container: LevelContainer;
+
 var use_size = false;
 
 func _ready():
 	mouse_filter = Control.MOUSE_FILTER_IGNORE;
 	visible = false;
-	var container: LevelContainer = find_container();
+	container = find_container();
 	if !target || !container || !container.editor_mode:
 		queue_free();
 		return;
@@ -40,9 +42,9 @@ func update_size():
 
 ## Finds the level container.
 ## TODO: maybe this should be part of [EditorLib].
-func find_container():
-	var container = self;
-	while !(container is LevelContainer):
-		container = container.get_parent();
-		if !container: return;
-	return container;
+func find_container() -> LevelContainer:
+	var new_container: Node = self;
+	while !(new_container is LevelContainer):
+		new_container = new_container.get_parent();
+		if !new_container: return;
+	return new_container as LevelContainer;
