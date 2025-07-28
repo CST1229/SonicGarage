@@ -4,6 +4,7 @@ extends VBoxContainer
 @onready var fullscreen: CheckButton = $Options/Fullscreen;
 @onready var terrain_detail: OptionButton = $Options/TerrainDetail
 @onready var retro_scale: CheckButton = $Options/RetroScale;
+@onready var show_fps: CheckButton = $Options/ShowFPS;
 @onready var master_volume: HSlider = $Options/MasterVolume;
 @onready var sfx_volume: HSlider = $Options/SFXVolume;
 @onready var music_volume: HSlider = $Options/MusicVolume;
@@ -19,6 +20,8 @@ func _ready() -> void:
 	handle_save(terrain_detail.item_selected);
 	Global.setting_binding(&"hd", retro_scale, &"button_pressed", retro_scale.toggled);
 	handle_save(retro_scale.toggled);
+	Global.setting_binding(&"show_fps", show_fps, &"button_pressed", show_fps.toggled);
+	handle_save(show_fps.toggled);
 	
 	Global.setting_binding(&"master_volume", master_volume, &"value", master_volume.value_changed);
 	handle_save_slider(master_volume.drag_ended);

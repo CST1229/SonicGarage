@@ -66,6 +66,9 @@ var grid_size: float = 8;
 ## The maximum speed the camera scrolls at
 ## (can be lower with analog controls),
 const SCROLL_SPEED = 200;
+var zoom: float = 0.0;
+const MIN_ZOOM: float = -16.0;
+const MAX_ZOOM: float = 16.0;
 
 ## The vertex that is currently being snapped to.
 var snapped_vert: Vertex;
@@ -123,6 +126,9 @@ func _ready():
 	object_detector.body_entered.connect(do_polygon_detector.bind(false));
 	object_detector.body_exited.connect(do_polygon_detector.bind(true));
 	selection_changed.emit();
+	Fades.scene_manager.scene_changing.connect(func():
+		get_window().content_scale_factor = 1.0;
+	);
 
 func _draw():
 	if drawing == DrawingMode.NONE && !hovering_over_gui:
@@ -261,9 +267,14 @@ func _process(delta: float):
 	handle_delete();
 	queue_redraw();
 
-## Handles the camera scroll controls.
+## Handles the camera scroll controls and zooming.
 func scroll_camera(delta: float):
 	if camera:
+		var zoom_by := int(Input.is_action_just_pressed("editor_zoom_in")) - int(Input.is_action_just_pressed("editor_zoom_out"));
+		if zoom_by != 0:
+			zoom = clampf(zoom + zoom_by, MIN_ZOOM, MAX_ZOOM);
+			apply_camera_zoom();
+		
 		var scroll := Input.get_vector("editor_scroll_left", "editor_scroll_right", "editor_scroll_up", "editor_scroll_down");
 		var multiplier := 1.0 + Input.get_action_strength("editor_scroll_fast") * 2.0;
 		scroll *= multiplier * SCROLL_SPEED * delta;
@@ -283,7 +294,16 @@ func scroll_camera(delta: float):
 			window.warp_mouse(_mouse_pos);
 			scroll -= _mouse_pos - old_mouse_pos;
 		
-		camera.position += scroll;
+		camera.position += scroll / camera.zoom;
+
+func apply_camera_zoom():
+	var zoom_factor := sqrt(sqrt(2)) ** zoom;
+	var old_mouse_pos_from_camera := camera.get_local_mouse_position();
+	camera.zoom = Vector2(zoom_factor, zoom_factor);
+	var new_mouse_pos_from_camera := camera.get_local_mouse_position();
+
+	camera.position += old_mouse_pos_from_camera - new_mouse_pos_from_camera;
+	
 
 ## Updates the ghost object.
 func update_ghost_object():

@@ -18,8 +18,10 @@ var spindash_pitch = 0;
 
 func _ready():
 	ring_player.bus = "SFX";
+	ring_player.volume_db = -5;
 	spindash_player.bus = "Spindash";
 	spindash_player.stream = preload("res://objects/essential/Player/sounds/spindash.wav")
+	spindash_player.volume_db = -8;
 	
 	var root = get_tree().root;
 	root.add_child.call_deferred(ring_player);

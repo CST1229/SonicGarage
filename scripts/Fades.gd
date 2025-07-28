@@ -13,7 +13,7 @@ var is_fading_to_scene: bool = false;
 var scene_manager: SceneManager;
 var current_scene: Node:
 	get:
-		return scene_manager.current_scene;
+		return scene_manager.current_scene if scene_manager else null;
 
 func _ready() -> void:
 	fade_container.layer = 10;

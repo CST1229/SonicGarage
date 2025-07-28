@@ -1,4 +1,8 @@
-[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://bvsmik2x1ye3e"]
+[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://bvsmik2x1ye3e"]
+
+[sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_f4lrx"]
+resource_name = "LowPassFilter"
+cutoff_hz = 500.0
 
 [sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_t3b1j"]
 resource_name = "PitchShift"
@@ -16,6 +20,8 @@ bus/2/mute = false
 bus/2/bypass_fx = false
 bus/2/volume_db = 0.0
 bus/2/send = &"Master"
+bus/2/effect/0/effect = SubResource("AudioEffectLowPassFilter_f4lrx")
+bus/2/effect/0/enabled = false
 bus/3/name = &"Spindash"
 bus/3/solo = false
 bus/3/mute = false

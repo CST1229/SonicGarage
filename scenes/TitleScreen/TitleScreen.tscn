@@ -46,11 +46,10 @@ offset_right = 140.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 1
+current_tab = 0
 tabs_visible = false
 
 [node name="Menu" type="Panel" parent="CanvasLayer/Tabs"]
-visible = false
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -109,80 +108,59 @@ text = "vVVVVV"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EditorButton" type="Button" parent="CanvasLayer/Tabs/Menu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Tabs/Menu"]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
+anchor_bottom = 1.0
 offset_left = -80.0
-offset_top = 73.0
+offset_top = 72.0
 offset_right = 80.0
-offset_bottom = 98.0
+offset_bottom = -9.0
 grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="EditorButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
 theme = ExtResource("2_trggm")
 text = "Editor"
 
-[node name="PlayButton" type="Button" parent="CanvasLayer/Tabs/Menu"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -80.0
-offset_top = 105.0
-offset_right = 80.0
-offset_bottom = 129.0
-grow_horizontal = 2
+[node name="PlayButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
 theme = ExtResource("2_trggm")
 text = "Play Level"
 
-[node name="SettingsButton" type="Button" parent="CanvasLayer/Tabs/Menu"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -80.0
-offset_top = -65.0
-offset_right = 80.0
-offset_bottom = -40.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="SettingsButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_vertical = 10
 theme = ExtResource("2_trggm")
 text = "Settings"
 
-[node name="CreditsButton" type="Button" parent="CanvasLayer/Tabs/Menu"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -80.0
-offset_top = -33.0
-offset_bottom = -8.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="GridContainer" type="HBoxContainer" parent="CanvasLayer/Tabs/Menu/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CreditsButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
 theme = ExtResource("2_trggm")
 text = "Credits"
 
-[node name="QuitButton" type="Button" parent="CanvasLayer/Tabs/Menu"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = -33.0
-offset_right = 80.0
-offset_bottom = -8.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="QuitButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
 theme = ExtResource("2_trggm")
 text = "Quit"
 
 [node name="Credits" type="Panel" parent="CanvasLayer/Tabs"]
+visible = false
 layout_mode = 2
 theme = ExtResource("2_trggm")
 metadata/_tab_index = 1
@@ -271,10 +249,10 @@ script = ExtResource("7_u37po")
 visible = false
 layout_mode = 2
 
-[connection signal="pressed" from="CanvasLayer/Tabs/Menu/EditorButton" to="." method="goto_editor"]
-[connection signal="pressed" from="CanvasLayer/Tabs/Menu/PlayButton" to="." method="load_level"]
-[connection signal="pressed" from="CanvasLayer/Tabs/Menu/SettingsButton" to="." method="goto_settings"]
-[connection signal="pressed" from="CanvasLayer/Tabs/Menu/CreditsButton" to="." method="goto_credits"]
-[connection signal="pressed" from="CanvasLayer/Tabs/Menu/QuitButton" to="." method="quit"]
+[connection signal="pressed" from="CanvasLayer/Tabs/Menu/VBoxContainer/EditorButton" to="." method="goto_editor"]
+[connection signal="pressed" from="CanvasLayer/Tabs/Menu/VBoxContainer/PlayButton" to="." method="load_level"]
+[connection signal="pressed" from="CanvasLayer/Tabs/Menu/VBoxContainer/SettingsButton" to="." method="goto_settings"]
+[connection signal="pressed" from="CanvasLayer/Tabs/Menu/VBoxContainer/GridContainer/CreditsButton" to="." method="goto_credits"]
+[connection signal="pressed" from="CanvasLayer/Tabs/Menu/VBoxContainer/GridContainer/QuitButton" to="." method="quit"]
 [connection signal="pressed" from="CanvasLayer/Tabs/Credits/BackButton" to="." method="goto_menu"]
 [connection signal="go_back" from="CanvasLayer/Tabs/Settings" to="." method="goto_menu"]

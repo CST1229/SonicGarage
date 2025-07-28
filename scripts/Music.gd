@@ -22,7 +22,7 @@ var fade_volume: float = 1.0:
 	set(value):
 		fade_volume = value;
 		volume = volume;
-const EDITOR_VOLUME_MULTIPLIER = 0.5;
+const EDITOR_VOLUME_MULTIPLIER = 1.0;
 
 var focus_volume: float = 1.0;
 const FOCUS_VOLUME_SPEED = 1.0 / 0.2;
@@ -45,6 +45,8 @@ func update_audio() -> void:
 	set_bus_volume(&"Master", Settings.master_volume * focus_volume);
 	set_bus_volume(&"Music", Settings.music_volume);
 	set_bus_volume(&"SFX", Settings.sfx_volume);
+	var music_bus := AudioServer.get_bus_index(&"Music");
+	AudioServer.set_bus_effect_enabled(music_bus, 0, is_in_editor());
 	
 func should_focus_mute() -> bool:
 	return Settings.mute_on_focus_lost && !DisplayServer.window_is_focused();
@@ -77,3 +79,4 @@ func _on_scene_changed(_scene: PackedScene) -> void:
 	# update volume for editor
 	fade_volume = 1.0;
 	volume = volume;
+	update_audio();

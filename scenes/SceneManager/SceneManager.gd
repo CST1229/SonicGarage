@@ -13,8 +13,13 @@ func change_scene_to_file(path: String) -> Error:
 	return OK;
 
 func change_scene_to_packed(scene: PackedScene) -> Error:
+	scene_changing.emit();
 	if current_scene:
 		current_scene.queue_free();
 	current_scene = scene.instantiate();
 	add_child(current_scene);
+	scene_changed.emit();
 	return OK;
+
+signal scene_changing();
+signal scene_changed();

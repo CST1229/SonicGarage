@@ -113,7 +113,7 @@ layout_mode = 2
 theme_override_constants/h_separation = 8
 columns = 2
 
-[node name="Label4" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="SettingLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0f8tw")
 text = "Fullscreen (F11)"
@@ -124,7 +124,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 flat = true
 
-[node name="DetailBtn" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="SettingLabel2" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 text = "Terrain Detail (F2)"
 
@@ -138,8 +138,9 @@ popup/item_1/id = 1
 popup/item_2/text = "No Details"
 popup/item_2/id = 0
 script = ExtResource("3_hm052")
+no_radio_buttons = true
 
-[node name="DetailBtn2" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="SettingLabel3" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 text = "High Res Mode (F3)"
 
@@ -147,9 +148,22 @@ text = "High Res Mode (F3)"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+tooltip_text = "Makes the game render at the window resolution.
+Useful when zooming in the editor, but disabling this
+might make in-game terrain look better."
 flat = true
 
-[node name="Label" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="SettingLabel4" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+layout_mode = 2
+text = "Show FPS"
+
+[node name="ShowFPS" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+flat = true
+
+[node name="SettingLabel5" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 text = "Master Volume"
 
@@ -162,7 +176,7 @@ max_value = 1.0
 step = 0.0
 value = 0.001
 
-[node name="Label2" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="SettingLabel6" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 text = "SFX Volume"
 
@@ -175,7 +189,7 @@ max_value = 1.0
 step = 0.0
 value = 0.001
 
-[node name="Label3" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="SettingLabel7" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 text = "Music Volume"
 
@@ -188,7 +202,7 @@ max_value = 1.0
 step = 0.0
 value = 0.001
 
-[node name="Label5" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="SettingLabel8" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0f8tw")
 text = "Mute on Focus Lost"

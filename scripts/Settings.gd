@@ -49,6 +49,11 @@ var hd: bool = false:
 		get_window().snap_2d_transforms_to_pixel = !hd;
 		changed.emit(&"hd");
 
+var show_fps: bool = false:
+	set(value):
+		show_fps = value;
+		changed.emit(&"hd");
+
 var keybinds: Dictionary[StringName, Array] = {};
 var default_keybinds: Dictionary[StringName, Array] = {};
 
@@ -65,6 +70,7 @@ func do_settings(opt: Callable) -> void:
 	deserialize_binds(opt.call(serialize_binds(keybinds), &"keybinds"));
 	save_verbatim.call(&"mute_on_focus_lost");
 	save_verbatim.call(&"hd");
+	save_verbatim.call(&"show_fps");
 
 func _ready():
 	serialize_binds(default_keybinds);
