@@ -90,9 +90,8 @@ func _draw() -> void:
 	for vert in vertices:
 		EditorLib.draw_vert(self, vert.position, 1.0, vert.selected);
 
-
-# re-computes the polygon's vertices
-# (updating its collision and graphics)
+## re-computes the polygon's vertices
+## (updating its collision and graphics)
 func update_polygon() -> void:
 	vectors.clear();
 	parsed_vertices.clear();

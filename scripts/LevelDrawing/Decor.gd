@@ -6,9 +6,9 @@ class_name Decor
 var type: StringName;
 
 ## The primary texture of this decor.
-var texture: Texture2D;
+var texture: String;
 ## The secondary texture of this decor.
-var edge: Texture2D;
+var edge: String;
 ## A color for this decor.
 var color: Color;
 ## An offset for this decor.
@@ -43,7 +43,7 @@ enum Layer {
 
 
 class LevelTheme:
-	var base_texture: Texture2D;
+	var base_texture: String;
 	var decors: Array[Decor];
 	## Decors that can't coexist on one vertex.
 	## If both decors match a vertex, the one that wins will be
@@ -52,11 +52,14 @@ class LevelTheme:
 	## Indexes that decide which decor takes precedence in case of a
 	## mutually_exclusive conflict.
 	var decor_precedence: Dictionary[Decor, int] = {};
+	## *Inverse* scale of the base "fill" texture on polygons.
+	var base_texture_scale := 1.0;
 	
-	func _init(_base_texture: Texture2D, _decors: Array[Decor], _mutually_exclusive: Array[Array] = []):
+	func _init(_base_texture: String, _decors: Array[Decor], _mutually_exclusive: Array[Array] = [], _base_texture_scale := 1.0):
 		base_texture = _base_texture;
 		decors = _decors;
 		mutually_exclusive = {};
+		base_texture_scale = _base_texture_scale;
 		
 		for i in range(decors.size()):
 			decor_precedence[decors[i]] = i;
@@ -70,16 +73,24 @@ class LevelTheme:
 				for target_decor in decor_group:
 					if !(target_decor in mutually_exclusive[decor]):
 						mutually_exclusive[decor].append(target_decor);
+	
+	func load():
+		for decor in decors:
+			decor.load();
+	
+	func unload():
+		for decor in decors:
+			decor.unload();
 
 static var NONE := define_none();
 static var EDITOR_SEMISOLID := define_grass(
-	preload("res://sprites/level_themes/semisolid_indicator.png"),
-	null,
+	"res://sprites/level_themes/semisolid_indicator.png",
+	"",
 ).match_angles(SurfaceType.ALL, [Vector2(0, 80)]).set_layer(Layer.SOLID);
 
 static var GHZ_GRASS := define_grass(
-	preload("res://sprites/level_themes/GreenHill/grass.png"),
-	preload("res://sprites/level_themes/GreenHill/grass_edge.png"),
+	"res://sprites/level_themes/GreenHill/grass.png",
+	"res://sprites/level_themes/GreenHill/grass_edge.png",
 	Vector2(0, 12),
 ).match_angles(SurfaceType.FLOOR, [Vector2(0, 60)]).set_layer(Layer.SOLID | Layer.SHADOW);
 static var GHZ_HIGHLIGHT := define_shade(Color(0.3, 0.2, 0)).match_angles(SurfaceType.FLOOR_EDGE, [Vector2(-45, 90)]).set_layer(Layer.HIGHLIGHT);
@@ -89,25 +100,26 @@ static var MZ_HIGHLIGHT := define_shade(Color(0.15, 0.15, 0.2), 4).match_angles(
 static var MZ_SHADOW := define_shade(Color(0, 0, 0), 4).match_angles(SurfaceType.FLOOR_EDGE, [Vector2(135, 90)]).set_layer(Layer.SHADOW);
 
 static var EHZ_GRASS := define_grass(
-	preload("res://sprites/level_themes/EmeraldHill/grass.png"),
-	preload("res://sprites/level_themes/EmeraldHill/grass_edge.png"),
+	"res://sprites/level_themes/EmeraldHill/grass.png",
+	"res://sprites/level_themes/EmeraldHill/grass_edge.png",
 	Vector2(0, 16),
 ).match_angles(SurfaceType.FLOOR, [Vector2(0, 60)]).set_layer(Layer.SOLID | Layer.SHADOW);
 static var EHZ_HIGHLIGHT := define_shade(Color(0.3, 0.2, 0), 4).match_angles(SurfaceType.FLOOR_EDGE, [Vector2(0, 45)]).set_layer(Layer.HIGHLIGHT);
 static var EHZ_SHADOW := define_shade(Color(0, 0, 0), 4).match_angles(SurfaceType.FLOOR_EDGE, [Vector2(180, 270)]).set_layer(Layer.SHADOW);
 
 static var THEME_GHZ := LevelTheme.new(
-	preload("res://sprites/level_themes/GreenHill/checkerboard.png"),
+	"res://sprites/level_themes/GreenHill/checkerboard.png",
 	[GHZ_GRASS, GHZ_HIGHLIGHT, GHZ_SHADOW],
-	[[GHZ_GRASS, GHZ_HIGHLIGHT, GHZ_SHADOW]]
+	[[GHZ_GRASS, GHZ_HIGHLIGHT, GHZ_SHADOW]],
+	(2.0 / 16.0)
 );
 static var THEME_MZ := LevelTheme.new(
-	preload("res://sprites/level_themes/Marble/bricks.png"),
+	"res://sprites/level_themes/Marble/bricks.png",
 	[GHZ_GRASS, MZ_HIGHLIGHT, MZ_SHADOW],
 	[[GHZ_GRASS, MZ_HIGHLIGHT, MZ_SHADOW]],
 );
 static var THEME_EHZ := LevelTheme.new(
-	preload("res://sprites/level_themes/EmeraldHill/dirt.png"),
+	"res://sprites/level_themes/EmeraldHill/dirt.png",
 	[EHZ_GRASS, EHZ_HIGHLIGHT, EHZ_SHADOW],
 	[[EHZ_GRASS, EHZ_HIGHLIGHT, EHZ_SHADOW]],
 );
@@ -142,7 +154,7 @@ static func define_none() -> Decor:
 	decor.layer = Layer.NONE;
 	return decor;
 
-static func define_grass(d_texture: Texture2D, d_edge: Texture2D, d_shadow_offset: Vector2 = Vector2.ZERO) -> Decor:
+static func define_grass(d_texture: String, d_edge: String, d_shadow_offset: Vector2 = Vector2.ZERO) -> Decor:
 	var decor := new();
 	decor.type = &"grass";
 	decor.texture = d_texture;
@@ -170,3 +182,17 @@ func match_angles(surf_type: SurfaceType, _angles: Array[Vector2]) -> Decor:
 func set_layer(value: int) -> Decor:
 	layer = value;
 	return self;
+
+# for some reason if we don't load the texture beforehand it just... becomes white squares???
+var loaded_texture: Texture2D;
+var loaded_edge_texture: Texture2D;
+
+func load() -> void:
+	if texture:
+		loaded_texture = load(texture);
+	if edge:
+		loaded_edge_texture = load(edge);
+
+func unload() -> void:
+	loaded_texture = null;
+	loaded_edge_texture = null;

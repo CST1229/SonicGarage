@@ -1,0 +1,130 @@
+[gd_scene load_steps=5 format=3 uid="uid://lxvnwrwmyf2p"]
+
+[ext_resource type="Script" uid="uid://bu7g7rt6u7lnr" path="res://scenes/MyLevels/MyLevels.gd" id="1_fn2a6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q5wy1"]
+content_margin_top = 1.0
+content_margin_right = 1.0
+bg_color = Color(0.47451, 0.360784, 0.203922, 1)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fn2a6"]
+line_spacing = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fn2a6"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 16.0
+bg_color = Color(0.47451, 0.360784, 0.203922, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_color = Color(1, 1, 1, 1)
+
+[node name="MyLevels" type="Node"]
+script = ExtResource("1_fn2a6")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.356863, 0.270588, 0.152941, 1)
+
+[node name="CurrentDir" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -144.0
+offset_top = 4.0
+offset_right = 152.0
+offset_bottom = 19.0
+grow_horizontal = 0
+size_flags_vertical = 8
+text = "/Levels"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -136.0
+offset_top = 24.0
+offset_right = 136.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q5wy1")
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="TextboxTestButton" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_type_variation = &"LevelsListButton"
+text = "Text"
+flat = true
+alignment = 0
+
+[node name="TextboxTestEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+theme_type_variation = &"LevelsListLineEdit"
+text = "Enter name..."
+placeholder_text = "text..."
+
+[node name="AnotherButton" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"LevelsListButton"
+text = "Hello person looking at this!"
+flat = true
+alignment = 0
+
+[node name="Filler" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+asdfasdf sfd 
+"
+label_settings = SubResource("LabelSettings_fn2a6")
+
+[node name="Outline" type="Panel" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -136.0
+offset_top = 24.0
+offset_right = 136.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fn2a6")

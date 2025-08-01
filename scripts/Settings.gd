@@ -7,17 +7,37 @@ var settings_dict: Dictionary = {};
 var terrain_detail: int = 2:
 	set(value):
 		terrain_detail = value;
-		for node: Polygon in get_tree().get_nodes_in_group(&"polygons"):
-			node.redraw();
+		get_tree().call_group(&"polygons", &"redraw");
 		changed.emit(&"terrain_detail");
 var fullscreen: bool = false:
 	set(value):
+		if OS.has_feature("android"):
+			value = true;
 		fullscreen = value;
 		var window: Window = get_window();
-		if (window.mode == Window.Mode.MODE_FULLSCREEN) != fullscreen:
-			window.mode = Window.Mode.MODE_FULLSCREEN if fullscreen else Window.Mode.MODE_WINDOWED;
+		if (window.mode == Window.Mode.MODE_EXCLUSIVE_FULLSCREEN) != fullscreen:
+			window.mode = Window.Mode.MODE_EXCLUSIVE_FULLSCREEN if fullscreen else Window.Mode.MODE_WINDOWED;
 			window.borderless = fullscreen;
 		changed.emit(&"fullscreen");
+var vsync: bool = true:
+	set(value):
+		vsync = value;
+		if vsync:
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED);
+		else:
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED);
+		changed.emit(&"vsync");
+var max_fps: int = 0:
+	set(value):
+		max_fps = value;
+		Engine.max_fps = max_fps;
+		changed.emit(&"max_fps");
+var integer_scale: bool = false:
+	set(value):
+		integer_scale = value;
+		var window: Window = get_window();
+		window.content_scale_stretch = Window.CONTENT_SCALE_STRETCH_INTEGER if integer_scale else Window.CONTENT_SCALE_STRETCH_FRACTIONAL;
+		changed.emit(&"integer_scale");
 
 var master_volume: float = 1.0:
 	set(value):
@@ -39,6 +59,8 @@ var music_volume: float = 1.0:
 		changed.emit(&"music_volume");
 var mute_on_focus_lost: bool = true:
 	set(value):
+		if OS.has_feature("web"):
+			value = false;
 		mute_on_focus_lost = value;
 		changed.emit(&"mute_on_focus_lost");
 
@@ -63,7 +85,10 @@ func do_settings(opt: Callable) -> void:
 	var save_verbatim := func(variable: StringName) -> void:
 		set(variable, opt.call(get(variable), variable));
 	save_verbatim.call(&"fullscreen");
-	save_verbatim.call(&"terrain_detail");
+	save_verbatim.call(&"vsync");
+	save_verbatim.call(&"max_fps");
+	save_verbatim.call(&"integer_scale");
+	# save_verbatim.call(&"terrain_detail");
 	save_verbatim.call(&"master_volume");
 	save_verbatim.call(&"sfx_volume");
 	save_verbatim.call(&"music_volume");
@@ -185,8 +210,8 @@ func deserialize_action(events: Array, action: StringName) -> void:
 func serialize_input_event(event: InputEvent) -> Array:
 	var device := event.device;
 	if event is InputEventKey:
-		return ["key", device, (event as InputEventKey).get_physical_keycode_with_modifiers()
-];
+		var keycode = (event as InputEventKey).get_physical_keycode_with_modifiers();
+		return ["key", device, OS.get_keycode_string(keycode)];
 	elif event is InputEventJoypadButton:
 		return ["joypadbutton", device, (event as InputEventJoypadButton).button_index];
 	elif event is InputEventMouseButton:
@@ -195,6 +220,7 @@ func serialize_input_event(event: InputEvent) -> Array:
 		return ["joypadmotion", device, (event as InputEventJoypadMotion).axis, (event as InputEventJoypadMotion).axis_value];
 	return [];
 
+## Filters an input event as if it were just deserialized.1
 func filter_input_event(event: InputEvent) -> InputEvent:
 	return deserialize_input_event(serialize_input_event(event));
 
@@ -206,7 +232,10 @@ func deserialize_input_event(serialized: Array) -> InputEvent:
 			var ev := InputEventKey.new();
 			ev.device = device;
 			ev.pressed = true;
-			ev.physical_keycode = serialized[2];
+			var key = serialized[2];
+			if key is String:
+				key = OS.find_keycode_from_string(key);
+			ev.physical_keycode = key;
 			return ev;
 		"joypadbutton":
 			var ev := InputEventJoypadButton.new();
@@ -235,6 +264,9 @@ func get_bind_name(event: InputEvent, include_pad: bool = true) -> String:
 	elif event is InputEventJoypadMotion:
 		var pad_name: String = "Pad{0}: ".format([event.device + 1]) if include_pad else "";
 		return "{0}{1}".format([pad_name, get_joypad_axis_name(event.axis, event.axis_value)])
+	elif event is InputEventKey:
+		var keycode := DisplayServer.keyboard_get_keycode_from_physical(event.get_physical_keycode_with_modifiers());
+		return OS.get_keycode_string(keycode);
 	else:
 		return event.as_text().replace(" (Physical)", "");
 

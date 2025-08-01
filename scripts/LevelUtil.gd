@@ -5,6 +5,8 @@ var load_level = null;
 var level_path := "";
 var level_manager: LevelManager = null;
 
+const FOLDER = "user://levels/";
+
 const MUSIC_PATH = "res://music/";
 class SongDef:
 	var name: String = "Unknown";
@@ -22,6 +24,7 @@ var songs: Dictionary[StringName, SongDef] = {
 	none = SongDef.new("Silence", "", "", "None"),
 	green_hill_zone = SongDef.new("Green Hill Zone - Sonic the Hedgehog", "SEGA Sound Team", "green_hill_zone.mp3", "Green Hill Zone"),
 	takeoff = SongDef.new("Take Off - Knuckles Chaotix", "SEGA Sound Team", "takeoff.mp3", "Title Screen"),
+	s3db_menu = SongDef.new("Menu - Sonic 3D Blast", "SEGA Sound Team?", "s3db_menu.mp3", "Level List"),
 	blue_ska = SongDef.new("Blue Ska", "Kevin MacLeod", "blue_ska.mp3", "Secret"),
 };
 

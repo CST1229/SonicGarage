@@ -7,6 +7,12 @@
 class_name Vertex
 
 var position: Vector2 = Vector2.ZERO;
+var global_position: Vector2:
+	get:
+		return position + polygon.position;
+	set(value):
+		position = value - polygon.position;
+		
 var polygon: Polygon = null;
 var selected: bool = false;
 var edge: StringName = &"auto";

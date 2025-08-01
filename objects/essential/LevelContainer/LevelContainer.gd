@@ -22,8 +22,9 @@ const FORMAT_VERSION = 2;
 const POLYGON_SCENE = preload("res://objects/essential/LevelContainer/Polygon.tscn");
 const PLAYER_SCENE = preload("res://objects/essential/Player/Player.tscn");
 
-func create_new() -> void:
-	pass;
+func _ready():
+	if editor_mode:
+		objects.process_mode = Node.PROCESS_MODE_DISABLED;
 
 func deserialize(level) -> String:
 	if !(level is Dictionary):
@@ -81,19 +82,23 @@ func add_players() -> void:
 	if !editor_mode:
 		players.add_child(PLAYER_SCENE.instantiate());
 
-func serialize() -> Dictionary:
-	var data = {
+static func empty_level() -> Dictionary:
+	return {
 		format = FORMAT_VERSION,
 		polygons = [],
 		objects = [],
 	};
+
+func serialize() -> Dictionary:
+	var data = empty_level();
 	
 	for poly in polygons.get_children():
 		var verts_arr: Array[Dictionary] = [];
 		for vert in poly.vertices:
+			# TODO: "compress" vertices by storing positions relative to the polygon? maybe?
 			verts_arr.append({
-				x = vert.position.x,
-				y = vert.position.y,
+				x = vert.global_position.x,
+				y = vert.global_position.y,
 				edge = vert.edge,
 			});
 		data.polygons.append({

@@ -1,4 +1,4 @@
-class_name MultiKeybind
+class_name ControlBind
 extends HFlowContainer
 
 @export var action: StringName = &"left";
@@ -7,6 +7,8 @@ extends HFlowContainer
 var padding: Control;
 var add_binds_button: Button;
 var reset_button: Button;
+
+var num_bind_buttons := 0;
 
 var rebinding_event: InputEvent = null;
 
@@ -27,13 +29,12 @@ func _ready():
 	, "Reset");
 	reset_button.icon = RESET_BINDS_ICON;
 	padding = Control.new();
-	padding.custom_minimum_size.x = 3;
+	padding.custom_minimum_size.x = 1;
 	add_child(padding);
 	update_labels();
 
 func start_binding(_button: Button = null) -> void:
-	for binder: MultiKeybind in get_tree().get_nodes_in_group(&"currently_binding"):
-		binder.cancel_bind();
+	get_tree().call_group(&"currently_binding", &"cancel_bind");
 	
 	add_to_group(&"currently_binding");
 	process_mode = Node.PROCESS_MODE_ALWAYS;
@@ -79,10 +80,15 @@ func _on_delete_button_pressed() -> void:
 	Settings.save_settings();
 	update_labels();
 
-func update_labels() -> void:
+func clear_labels() -> void:
 	for child in get_children():
 		if child.is_in_group(&"binds"):
 			child.queue_free();
+	num_bind_buttons = 0;
+	reset_button.focus_neighbor_right = ^"";
+
+func update_labels() -> void:
+	clear_labels();
 	for event: InputEvent in InputMap.action_get_events(action):
 		add_input_button(event);
 
@@ -91,12 +97,17 @@ func add_input_button(event: InputEvent) -> void:
 	button.add_to_group(&"binds");
 	button.icon = UNBIND_ICON;
 	button.icon_alignment = HORIZONTAL_ALIGNMENT_RIGHT;
+	num_bind_buttons += 1;
+	if num_bind_buttons == 1:
+		reset_button.focus_neighbor_right = button.get_path();
+		button.focus_neighbor_left = reset_button.get_path();
 
 func add_button(text: String, callback: Callable = Callable(), tooltip: String = "") -> Button:
 	var button := Button.new();
 	button.theme_type_variation = &"SmallButton";
 	button.text = text;
 	button.tooltip_text = tooltip;
+	button.custom_minimum_size.y = 15;
 	button.pressed.connect(callback.bind(button));
 	
 	add_child(button);

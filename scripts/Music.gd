@@ -32,6 +32,7 @@ var current_song := "";
 func _ready():
 	focus_volume = 0 if should_focus_mute() else 1;
 	update_audio();
+	player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM;
 	
 	player.bus = &"Music";
 	add_child(player);

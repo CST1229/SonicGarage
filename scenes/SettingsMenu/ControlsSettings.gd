@@ -27,6 +27,9 @@ func _ready() -> void:
 	add_control("Mouse Left", &"editor_mouse_left");
 	add_control("Mouse Right", &"editor_mouse_right");
 	add_control("Move Faster", &"editor_scroll_fast");
+	add_control("Zoom In", &"editor_zoom_in");
+	add_control("Zoom Out", &"editor_zoom_out");
+	add_control("Reset Zoom", &"editor_zoom_reset");
 	add_control("Click", &"editor_click");
 	add_control("Cancel Drawing", &"editor_cancel");
 	add_control("Delete", &"editor_delete");
@@ -34,11 +37,13 @@ func _ready() -> void:
 	
 	add_controls_heading("Misc");
 	add_control("Toggle Playtest", &"editor_playtest");
-	add_control("Exit Editor/Level", &"editor_quit");
+	add_control("Exit Editor/\nLevel/Menu", &"editor_quit");
 
 func add_controls_heading(text: String) -> void:
 	var heading := Label.new();
 	heading.text = text;
+	# fix shifting when switching to high res mode
+	heading.custom_minimum_size.y = 15;
 	add_child(heading);
 	add_padding();
 
@@ -73,8 +78,7 @@ func add_padding() -> void:
 func _on_cancel_timer_timeout() -> void:
 	cancel_countdown -= 1;
 	if cancel_countdown == 0:
-		for binder: MultiKeybind in get_tree().get_nodes_in_group(&"currently_binding"):
-			binder.cancel_bind();
+		get_tree().call_group(&"currently_binding", &"cancel_bind");
 		bind_window.visible = false;
 		Fades.current_scene.process_mode = PROCESS_MODE_INHERIT;
 	else:

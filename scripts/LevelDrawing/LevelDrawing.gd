@@ -9,7 +9,10 @@ func compute_polygon(verts: Array[Vertex], polygon: Polygon) -> Array[DecorSecti
 	# TODO: don't hardcode theme. choose per-level (maybe even per polygon)
 	var theme := Decor.THEME_GHZ;
 	
-	polygon.fill.texture = theme.base_texture;
+	polygon.fill.texture = load(theme.base_texture);
+	polygon.fill.texture_scale = Vector2(theme.base_texture_scale, theme.base_texture_scale);
+	
+	theme.load();
 	
 	var decors: Array = theme.decors;
 	var decor_sections: Dictionary[Decor, DecorSection] = {};
@@ -73,8 +76,12 @@ func draw_decor(to: CanvasItem, sections: Array[DecorSection], layer: Decor.Laye
 
 func draw_grass_section(to: CanvasItem, section: DecorSection, is_shadow: bool = false):
 	var verts: PackedVector2Array = section.verts;
-	var tex: Texture2D = section.decor.texture;
-	var edge_tex: Texture2D = section.decor.edge;
+	var tex: Texture2D;
+	if section.decor.texture:
+		tex = load(section.decor.texture);
+	var edge_tex: Texture2D;
+	if section.decor.edge:
+		edge_tex = load(section.decor.edge);
 	
 	var tex_height := float(tex.get_height());
 	var off := Vector2(0, tex_height * -0.5);

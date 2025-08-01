@@ -25,10 +25,12 @@ const SONG_BEGIN = 0.6;
 const FRAME = 1.0 / 60.0;
 # center the logo on the x axis
 const LOGO_X_OFFSET = -79;
+const VANILLA_MOVEMENTS_PATH = "res://scenes/TitleScreen/DancingLogo/logo_movements.tres";
+const OLD_MOVEMENTS_PATH = "res://scenes/TitleScreen/DancingLogo/logo_movements.bin";
 const CUSTOM_MOVEMENTS_PATH = "user://logo_movements.bin";
 
 func _ready() -> void:
-	read_logo_movements("res://scenes/TitleScreen/logo_movements.bin", vanilla_positions);
+	vanilla_positions = preload(VANILLA_MOVEMENTS_PATH).positions;
 	if !read_logo_movements(CUSTOM_MOVEMENTS_PATH, positions):
 		positions = vanilla_positions.duplicate();
 	logo.pressed.connect(_on_click_logo);
@@ -59,13 +61,14 @@ func _process(_delta: float) -> void:
 			current_position = Vector2.ZERO;
 		else:
 			var length := positions.size();
-			var low_position := positions[fmod(floorf(position_index), length)];
-			var high_position := positions[fmod(ceilf(position_index), length)];
-			var blend := fmod(position_index, 1);
-			current_position = low_position.lerp(high_position, blend);
+			if length > 0:
+				var low_position := positions[fmod(floorf(position_index), length)];
+				var high_position := positions[fmod(ceilf(position_index), length)];
+				var blend := fmod(position_index, 1);
+				current_position = low_position.lerp(high_position, blend);
 			last_recorded_time = Music.position;
 
-func read_logo_movements(path: String, to: PackedVector2Array) -> bool:
+static func read_logo_movements(path: String, to: PackedVector2Array) -> bool:
 	if !FileAccess.file_exists(path):
 		return false;
 	var file := FileAccess.open(path, FileAccess.READ);
@@ -79,13 +82,15 @@ func read_logo_movements(path: String, to: PackedVector2Array) -> bool:
 		to.append(Vector2.ZERO);
 	return true;
 
-func write_logo_movements(path: String, from: PackedVector2Array) -> void:
+static func write_logo_movements(path: String, from: PackedVector2Array) -> void:
 	var file := FileAccess.open(path, FileAccess.WRITE);
 	for vector in from:
 		file.store_half(vector.x);
 		file.store_half(vector.y);
 
 func _on_click_logo() -> void:
+	if OS.has_feature("editor"):
+		show_save_vanilla_logo_option.emit();
 	if !recording:
 		start_recording();
 	else:
@@ -113,3 +118,5 @@ func _on_reset_recording() -> void:
 	positions = vanilla_positions.duplicate();
 	if FileAccess.file_exists(CUSTOM_MOVEMENTS_PATH):
 		DirAccess.remove_absolute(CUSTOM_MOVEMENTS_PATH);
+
+signal show_save_vanilla_logo_option;

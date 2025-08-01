@@ -38,17 +38,17 @@ func draw_vert(to: CanvasItem, pos: Vector2, alpha: float = 1, selected: bool = 
 	to.draw_circle(pos, radius, VERT_COLOR * blend);
 
 ## Saves a level to a path.
-func save_level(status: bool, selected_paths: PackedStringArray, selected_filter_index: int):
+func save_level(status: bool, selected_paths: PackedStringArray, selected_filter_index: int = 0):
 	if !status: return;
 	if selected_paths.size() < 1: return;
 	var path := selected_paths[0];
 	
-	if selected_filter_index == 1:
+	if selected_filter_index == 0:
 		# Add file extension
 		if !(path.to_lower().ends_with(".sgl")):
 			path += ".sgl";
 	
-	var file = FileAccess.open(path, FileAccess.WRITE);
+	var file := FileAccess.open(path, FileAccess.WRITE);
 	if file == null:
 		OS.alert(error_string(FileAccess.get_open_error()), "Error saving level!");
 		return;

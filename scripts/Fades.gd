@@ -26,17 +26,19 @@ func check_run_current_scene():
 		scene_manager_default_scene = load(get_tree().current_scene.scene_file_path);
 		get_tree().change_scene_to_file(SCENE_MANAGER_PATH);
 
-func fade_to_scene(path: String, is_white: bool = false):
+func fade_to_scene(path: String, is_white := false, stop_music := true):
 	if is_fading_to_scene: return;
 	ResourceLoader.load_threaded_request(path);
 	is_fading_to_scene = true;
 	var created_fade := create_fade(true, false, func(fade):
+		if stop_music:
+			Music.stop();
 		is_fading_to_scene = false;
 		fade.affects_volume = false;
 		scene_changed.emit(ResourceLoader.load_threaded_get(path));
 		fade_existing(fade, false, true);
 	, is_white);
-	created_fade.affects_volume = true;
+	created_fade.affects_volume = stop_music;
 
 func create_fade(is_in: bool = false, destroy: bool = false, callback: Callable = Callable(), is_white: bool = false) -> Fade:
 	var fade: Fade = FADE_SCENE.instantiate();

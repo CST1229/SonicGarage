@@ -65,7 +65,7 @@ class ConnectionLink:
 	var linked_callable: Callable;
 	var link_to: WeakRef;
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	ConnectionLink.garbage_collect();
 
 static var CALLABLE_IDENTITY = func(value: Variant) -> Variant:

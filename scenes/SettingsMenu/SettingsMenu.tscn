@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://rjjanteyns7o"]
+[gd_scene load_steps=11 format=3 uid="uid://rjjanteyns7o"]
 
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="1_nwtdr"]
 [ext_resource type="Script" uid="uid://c24343omfvf2u" path="res://scenes/SettingsMenu/SettingsMenu.gd" id="2_0il6q"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cm6j04skkafab" path="res://objects/ui/FixedOptionButton.gd" id="3_hm052"]
 [ext_resource type="PackedScene" uid="uid://bk04l2wckr1cn" path="res://scenes/SettingsMenu/ControlsSettings.tscn" id="4_gedgt"]
 [ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/fonts/Habbo.ttf" id="4_slc4v"]
+[ext_resource type="Script" uid="uid://cjsc1fkphfna4" path="res://objects/ui/HideWithFeatureTags.gd" id="6_0f8tw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8eswu"]
 font = ExtResource("3_0f8tw")
@@ -20,7 +21,7 @@ content_margin_bottom = 1.0
 bg_color = Color(0.0277759, 0.27676, 0.172298, 1)
 corner_detail = 1
 
-[node name="Settings" type="Panel"]
+[node name="Settings" type="Panel" node_paths=PackedStringArray("save_custom_logo_movements_button")]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -32,6 +33,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource("1_nwtdr")
 script = ExtResource("2_0il6q")
+save_custom_logo_movements_button = NodePath("HMargin/ScrollContainer/VMargin/SettingsList/SaveCustomLogoMovements")
 metadata/_tab_index = 2
 
 [node name="Title" type="Label" parent="."]
@@ -49,6 +51,20 @@ label_settings = SubResource("LabelSettings_8eswu")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="OpenFolderButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 74.0
+offset_bottom = 27.0
+focus_neighbor_right = NodePath("../BackButton")
+theme = ExtResource("1_nwtdr")
+theme_override_fonts/font = ExtResource("4_slc4v")
+theme_override_font_sizes/font_size = 16
+text = "Open Folder
+"
+
 [node name="BackButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
@@ -59,23 +75,11 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = 27.0
 grow_horizontal = 0
+focus_neighbor_left = NodePath("../OpenFolderButton")
 theme = ExtResource("1_nwtdr")
 theme_override_fonts/font = ExtResource("4_slc4v")
 theme_override_font_sizes/font_size = 16
 text = "Back"
-
-[node name="OpenFolderButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 74.0
-offset_bottom = 27.0
-theme = ExtResource("1_nwtdr")
-theme_override_fonts/font = ExtResource("4_slc4v")
-theme_override_font_sizes/font_size = 16
-text = "Open Folder
-"
 
 [node name="HMargin" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -117,18 +121,52 @@ columns = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0f8tw")
 text = "Fullscreen (F11)"
+script = ExtResource("6_0f8tw")
+tags = PackedStringArray("android", "web")
 
 [node name="Fullscreen" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 4
 flat = true
+script = ExtResource("6_0f8tw")
+tags = PackedStringArray("android", "web")
+
+[node name="SettingLabel10" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_0f8tw")
+text = "VSync"
+script = ExtResource("6_0f8tw")
+tags = PackedStringArray("android", "web")
+
+[node name="VSync" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Disabling this uncaps the framerate."
+flat = true
+script = ExtResource("6_0f8tw")
+tags = PackedStringArray("android", "web")
+
+[node name="SettingLabel9" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_0f8tw")
+text = "Integer Scaling"
+script = ExtResource("6_0f8tw")
+tags = PackedStringArray("android", "web")
+
+[node name="IntegerScale" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+flat = true
+script = ExtResource("6_0f8tw")
+tags = PackedStringArray("android", "web")
 
 [node name="SettingLabel2" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+visible = false
 layout_mode = 2
 text = "Terrain Detail (F2)"
 
 [node name="TerrainDetail" type="OptionButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+visible = false
 layout_mode = 2
 item_count = 3
 popup/item_0/text = "Full"
@@ -147,10 +185,10 @@ text = "High Res Mode (F3)"
 [node name="RetroScale" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 4
 tooltip_text = "Makes the game render at the window resolution.
-Useful when zooming in the editor, but disabling this
-might make in-game terrain look better."
+Useful when zooming in the editor, but disabling
+this increases performance and might
+make in-game terrain look better."
 flat = true
 
 [node name="SettingLabel4" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
@@ -160,10 +198,10 @@ text = "Show FPS"
 [node name="ShowFPS" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 4
 flat = true
 
 [node name="SettingLabel5" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 text = "Master Volume"
 
@@ -177,6 +215,7 @@ step = 0.0
 value = 0.001
 
 [node name="SettingLabel6" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 text = "SFX Volume"
 
@@ -190,6 +229,7 @@ step = 0.0
 value = 0.001
 
 [node name="SettingLabel7" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 text = "Music Volume"
 
@@ -206,16 +246,21 @@ value = 0.001
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0f8tw")
 text = "Mute on Focus Lost"
+script = ExtResource("6_0f8tw")
+tags = PackedStringArray("web", "android")
 
 [node name="MuteOnFocusLost" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 4
 flat = true
+script = ExtResource("6_0f8tw")
+tags = PackedStringArray("web", "android")
 
 [node name="ControlsHeading" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList"]
+custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 0
 text = "Controls"
 horizontal_alignment = 1
 
@@ -223,5 +268,16 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_constants/h_separation = 2
 
-[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[node name="SaveCustomLogoMovements" type="Button" parent="HMargin/ScrollContainer/VMargin/SettingsList"]
+visible = false
+layout_mode = 2
+size_flags_stretch_ratio = 2.0
+theme = ExtResource("1_nwtdr")
+theme_override_fonts/font = ExtResource("4_slc4v")
+theme_override_font_sizes/font_size = 16
+text = "Save Custom Logo Movements To Vanilla Why Is This Option Name So Long LMAO I Am Gonna Just Keep It That Way. Anyways, this will save your custom logo movements to a resource file that replaces the vanilla movements."
+autowrap_mode = 3
+
 [connection signal="pressed" from="OpenFolderButton" to="." method="_on_open_folder_button_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="HMargin/ScrollContainer/VMargin/SettingsList/SaveCustomLogoMovements" to="." method="_on_save_custom_logo_movements_pressed"]

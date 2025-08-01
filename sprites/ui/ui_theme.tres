@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=34 format=3 uid="uid://dsc2sl34kqmp"]
+[gd_resource type="Theme" load_steps=52 format=3 uid="uid://dsc2sl34kqmp"]
 
 [ext_resource type="FontFile" uid="uid://bwoa021kuhdit" path="res://sprites/fonts/ui_font.png" id="1_wup4d"]
 [ext_resource type="Texture2D" uid="uid://b8s1hrp0e76ns" path="res://sprites/ui/slider_grabber.png" id="2_c4i6b"]
@@ -23,7 +23,13 @@ border_color = Color(0.615686, 0.615686, 0.615686, 1)
 corner_detail = 1
 anti_aliasing = false
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_82opt"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mbk3s"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3fcow"]
 content_margin_left = 3.0
@@ -138,6 +144,34 @@ border_color = Color(1, 1, 1, 1)
 corner_detail = 1
 anti_aliasing = false
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mbk3s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cpbce"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2s1cw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1q5sg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hdni4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jfic0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6tmak"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xn0ai"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5d8ys"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p7cxc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_86o2e"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ghqaj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7eerc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_euboo"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cadxf"]
 content_margin_left = 3.0
 content_margin_top = 3.0
@@ -178,6 +212,19 @@ anti_aliasing = false
 color = Color(1, 1, 1, 1)
 grow_begin = -4.0
 grow_end = -4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cpbce"]
+bg_color = Color(1, 1, 0, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 0, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ui2n2"]
 
@@ -220,6 +267,48 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.576471, 0.576471, 0.576471, 1)
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2s1cw"]
+content_margin_left = 3.0
+content_margin_top = 0.0
+content_margin_right = 3.0
+content_margin_bottom = 0.0
+bg_color = Color(0.109804, 0.682353, 0.447059, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1q5sg"]
+content_margin_left = 3.0
+content_margin_top = 0.0
+content_margin_right = 3.0
+content_margin_bottom = 0.0
+bg_color = Color(0.0941176, 0.588235, 0.384314, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdni4"]
+content_margin_left = 3.0
+content_margin_top = 0.0
+content_margin_right = 3.0
+content_margin_bottom = 0.0
+bg_color = Color(0.0666667, 0.454902, 0.294118, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
 corner_detail = 1
 anti_aliasing = false
 
@@ -286,7 +375,7 @@ Button/colors/font_color = Color(1, 1, 1, 1)
 Button/font_sizes/font_size = 14
 Button/fonts/font = ExtResource("1_wup4d")
 Button/styles/disabled = SubResource("StyleBoxFlat_xrwuv")
-Button/styles/focus = SubResource("StyleBoxEmpty_82opt")
+Button/styles/focus = SubResource("StyleBoxFlat_mbk3s")
 Button/styles/hover = SubResource("StyleBoxFlat_3fcow")
 Button/styles/normal = SubResource("StyleBoxFlat_y1aaj")
 Button/styles/pressed = SubResource("StyleBoxFlat_lxshk")
@@ -309,6 +398,25 @@ HandlePanel/base_type = &"Panel"
 HandlePanel/styles/panel = SubResource("StyleBoxFlat_vjoc2")
 Label/font_sizes/font_size = 14
 Label/fonts/font = ExtResource("1_wup4d")
+LevelsListButton/base_type = &"Button"
+LevelsListButton/styles/disabled = SubResource("StyleBoxEmpty_mbk3s")
+LevelsListButton/styles/disabled_mirrored = SubResource("StyleBoxEmpty_cpbce")
+LevelsListButton/styles/focus = SubResource("StyleBoxEmpty_2s1cw")
+LevelsListButton/styles/hover = SubResource("StyleBoxEmpty_1q5sg")
+LevelsListButton/styles/hover_mirrored = SubResource("StyleBoxEmpty_hdni4")
+LevelsListButton/styles/hover_pressed = SubResource("StyleBoxEmpty_jfic0")
+LevelsListButton/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_6tmak")
+LevelsListButton/styles/normal = SubResource("StyleBoxEmpty_xn0ai")
+LevelsListButton/styles/normal_mirrored = SubResource("StyleBoxEmpty_5d8ys")
+LevelsListButton/styles/pressed = SubResource("StyleBoxEmpty_p7cxc")
+LevelsListButton/styles/pressed_mirrored = SubResource("StyleBoxEmpty_86o2e")
+LevelsListLineEdit/base_type = &"LineEdit"
+LevelsListLineEdit/constants/caret_width = 2
+LevelsListLineEdit/constants/outline_size = 1
+LevelsListLineEdit/fonts/font = ExtResource("1_wup4d")
+LevelsListLineEdit/styles/focus = SubResource("StyleBoxEmpty_ghqaj")
+LevelsListLineEdit/styles/normal = SubResource("StyleBoxEmpty_7eerc")
+LevelsListLineEdit/styles/read_only = SubResource("StyleBoxEmpty_euboo")
 OptionButton/constants/arrow_margin = 8
 OptionButton/font_sizes/font_size = 14
 OptionButton/fonts/font = ExtResource("1_wup4d")
@@ -328,6 +436,7 @@ PopupMenu/fonts/font_separator = ExtResource("1_wup4d")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_h1epi")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_tqfsi")
 PopupMenu/styles/separator = SubResource("StyleBoxLine_epmwg")
+RichTextLabel/styles/focus = SubResource("StyleBoxFlat_cpbce")
 ScoreLabel/base_type = &"Label"
 ScoreLabel/font_sizes/font_size = 16
 ScoreLabel/fonts/font = ExtResource("7_mbk3s")
@@ -339,7 +448,11 @@ SelectedButton/styles/pressed = SubResource("StyleBoxFlat_r5a5f")
 SmallButton/base_type = &"Button"
 SmallButton/font_sizes/font_size = 16
 SmallButton/fonts/font = ExtResource("5_s0aln")
+SmallButton/styles/hover = SubResource("StyleBoxFlat_2s1cw")
+SmallButton/styles/normal = SubResource("StyleBoxFlat_1q5sg")
+SmallButton/styles/pressed = SubResource("StyleBoxFlat_hdni4")
 SmallLabel/base_type = &"Label"
+SmallLabel/constants/line_spacing = 0
 SmallLabel/font_sizes/font_size = 16
 SmallLabel/fonts/font = ExtResource("5_s0aln")
 TooltipLabel/base_type = &"Label"
