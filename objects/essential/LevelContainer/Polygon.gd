@@ -112,10 +112,15 @@ func update_polygon() -> void:
 	fill.visible = valid;
 	if valid:
 		collision_polygon.polygon = vectors;
+		collision_polygon.build_mode = CollisionPolygon2D.BUILD_SOLIDS;
 		fill.polygon = vectors;
 		decor_sections = LevelDrawing.compute_polygon(parsed_vertices, self);
 	else:
-		collision_polygon.polygon = PackedVector2Array();
+		if is_in_editor():
+			collision_polygon.build_mode = CollisionPolygon2D.BUILD_SEGMENTS;
+			collision_polygon.polygon = vectors;
+		else:
+			collision_polygon.polygon = PackedVector2Array();
 		decor_sections = [];
 	redraw();
 

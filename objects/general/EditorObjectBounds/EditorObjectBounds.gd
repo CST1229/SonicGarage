@@ -21,7 +21,7 @@ func _draw():
 	var parent = get_parent();
 	if !parent: return;
 	if !parent.is_in_group(&"selected_objects"): return;
-	draw_rect(Rect2(size / -2.0, size), Color(1, 1, 1, outline_alpha), false, 1);
+	draw_rect(Rect2(size / -2.0, size).grow(-0.5), Color(1, 1, 1, outline_alpha), false, 1);
 
 func _ready():
 	if !Engine.is_editor_hint():

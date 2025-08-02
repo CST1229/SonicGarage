@@ -62,11 +62,11 @@ func reload():
 			return;
 		for invalid_char in INVALID_FILENAME_CHARS:
 			if value.contains(invalid_char):
-				create_folder_button.text = "📁 Error: Name can't contain: " + " ".join(INVALID_FILENAME_CHARS);
+				create_folder_button.text = "📁+ Error: Name can't contain " + "".join(INVALID_FILENAME_CHARS);
 				return;
 		var error := dir.make_dir_recursive(current_dir.path_join(value));
 		if error != OK:
-			create_folder_button.text = "📁 Error: " + error_string(error);
+			create_folder_button.text = "📁+ Error: " + error_string(error);
 			return;
 		reload();
 		create_folder_button.grab_focus();
@@ -193,6 +193,7 @@ func add_text_edit_item(item_name: String, placeholder: String, text_icon: Strin
 
 func add_item(item_name: String) -> Button:
 	var level := Button.new();
+	level.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART;
 	level.theme_type_variation = &"LevelsListButton";
 	level.text = item_name;
 	level.custom_minimum_size.y = ITEM_HEIGHT;

@@ -11,12 +11,13 @@ extends Node2D
 @onready var credits_button: Button = $CanvasLayer/Tabs/Menu/VBoxContainer/GridContainer/CreditsButton
 @onready var credits_back_button: Button = $CanvasLayer/Tabs/Credits/BackButton
 
-@onready var last_menu_button: Control = levels_button;
+@onready var last_menu_button: Control = null;
 
 func _ready():
 	version.text = "v" + str(ProjectSettings.get_setting("application/config/version"));
 	Music.play(preload("res://music/takeoff.mp3"));
 	goto_menu();
+	levels_button.grab_focus();
 
 func goto_editor():
 	Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");

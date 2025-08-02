@@ -66,6 +66,7 @@ var grid_size: float = 8;
 ## The maximum speed the camera scrolls at
 ## (can be lower with analog controls),
 const SCROLL_SPEED = 200;
+const GAMEPAD_MOUSE_SPEED = 100;
 var zoom: float = 0.0;
 var true_zoom: float:
 	get:
@@ -145,9 +146,12 @@ func _draw():
 			EditorLib.draw_vert(self, vert.position);
 		if !hovering_over_gui: EditorLib.draw_vert(self, mouse_pos, 0.5);
 	elif drawing == DrawingMode.RECT_SELECT:
-		if select_rect.size.x > 2 && select_rect.size.y > 2:
-			draw_rect(select_rect.grow(-1), Color.WHITE, false, 2);
+		var outline_width := 2.0 / true_zoom;
+		if select_rect.size.x > outline_width && select_rect.size.y > outline_width:
+			draw_rect(select_rect.grow(-outline_width / 2), Color.WHITE, false, outline_width);
 		elif select_rect.size.x > 0 && select_rect.size.y > 0:
+			# outlines behave weirdly when the rectangle gets smaller than the outline width
+			# so draw a filled rectangle in this case
 			draw_rect(select_rect, Color.WHITE, true);
 
 ## Finishes drawing. If [param cancel] is true,
@@ -180,13 +184,18 @@ func _process(delta: float):
 	var old_mouse_pos := mouse_pos;
 	mouse_pos = actual_mp.snapped(Vector2(grid_size, grid_size));
 	
+	scroll_camera(delta);
+	update_ghost_object();
+	update_object_detector();
+	
 	if mode == Mode.TERRAIN:
 		object_detector.collision_layer = LevelUtil.LAYER_POLYGONS;
 		object_detector.collision_mask = object_detector.collision_layer;
 		if tool == Tool.VERT_SELECT || tool == Tool.LINE:
 			var snapped_dist := INF;
 			snapped_vert = null;
-			for poly: Polygon in container.polygons.get_children():
+			for body in object_detector.get_overlapping_bodies():
+				var poly := body.get_parent() as Polygon;
 				for vert: Vertex in poly.vertices:
 					var dist := vert.global_position.distance_squared_to(actual_mp);
 					if dist < (VERT_SNAP / true_zoom) && dist < snapped_dist:
@@ -201,10 +210,6 @@ func _process(delta: float):
 		snapped_vert = null;
 	
 	mouse_move = mouse_pos - old_mouse_pos;
-	
-	scroll_camera(delta);
-	update_ghost_object();
-	update_object_detector();
 	
 	if drawing == DrawingMode.MOVE_VERT:
 		var polys_to_update: Array[Polygon] = [];
@@ -290,7 +295,7 @@ func scroll_camera(delta: float):
 			var _mouse_pos := window.get_mouse_position();
 			if !window_rect.has_point(_mouse_pos):
 				_mouse_pos = _mouse_pos.clamp(window_rect.position, window_rect.end);
-			_mouse_pos += _mouse_move * multiplier * SCROLL_SPEED * delta;
+			_mouse_pos += _mouse_move * multiplier * GAMEPAD_MOUSE_SPEED * delta;
 			var old_mouse_pos := _mouse_pos;
 			_mouse_pos = _mouse_pos.clamp(window_rect.position, window_rect.end);
 			window.warp_mouse(_mouse_pos);
@@ -315,12 +320,16 @@ func update_ghost_object():
 
 ## Updates the object detector.
 func update_object_detector():
-	if drawing != DrawingMode.RECT_SELECT:
-		object_detector.position = actual_mp;
-		object_detector_shape.shape.size = Vector2.ZERO;
-	else:
+	if drawing == DrawingMode.RECT_SELECT:
 		object_detector.position = select_rect.position + (select_rect.size / 2.0);
 		object_detector_shape.shape.size = select_rect.size;
+	elif tool == Tool.VERT_SELECT:
+		object_detector_shape.shape.size.x = VERT_SNAP / true_zoom * 2;
+		object_detector_shape.shape.size.y = object_detector_shape.shape.size.x;
+		object_detector.position = actual_mp;
+	else:
+		object_detector.position = actual_mp;
+		object_detector_shape.shape.size = Vector2.ZERO;
 
 ## Handles stuff that happens when the Delete button is pressed.
 func handle_delete():
