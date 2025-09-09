@@ -86,6 +86,8 @@ var tool: Tool = Tool.VERT_SELECT;
 
 ## The grid-snapped position of the mouse.
 var mouse_pos: Vector2 = Vector2.ZERO;
+## The grid-and-vertex-snapped position of the mouse.
+var snapped_mouse_pos: Vector2 = Vector2.ZERO;
 ## The non-grid-snapped position of the mouse.
 var actual_mp: Vector2 = Vector2.ZERO;
 ## The distance the mouse moved this frame.
@@ -134,17 +136,17 @@ func _ready():
 func _draw():
 	if drawing == DrawingMode.NONE && !hovering_over_gui:
 		if (tool == Tool.LINE || (snapped_vert != null && !snapped_vert.selected)):
-			EditorLib.draw_vert(self, mouse_pos, 0.5);
+			EditorLib.draw_vert(self, snapped_mouse_pos, 0.5);
 	elif drawing == DrawingMode.LINE:
 		var polyline := PackedVector2Array();
 		for vert in drawing_polygon:
 			polyline.append(vert.position);
-		if !hovering_over_gui: polyline.append(mouse_pos);
+		if !hovering_over_gui: polyline.append(snapped_mouse_pos);
 		if polyline.size() >= 2:
 			draw_polyline(polyline, DRAWING_LINE_COLOR, 3, false);
 		for vert: Vertex in drawing_polygon:
 			EditorLib.draw_vert(self, vert.position);
-		if !hovering_over_gui: EditorLib.draw_vert(self, mouse_pos, 0.5);
+		if !hovering_over_gui: EditorLib.draw_vert(self, snapped_mouse_pos, 0.5);
 	elif drawing == DrawingMode.RECT_SELECT:
 		var outline_width := 2.0 / true_zoom;
 		if select_rect.size.x > outline_width && select_rect.size.y > outline_width:
@@ -183,6 +185,9 @@ func _process(delta: float):
 	actual_mp = get_local_mouse_position();
 	var old_mouse_pos := mouse_pos;
 	mouse_pos = actual_mp.snapped(Vector2(grid_size, grid_size));
+	snapped_mouse_pos = mouse_pos;
+	
+	mouse_move = mouse_pos - old_mouse_pos;
 	
 	scroll_camera(delta);
 	update_ghost_object();
@@ -194,13 +199,20 @@ func _process(delta: float):
 		if tool == Tool.VERT_SELECT || tool == Tool.LINE:
 			var snapped_dist := INF;
 			snapped_vert = null;
+			
+			# i know this doesn't square the true_zoom.
+			# it makes it snap more, but not as much as if it was squared
+			var snap := (VERT_SNAP / true_zoom);
+			
 			for body in object_detector.get_overlapping_bodies():
 				var poly := body.get_parent() as Polygon;
 				for vert: Vertex in poly.vertices:
+					if drawing == DrawingMode.MOVE_VERT && vert in selected_verts:
+						continue;
 					var dist := vert.global_position.distance_squared_to(actual_mp);
-					if dist < (VERT_SNAP / true_zoom) && dist < snapped_dist:
+					if dist <= snap && dist < snapped_dist:
 						snapped_dist = dist;
-						mouse_pos = vert.global_position;
+						snapped_mouse_pos = vert.global_position;
 						snapped_vert = vert;
 		else:
 			snapped_vert = null;
@@ -208,8 +220,6 @@ func _process(delta: float):
 		object_detector.collision_layer = LevelUtil.LAYER_EDITOR_OBJECTS;
 		object_detector.collision_mask = object_detector.collision_layer;
 		snapped_vert = null;
-	
-	mouse_move = mouse_pos - old_mouse_pos;
 	
 	if drawing == DrawingMode.MOVE_VERT:
 		var polys_to_update: Array[Polygon] = [];
@@ -315,7 +325,7 @@ func apply_camera_zoom():
 ## Updates the ghost object.
 func update_ghost_object():
 	if ghost_object:
-		ghost_object.position = mouse_pos;
+		ghost_object.position = snapped_mouse_pos;
 		ghost_object.visible = !hovering_over_gui;
 
 ## Updates the object detector.
@@ -372,11 +382,11 @@ func _unhandled_input(ev: InputEvent):
 					select_rect = Rect2(actual_mp, Vector2.ZERO);
 					drawing = DrawingMode.RECT_SELECT;
 			elif tool == Tool.LINE:
-				drawing_polygon = [EditorLib.create_vertex(mouse_pos)];
+				drawing_polygon = [EditorLib.create_vertex(snapped_mouse_pos)];
 				drawing = DrawingMode.LINE;
 			elif tool == Tool.OBJECT_PLACE && place_object != null:
 				var node: Node2D = EditorLib.create_object(place_object, container);
-				node.position = mouse_pos;
+				node.position = snapped_mouse_pos;
 				container.objects.add_child(node);
 				container.dirty = true;
 			
@@ -453,15 +463,15 @@ func _unhandled_input(ev: InputEvent):
 					drawing = DrawingMode.RECT_SELECT;
 	elif drawing == DrawingMode.LINE:
 		if actual_mp.distance_squared_to(drawing_polygon[0].position) <= (VERT_SNAP / true_zoom):
-			mouse_pos = drawing_polygon[0].position;
+			snapped_mouse_pos = drawing_polygon[0].position;
 		
 		if ev.is_action_pressed("editor_cancel"):
 			finish_drawing(true);
 		if ev.is_action_pressed("editor_click"):
-			if mouse_pos == drawing_polygon[0].position:
+			if snapped_mouse_pos == drawing_polygon[0].position:
 				finish_drawing(false);
-			elif drawing_polygon.back().position != mouse_pos:
-				drawing_polygon.append(EditorLib.create_vertex(mouse_pos));
+			elif drawing_polygon.back().position != snapped_mouse_pos:
+				drawing_polygon.append(EditorLib.create_vertex(snapped_mouse_pos));
 
 
 # some gui stuff

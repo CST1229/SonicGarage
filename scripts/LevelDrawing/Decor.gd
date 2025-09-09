@@ -88,6 +88,8 @@ static var EDITOR_SEMISOLID := define_grass(
 	"",
 ).match_angles(SurfaceType.ALL, [Vector2(0, 80)]).set_layer(Layer.SOLID);
 
+static var PRELOADED_SEMISOLID := load("res://sprites/level_themes/semisolid_indicator.png");
+
 static var GHZ_GRASS := define_grass(
 	"res://sprites/level_themes/GreenHill/grass.png",
 	"res://sprites/level_themes/GreenHill/grass_edge.png",

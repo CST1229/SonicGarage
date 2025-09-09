@@ -12,7 +12,7 @@ size = Vector2(20, 28)
 size = Vector2(40, 29)
 
 [node name="Motobug" type="CharacterBody2D"]
-collision_layer = 0
+collision_layer = 128
 collision_mask = 67
 floor_constant_speed = true
 floor_max_angle = 1.0472

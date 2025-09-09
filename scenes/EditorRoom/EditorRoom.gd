@@ -38,4 +38,7 @@ func playtest():
 func exit():
 	if level_container && level_container.editor_mode:
 		LevelUtil.load_level = level_container.serialize();
-	Fades.fade_to_scene("res://scenes/TitleScreen/TitleScreen.tscn");
+	if LevelUtil.coming_from_my_levels:
+		Fades.fade_to_scene("res://scenes/MyLevels/MyLevels.tscn");
+	else:
+		Fades.fade_to_scene("res://scenes/TitleScreen/TitleScreen.tscn");

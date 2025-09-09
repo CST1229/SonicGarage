@@ -59,6 +59,8 @@ func _physics_process(delta: float):
 	var collision := move_and_collide(velocity * delta);
 	if collision:
 		velocity.y = 0;
+		if collision.get_collider() is Touchbox:
+			collision.get_collider().touched.emit(self);
 
 func pop(player: Player):
 	LevelUtil.pop(self);

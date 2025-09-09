@@ -25,7 +25,10 @@ extends Control
 		tint_rect.modulate.a = value;
 		fade_rect.modulate.a = value;
 
-@export var affects_volume = false;
+@export var affects_volume = false:
+	set(value):
+		affects_volume = value;
+		Music.fade_volume = 1.0 - fade if affects_volume else 1.0;
 
 func _ready():
 	# do setter

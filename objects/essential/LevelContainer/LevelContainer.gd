@@ -13,6 +13,8 @@ class_name LevelContainer
 
 @export var dirty: bool = true;
 
+@onready var bg_color: ColorRect = $BackgroundColor/BGColor
+@onready var background_container: Control = $Background/BackgroundContainer
 @onready var polygons = $polygons;
 @onready var objects = $objects;
 @onready var players = $players;
@@ -25,6 +27,8 @@ const PLAYER_SCENE = preload("res://objects/essential/Player/Player.tscn");
 func _ready():
 	if editor_mode:
 		objects.process_mode = Node.PROCESS_MODE_DISABLED;
+		background_container.modulate.a8 = 68;
+		bg_color.modulate = background_container.modulate;
 
 func deserialize(level) -> String:
 	if !(level is Dictionary):
@@ -109,6 +113,7 @@ func serialize() -> Dictionary:
 		
 	for obj in objects.get_children():
 		if obj.has_method("serialize"):
+
 			data.objects.append(obj.serialize());
 	
 	return data;

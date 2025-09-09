@@ -29,11 +29,15 @@ func load_level():
 	if Input.is_key_pressed(KEY_CTRL) && Input.is_key_pressed(KEY_SHIFT):
 		Fades.fade_to_scene("res://scenes/test.tscn");
 		return;
+	LevelUtil.coming_from_my_levels = false;
 	DisplayServer.file_dialog_show(
 		"Load Level", "",
 		"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
 		PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
-		EditorLib.load_level_play
+		func(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+			if !status: return;
+			if selected_paths.size() < 1: return;
+			EditorLib.load_level(false, selected_paths[0], true);
 	);
 
 func quit():

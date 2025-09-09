@@ -37,57 +37,52 @@ func draw_vert(to: CanvasItem, pos: Vector2, alpha: float = 1, selected: bool = 
 	to.draw_circle(pos, radius + 1, VERT_OUTLINE_COLOR * blend);
 	to.draw_circle(pos, radius, VERT_COLOR * blend);
 
-## Saves a level to a path.
-func save_level(status: bool, selected_paths: PackedStringArray, selected_filter_index: int = 0):
-	if !status: return;
-	if selected_paths.size() < 1: return;
-	var path := selected_paths[0];
-	
-	if selected_filter_index == 0:
-		# Add file extension
-		if !(path.to_lower().ends_with(".sgl")):
-			path += ".sgl";
-	
+## Saves a level to a path and affects level_path. Returns an Error.
+func save_level(dict: Dictionary, path: String) -> Error:
+	var err := save_level_static(dict, path)
+	if !err:
+		LevelUtil.level_path = path;
+	else:
+		OS.alert(error_string(err), "Error saving level!");
+	return err;
+
+## Saves a level to a path. Returns an Error.
+func save_level_static(dict: Dictionary, path: String) -> Error:		
 	var file := FileAccess.open(path, FileAccess.WRITE);
 	if file == null:
-		OS.alert(error_string(FileAccess.get_open_error()), "Error saving level!");
-		return;
-	file.store_string(JSON.stringify(LevelUtil.load_level));
-	LevelUtil.level_path = path;
-
-## Loads a level for editing.
-func load_level_editor(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
-	_load_level(true, status, selected_paths, _selected_filter_index);
-
-## Loads a level for playing.
-func load_level_play(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
-	_load_level(false, status, selected_paths, _selected_filter_index);
+		return FileAccess.get_open_error();
+	file.store_string(JSON.stringify(dict));
+	return OK;
 
 ## Loads a level.
-func _load_level(editor: bool, status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
-	if !status: return;
-	if selected_paths.size() < 1: return;
-	var path := selected_paths[0];
-	
+func load_level(editor: bool, path: String, fade: bool = false) -> Error:
 	var file := FileAccess.get_file_as_string(path);
-	if FileAccess.get_open_error() != OK:
-		OS.alert(error_string(FileAccess.get_open_error()), "Error loading level!");
-		return;
+	var err := FileAccess.get_open_error();
+	if err:
+		OS.alert(error_string(err), "Error loading level!");
+		return err;
 	
 	var parser := JSON.new();
-	var err := parser.parse(file);
-	if err != OK:
+	err = parser.parse(file);
+	if err:
 		OS.alert(
 			"{0}\nat line {1}".format([parser.get_error_message(), parser.get_error_line()]),
 			"Error loading level!"
 		);
-		return;
+		return err;
 	var json = parser.data;
 	LevelUtil.load_level = json;
 	
 	if editor:
 		LevelUtil.level_path = path;
-		Fades.change_scene_to_file("res://scenes/EditorRoom/EditorRoom.tscn");
+		if fade:
+			Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
+		else:
+			Fades.change_scene_to_file("res://scenes/EditorRoom/EditorRoom.tscn");
 	else:
 		LevelUtil.level_path = "";
-		Fades.fade_to_scene("res://scenes/CustomLevel/CustomLevel.tscn");
+		if fade:
+			Fades.fade_to_scene("res://scenes/CustomLevel/CustomLevel.tscn");
+		else:
+			Fades.change_scene_to_file("res://scenes/CustomLevel/CustomLevel.tscn");
+	return OK;

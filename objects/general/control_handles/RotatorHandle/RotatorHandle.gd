@@ -26,7 +26,6 @@ func _process(_delta: float):
 		
 		if !Input.is_action_pressed("editor_click"):
 			dragging = false;
-	queue_redraw();
 
 func _gui_input(event: InputEvent):
 	if !dragging:

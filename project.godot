@@ -238,6 +238,7 @@ pseudolocalization/double_vowels=true
 2d_physics/layer_5="player"
 2d_physics/layer_6="editor_polygons"
 2d_physics/layer_7="monitors"
+2d_physics/layer_8="solid_bouncables"
 
 [physics]
 

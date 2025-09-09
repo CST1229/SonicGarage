@@ -37,8 +37,8 @@ var layer_num: int = 1;
 		grounded_only = value;
 		update_icons();
 
-func get_color():
-	var c = Color.BLACK;
+func get_color() -> Color:
+	var c := Color.BLACK;
 	if layer_num & LevelUtil.LAYER_A:
 		c = Color(c.r, c.g + 0.5, c.b + 1);
 	if layer_num & LevelUtil.LAYER_B:
@@ -47,9 +47,9 @@ func get_color():
 
 func _draw():
 	if Engine.is_editor_hint() || (!force_visible && (!container || !container.editor_mode)): return;
-	var color = get_color();
-	var transparent_color = Color(color.r, color.g, color.b, 0.25);
-	var rect = Rect2(-size / 2.0, size);
+	var color := get_color();
+	var transparent_color := Color(color.r, color.g, color.b, 0.25);
+	var rect := Rect2(-size / 2.0, size).grow(-0.5);
 	draw_rect(rect, transparent_color, true);
 	draw_rect(rect, color, false, 1);
 

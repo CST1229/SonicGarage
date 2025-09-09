@@ -27,6 +27,10 @@ func _ready():
 	Music.play(preload("res://music/s3db_menu.mp3"));
 	DirAccess.make_dir_recursive_absolute(current_dir);
 	current_dir = LevelUtil.FOLDER;
+	if LevelUtil.level_path.begins_with(LevelUtil.FOLDER):
+		current_dir = LevelUtil.level_path.get_base_dir();
+		focus_file = LevelUtil.level_path.get_file()
+		LevelUtil.level_path = "";
 
 func reload():
 	for node in container.get_children():
@@ -53,7 +57,27 @@ func reload():
 		return;
 	
 	var create_arr := add_text_edit_item("Create Level...", "Enter name...", "+", func(value: String):
-		print(value);
+		value = value.strip_edges();
+		if value == "":
+			return;
+		value = value + ".sgl";
+		for invalid_char in INVALID_FILENAME_CHARS:
+			if value.contains(invalid_char):
+				create_folder_button.text = "+ Name can't contain " + "".join(INVALID_FILENAME_CHARS);
+				return;
+		var full_path := current_dir.path_join(value);
+		if FileAccess.file_exists(full_path):
+			create_folder_button.text = "+ Level already exists";
+			return;
+		
+		var dict := LevelContainer.empty_level();
+		var err := EditorLib.save_level_static(dict, full_path);
+		if err:
+			create_folder_button.text = "+ Error: " + error_string(err);
+			return;
+		
+		reload();
+		create_level_button.grab_focus();
 	);
 	create_level_button = create_arr[0];
 	var create_folder_arr := add_text_edit_item("Create Folder...", "Enter name...", "📁+", func(value: String):
@@ -62,7 +86,7 @@ func reload():
 			return;
 		for invalid_char in INVALID_FILENAME_CHARS:
 			if value.contains(invalid_char):
-				create_folder_button.text = "📁+ Error: Name can't contain " + "".join(INVALID_FILENAME_CHARS);
+				create_folder_button.text = "📁+ Name can't contain " + "".join(INVALID_FILENAME_CHARS);
 				return;
 		var error := dir.make_dir_recursive(current_dir.path_join(value));
 		if error != OK:
@@ -78,7 +102,7 @@ func reload():
 		del_folder.pressed.connect(func():
 			var check_files := dir.get_files();
 			if !check_files.is_empty():
-				del_folder.text = "📁X Error: Directory is not empty.";
+				del_folder.text = "📁X Directory must be empty.";
 				return;
 			dir.remove(".");
 			go_back();
@@ -100,10 +124,18 @@ func reload():
 		if dir_name == focus_file:
 			dir_item.grab_focus();
 	var files := dir.get_files();
-	for file in files:
-		if !file.ends_with(".sgl"):
+	for level_name in files:
+		if !level_name.to_lower().ends_with(".sgl"):
 			continue;
 		has_levels = true;
+		var level_item := add_item(level_name.get_basename());
+		level_item.pressed.connect(func():
+			LevelUtil.coming_from_my_levels = true;
+			var full_path := current_dir.path_join(level_name);
+			EditorLib.load_level(true, full_path, true);
+		);
+		if level_name == focus_file:
+			level_item.grab_focus();
 	
 	if !has_levels:
 		var note := Label.new();

@@ -27,11 +27,12 @@ func _ready():
 	mouse_filter = Control.MOUSE_FILTER_IGNORE;
 	visible = false;
 	container = find_container();
+	disable_process();
 	if !target || !container || !container.editor_mode:
 		queue_free();
-		disable_process();
 		return;
 	editor = container.editor;
+	process_mode = Node.PROCESS_MODE_ALWAYS;
 	use_size = "size" in target;
 
 func _process(_delta: float):
@@ -52,10 +53,10 @@ func update_size():
 
 func disable_process():
 	for child in get_children():
-		process_mode = Node.PROCESS_MODE_DISABLED;
+		child.process_mode = Node.PROCESS_MODE_DISABLED;
 func enable_process():
 	for child in get_children():
-		process_mode = Node.PROCESS_MODE_ALWAYS;
+		child.process_mode = Node.PROCESS_MODE_ALWAYS;
 
 ## Finds the level container.
 ## TODO: maybe this should be part of [EditorLib].

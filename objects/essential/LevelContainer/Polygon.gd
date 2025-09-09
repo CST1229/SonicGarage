@@ -97,30 +97,44 @@ func update_polygon() -> void:
 	parsed_vertices.clear();
 	for vert: Vertex in vertices:
 		var vect := vert.position;
-		vectors.append(vect);
+		if vectors.size() == 0 || vectors[-1] != vect:
+			vectors.append(vect);
 		parsed_vertices.append(vert);
+	if vectors.size() == 0:
+		return;
+	
 	is_counterclockwise = false;
 	if Geometry2D.is_polygon_clockwise(vectors):
 		vectors.reverse();
 		parsed_vertices.reverse();
 		is_counterclockwise = true;
 	
-	# check if the polygon self-intersects
+	# check if the polygon self-intersects in any way
 	# if it does, make it invalid
-	var triangulated = Geometry2D.triangulate_polygon(vectors);
-	valid = triangulated.size() > 0;
-	fill.visible = valid;
+	# triangulate_polygon make sure it's valid for the fill polygon,
+	# and decompose_polygon_in_convex makes sure it's valid for the collision polygon
+	# (especially important since you can't select polygons with invalid collision, so you end up with a softlock of sorts)
+	var triangulated := Geometry2D.triangulate_polygon(vectors);
+	valid = !triangulated.is_empty();
 	if valid:
-		collision_polygon.polygon = vectors;
+		var decomposed := Geometry2D.decompose_polygon_in_convex(vectors);
+		valid = !decomposed.is_empty();
+	fill.visible = valid;
+	collision_polygon.disabled = true;
+	
+	fill.polygons = [];
+	if valid:
 		collision_polygon.build_mode = CollisionPolygon2D.BUILD_SOLIDS;
+		collision_polygon.polygon = vectors;
 		fill.polygon = vectors;
 		decor_sections = LevelDrawing.compute_polygon(parsed_vertices, self);
+		collision_polygon.disabled = false;
+			
 	else:
 		if is_in_editor():
 			collision_polygon.build_mode = CollisionPolygon2D.BUILD_SEGMENTS;
 			collision_polygon.polygon = vectors;
-		else:
-			collision_polygon.polygon = PackedVector2Array();
+			collision_polygon.disabled = false;
 		decor_sections = [];
 	redraw();
 
