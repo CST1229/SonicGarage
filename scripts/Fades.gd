@@ -7,7 +7,7 @@ const FADE_DURATION = 0.4;
 
 @onready var fade_container: CanvasLayer = CanvasLayer.new();
 
-var scene_manager_default_scene: PackedScene = preload("res://scenes/TitleScreen/TitleScreen.tscn");
+var scene_manager_default_scene: String = "res://scenes/TitleScreen/TitleScreen.tscn";
 var is_fading_to_scene: bool = false;
 
 var scene_manager: SceneManager;
@@ -23,7 +23,7 @@ func _ready() -> void:
 func check_run_current_scene():
 	create_fade(false, true);
 	if get_tree().current_scene.scene_file_path != SCENE_MANAGER_PATH:
-		scene_manager_default_scene = load(get_tree().current_scene.scene_file_path);
+		scene_manager_default_scene = get_tree().current_scene.scene_file_path;
 		get_tree().change_scene_to_file(SCENE_MANAGER_PATH);
 
 func fade_to_scene(path: String, is_white := false, stop_music := true):
