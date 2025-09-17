@@ -14,7 +14,7 @@ config/name="Sonic Garage"
 config/description="A dumb Sonic Studio recreation"
 config/version="0.0.3"
 run/main_scene="uid://c1m2cm6yym2j5"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/use_filter=false
 boot_splash/image="uid://bdhdmiina8pem"
@@ -62,11 +62,11 @@ enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
 
 [gui]
 
-theme/custom="uid://dsc2sl34kqmp"
-theme/custom_font="uid://bwoa021kuhdit"
 theme/default_font_antialiasing=0
 theme/default_font_hinting=0
 theme/default_font_subpixel_positioning=0
+theme/custom="uid://dsc2sl34kqmp"
+theme/custom_font="uid://bwoa021kuhdit"
 
 [input]
 
