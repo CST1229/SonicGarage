@@ -1,7 +1,7 @@
 extends Node
 
 ## this is where the serialized level is stored between scenes.
-var load_level = null;
+var load_level: Dictionary = LevelContainer.empty_level();
 var level_path := "";
 var level_manager: LevelManager = null;
 var coming_from_my_levels := false;

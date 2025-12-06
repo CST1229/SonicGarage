@@ -36,7 +36,7 @@ func _ready():
 	use_size = "size" in target;
 
 func _process(_delta: float):
-	visible = target.is_in_group(&"selected_objects") && editor.tool == LevelEditor.Tool.OBJECT_SELECT;
+	visible = target.is_in_group(&"selected_objects") && (editor.tool == LevelEditor.Tool.OBJECT_SELECT || editor.tool == LevelEditor.Tool.OBJECT_PLACE);
 	if last_visible != visible:
 		last_visible = visible;
 		if visible:

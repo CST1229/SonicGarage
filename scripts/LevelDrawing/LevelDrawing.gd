@@ -5,14 +5,9 @@ var semisolid_decor_cache: Dictionary[Array, Array] = {};
 
 ## Computes what decor (e.g grass edges) to render, based off of vertices,
 ## and does general setting up of the polygon.
-func compute_polygon(verts: Array[Vertex], polygon: Polygon) -> Array[DecorSection]:
-	# TODO: don't hardcode theme. choose per-level (maybe even per polygon)
-	var theme := Decor.THEME_GHZ;
-	
+func compute_polygon(theme: LevelTheme, verts: Array[Vertex], polygon: Polygon) -> Array[DecorSection]:
 	polygon.fill.texture = load(theme.base_texture);
 	polygon.fill.texture_scale = Vector2(theme.base_texture_scale, theme.base_texture_scale);
-	
-	theme.load();
 	
 	var decors: Array = theme.decors;
 	var decor_sections: Dictionary[Decor, DecorSection] = {};
@@ -20,7 +15,7 @@ func compute_polygon(verts: Array[Vertex], polygon: Polygon) -> Array[DecorSecti
 	if polygon.is_in_editor() && polygon.semisolid:
 		if decors not in semisolid_decor_cache:
 			var new_decors := decors.duplicate();
-			new_decors.append(Decor.EDITOR_SEMISOLID);
+			new_decors.append(load("res://sprites/level_themes/semisolid_indicator.tres"));
 			semisolid_decor_cache[decors] = new_decors;
 		decors = semisolid_decor_cache[decors];
 	
@@ -38,10 +33,10 @@ func compute_polygon(verts: Array[Vertex], polygon: Polygon) -> Array[DecorSecti
 		
 		for decor: Decor in decors:
 			var matches = decor.matches(vert, angle);
-			if matches && decor in theme.mutually_exclusive:
-				for exclusive in theme.mutually_exclusive[decor]:
+			if matches && decor in theme._mutually_exclusive:
+				for exclusive in theme._mutually_exclusive[decor]:
 					if exclusive in decor_sections:
-						if theme.decor_precedence[decor] > theme.decor_precedence[exclusive]:
+						if theme._decor_precedence[decor] > theme._decor_precedence[exclusive]:
 							matches = false;
 							break;
 			if matches && decor not in decor_sections:
@@ -69,19 +64,19 @@ func draw_decor(to: CanvasItem, sections: Array[DecorSection], layer: Decor.Laye
 			continue;
 		
 		match section.decor.type:
-			&"grass":
+			Decor.DecorType.GRASS:
 				LevelDrawing.draw_grass_section(to, section, layer == Decor.Layer.SHADOW);
-			&"shade":
+			Decor.DecorType.SHADE:
 				LevelDrawing.draw_shade(to, section);
 
 func draw_grass_section(to: CanvasItem, section: DecorSection, is_shadow: bool = false):
 	var verts: PackedVector2Array = section.verts;
 	var tex: Texture2D;
 	if section.decor.texture:
-		tex = load(section.decor.texture);
+		tex = section.decor.texture;
 	var edge_tex: Texture2D;
 	if section.decor.edge:
-		edge_tex = load(section.decor.edge);
+		edge_tex = section.decor.edge;
 	
 	var tex_height := float(tex.get_height());
 	var off := Vector2(0, tex_height * -0.5);

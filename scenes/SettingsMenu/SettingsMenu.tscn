@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://rjjanteyns7o"]
+[gd_scene load_steps=12 format=3 uid="uid://rjjanteyns7o"]
 
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="1_nwtdr"]
 [ext_resource type="Script" uid="uid://c24343omfvf2u" path="res://scenes/SettingsMenu/SettingsMenu.gd" id="2_0il6q"]
@@ -6,8 +6,9 @@
 [ext_resource type="FontFile" uid="uid://bwoa021kuhdit" path="res://sprites/fonts/ui_font.png" id="3_0f8tw"]
 [ext_resource type="Script" uid="uid://cm6j04skkafab" path="res://objects/ui/FixedOptionButton.gd" id="3_hm052"]
 [ext_resource type="PackedScene" uid="uid://bk04l2wckr1cn" path="res://scenes/SettingsMenu/ControlsSettings.tscn" id="4_gedgt"]
-[ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/fonts/Habbo.ttf" id="4_slc4v"]
 [ext_resource type="Script" uid="uid://cjsc1fkphfna4" path="res://objects/ui/HideWithFeatureTags.gd" id="6_0f8tw"]
+[ext_resource type="Script" uid="uid://bpfbldfqkt1yl" path="res://scenes/SettingsMenu/BoundCheckButton.gd" id="7_krksl"]
+[ext_resource type="Script" uid="uid://bngb74vvtf8k7" path="res://scenes/SettingsMenu/BoundSlider.gd" id="9_rlxgy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8eswu"]
 font = ExtResource("3_0f8tw")
@@ -21,22 +22,21 @@ content_margin_bottom = 1.0
 bg_color = Color(0.0277759, 0.27676, 0.172298, 1)
 corner_detail = 1
 
-[node name="Settings" type="Panel" node_paths=PackedStringArray("save_custom_logo_movements_button")]
+[node name="Settings" type="Panel" unique_id=292201666 node_paths=PackedStringArray("save_custom_logo_movements_button")]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -140.0
-offset_right = 140.0
-offset_bottom = 472.0
+offset_right = 280.0
+offset_bottom = 640.0
 grow_horizontal = 2
-grow_vertical = 2
 size_flags_horizontal = 4
+size_flags_vertical = 3
 theme = ExtResource("1_nwtdr")
 script = ExtResource("2_0il6q")
 save_custom_logo_movements_button = NodePath("HMargin/ScrollContainer/VMargin/SettingsList/SaveCustomLogoMovements")
 metadata/_tab_index = 2
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=7542874]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -51,37 +51,21 @@ label_settings = SubResource("LabelSettings_8eswu")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OpenFolderButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 74.0
-offset_bottom = 27.0
-focus_neighbor_right = NodePath("../BackButton")
-theme = ExtResource("1_nwtdr")
-theme_override_fonts/font = ExtResource("4_slc4v")
-theme_override_font_sizes/font_size = 16
-text = "Open Folder
-"
-
-[node name="BackButton" type="Button" parent="."]
+[node name="BackButton" type="Button" parent="." unique_id=882808503]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -37.0
+offset_left = -43.0
 offset_top = 8.0
 offset_right = -8.0
-offset_bottom = 27.0
+offset_bottom = 29.0
 grow_horizontal = 0
-focus_neighbor_left = NodePath("../OpenFolderButton")
+focus_neighbor_left = NodePath("../HMargin/ScrollContainer/VMargin/SettingsList/OpenFolderButton")
 theme = ExtResource("1_nwtdr")
-theme_override_fonts/font = ExtResource("4_slc4v")
-theme_override_font_sizes/font_size = 16
 text = "Back"
 
-[node name="HMargin" type="MarginContainer" parent="."]
+[node name="HMargin" type="MarginContainer" parent="." unique_id=1716329979]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -93,13 +77,14 @@ theme_override_constants/margin_left = 1
 theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 1
 theme_override_constants/margin_bottom = 0
+metadata/_edit_lock_ = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HMargin"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HMargin" unique_id=1590713472]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ucmnd")
 follow_focus = true
 
-[node name="VMargin" type="MarginContainer" parent="HMargin/ScrollContainer"]
+[node name="VMargin" type="MarginContainer" parent="HMargin/ScrollContainer" unique_id=628387247]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -108,64 +93,81 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 16
 
-[node name="SettingsList" type="VBoxContainer" parent="HMargin/ScrollContainer/VMargin"]
+[node name="SettingsList" type="VBoxContainer" parent="HMargin/ScrollContainer/VMargin" unique_id=970399142]
 layout_mode = 2
 script = ExtResource("2_lasjk")
 
-[node name="Options" type="GridContainer" parent="HMargin/ScrollContainer/VMargin/SettingsList"]
+[node name="Options" type="GridContainer" parent="HMargin/ScrollContainer/VMargin/SettingsList" unique_id=1383042034]
 layout_mode = 2
 theme_override_constants/h_separation = 8
 columns = 2
 
-[node name="SettingLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="FullscreenLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=2078513825]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0f8tw")
 text = "Fullscreen (F11)"
 script = ExtResource("6_0f8tw")
 tags = PackedStringArray("android", "web")
 
-[node name="Fullscreen" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="Fullscreen" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=9555590]
 layout_mode = 2
 size_flags_horizontal = 3
 flat = true
-script = ExtResource("6_0f8tw")
-tags = PackedStringArray("android", "web")
+script = ExtResource("7_krksl")
+setting_name = &"fullscreen"
+hide_with_tags = PackedStringArray("android", "web")
 
-[node name="SettingLabel10" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="VSyncLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=591480480]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0f8tw")
 text = "VSync"
 script = ExtResource("6_0f8tw")
 tags = PackedStringArray("android", "web")
 
-[node name="VSync" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="VSync" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=249486458]
 layout_mode = 2
 size_flags_horizontal = 3
-tooltip_text = "Disabling this uncaps the framerate."
+tooltip_text = "Disabling this uncaps the framerate.
+How fast can your device run the game?"
 flat = true
-script = ExtResource("6_0f8tw")
-tags = PackedStringArray("android", "web")
+script = ExtResource("7_krksl")
+setting_name = &"vsync"
 
-[node name="SettingLabel9" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="IntegerScaleLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=1269953753]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0f8tw")
 text = "Integer Scaling"
 script = ExtResource("6_0f8tw")
 tags = PackedStringArray("android", "web")
 
-[node name="IntegerScale" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="IntegerScale" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=618862599]
 layout_mode = 2
 size_flags_horizontal = 3
 flat = true
+script = ExtResource("7_krksl")
+setting_name = &"integer_scale"
+
+[node name="43Label" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=1967252310]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_0f8tw")
+text = "4:3 Aspect Ratio"
 script = ExtResource("6_0f8tw")
 tags = PackedStringArray("android", "web")
 
-[node name="SettingLabel2" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="43" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=373914408]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "If disabled, aspect ratio is uncapped."
+flat = true
+script = ExtResource("7_krksl")
+setting_name = &"is_43"
+
+[node name="TerrainDetailLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=1080585728]
 visible = false
 layout_mode = 2
 text = "Terrain Detail (F2)"
 
-[node name="TerrainDetail" type="OptionButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="TerrainDetail" type="OptionButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=760236304]
 visible = false
 layout_mode = 2
 item_count = 3
@@ -178,34 +180,37 @@ popup/item_2/id = 0
 script = ExtResource("3_hm052")
 no_radio_buttons = true
 
-[node name="SettingLabel3" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="RetroScaleLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=2013920210]
 layout_mode = 2
 text = "High Res Mode (F3)"
 
-[node name="RetroScale" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="RetroScale" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=982855145]
 layout_mode = 2
 size_flags_horizontal = 3
-tooltip_text = "Makes the game render at the window resolution.
-Useful when zooming in the editor, but disabling
-this increases performance and might
-make in-game terrain look better."
+tooltip_text = "Useful when zooming in the editor,
+but disabling increases performance
+and might make terrain look better."
 flat = true
+script = ExtResource("7_krksl")
+setting_name = &"hd"
 
-[node name="SettingLabel4" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="ShowFPSLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=2035243301]
 layout_mode = 2
 text = "Show FPS"
 
-[node name="ShowFPS" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="ShowFPS" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=931081765]
 layout_mode = 2
 size_flags_horizontal = 3
 flat = true
+script = ExtResource("7_krksl")
+setting_name = &"show_fps"
 
-[node name="SettingLabel5" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="MasterVolumeLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=1117794932]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 text = "Master Volume"
 
-[node name="MasterVolume" type="HSlider" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="MasterVolume" type="HSlider" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=633179923]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -213,13 +218,15 @@ min_value = 0.001
 max_value = 1.0
 step = 0.0
 value = 0.001
+script = ExtResource("9_rlxgy")
+setting_name = &"master_volume"
 
-[node name="SettingLabel6" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="SFXVolumeLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=981592361]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 text = "SFX Volume"
 
-[node name="SFXVolume" type="HSlider" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="SFXVolume" type="HSlider" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=807644312]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -227,13 +234,15 @@ min_value = 0.001
 max_value = 1.0
 step = 0.0
 value = 0.001
+script = ExtResource("9_rlxgy")
+setting_name = &"sfx_volume"
 
-[node name="SettingLabel7" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="MusicVolumeLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=793941071]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 text = "Music Volume"
 
-[node name="MusicVolume" type="HSlider" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="MusicVolume" type="HSlider" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=1751541890]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -241,22 +250,25 @@ min_value = 0.001
 max_value = 1.0
 step = 0.0
 value = 0.001
+script = ExtResource("9_rlxgy")
+setting_name = &"music_volume"
 
-[node name="SettingLabel8" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="MuteOnFocusLostLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=510899312]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0f8tw")
 text = "Mute on Focus Lost"
 script = ExtResource("6_0f8tw")
 tags = PackedStringArray("web", "android")
 
-[node name="MuteOnFocusLost" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options"]
+[node name="MuteOnFocusLost" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=2015840921]
 layout_mode = 2
 size_flags_horizontal = 3
 flat = true
-script = ExtResource("6_0f8tw")
-tags = PackedStringArray("web", "android")
+script = ExtResource("7_krksl")
+setting_name = &"mute_on_focus_lost"
+hide_with_tags = PackedStringArray()
 
-[node name="ControlsHeading" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList"]
+[node name="ControlsHeading" type="Label" parent="HMargin/ScrollContainer/VMargin/SettingsList" unique_id=503553316]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -264,20 +276,36 @@ size_flags_vertical = 0
 text = "Controls"
 horizontal_alignment = 1
 
-[node name="ControlsSettings" parent="HMargin/ScrollContainer/VMargin/SettingsList" instance=ExtResource("4_gedgt")]
+[node name="ControlsSettings" parent="HMargin/ScrollContainer/VMargin/SettingsList" unique_id=1396814066 instance=ExtResource("4_gedgt")]
 layout_mode = 2
 theme_override_constants/h_separation = 2
 
-[node name="SaveCustomLogoMovements" type="Button" parent="HMargin/ScrollContainer/VMargin/SettingsList"]
+[node name="ResetKeybinds" type="Button" parent="HMargin/ScrollContainer/VMargin/SettingsList" unique_id=1548575075]
+layout_mode = 2
+size_flags_stretch_ratio = 2.0
+text = "Reset All Keybindings"
+autowrap_mode = 3
+
+[node name="Padding" type="Control" parent="HMargin/ScrollContainer/VMargin/SettingsList" unique_id=399151866]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="OpenFolderButton" type="Button" parent="HMargin/ScrollContainer/VMargin/SettingsList" unique_id=582584234]
+layout_mode = 2
+focus_neighbor_right = NodePath("../../../../../BackButton")
+theme = ExtResource("1_nwtdr")
+text = "Open Folder
+"
+
+[node name="SaveCustomLogoMovements" type="Button" parent="HMargin/ScrollContainer/VMargin/SettingsList" unique_id=417526051]
 visible = false
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
 theme = ExtResource("1_nwtdr")
-theme_override_fonts/font = ExtResource("4_slc4v")
-theme_override_font_sizes/font_size = 16
 text = "Save Custom Logo Movements To Vanilla Why Is This Option Name So Long LMAO I Am Gonna Just Keep It That Way. Anyways, this will save your custom logo movements to a resource file that replaces the vanilla movements."
 autowrap_mode = 3
 
-[connection signal="pressed" from="OpenFolderButton" to="." method="_on_open_folder_button_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="HMargin/ScrollContainer/VMargin/SettingsList/ResetKeybinds" to="HMargin/ScrollContainer/VMargin/SettingsList/ControlsSettings" method="reset_binds"]
+[connection signal="pressed" from="HMargin/ScrollContainer/VMargin/SettingsList/OpenFolderButton" to="." method="_on_open_folder_button_pressed"]
 [connection signal="pressed" from="HMargin/ScrollContainer/VMargin/SettingsList/SaveCustomLogoMovements" to="." method="_on_save_custom_logo_movements_pressed"]

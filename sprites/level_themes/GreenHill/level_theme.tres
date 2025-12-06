@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="LevelTheme" load_steps=8 format=3 uid="uid://bjm1nbtehvxfo"]
+
+[ext_resource type="Script" uid="uid://clpjvskrgnvef" path="res://scripts/LevelDrawing/Decor.gd" id="1_frdo7"]
+[ext_resource type="Texture2D" uid="uid://mlrvlst4wdk6" path="res://sprites/level_themes/GreenHill/grass_edge.png" id="2_23j5y"]
+[ext_resource type="Texture2D" uid="uid://bccy0q11l4t84" path="res://sprites/level_themes/GreenHill/grass.png" id="3_qenra"]
+[ext_resource type="Script" uid="uid://c26yyl82mqf2s" path="res://scripts/LevelDrawing/LevelTheme.gd" id="4_welly"]
+
+[sub_resource type="Resource" id="Resource_y1jyy"]
+script = ExtResource("1_frdo7")
+type = 1
+texture = ExtResource("3_qenra")
+edge = ExtResource("2_23j5y")
+shadow_offset = Vector2(0, 12)
+layer = 3
+surface_type = 2
+match_angle_radius = 1.0471975511965976
+
+[sub_resource type="Resource" id="Resource_j0dje"]
+script = ExtResource("1_frdo7")
+type = 2
+color = Color(0.3, 0.2, 0, 1)
+size = 24.0
+layer = 4
+surface_type = 6
+match_angle_center = -0.7853981633974483
+match_angle_radius = 1.5707963267948966
+
+[sub_resource type="Resource" id="Resource_x21nx"]
+script = ExtResource("1_frdo7")
+type = 2
+size = 24.0
+layer = 2
+surface_type = 6
+match_angle_center = 2.356194490192345
+match_angle_radius = 1.5707963267948966
+
+[resource]
+resource_name = "Green Hill Zone"
+script = ExtResource("4_welly")
+base_texture = "res://sprites/level_themes/GreenHill/checkerboard.png"
+decors = Array[ExtResource("1_frdo7")]([SubResource("Resource_y1jyy"), SubResource("Resource_j0dje"), SubResource("Resource_x21nx")])
+mutually_exclusive = Array[Array]([[SubResource("Resource_y1jyy"), SubResource("Resource_j0dje"), SubResource("Resource_x21nx")]])
+base_texture_scale = 0.125

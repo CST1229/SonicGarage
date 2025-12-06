@@ -15,21 +15,15 @@ class_name EditorUI
 
 @onready var object_tools: Control = %ObjectTools;
 @onready var object_selector: Control = %ObjectSelector;
+@onready var object_selector_panel: Panel = %ObjectSelectorPanel;
 @onready var object_list: FlowContainer = %ObjectList;
+@onready var selected_object_name: Label = %SelectedObjectName;
 
 var objects_flap_open := false;
 var objects_flap_transition := 0.0;
 
 ## A list of object IDs to use in the object selector.
-var listed_objects: Array[String] = [
-	"ring",
-	"layer_switcher",
-	"signpost",
-	"motobug",
-	"monitor",
-	"spike",
-	"spring",
-];
+var listed_objects: Array[String] = Global.editor_object_list;
 
 ## A map of [enum LevelEditor.Tool] to a [Button] that selects the tool.
 @onready var tool_buttons: Dictionary[LevelEditor.Tool, Button] = {
@@ -85,16 +79,37 @@ func do_dehover() -> void:
 
 func _process(delta: float) -> void:
 	objects_flap_transition = move_toward(objects_flap_transition, float(objects_flap_open), delta * 5);
-	object_selector.offset_right = ease(objects_flap_transition, -2) * -196;
+	object_selector.offset_right = ease(objects_flap_transition, -2) * -(object_selector_panel.offset_right - 1);
 
+var mouse_entrance_token = null;
 func populate_object_list(objects: Array[String]) -> void:
+	selected_object_name.modulate = Color(1, 1, 1, 0.5);
+	selected_object_name.text = "Select an object...";
 	for obj_id in objects:
 		assert(Global.object_list.has(obj_id), "Object not defined: " + obj_id);
 		var obj: Global.ObjectDef = Global.object_list[obj_id];
 		
 		var button: Button = Button.new();
 		button.pressed.connect(select_object.bind(obj_id));
-		button.text = obj.name;
+		button.mouse_exited.connect(func():
+			mouse_entrance_token = {renewed = false};
+			var token = mouse_entrance_token;
+			await get_tree().create_timer(0.25).timeout;
+			if !token.renewed:
+				selected_object_name.modulate = Color(1, 1, 1, 0.5);
+				selected_object_name.text = "Select an object...";
+		);
+		button.mouse_entered.connect(func():
+			if mouse_entrance_token:
+				mouse_entrance_token.renewed = true;
+			selected_object_name.modulate = Color.WHITE;
+			selected_object_name.text = obj.name;
+		);
+		button.theme_type_variation = &"PaddinglessButton"
+		button.icon = load(obj.icon_path);
+		button.custom_minimum_size = Vector2(34, 34);
+		button.text = "";
+		button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER;
 		object_list.add_child(button);
 
 ## Selects an object ID to place.
@@ -165,7 +180,6 @@ func objects_flap_pressed() -> void:
 func menu_pressed(id: int) -> void:
 	match id:
 		0: # Save Level
-			print(LevelUtil.level_path);
 			if LevelUtil.level_path == "":
 				menu_pressed(4);
 			else:
@@ -198,7 +212,7 @@ func menu_pressed(id: int) -> void:
 					EditorLib.load_level(true, selected_paths[0], false);
 			);
 		2: # Clear Level
-			LevelUtil.load_level = null;
+			LevelUtil.load_level = LevelContainer.empty_level();
 			Fades.reload_current_scene();
 		3: # Exit
 			LevelUtil.load_level = editor.container.serialize();

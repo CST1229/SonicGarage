@@ -4,58 +4,85 @@ extends Node
 class ObjectDef:
 	var scene: String;
 	var name: String;
-func obj(ui_name: String, scene: String):
+	var icon_path: String;
+func obj(ui_name: String, scene: String, icon_path: String = "res://objects/editor/empty_object_icon.png"):
 	var def = ObjectDef.new();
 	def.name = ui_name;
 	def.scene = scene;
+	def.icon_path = icon_path;
 	return def;
 
 ## The list of objects (used by deserialization).
 var object_list: Dictionary = {
 	layer_switcher = obj(
-		"Layer Switcher", "res://objects/level/LayerSwitcher/LayerSwitcher.tscn"
+		"Layer Switcher", "res://objects/level/LayerSwitcher/LayerSwitcher.tscn",
+		"res://objects/level/LayerSwitcher/icon.png"
 	),
 	ring = obj(
-		"Ring", "res://objects/level/Ring/Ring.tscn"
+		"Ring", "res://objects/level/Ring/Ring.tscn",
+		"res://objects/level/Ring/sprites/ring1.png"
 	),
 	signpost = obj(
-		"Signpost", "res://objects/level/Signpost/Signpost.tscn"
+		"Signpost", "res://objects/level/Signpost/Signpost.tscn",
+		"res://objects/level/Signpost/icon.png"
 	),
 	motobug = obj(
-		"Motobug", "res://objects/enemies/Motobug/Motobug.tscn"
+		"Motobug", "res://objects/enemies/Motobug/Motobug.tscn",
+		"res://objects/enemies/Motobug/icon.png"
 	),
 	monitor = obj(
-		"Item Monitor", "res://objects/level/Monitor/Monitor.tscn"
+		"Item Monitor", "res://objects/level/Monitor/Monitor.tscn",
+		"res://objects/level/Monitor/icon.png"
 	),
 	spike = obj(
-		"Spikes", "res://objects/level/Spike/Spike.tscn"
+		"Spikes", "res://objects/level/Spike/Spike.tscn",
+		"res://objects/level/Spike/sprites/spikes.png"
 	),
 	spring = obj(
-		"Spring", "res://objects/level/Spring/Spring.tscn"
+		"Spring", "res://objects/level/Spring/Spring.tscn",
+		"res://objects/level/Spring/icon.png"
 	),
 };
+## A list of object IDs that are visible in the editor.
+var editor_object_list: Array[String] = [
+	"ring",
+	"layer_switcher",
+	"signpost",
+	"motobug",
+	"monitor",
+	"spike",
+	"spring",
+];
+var object_paths_to_id: Dictionary[String, String] = {};
+
+func _ready() -> void:
+	update_object_paths_to_id();
+
+func update_object_paths_to_id() -> void:
+	for i in object_list.keys():
+		object_paths_to_id[object_list[i].scene] = i;
 
 const UI_THEME: Theme = preload("res://sprites/ui/ui_theme.tres");
 
 # reactive-ish objects
 
 # a linked signal connection is deleted when either of the objects it is linked to is also deleted
+var connection_links: Array[ConnectionLink] = [];
 class ConnectionLink:
-	static var links: Array[ConnectionLink] = [];
 	static func garbage_collect() -> void:
-		for i in range(ConnectionLink.links.size() - 1, -1, -1):
-			var link := ConnectionLink.links[i];
+		for i in range(Global.connection_links.size() - 1, -1, -1):
+			var link: ConnectionLink = Global.connection_links[i];
 			if !is_instance_valid(link.link_to.get_ref()) || !is_instance_valid(link.linked.get_ref()):
 				if is_instance_valid(link.linked_signal.get_object()):
 					link.linked_signal.disconnect(link.linked_callable);
-				ConnectionLink.links.remove_at(i);
+				Global.connection_links.remove_at(i);
 	static func add(_linked: Object, _linked_signal: Signal, _linked_callable: Callable, _link_to: Object) -> void:
 		var link := new();
 		link.linked = weakref(_linked);
 		link.linked_signal = _linked_signal;
 		link.linked_callable = _linked_callable;
 		link.link_to = weakref(_link_to);
-		ConnectionLink.links.append(link);
+		Global.connection_links.append(link);
 	static func add_and_connect(_linked: Object, _linked_signal: Signal, _linked_callable: Callable, _link_to: Object) -> void:
 		_linked_signal.connect(_linked_callable);
 		add(_linked, _linked_signal, _linked_callable, _link_to);

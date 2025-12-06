@@ -5,6 +5,8 @@ const RING_SCENE = preload("res://objects/level/Ring/Ring.tscn");
 
 const GRAVITY = 0.09375 * 60 * 60;
 const LIFESPAN = 4.25;
+const FLASH_MIN_TIME = 2;
+const FLASH_PERIOD = 1.0 / 15.0;
 
 @onready var ring: Ring;
 
@@ -40,5 +42,7 @@ func _process(delta: float):
 	ring.sprite.speed_scale = lerpf(4, 0, (LIFESPAN - timer) / 4.25);
 	
 	timer = move_toward(timer, 0, delta);
+	if timer <= FLASH_MIN_TIME:
+		visible = fmod(timer, FLASH_PERIOD) > FLASH_PERIOD / 2.0;
 	if timer <= 0:
 		queue_free();

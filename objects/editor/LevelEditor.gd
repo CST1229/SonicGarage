@@ -334,7 +334,7 @@ func update_object_detector():
 		object_detector.position = select_rect.position + (select_rect.size / 2.0);
 		object_detector_shape.shape.size = select_rect.size;
 	elif tool == Tool.VERT_SELECT:
-		object_detector_shape.shape.size.x = VERT_SNAP / true_zoom * 2;
+		object_detector_shape.shape.size.x = VERT_SNAP;
 		object_detector_shape.shape.size.y = object_detector_shape.shape.size.x;
 		object_detector.position = actual_mp;
 	else:
@@ -389,6 +389,8 @@ func _unhandled_input(ev: InputEvent):
 				node.position = snapped_mouse_pos;
 				container.objects.add_child(node);
 				container.dirty = true;
+				deselect_objects();
+				select_object(node);
 			
 			elif tool == Tool.OBJECT_SELECT:
 				# select objects
@@ -549,7 +551,7 @@ func select_polygon(obj: Polygon):
 	obj.queue_redraw();
 func deselect_polygon(obj: Polygon):
 	obj.remove_from_group(&"selected_polygons");
-	obj.add_to_group(&"selected_objects_and_polygons");
+	obj.remove_from_group(&"selected_objects_and_polygons");
 	obj.queue_redraw();
 func deselect_polygons():
 	for obj in get_tree().get_nodes_in_group(&"selected_polygons"):

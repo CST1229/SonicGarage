@@ -110,9 +110,8 @@ func spring(_node: Node2D):
 				player.controllock_timer = 16.0 / 60.0;
 				player.facing_dir = -1 if flip_h else 1;
 
-func serialize():
+func serialize() -> Dictionary:
 	return {
-		id = "spring",
 		x = position.x,
 		y = position.y,
 		direction = direction,
@@ -121,7 +120,7 @@ func serialize():
 		flip_v = flip_v,
 	};
 
-func deserialize(json: Dictionary):
+func deserialize(json: Dictionary) -> void:
 	position.x = json.x;
 	position.y = json.y;
 	direction = json.direction;

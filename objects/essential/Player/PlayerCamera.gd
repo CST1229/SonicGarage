@@ -8,6 +8,9 @@ var v_focus := -16.0;
 
 func _ready():
 	global_position = target.global_position;
+	await get_tree().process_frame;
+	# move to the player position instantly
+	_physics_process(10);
 
 func _physics_process(delta: float):
 	if target.state == Player.State.DEAD:

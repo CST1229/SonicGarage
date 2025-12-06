@@ -4,13 +4,19 @@ const SETTINGS_PATH = "user://settings.json";
 
 var settings_dict: Dictionary = {};
 
+var first_time := false;
+
 var terrain_detail: int = 2:
 	set(value):
+		if !first_time && terrain_detail == value:
+			return;
 		terrain_detail = value;
 		get_tree().call_group(&"polygons", &"redraw");
 		changed.emit(&"terrain_detail");
-var fullscreen: bool = false:
+var fullscreen := false:
 	set(value):
+		if !first_time && fullscreen == value:
+			return;
 		if OS.has_feature("android"):
 			value = true;
 		fullscreen = value;
@@ -19,8 +25,10 @@ var fullscreen: bool = false:
 			window.mode = Window.Mode.MODE_EXCLUSIVE_FULLSCREEN if fullscreen else Window.Mode.MODE_WINDOWED;
 			window.borderless = fullscreen;
 		changed.emit(&"fullscreen");
-var vsync: bool = true:
+var vsync := true:
 	set(value):
+		if !first_time && vsync == value:
+			return;
 		vsync = value;
 		if vsync:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED);
@@ -29,50 +37,73 @@ var vsync: bool = true:
 		changed.emit(&"vsync");
 var max_fps: int = 0:
 	set(value):
+		if !first_time && max_fps == value:
+			return;
 		max_fps = value;
 		Engine.max_fps = max_fps;
 		changed.emit(&"max_fps");
-var integer_scale: bool = false:
+var is_43 := false:
 	set(value):
+		if !first_time && is_43 == value:
+			return;
+		is_43 = value;
+		get_window().content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP_HEIGHT if !is_43 else Window.CONTENT_SCALE_ASPECT_KEEP;
+		changed.emit(&"is_43");
+var integer_scale := false:
+	set(value):
+		if !first_time && integer_scale == value:
+			return;
 		integer_scale = value;
 		var window: Window = get_window();
 		window.content_scale_stretch = Window.CONTENT_SCALE_STRETCH_INTEGER if integer_scale else Window.CONTENT_SCALE_STRETCH_FRACTIONAL;
 		changed.emit(&"integer_scale");
 
-var master_volume: float = 1.0:
+var master_volume := 1.0:
 	set(value):
 		if value == 0.001:
 			value = 0;
+		if !first_time && master_volume == value:
+			return;
 		master_volume = value;
 		changed.emit(&"master_volume");
-var sfx_volume: float = 1.0:
+var sfx_volume := 1.0:
 	set(value):
 		if value == 0.001:
 			value = 0;
+		if !first_time && sfx_volume == value:
+			return;
 		sfx_volume = value;
 		changed.emit(&"sfx_volume");
-var music_volume: float = 1.0:
+var music_volume := 1.0:
 	set(value):
 		if value == 0.001:
 			value = 0;
+		if !first_time && music_volume == value:
+			return;
 		music_volume = value;
 		changed.emit(&"music_volume");
-var mute_on_focus_lost: bool = true:
+var mute_on_focus_lost := true:
 	set(value):
 		if OS.has_feature("web"):
 			value = false;
+		if !first_time && mute_on_focus_lost == value:
+			return;
 		mute_on_focus_lost = value;
 		changed.emit(&"mute_on_focus_lost");
 
-var hd: bool = false:
+var hd := false:
 	set(value):
+		if !first_time && hd == value:
+			return;
 		hd = value;
 		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT if !hd else Window.CONTENT_SCALE_MODE_CANVAS_ITEMS;
 		get_window().snap_2d_transforms_to_pixel = !hd;
 		changed.emit(&"hd");
 
-var show_fps: bool = false:
+var show_fps := false:
 	set(value):
+		if !first_time && show_fps == value:
+			return;
 		show_fps = value;
 		changed.emit(&"hd");
 
@@ -87,6 +118,7 @@ func do_settings(opt: Callable) -> void:
 	save_verbatim.call(&"fullscreen");
 	save_verbatim.call(&"vsync");
 	save_verbatim.call(&"max_fps");
+	save_verbatim.call(&"is_43");
 	save_verbatim.call(&"integer_scale");
 	# save_verbatim.call(&"terrain_detail");
 	save_verbatim.call(&"master_volume");
@@ -96,19 +128,21 @@ func do_settings(opt: Callable) -> void:
 	save_verbatim.call(&"mute_on_focus_lost");
 	save_verbatim.call(&"hd");
 	save_verbatim.call(&"show_fps");
+	first_time = false;
 
 func _ready():
+	first_time = true;
 	serialize_binds(default_keybinds);
 	load_settings();
 
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("setting_detail"):
+func _input(ev: InputEvent) -> void:
+	if false && ev.is_action_pressed("setting_detail"):
 		terrain_detail = int(fposmod(terrain_detail - 1, 3));
 		save_settings();
-	if Input.is_action_just_pressed("setting_fullscreen"):
+	if ev.is_action_pressed("setting_fullscreen"):
 		fullscreen = !fullscreen;
 		save_settings();
-	if Input.is_action_just_pressed("setting_hd"):
+	if ev.is_action_pressed("setting_hd"):
 		hd = !hd;
 
 
@@ -257,7 +291,7 @@ func deserialize_input_event(serialized: Array) -> InputEvent:
 			return ev;
 	return null;
 
-func get_bind_name(event: InputEvent, include_pad: bool = true) -> String:
+func get_bind_name(event: InputEvent, include_pad := true) -> String:
 	if event is InputEventJoypadButton:
 		var pad_name: String = "Pad{0}: ".format([event.device + 1]) if include_pad else "";
 		return "{0}{1}".format([pad_name, get_joypad_button_name(event.button_index)])

@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bcjbkb73mtovm"]
+[gd_scene load_steps=16 format=3 uid="uid://bcjbkb73mtovm"]
 
 [ext_resource type="Script" uid="uid://dkft2a8s2bw18" path="res://objects/essential/Player/Player.gd" id="1_cniba"]
 [ext_resource type="Script" uid="uid://blu08lbp3rht1" path="res://objects/level/LayerSwitcher/LayerSwitcherSensor.gd" id="2_xh0bu"]
 [ext_resource type="Script" uid="uid://bsouo14gf6pcr" path="res://objects/essential/Player/PlayerCamera.gd" id="3_q22vw"]
 [ext_resource type="SpriteFrames" uid="uid://d23iwpusrgjcp" path="res://objects/essential/Player/Sonic/sonic.tres" id="4_voifm"]
+[ext_resource type="FontFile" uid="uid://btxnitovb46ch" path="res://sprites/fonts/tiny_font.png" id="5_8dh6u"]
 [ext_resource type="AudioStream" uid="uid://d3w1grc7g4hit" path="res://objects/essential/Player/sounds/jump.wav" id="5_y8ctc"]
 [ext_resource type="AudioStream" uid="uid://ghu75tfy8l5a" path="res://objects/essential/Player/sounds/roll.wav" id="6_qv3jl"]
 [ext_resource type="AudioStream" uid="uid://bp0knqoy0yic0" path="res://objects/essential/Player/sounds/skid.wav" id="7_beujc"]
@@ -20,6 +21,20 @@ height = 38.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cu8nw"]
 size = Vector2(0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mfktl"]
+line_spacing = 2.0
+font_size = 5
+stacked_shadow_count = 9
+stacked_shadow_0/offset = Vector2(1, 1)
+stacked_shadow_1/offset = Vector2(-1, 1)
+stacked_shadow_2/offset = Vector2(1, -1)
+stacked_shadow_3/offset = Vector2(-1, -1)
+stacked_shadow_4/offset = Vector2(-1, 0)
+stacked_shadow_5/offset = Vector2(0, -1)
+stacked_shadow_6/offset = Vector2(1, 0)
+stacked_shadow_7/offset = Vector2(0, 1)
+stacked_shadow_8/offset = Vector2(0, 0)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 15
@@ -63,6 +78,26 @@ sprite_frames = ExtResource("4_voifm")
 animation = &"stand"
 autoplay = "stand"
 offset = Vector2(0, 0.5)
+
+[node name="DebugLabels" type="CanvasLayer" parent="."]
+
+[node name="DebugLabel" type="Label" parent="DebugLabels"]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.3625
+anchor_bottom = 0.033333335
+offset_left = -128.0
+offset_right = -84.0
+offset_bottom = 24.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("5_8dh6u")
+theme_override_font_sizes/font_size = 5
+text = "x:   %s
+y:   %s
+hsp: %s
+vsp: %s"
+label_settings = SubResource("LabelSettings_mfktl")
+metadata/_edit_use_anchors_ = true
 
 [node name="jump_sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_y8ctc")

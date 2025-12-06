@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://lxvnwrwmyf2p"]
+[gd_scene load_steps=6 format=3 uid="uid://lxvnwrwmyf2p"]
 
 [ext_resource type="Script" uid="uid://bu7g7rt6u7lnr" path="res://scenes/MyLevels/MyLevels.gd" id="1_fn2a6"]
+[ext_resource type="PackedScene" uid="uid://yps85l6yugbn" path="res://scenes/MyLevels/LevelOptions.tscn" id="2_q5wy1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q5wy1"]
 content_margin_top = 1.0
@@ -23,10 +24,10 @@ border_width_top = 1
 border_width_right = 1
 border_color = Color(1, 1, 1, 1)
 
-[node name="MyLevels" type="Node"]
+[node name="MyLevels" type="Node" unique_id=1660242958]
 script = ExtResource("1_fn2a6")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1604165497]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -34,7 +35,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.356863, 0.270588, 0.152941, 1)
 
-[node name="CurrentDir" type="Label" parent="."]
+[node name="CurrentDir" type="Label" parent="." unique_id=343603527]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -46,7 +47,7 @@ grow_horizontal = 0
 size_flags_vertical = 8
 text = "/Levels"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=596353956]
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
@@ -60,7 +61,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_q5wy1")
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer" unique_id=1682783404]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -69,35 +70,38 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 7
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer" unique_id=2105133530]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="TextboxTestButton" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
-visible = false
+[node name="TextboxTestButton" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1120120096]
 layout_mode = 2
 theme_type_variation = &"LevelsListButton"
 text = "Text"
 flat = true
 alignment = 0
 
-[node name="TextboxTestEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="TextboxTestEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=992371248]
+visible = false
 clip_contents = true
 layout_mode = 2
 theme_type_variation = &"LevelsListLineEdit"
 text = "Enter name..."
 placeholder_text = "text..."
 
-[node name="AnotherButton" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="AnotherButton" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1339332372]
 layout_mode = 2
 theme_type_variation = &"LevelsListButton"
 text = "Hello person looking at this!"
 flat = true
 alignment = 0
 
-[node name="Filler" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=411729663 instance=ExtResource("2_q5wy1")]
+layout_mode = 2
+
+[node name="Filler" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1949317336]
 layout_mode = 2
 text = "asdfasdf sfd 
 asdfasdf sfd 
@@ -116,7 +120,7 @@ asdfasdf sfd
 "
 label_settings = SubResource("LabelSettings_fn2a6")
 
-[node name="Outline" type="Panel" parent="."]
+[node name="Outline" type="Panel" parent="." unique_id=149331886]
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5

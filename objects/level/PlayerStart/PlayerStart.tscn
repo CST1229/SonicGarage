@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://qc40pxpc7x3"]
+
+[ext_resource type="Texture2D" uid="uid://6kp6a1v2qc4v" path="res://objects/essential/Player/Sonic/stand.png" id="1_13j30"]
+
+[node name="PlayerStart" type="Node2D" unique_id=1202551086]
+
+[node name="Stand" type="Sprite2D" parent="." unique_id=2031380771]
+position = Vector2(0, 6)
+texture = ExtResource("1_13j30")

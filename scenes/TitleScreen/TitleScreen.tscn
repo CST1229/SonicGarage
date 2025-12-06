@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://bqv66ex06ep1o"]
+[gd_scene load_steps=13 format=3 uid="uid://bqv66ex06ep1o"]
 
 [ext_resource type="Script" uid="uid://bd8plq48iafjt" path="res://scenes/TitleScreen/TitleScreen.gd" id="1_f1p6m"]
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="2_trggm"]
 [ext_resource type="Texture2D" uid="uid://y877yjmp8jq3" path="res://sprites/ui/logo.png" id="3_pj35e"]
 [ext_resource type="Script" uid="uid://hwpdc2sgmx0f" path="res://scenes/TitleScreen/DancingLogo/DancingLogo.gd" id="3_u37po"]
 [ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/fonts/Habbo.ttf" id="4_1tjes"]
+[ext_resource type="FontFile" uid="uid://btxnitovb46ch" path="res://sprites/fonts/tiny_font.png" id="5_c6vk0"]
 [ext_resource type="FontFile" uid="uid://bwoa021kuhdit" path="res://sprites/fonts/ui_font.png" id="6_u37po"]
 [ext_resource type="Script" uid="uid://duy18kavhs3co" path="res://scenes/TitleScreen/Credits.gd" id="7_u37po"]
 [ext_resource type="PackedScene" uid="uid://rjjanteyns7o" path="res://scenes/SettingsMenu/SettingsMenu.tscn" id="8_u37po"]
@@ -27,12 +28,12 @@ content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 0.0
 
-[node name="TitleScreen" type="Node2D"]
+[node name="TitleScreen" type="Node2D" unique_id=1724602865]
 script = ExtResource("1_f1p6m")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=207042256]
 
-[node name="BGColor" type="ColorRect" parent="CanvasLayer"]
+[node name="BGColor" type="ColorRect" parent="CanvasLayer" unique_id=1466175894]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -41,7 +42,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.188235, 0.376471, 0.815686, 0.266667)
 
-[node name="Tabs" type="TabContainer" parent="CanvasLayer"]
+[node name="Tabs" type="TabContainer" parent="CanvasLayer" unique_id=1511124603]
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
@@ -55,14 +56,14 @@ grow_vertical = 2
 current_tab = 0
 tabs_visible = false
 
-[node name="Menu" type="Panel" parent="CanvasLayer/Tabs"]
+[node name="Menu" type="Panel" parent="CanvasLayer/Tabs" unique_id=118398819]
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_trggm")
 metadata/_tab_index = 0
 
-[node name="LogoContainer" type="Control" parent="CanvasLayer/Tabs/Menu" node_paths=PackedStringArray("logo", "ghost_logo")]
+[node name="LogoContainer" type="Control" parent="CanvasLayer/Tabs/Menu" unique_id=1518641234 node_paths=PackedStringArray("logo", "ghost_logo")]
 process_mode = 3
 layout_mode = 1
 anchors_preset = 5
@@ -77,7 +78,7 @@ script = ExtResource("3_u37po")
 logo = NodePath("Logo")
 ghost_logo = NodePath("GhostLogo")
 
-[node name="GhostLogo" type="TextureRect" parent="CanvasLayer/Tabs/Menu/LogoContainer"]
+[node name="GhostLogo" type="TextureRect" parent="CanvasLayer/Tabs/Menu/LogoContainer" unique_id=1113370102]
 visible = false
 modulate = Color(1, 1, 1, 0.392157)
 layout_mode = 1
@@ -88,7 +89,7 @@ offset_left = -79.0
 offset_bottom = 48.0
 texture = ExtResource("3_pj35e")
 
-[node name="Logo" type="TextureButton" parent="CanvasLayer/Tabs/Menu/LogoContainer"]
+[node name="Logo" type="TextureButton" parent="CanvasLayer/Tabs/Menu/LogoContainer" unique_id=756116908]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -97,7 +98,7 @@ offset_left = -79.0
 focus_mode = 0
 texture_normal = ExtResource("3_pj35e")
 
-[node name="Version" type="Label" parent="CanvasLayer/Tabs/Menu"]
+[node name="Version" type="Label" parent="CanvasLayer/Tabs/Menu" unique_id=1207156389]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -114,7 +115,22 @@ text = "vVVVVV"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Tabs/Menu"]
+[node name="NotCopyright" type="Label" parent="CanvasLayer/Tabs/Menu" unique_id=1006593338]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+offset_left = 2.0
+offset_top = 235.0
+offset_right = 70.0
+offset_bottom = 240.0
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("5_c6vk0")
+theme_override_font_sizes/font_size = 5
+text = "(c) 2025 CST1229 - www.github.com/CST1229/SonicGarage"
+vertical_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Tabs/Menu" unique_id=15370363]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -128,56 +144,56 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
 
-[node name="LevelsButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer"]
+[node name="LevelsButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer" unique_id=1643308070]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme = ExtResource("2_trggm")
 text = "Levels"
 
-[node name="EditorButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer"]
+[node name="EditorButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer" unique_id=1289735242]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme = ExtResource("2_trggm")
 text = "Editor"
 
-[node name="PlayButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer"]
+[node name="PlayButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer" unique_id=1635217728]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme = ExtResource("2_trggm")
 text = "Play Level"
 
-[node name="SettingsButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer" unique_id=1248475790]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 size_flags_vertical = 10
 theme = ExtResource("2_trggm")
 text = "Settings"
 
-[node name="GridContainer" type="HBoxContainer" parent="CanvasLayer/Tabs/Menu/VBoxContainer"]
+[node name="GridContainer" type="HBoxContainer" parent="CanvasLayer/Tabs/Menu/VBoxContainer" unique_id=2000809944]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="CreditsButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer/GridContainer"]
+[node name="CreditsButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer/GridContainer" unique_id=353268360]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_trggm")
 text = "Credits"
 
-[node name="QuitButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer/GridContainer"]
+[node name="QuitButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer/GridContainer" unique_id=1142455218]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_trggm")
 text = "Quit"
 
-[node name="Credits" type="Panel" parent="CanvasLayer/Tabs"]
+[node name="Credits" type="Panel" parent="CanvasLayer/Tabs" unique_id=18110356]
 visible = false
 layout_mode = 2
 theme = ExtResource("2_trggm")
 metadata/_tab_index = 1
 
-[node name="Title" type="Label" parent="CanvasLayer/Tabs/Credits"]
+[node name="Title" type="Label" parent="CanvasLayer/Tabs/Credits" unique_id=129956090]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -192,7 +208,7 @@ label_settings = SubResource("LabelSettings_u37po")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BackButton" type="Button" parent="CanvasLayer/Tabs/Credits"]
+[node name="BackButton" type="Button" parent="CanvasLayer/Tabs/Credits" unique_id=1792301138]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -202,12 +218,10 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = 27.0
 grow_horizontal = 0
-theme_override_fonts/font = ExtResource("4_1tjes")
-theme_override_font_sizes/font_size = 16
 text = "Back
 "
 
-[node name="HMargin" type="MarginContainer" parent="CanvasLayer/Tabs/Credits"]
+[node name="HMargin" type="MarginContainer" parent="CanvasLayer/Tabs/Credits" unique_id=799439012]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -220,16 +234,15 @@ theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 1
 theme_override_constants/margin_bottom = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Tabs/Credits/HMargin"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Tabs/Credits/HMargin" unique_id=2064922105]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_u7spu")
 follow_focus = true
 
-[node name="Credits" type="RichTextLabel" parent="CanvasLayer/Tabs/Credits/HMargin/ScrollContainer"]
+[node name="Credits" type="RichTextLabel" parent="CanvasLayer/Tabs/Credits/HMargin/ScrollContainer" unique_id=776199359]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-focus_mode = 2
 theme_override_fonts/normal_font = ExtResource("4_1tjes")
 theme_override_font_sizes/normal_font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_u37po")
@@ -246,6 +259,7 @@ Fonts used:
 [url=https://www.spriters-resource.com/sega_genesis_32x/sonicth3/sheet/85193/][font_size=14][font=res://sprites/fonts/ui_font.png]Font from Sonic 3, sourced from TSR, extended by CST1229[/font][/font_size][/url]
 [url=https://managore.itch.io/m6x11][font_size=18][font=res://sprites/fonts/m6x11plus.ttf]m6x11 by Daniel Linssen[/font][/font_size][/url]
 [url=https://nimblebeastscollective.itch.io/nb-pixel-font-bundle][font_size=16][font=res://sprites/fonts/Habbo.ttf]Habbo by Omni[/font][/font_size][/url]
+[font_size=5][font=res://sprites/fonts/tiny_font.png]Custom tiny font made by CST1229[/font][/font_size]
 
 Songs used:
 [music_credits]
@@ -253,7 +267,7 @@ Songs used:
 "
 script = ExtResource("7_u37po")
 
-[node name="Settings" parent="CanvasLayer/Tabs" instance=ExtResource("8_u37po")]
+[node name="Settings" parent="CanvasLayer/Tabs" unique_id=335968871 instance=ExtResource("8_u37po")]
 visible = false
 layout_mode = 2
 

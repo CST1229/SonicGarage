@@ -9,14 +9,13 @@ func _on_hurtbox_touched(node: Node2D):
 	if node is Player:
 		node.hurt();
 
-func serialize():
+func serialize() -> Dictionary:
 	return {
-		id = "spike",
 		x = position.x,
 		y = position.y,
 		rotation = rotation,
 	};
-func deserialize(json: Dictionary):
+func deserialize(json: Dictionary) -> void:
 	position.x = json.x;
 	position.y = json.y;
 	rotation = json.rotation;

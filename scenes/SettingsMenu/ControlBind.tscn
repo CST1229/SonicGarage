@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cqvkiark0mcng" path="res://scenes/SettingsMenu/ControlBind.gd" id="1_hlbix"]
 
-[node name="ControlBind" type="HFlowContainer"]
+[node name="ControlBind" type="HFlowContainer" unique_id=1760231941 groups=["controlbinds"]]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

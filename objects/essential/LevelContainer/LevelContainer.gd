@@ -10,6 +10,7 @@ class_name LevelContainer
 @export var editor_mode: bool = false;
 @export var editor: LevelEditor = null;
 @export var music: String = "green_hill_zone";
+@export var theme: LevelTheme = null;
 
 @export var dirty: bool = true;
 
@@ -30,7 +31,7 @@ func _ready():
 		background_container.modulate.a8 = 68;
 		bg_color.modulate = background_container.modulate;
 
-func deserialize(level) -> String:
+func deserialize(level: Dictionary) -> String:
 	if !(level is Dictionary):
 		return "Invalid level (not a dictionary)";
 		
@@ -44,8 +45,14 @@ func deserialize(level) -> String:
 	if level.format > FORMAT_VERSION:
 		return "Level is too new! Has format version: {0} (current is {1})".format([level.format, FORMAT_VERSION])
 	
-	deserialize_polygons(level.polygons);
-	deserialize_objects(level.objects if "objects" in level else []);
+	if "theme" in level:
+		var _theme = str(level.theme);
+		if _theme.is_valid_filename() && _theme != ".." && _theme != ".": 
+			theme = load("res://sprites/level_themes/%s/level_theme.tres" % _theme);
+	if theme is not LevelTheme:
+		theme = load("res://sprites/level_themes/GreenHill/level_theme.tres");
+	deserialize_polygons(level.get("polygons", []));
+	deserialize_objects(level.get("objects", []));
 	add_players();
 	
 	return "";
@@ -84,17 +91,16 @@ func add_players() -> void:
 	for node in players.get_children():
 		node.queue_free();
 	if !editor_mode:
-		players.add_child(PLAYER_SCENE.instantiate());
+		var player: Player = PLAYER_SCENE.instantiate();
+		players.add_child(player);
 
 static func empty_level() -> Dictionary:
-	return {
-		format = FORMAT_VERSION,
-		polygons = [],
-		objects = [],
-	};
+	return {format = FORMAT_VERSION};
 
 func serialize() -> Dictionary:
-	var data = empty_level();
+	var data := empty_level();
+	data.polygons = [];
+	data.objects = [];
 	
 	for poly in polygons.get_children():
 		var verts_arr: Array[Dictionary] = [];
@@ -113,7 +119,10 @@ func serialize() -> Dictionary:
 		
 	for obj in objects.get_children():
 		if obj.has_method("serialize"):
-
-			data.objects.append(obj.serialize());
+			var obj_id: String = Global.object_paths_to_id.get(obj.scene_file_path, "");
+			assert(obj_id != "", "Level object is not a scene or is not in Global.object_list or Global.object_paths_to_id. Scene file path: " + obj.scene_file_path);
+			var serialized: Dictionary = obj.serialize();
+			serialized.id = obj_id;
+			data.objects.append(serialized);
 	
 	return data;

@@ -113,15 +113,31 @@ var dead_timer := 0.0;
 @onready var hurt_sound: AudioStreamPlayer = $hurt_sound;
 @onready var ringloss_sound: AudioStreamPlayer = $ringloss_sound;
 
+@onready var debug_labels: CanvasLayer = $DebugLabels;
+@onready var debug_label: Label = $DebugLabels/DebugLabel;
+@onready var old_debug_label_text := debug_label.text;
+
 func _ready():
+	apply_floor_snap();
 	set_animation("stand");
 	update_layer();
 	do_layer_color();
+	debug_labels.visible = DEBUG_MODE; 
 
 func _draw():
 	# the debug line(tm)
 	if DEBUG_MODE:
 		draw_line(Vector2.ZERO, ground_normal * 32, Color.CYAN, 2, false);
+		draw_line(Vector2.ZERO, velocity / 15.0, Color.MEDIUM_AQUAMARINE, 2, false);
+		
+		debug_label.text = old_debug_label_text % [pad_minus(position.x), pad_minus(position.y), pad_minus(velocity.x), pad_minus(velocity.y)];
+# pad a leading minus in a number
+func pad_minus(num: float):
+	num = snappedf(num, 0.00001);
+	if num >= 0.0:
+		return " " + str(num);
+	return str(num);
+
 
 func _physics_process(delta: float):
 	# inputs
@@ -525,17 +541,17 @@ func scatter_rings(rings: int):
 	const RING_STARTING_ANGLE = deg_to_rad(101.25);
 	const SCATTERED_RING = preload("res://objects/level/Ring/ScatteredRing.tscn");
 	
-	var ring_counter: int = 0;
 	var ring_angle := RING_STARTING_ANGLE; 
 	var ring_flip := false;
 	var ring_speed := 4.0 * 60.0;
+	var add_angle := deg_to_rad(22.5);
+	var cycle_angle := RING_STARTING_ANGLE + deg_to_rad(90);
 	
-	var parent = get_parent();
-	
+	var ring_counter := 0;
+	var cycle_index: int = 0;
 	while ring_counter < rings:
 		var ring: ScatteredRing = SCATTERED_RING.instantiate();
-		parent.add_child(ring);
-		parent.move_child(ring, get_index());
+		add_sibling(ring);
 		
 		ring.global_position = global_position;
 		ring.velocity.x = cos(ring_angle) * ring_speed;
@@ -543,13 +559,25 @@ func scatter_rings(rings: int):
 		
 		if ring_flip:
 			ring.velocity.x *= -1;
-			ring_angle += deg_to_rad(22.5);
+			ring_angle += add_angle;
 		ring_flip = !ring_flip;
 		
 		ring_counter += 1;
-		if ring_counter == 16:
-			ring_speed = 2.0 * 60.0;
+		if ring_angle >= cycle_angle:
+			if cycle_index == 0:
+				ring_speed = 2.0 * 60.0;
+			elif cycle_index == 1:
+				ring_speed = 4.25 * 60.0;
+				add_angle /= 2.0;
+			else:
+				await get_tree().create_timer(0.01).timeout;
+				ring_speed += 0.125 * 60.0;
+				if cycle_index < 10:
+					add_angle /= 2 ** (2 ** -8);
+				
 			ring_angle = RING_STARTING_ANGLE;
+			cycle_index += 1;
+			
 
 func kill():
 	if state != State.NORMAL:

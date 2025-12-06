@@ -3,26 +3,27 @@
 [ext_resource type="Script" uid="uid://c46ai1g1ec7cd" path="res://scenes/SettingsMenu/ControlsSettings.gd" id="1_2uxs1"]
 [ext_resource type="PackedScene" uid="uid://l73uwkha7tgl" path="res://objects/ui/Fade/Fade.tscn" id="2_wtmpj"]
 
-[node name="ControlsSettings" type="GridContainer"]
+[node name="ControlsSettings" type="GridContainer" unique_id=1950675506]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 2
 script = ExtResource("1_2uxs1")
 
-[node name="BindWindow" type="CanvasLayer" parent="."]
+[node name="BindWindow" type="CanvasLayer" parent="." unique_id=359359564]
 process_mode = 3
 layer = 5
 visible = false
 
-[node name="Fade" parent="BindWindow" instance=ExtResource("2_wtmpj")]
+[node name="Fade" parent="BindWindow" unique_id=1841523853 instance=ExtResource("2_wtmpj")]
 fade = 0.33
 
-[node name="Label" type="Label" parent="BindWindow"]
+[node name="Label" type="Label" parent="BindWindow" unique_id=150500372]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -35,6 +36,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="CancelTimer" type="Timer" parent="BindWindow"]
+[node name="CancelTimer" type="Timer" parent="BindWindow" unique_id=681169475]
 
 [connection signal="timeout" from="BindWindow/CancelTimer" to="." method="_on_cancel_timer_timeout"]

@@ -4,6 +4,8 @@ extends Control
 @export var logo: BaseButton;
 @export var ghost_logo: TextureRect;
 
+var clicks := 0;
+
 var positions := PackedVector2Array([Vector2.ZERO]);
 var vanilla_positions: PackedVector2Array;
 
@@ -33,13 +35,18 @@ func _ready() -> void:
 	vanilla_positions = preload(VANILLA_MOVEMENTS_PATH).positions;
 	if !read_logo_movements(CUSTOM_MOVEMENTS_PATH, positions):
 		positions = vanilla_positions.duplicate();
+	logo.pressed.connect(func():
+		clicks += 1;
+		if clicks == 100:
+			%NotCopyright.show();
+		);
 	logo.pressed.connect(_on_click_logo);
 	current_position = Vector2.ZERO;
 	ghost_logo.offset_left = LOGO_X_OFFSET;
 
 func _process(_delta: float) -> void:
 	if recording:
-		if Input.is_action_just_pressed(&"editor_cancel") || Input.is_action_just_pressed(&"editor_quit"):
+		if Input.is_action_just_pressed(&"editor_cancel") || Input.is_action_just_pressed(&"editor_quit") || Input.is_action_just_pressed(&"ui_cancel"):
 			_on_click_logo();
 		elif Music.position >= SONG_BEGIN:
 			if !recording_begun:

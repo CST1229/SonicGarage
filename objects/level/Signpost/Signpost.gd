@@ -49,12 +49,11 @@ func _on_body_entered(body):
 			sound.play();
 			end_timer = 2;
 
-func serialize():
+func serialize() -> Dictionary:
 	return {
-		id = "signpost",
 		x = position.x,
 		y = position.y
 	};
-func deserialize(json: Dictionary):
+func deserialize(json: Dictionary) -> void:
 	position.x = json.x;
 	position.y = json.y;

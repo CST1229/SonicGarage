@@ -19,6 +19,8 @@ var layer: String = "ab":
 		update_layer();
 var layer_num: int = LevelUtil.LAYER_A | LevelUtil.LAYER_B;
 
+var theme_override: LevelTheme;
+
 const INVALID_COLOR = Color(1, 0.2, 0.1);
 const SELECTED_COLOR = EditorLib.VERT_COLOR;
 
@@ -109,16 +111,22 @@ func update_polygon() -> void:
 		parsed_vertices.reverse();
 		is_counterclockwise = true;
 	
+	var actual_theme: LevelTheme = theme_override;
+	if !actual_theme && container:
+		actual_theme = container.theme;
+	valid = actual_theme != null;
+	
 	# check if the polygon self-intersects in any way
 	# if it does, make it invalid
-	# triangulate_polygon make sure it's valid for the fill polygon,
+	# triangulate_polygon makes sure it's valid for the fill polygon,
 	# and decompose_polygon_in_convex makes sure it's valid for the collision polygon
 	# (especially important since you can't select polygons with invalid collision, so you end up with a softlock of sorts)
-	var triangulated := Geometry2D.triangulate_polygon(vectors);
-	valid = !triangulated.is_empty();
 	if valid:
-		var decomposed := Geometry2D.decompose_polygon_in_convex(vectors);
-		valid = !decomposed.is_empty();
+		var triangulated := Geometry2D.triangulate_polygon(vectors);
+		valid = !triangulated.is_empty();
+		if valid:
+			var decomposed := Geometry2D.decompose_polygon_in_convex(vectors);
+			valid = !decomposed.is_empty();
 	fill.visible = valid;
 	collision_polygon.disabled = true;
 	
@@ -127,7 +135,7 @@ func update_polygon() -> void:
 		collision_polygon.build_mode = CollisionPolygon2D.BUILD_SOLIDS;
 		collision_polygon.polygon = vectors;
 		fill.polygon = vectors;
-		decor_sections = LevelDrawing.compute_polygon(parsed_vertices, self);
+		decor_sections = LevelDrawing.compute_polygon(actual_theme, parsed_vertices, self);
 		collision_polygon.disabled = false;
 			
 	else:

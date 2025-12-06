@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://6coikmp63mmn"]
+[gd_scene load_steps=15 format=3 uid="uid://6coikmp63mmn"]
 
 [ext_resource type="Script" uid="uid://2sp8dkbve0go" path="res://objects/editor/EditorUI.gd" id="1_1imr5"]
 [ext_resource type="Script" uid="uid://drlipnqaug6em" path="res://objects/ui/FixedMenuButton.gd" id="2_wor00"]
@@ -14,7 +14,21 @@
 [ext_resource type="Texture2D" uid="uid://48151eejh1ux" path="res://sprites/icons/tools/terrain.png" id="9_cimw5"]
 [ext_resource type="Texture2D" uid="uid://b2r3w5uqgankr" path="res://sprites/icons/tools/objects.png" id="10_vtoee"]
 
-[node name="EditorUI" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ysnyt"]
+content_margin_left = 2.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(0.0666667, 0.454902, 0.294118, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
+anti_aliasing = false
+
+[node name="EditorUI" type="Control" unique_id=92397288]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,229 +38,13 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_1imr5")
 
-[node name="TerrainTools" type="Control" parent="."]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="TerrainModes" type="HBoxContainer" parent="TerrainTools"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 98.0
-offset_bottom = 30.0
-
-[node name="PolySelectTool" type="Button" parent="TerrainTools/TerrainModes"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Select Polygons"
-focus_mode = 0
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 12
-icon = ExtResource("3_61nxk")
-
-[node name="VertSelectTool" type="Button" parent="TerrainTools/TerrainModes"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Select Vertices"
-focus_mode = 0
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 12
-icon = ExtResource("4_oyu41")
-
-[node name="LineTool" type="Button" parent="TerrainTools/TerrainModes"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Line"
-focus_mode = 0
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 12
-icon = ExtResource("5_rj8fn")
-
-[node name="PolygonActions" type="HBoxContainer" parent="TerrainTools"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -30.0
-offset_top = -30.0
-offset_right = -8.0
-offset_bottom = -8.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="ToggleSemisolidButton" type="Button" parent="TerrainTools/PolygonActions"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Toggle Jump-through"
-focus_mode = 0
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 12
-icon = ExtResource("7_ysnyt")
-
-[node name="PolyLayerButton" type="Button" parent="TerrainTools/PolygonActions"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Change Layer"
-focus_mode = 0
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 12
-icon = ExtResource("6_4y0eu")
-
-[node name="VertexActions" type="HBoxContainer" parent="TerrainTools"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -30.0
-offset_top = -30.0
-offset_right = -8.0
-offset_bottom = -8.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="LineEdgeButton" type="Button" parent="TerrainTools/VertexActions"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Change Edge Style"
-focus_mode = 0
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 12
-icon = ExtResource("7_nkwlo")
-
-[node name="ObjectTools" type="Control" parent="."]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="ObjectModes" type="HBoxContainer" parent="ObjectTools"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 30.0
-offset_bottom = 30.0
-
-[node name="ObjectSelectTool" type="Button" parent="ObjectTools/ObjectModes"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Select Objects"
-focus_mode = 0
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 12
-icon = ExtResource("8_x7gqc")
-
-[node name="ObjectSelector" type="Control" parent="ObjectTools"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 2
-mouse_filter = 1
-
-[node name="Flap" type="Button" parent="ObjectTools/ObjectSelector"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -23.0
-offset_top = 26.0
-offset_right = 30.0
-offset_bottom = 50.0
-grow_horizontal = 0
-grow_vertical = 2
-rotation = -1.5708
-focus_mode = 0
-theme = ExtResource("3_mmcx7")
-text = "Objects"
-
-[node name="Selector" type="Panel" parent="ObjectTools/ObjectSelector"]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -98.0
-offset_right = 196.0
-offset_bottom = 98.0
-grow_vertical = 2
-theme = ExtResource("3_mmcx7")
-
-[node name="ObjectList" type="HFlowContainer" parent="ObjectTools/ObjectSelector/Selector"]
-unique_name_in_owner = true
-clip_contents = true
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 0
-
-[node name="Modes" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = -30.0
-offset_right = 64.0
-offset_bottom = -8.0
-grow_vertical = 0
-
-[node name="TerrainMode" type="Button" parent="Modes"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Terrain"
-focus_mode = 0
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 12
-icon = ExtResource("9_cimw5")
-icon_alignment = 1
-
-[node name="ObjectsMode" type="Button" parent="Modes"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Objects"
-focus_mode = 0
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 12
-icon = ExtResource("10_vtoee")
-
-[node name="MenuButton" type="MenuButton" parent="."]
+[node name="MenuButton" type="MenuButton" parent="." unique_id=535161298]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.990566
 anchor_right = 1.0
 anchor_bottom = 0.0178571
-offset_left = -34.0
+offset_left = -34.98114
 offset_top = 8.0
 offset_right = -8.0
 offset_bottom = 34.0
@@ -270,17 +68,233 @@ popup/item_4/text = "Exit"
 popup/item_4/id = 3
 script = ExtResource("2_wor00")
 
-[node name="StopMouseInputs" type="Control" parent="."]
-visible = false
+[node name="TerrainTools" type="Control" parent="." unique_id=283608965]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
+[node name="TerrainModes" type="HBoxContainer" parent="TerrainTools" unique_id=1063119184]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 98.0
+offset_bottom = 30.0
+
+[node name="PolySelectTool" type="Button" parent="TerrainTools/TerrainModes" unique_id=861279576]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Select Polygons"
+focus_mode = 0
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 12
+icon = ExtResource("3_61nxk")
+
+[node name="VertSelectTool" type="Button" parent="TerrainTools/TerrainModes" unique_id=2094228811]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Select Vertices"
+focus_mode = 0
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 12
+icon = ExtResource("4_oyu41")
+
+[node name="LineTool" type="Button" parent="TerrainTools/TerrainModes" unique_id=1590547305]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Line"
+focus_mode = 0
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 12
+icon = ExtResource("5_rj8fn")
+
+[node name="PolygonActions" type="HBoxContainer" parent="TerrainTools" unique_id=1256216732]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -30.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="ToggleSemisolidButton" type="Button" parent="TerrainTools/PolygonActions" unique_id=1666137832]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Toggle Jump-through"
+focus_mode = 0
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 12
+icon = ExtResource("7_ysnyt")
+
+[node name="PolyLayerButton" type="Button" parent="TerrainTools/PolygonActions" unique_id=672597615]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Change Layer"
+focus_mode = 0
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 12
+icon = ExtResource("6_4y0eu")
+
+[node name="VertexActions" type="HBoxContainer" parent="TerrainTools" unique_id=1113292564]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -30.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="LineEdgeButton" type="Button" parent="TerrainTools/VertexActions" unique_id=1654499229]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Change Edge Style"
+focus_mode = 0
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 12
+icon = ExtResource("7_nkwlo")
+
+[node name="ObjectTools" type="Control" parent="." unique_id=2100522237]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ObjectModes" type="HBoxContainer" parent="ObjectTools" unique_id=1842590871]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 30.0
+offset_bottom = 30.0
+
+[node name="ObjectSelectTool" type="Button" parent="ObjectTools/ObjectModes" unique_id=706552180]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Select Objects"
+focus_mode = 0
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 12
+icon = ExtResource("8_x7gqc")
+
+[node name="ObjectSelector" type="Control" parent="ObjectTools" unique_id=359915478]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Flap" type="Button" parent="ObjectTools/ObjectSelector" unique_id=276308445]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = 26.0
+offset_right = 31.0
+offset_bottom = 50.0
+grow_horizontal = 0
+grow_vertical = 2
+rotation = -1.5708
+focus_mode = 0
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ysnyt")
+text = "Objects"
+
+[node name="ObjectSelectorPanel" type="Panel" parent="ObjectTools/ObjectSelector" unique_id=178022246]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -98.0
+offset_right = 196.0
+offset_bottom = 98.0
+grow_vertical = 2
+theme = ExtResource("3_mmcx7")
+
+[node name="ObjectList" type="HFlowContainer" parent="ObjectTools/ObjectSelector/ObjectSelectorPanel" unique_id=245350722]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="SelectedObjectName" type="Label" parent="ObjectTools/ObjectSelector/ObjectSelectorPanel/ObjectList" unique_id=447723580]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(188, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Selected object name goes here"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Modes" type="HBoxContainer" parent="." unique_id=527026677]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -30.0
+offset_right = 64.0
+offset_bottom = -8.0
+grow_vertical = 0
+
+[node name="TerrainMode" type="Button" parent="Modes" unique_id=1420524680]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Terrain"
+focus_mode = 0
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 12
+icon = ExtResource("9_cimw5")
+icon_alignment = 1
+
+[node name="ObjectsMode" type="Button" parent="Modes" unique_id=948767012]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Objects"
+focus_mode = 0
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 12
+icon = ExtResource("10_vtoee")
+
+[connection signal="id_pressed" from="MenuButton" to="." method="menu_pressed"]
 [connection signal="pressed" from="TerrainTools/PolygonActions/ToggleSemisolidButton" to="." method="semisolid_button_pressed"]
 [connection signal="pressed" from="TerrainTools/PolygonActions/PolyLayerButton" to="." method="poly_layer_button_pressed"]
 [connection signal="pressed" from="TerrainTools/VertexActions/LineEdgeButton" to="." method="line_edge_button_pressed"]
 [connection signal="pressed" from="ObjectTools/ObjectSelector/Flap" to="." method="objects_flap_pressed"]
-[connection signal="id_pressed" from="MenuButton" to="." method="menu_pressed"]

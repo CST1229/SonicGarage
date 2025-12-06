@@ -9,6 +9,7 @@ var add_binds_button: Button;
 var reset_button: Button;
 
 var num_bind_buttons := 0;
+var last_button_added: Button;
 
 var rebinding_event: InputEvent = null;
 
@@ -19,12 +20,8 @@ const RESET_BINDS_ICON = preload("res://sprites/icons/ui/reset_binds.png");
 func _ready():
 	add_binds_button = add_button("", start_binding, "Add");
 	add_binds_button.icon = ADD_BIND_ICON;
-	reset_button = add_button("", func(_button: Button):
-		if action in Settings.default_keybinds:
-			Settings.deserialize_action(Settings.default_keybinds[action], action);
-		else:
-			InputMap.action_erase_events(action);
-		update_labels();
+	reset_button = add_button("", func(_btn):
+		reset_binds();
 		Settings.save_settings();
 	, "Reset");
 	reset_button.icon = RESET_BINDS_ICON;
@@ -32,6 +29,14 @@ func _ready():
 	padding.custom_minimum_size.x = 1;
 	add_child(padding);
 	update_labels();
+
+func reset_binds() -> void:
+	if action in Settings.default_keybinds:
+		Settings.deserialize_action(Settings.default_keybinds[action], action);
+	else:
+		InputMap.action_erase_events(action);
+	update_labels();
+	
 
 func start_binding(_button: Button = null) -> void:
 	get_tree().call_group(&"currently_binding", &"cancel_bind");
@@ -66,6 +71,7 @@ func _input(event: InputEvent) -> void:
 		if !already_exists:
 			InputMap.action_add_event(action, filtered_event);
 			add_input_button(filtered_event);
+			changed.emit();
 			Settings.save_settings();
 		
 		cancel_bind();
@@ -77,13 +83,14 @@ func cancel_bind():
 
 func _on_delete_button_pressed() -> void:
 	InputMap.action_erase_events(action);
-	Settings.save_settings();
 	update_labels();
+	Settings.save_settings();
 
 func clear_labels() -> void:
 	for child in get_children():
 		if child.is_in_group(&"binds"):
 			child.queue_free();
+	last_button_added = reset_button;
 	num_bind_buttons = 0;
 	reset_button.focus_neighbor_right = ^"";
 
@@ -91,6 +98,7 @@ func update_labels() -> void:
 	clear_labels();
 	for event: InputEvent in InputMap.action_get_events(action):
 		add_input_button(event);
+	changed.emit();
 
 func add_input_button(event: InputEvent) -> void:
 	var button := add_button(Settings.get_bind_name(event), remove_event.bind(event), "Click to remove");
@@ -98,9 +106,10 @@ func add_input_button(event: InputEvent) -> void:
 	button.icon = UNBIND_ICON;
 	button.icon_alignment = HORIZONTAL_ALIGNMENT_RIGHT;
 	num_bind_buttons += 1;
-	if num_bind_buttons == 1:
-		reset_button.focus_neighbor_right = button.get_path();
-		button.focus_neighbor_left = reset_button.get_path();
+	if last_button_added:
+		last_button_added.focus_neighbor_right = button.get_path();
+		button.focus_neighbor_left = last_button_added.get_path();
+	last_button_added = button;
 
 func add_button(text: String, callback: Callable = Callable(), tooltip: String = "") -> Button:
 	var button := Button.new();
@@ -113,11 +122,27 @@ func add_button(text: String, callback: Callable = Callable(), tooltip: String =
 	add_child(button);
 	return button;
 
-func remove_event(node: Node, event: InputEvent) -> void:
+func remove_event(node: Control, event: InputEvent) -> void:
 	InputMap.action_erase_event(action, event);
 	if node:
+		if node.focus_neighbor_right:
+			node.get_node(node.focus_neighbor_right).focus_neighbor_left = node.focus_neighbor_left;
+		if node.focus_neighbor_left:
+			node.get_node(node.focus_neighbor_left).focus_neighbor_right = node.focus_neighbor_right;
+		if node.has_focus():
+			# focus the button to the left if there's one within
+			# the same control, otherwise the one to the left
+			if node.get_index() == (node.get_parent().get_child_count() - 1):
+				node.get_node(node.focus_neighbor_left).grab_focus(!node.has_focus(true));
+			else:
+				node.get_node(node.focus_neighbor_right).grab_focus(!node.has_focus(true));
 		node.queue_free();
+	for child in get_children():
+		if child is Button && !child.is_queued_for_deletion():
+			last_button_added = child;
+	changed.emit();
 	Settings.save_settings();
 
 signal bind_start;
 signal bind_end;
+signal changed;

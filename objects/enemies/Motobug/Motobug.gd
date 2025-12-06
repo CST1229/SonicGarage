@@ -34,19 +34,17 @@ func _physics_process(delta: float):
 		var old_flip_h := flip_h;
 		flip_h = get_wall_normal().x < 0;
 		velocity.x = -old_vel_x if old_flip_h != flip_h else old_vel_x;
-	$asdfasdf.a()
 	var collision: KinematicCollision2D = get_last_slide_collision();
 	if collision && collision.get_collider() is Touchbox:
 		collision.get_collider().touched.emit(self);
 
-func serialize():
+func serialize() -> Dictionary:
 	return {
-		id = "motobug",
 		x = position.x,
 		y = position.y,
 		flip_h = flip_h,
 	};
-func deserialize(json: Dictionary):
+func deserialize(json: Dictionary) -> void:
 	position.x = json.x;
 	position.y = json.y;
 	flip_h = json.flip_h;

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Decor" load_steps=3 format=3 uid="uid://brv31w5uc1aao"]
+
+[ext_resource type="Script" uid="uid://clpjvskrgnvef" path="res://scripts/LevelDrawing/Decor.gd" id="1_sty8i"]
+[ext_resource type="Texture2D" uid="uid://bvusv06ef23pc" path="res://sprites/level_themes/semisolid_indicator.png" id="2_ucqw4"]
+
+[resource]
+script = ExtResource("1_sty8i")
+type = 1
+texture = ExtResource("2_ucqw4")
+surface_type = 15
+match_angle_radius = 1.3962634015954636

@@ -19,11 +19,14 @@ var last_item: Button = null;
 var create_level_button: Button = null;
 var create_folder_button: Button = null;
 
+var focused_item_stylebox := StyleBoxEmpty.new();
+
 const ITEM_HEIGHT = 16;
 
 const INVALID_FILENAME_CHARS = ['"', "\\", "/", ":", "*", "?", "<", ">", "|"]
 
 func _ready():
+	focused_item_stylebox.content_margin_left = 4;
 	Music.play(preload("res://music/s3db_menu.mp3"));
 	DirAccess.make_dir_recursive_absolute(current_dir);
 	current_dir = LevelUtil.FOLDER;
@@ -102,7 +105,7 @@ func reload():
 		del_folder.pressed.connect(func():
 			var check_files := dir.get_files();
 			if !check_files.is_empty():
-				del_folder.text = "📁X Directory must be empty.";
+				del_folder.text = "📁X Folder must be empty.";
 				return;
 			dir.remove(".");
 			go_back();
@@ -153,7 +156,7 @@ func go_back():
 		Fades.fade_to_scene("res://scenes/TitleScreen/TitleScreen.tscn");
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("editor_quit"):
+	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled();
 		go_back();
 
@@ -176,12 +179,15 @@ func add_text_edit_item(item_name: String, placeholder: String, text_icon: Strin
 	textbox.theme_type_variation = &"LevelsListButton";
 	textbox.visible = true;
 	textbox.max_length = 64;
+	textbox.focus_neighbor_left = ^".";
+	textbox.focus_neighbor_right = ^".";
 	var icon: Label;
 	if text_icon != "":
 		icon = Label.new();
 		icon.text = text_icon + " ";
 		icon.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN;
 		icon.offset_top = 1;
+		icon.offset_left = focused_item_stylebox.content_margin_left;
 		textbox_container.add_child(icon);
 	
 	textbox.caret_blink = true;
@@ -189,19 +195,19 @@ func add_text_edit_item(item_name: String, placeholder: String, text_icon: Strin
 	if icon:
 		do_focus_yellowing(textbox, icon);
 	textbox.gui_input.connect(func(ev: InputEvent):
-		if ev is not InputEventKey:
-			return;
-		var key_ev := ev as InputEventKey;
-		if key_ev.keycode == KEY_ESCAPE && key_ev.pressed:
+		if ev.is_action_pressed(&"ui_cancel"):
+			get_viewport().set_input_as_handled();
 			button.grab_focus();
 	);
 	textbox.focus_entered.connect(func():
 		button.text = full_item_name;
+		textbox.add_theme_stylebox_override("normal", focused_item_stylebox);
 		if icon:
 			textbox.offset_left = icon.get_rect().size.x;
 	);
 	textbox.focus_exited.connect(func():
 		textbox_container.visible = false;
+		textbox.remove_theme_stylebox_override("normal");
 		button.visible = true;
 	);
 	textbox.placeholder_text = placeholder;
@@ -225,13 +231,25 @@ func add_text_edit_item(item_name: String, placeholder: String, text_icon: Strin
 
 func add_item(item_name: String) -> Button:
 	var level := Button.new();
-	level.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART;
+	level.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY;
 	level.theme_type_variation = &"LevelsListButton";
 	level.text = item_name;
 	level.custom_minimum_size.y = ITEM_HEIGHT;
 	level.alignment = HORIZONTAL_ALIGNMENT_LEFT;
 	level.clip_text = true;
 	level.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS;
+	level.focus_entered.connect(func():
+		level.begin_bulk_theme_override();
+		for key in ["disabled", "hover", "hover_pressed", "normal", "pressed"]:
+			level.add_theme_stylebox_override(key, focused_item_stylebox);
+		level.end_bulk_theme_override();
+	);
+	level.focus_exited.connect(func():
+		level.begin_bulk_theme_override();
+		for key in ["disabled", "hover", "hover_pressed", "normal", "pressed"]:
+			level.remove_theme_stylebox_override(key);
+		level.end_bulk_theme_override();
+	);
 	do_focus_yellowing(level);
 	container.add_child(level);
 	if !first_item:

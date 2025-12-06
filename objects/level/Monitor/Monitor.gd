@@ -90,14 +90,13 @@ func on_hit_hitbox(body: Node2D):
 	player.velocity.y *= -1.0;
 	pop(player);
 
-func serialize():
+func serialize() -> Dictionary:
 	return {
-		id = "monitor",
 		x = position.x,
 		y = position.y,
 		item = item,
 	};
-func deserialize(json: Dictionary):
+func deserialize(json: Dictionary) -> void:
 	position.x = json.x;
 	position.y = json.y;
 	item = json.item;

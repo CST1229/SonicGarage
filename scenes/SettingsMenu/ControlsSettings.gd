@@ -9,6 +9,7 @@ const BIND_SCENE = preload("res://scenes/SettingsMenu/ControlBind.tscn");
 
 var bind_label_name := "";
 var cancel_countdown := 5;
+var will_refresh := false;
 
 func _ready() -> void:
 	add_controls_heading("Gameplay");
@@ -37,7 +38,7 @@ func _ready() -> void:
 	
 	add_controls_heading("Misc");
 	add_control("Toggle Playtest", &"editor_playtest");
-	add_control("Exit Editor/\nLevel/Menu", &"editor_quit");
+	add_control("Exit Editor/Level/Menu", &"editor_quit");
 
 func add_controls_heading(text: String) -> void:
 	var heading := Label.new();
@@ -52,9 +53,17 @@ func add_control(text: String, action: StringName) -> void:
 	title.text = text;
 	title.theme_type_variation = &"SmallLabel";
 	title.size_flags_vertical = Control.SIZE_SHRINK_BEGIN;
+	title.custom_minimum_size.x = 80;
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART;
 	add_child(title);
 	var bind := BIND_SCENE.instantiate();
 	bind.action = action;
+	reset_all_binds.connect(bind.reset_binds);
+	bind.changed.connect(func():
+		if !will_refresh:
+			will_refresh = true;
+			update_interbutton_focus.call_deferred();
+	);
 	bind.bind_start.connect(func():
 		bind_label_name = text;
 		cancel_countdown = 5;
@@ -83,3 +92,20 @@ func _on_cancel_timer_timeout() -> void:
 		Fades.current_scene.process_mode = PROCESS_MODE_INHERIT;
 	else:
 		bind_label.text = bind_label_text.format([bind_label_name, cancel_countdown]);
+
+func update_interbutton_focus() -> void:
+	will_refresh = false;
+	var last_button: Button = null;
+	if !is_inside_tree():
+		await tree_entered;
+	for node in get_tree().get_nodes_in_group(&"controlbinds"):
+		if last_button:
+			last_button.focus_neighbor_right = node.add_binds_button.get_path();
+			node.add_binds_button.focus_neighbor_left = last_button.get_path();
+		last_button = node.last_button_added;
+
+func reset_binds():
+	reset_all_binds.emit();
+	Settings.save_settings();
+
+signal reset_all_binds

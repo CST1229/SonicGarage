@@ -18,6 +18,10 @@ func _ready():
 	Music.play(preload("res://music/takeoff.mp3"));
 	goto_menu();
 	levels_button.grab_focus();
+	%NotCopyright.gui_input.connect(func(ev: InputEvent):
+		if ev is InputEventMouseButton and (ev as InputEventMouseButton).pressed and (ev as InputEventMouseButton).button_index == 1:
+			OS.shell_open("https://www.github.com/CST1229/SonicGarage");
+	);
 
 func goto_editor():
 	Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
@@ -70,6 +74,6 @@ func _on_logo_container_show_save_vanilla_logo_option() -> void:
 	settings_panel.show_custom_logo_movements_button();
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("editor_quit") && event is not InputEventMouse:
+	if event.is_action_pressed("ui_cancel") && event is not InputEventMouse:
 		goto_menu();
 		get_viewport().set_input_as_handled();

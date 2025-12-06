@@ -11,21 +11,21 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3hue5"]
 size = Vector2(16, 16)
 
-[node name="LayerSwitcher" type="Node2D"]
+[node name="LayerSwitcher" type="Node2D" unique_id=1113282350]
 script = ExtResource("1_oamhx")
 
-[node name="area" type="Area2D" parent="."]
+[node name="area" type="Area2D" parent="." unique_id=1350733806]
 scale = Vector2(2, 2)
 
-[node name="shape" type="CollisionShape2D" parent="area"]
+[node name="shape" type="CollisionShape2D" parent="area" unique_id=1510052369]
 shape = SubResource("RectangleShape2D_3hue5")
 debug_color = Color(0, 0.5, 1, 0.392157)
 
-[node name="bounds" parent="." instance=ExtResource("2_oktun")]
+[node name="bounds" parent="." unique_id=1836011248 instance=ExtResource("2_oktun")]
 size = Vector2(32, 32)
 outline_alpha = 0.5
 
-[node name="HandleContainer" type="Control" parent="." node_paths=PackedStringArray("target")]
+[node name="HandleContainer" type="Control" parent="." unique_id=1363000106 node_paths=PackedStringArray("target")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 16.0
@@ -33,7 +33,7 @@ offset_bottom = 16.0
 script = ExtResource("3_bugb3")
 target = NodePath("..")
 
-[node name="RectResizerHandle" parent="HandleContainer" node_paths=PackedStringArray("target") instance=ExtResource("4_shhxs")]
+[node name="RectResizerHandle" parent="HandleContainer" unique_id=328206115 node_paths=PackedStringArray("target") instance=ExtResource("4_shhxs")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,7 +45,7 @@ grow_vertical = 2
 snap = Vector2(8, 8)
 target = NodePath("../..")
 
-[node name="LayerHandle" type="Button" parent="HandleContainer"]
+[node name="LayerHandle" type="Button" parent="HandleContainer" unique_id=582031032]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -61,7 +61,7 @@ theme_type_variation = &"HandleButton"
 icon = ExtResource("6_b34xs")
 icon_alignment = 1
 
-[node name="GroundedOnlyHandle" type="Button" parent="HandleContainer"]
+[node name="GroundedOnlyHandle" type="Button" parent="HandleContainer" unique_id=1518091233]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5

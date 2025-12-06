@@ -30,12 +30,11 @@ func animation_finished():
 	if sprite.animation == &"collect":
 		queue_free();
 
-func serialize():
+func serialize() -> Dictionary:
 	return {
-		id = "ring",
 		x = position.x,
 		y = position.y,
 	};
-func deserialize(json: Dictionary):
+func deserialize(json: Dictionary) -> void:
 	position.x = json.x;
 	position.y = json.y;

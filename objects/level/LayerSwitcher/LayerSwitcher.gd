@@ -94,16 +94,15 @@ func _on_enter(body: Node2D):
 		if body.has_signal(&"layer_switch"):
 			body.layer_switch.emit(layer_num, grounded_only);
 
-func serialize():
+func serialize() -> Dictionary:
 	return {
-		id = "layer_switcher",
 		x = position.x,
 		y = position.y,
 		layer = layer,
 		size = [size.x, size.y],
 		grounded_only = grounded_only,
 	};
-func deserialize(json: Dictionary):
+func deserialize(json: Dictionary) -> void:
 	position.x = json.x;
 	position.y = json.y;
 	size = Vector2(json.size[0], json.size[1]);

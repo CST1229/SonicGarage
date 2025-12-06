@@ -39,3 +39,4 @@ mouse_filter = 2
 [node name="objects" type="Node2D" parent="."]
 
 [node name="players" type="Node2D" parent="."]
+position = Vector2(0, 6)

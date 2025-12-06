@@ -5,12 +5,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xplnu"]
 size = Vector2(0, 0)
 
-[node name="LevelEditor" type="Node2D"]
+[node name="LevelEditor" type="Node2D" unique_id=2068371861]
 script = ExtResource("1_wmeon")
 
-[node name="object_detector" type="Area2D" parent="."]
+[node name="object_detector" type="Area2D" parent="." unique_id=670605703]
 collision_layer = 8
 collision_mask = 8
 
-[node name="shape" type="CollisionShape2D" parent="object_detector"]
+[node name="shape" type="CollisionShape2D" parent="object_detector" unique_id=1670604912]
 shape = SubResource("RectangleShape2D_xplnu")

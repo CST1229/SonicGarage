@@ -1,0 +1,87 @@
+[gd_scene load_steps=2 format=3 uid="uid://yps85l6yugbn"]
+
+[ext_resource type="Script" uid="uid://vfbvqtx15hpc" path="res://scenes/MyLevels/LevelOptions.gd" id="1_5hwy7"]
+
+[node name="LevelOptions" type="Control" unique_id=1346641]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 300.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+script = ExtResource("1_5hwy7")
+
+[node name="Container" type="GridContainer" parent="." unique_id=411729663]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 30.0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="Play" type="Button" parent="Container" unique_id=2051212617]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Edit")
+focus_neighbor_bottom = NodePath("../Duplicate")
+focus_previous = NodePath("../Delete")
+theme_type_variation = &"LevelsListButton"
+text = "Play"
+flat = true
+
+[node name="Edit" type="Button" parent="Container" unique_id=2049265048]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Play")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Rename")
+focus_neighbor_bottom = NodePath("../Move")
+theme_type_variation = &"LevelsListButton"
+text = "Edit"
+flat = true
+
+[node name="Rename" type="Button" parent="Container" unique_id=1847316768]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Edit")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+theme_type_variation = &"LevelsListButton"
+text = "Rename"
+flat = true
+
+[node name="Duplicate" type="Button" parent="Container" unique_id=21683441]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../Play")
+focus_neighbor_right = NodePath("../Move")
+focus_neighbor_bottom = NodePath(".")
+theme_type_variation = &"LevelsListButton"
+text = "Duplicate"
+flat = true
+
+[node name="Move" type="Button" parent="Container" unique_id=115210010]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Duplicate")
+focus_neighbor_top = NodePath("../Edit")
+focus_neighbor_right = NodePath("../Delete")
+focus_neighbor_bottom = NodePath(".")
+theme_type_variation = &"LevelsListButton"
+text = "Move"
+flat = true
+
+[node name="Delete" type="Button" parent="Container" unique_id=1545738163]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Move")
+focus_neighbor_top = NodePath("../Rename")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath("../Play")
+theme_type_variation = &"LevelsListButton"
+text = "Delete"
+flat = true
