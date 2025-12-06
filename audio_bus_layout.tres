@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://bvsmik2x1ye3e"]
+[gd_resource type="AudioBusLayout" format=3 uid="uid://bvsmik2x1ye3e"]
 
 [sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_f4lrx"]
 resource_name = "LowPassFilter"
