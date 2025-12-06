@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://yuarhiy4cytm"]
+[gd_scene format=3 uid="uid://yuarhiy4cytm"]
 
 [ext_resource type="Script" uid="uid://ddvtjlqec3vib" path="res://objects/essential/LevelContainer/Polygon.gd" id="1_nvdio"]
 [ext_resource type="Script" uid="uid://2cvfsncsp4nb" path="res://objects/essential/LevelContainer/PolygonDecoration.gd" id="2_23k0x"]
@@ -6,31 +6,31 @@
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_71wi6"]
 blend_mode = 1
 
-[node name="Polygon" type="Node2D"]
+[node name="Polygon" type="Node2D" unique_id=523932837]
 script = ExtResource("1_nvdio")
 
-[node name="collision" type="StaticBody2D" parent="."]
+[node name="collision" type="StaticBody2D" parent="." unique_id=646721365]
 show_behind_parent = true
 collision_mask = 35
 collision_priority = 5.0
 
-[node name="collision_polygon" type="CollisionPolygon2D" parent="collision"]
+[node name="collision_polygon" type="CollisionPolygon2D" parent="collision" unique_id=1764982433]
 disabled = true
 
-[node name="polygon" type="Polygon2D" parent="."]
+[node name="polygon" type="Polygon2D" parent="." unique_id=367058471]
 clip_children = 2
 z_index = -1
 
-[node name="shadow_decor" type="Node2D" parent="polygon"]
+[node name="shadow_decor" type="Node2D" parent="polygon" unique_id=1661132754]
 material = SubResource("CanvasItemMaterial_71wi6")
 script = ExtResource("2_23k0x")
 layer = 4
 
-[node name="highlight_decor" type="Node2D" parent="polygon"]
+[node name="highlight_decor" type="Node2D" parent="polygon" unique_id=1396360469]
 modulate = Color(1, 1, 1, 0.6)
 script = ExtResource("2_23k0x")
 layer = 2
 
-[node name="decor" type="Node2D" parent="."]
+[node name="decor" type="Node2D" parent="." unique_id=1003322628]
 z_index = -1
 script = ExtResource("2_23k0x")

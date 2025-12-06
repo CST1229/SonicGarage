@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Decor" load_steps=3 format=3 uid="uid://brv31w5uc1aao"]
+[gd_resource type="Resource" script_class="Decor" format=3 uid="uid://brv31w5uc1aao"]
 
 [ext_resource type="Script" uid="uid://clpjvskrgnvef" path="res://scripts/LevelDrawing/Decor.gd" id="1_sty8i"]
 [ext_resource type="Texture2D" uid="uid://bvusv06ef23pc" path="res://sprites/level_themes/semisolid_indicator.png" id="2_ucqw4"]

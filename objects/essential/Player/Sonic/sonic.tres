@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=47 format=3 uid="uid://d23iwpusrgjcp"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://d23iwpusrgjcp"]
 
 [ext_resource type="Texture2D" uid="uid://kv7c542rx7k3" path="res://objects/essential/Player/Sonic/crouch1.png" id="1_pfpi5"]
 [ext_resource type="Texture2D" uid="uid://c2vy43hciav0i" path="res://objects/essential/Player/Sonic/crouch2.png" id="2_ai85m"]

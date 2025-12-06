@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cs7du7ueq66er"]
+[gd_scene format=3 uid="uid://cs7du7ueq66er"]
 
 [ext_resource type="Script" uid="uid://d0d7j4thl40ip" path="res://objects/level/Ring/Ring.gd" id="1_6udgv"]
 [ext_resource type="SpriteFrames" uid="uid://du05f742t6s71" path="res://objects/level/Ring/sprites/ring.tres" id="1_k7kbx"]
@@ -8,23 +8,23 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5v45g"]
 size = Vector2(13, 13)
 
-[node name="Ring" type="Node2D"]
+[node name="Ring" type="Node2D" unique_id=1929260651]
 script = ExtResource("1_6udgv")
 
-[node name="sprite" type="AnimatedSprite2D" parent="."]
+[node name="sprite" type="AnimatedSprite2D" parent="." unique_id=1771706885]
 sprite_frames = ExtResource("1_k7kbx")
 animation = &"spin"
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=2078505663]
 collision_layer = 8
 collision_mask = 16
 script = ExtResource("3_mkw3l")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=982063055]
 shape = SubResource("RectangleShape2D_5v45g")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
-[node name="EditorObjectBounds" parent="." instance=ExtResource("3_fr61y")]
+[node name="EditorObjectBounds" parent="." unique_id=874206853 instance=ExtResource("3_fr61y")]
 size = Vector2(16, 16)
 
 [connection signal="animation_finished" from="sprite" to="." method="animation_finished"]

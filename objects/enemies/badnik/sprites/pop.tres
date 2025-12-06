@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://ce4oh1ypc1i1j"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://ce4oh1ypc1i1j"]
 
 [ext_resource type="Texture2D" uid="uid://br34mepeb8wrc" path="res://objects/enemies/badnik/sprites/pop1.png" id="1_ltp4i"]
 [ext_resource type="Texture2D" uid="uid://dvt8nq7idmsj8" path="res://objects/enemies/badnik/sprites/pop2.png" id="2_lw3eu"]

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LogoMovementsDef" load_steps=2 format=3 uid="uid://xycchtp24pvq"]
+[gd_resource type="Resource" script_class="LogoMovementsDef" format=3 uid="uid://xycchtp24pvq"]
 
 [ext_resource type="Script" uid="uid://b1gs6rjqdg0e" path="res://scenes/TitleScreen/DancingLogo/LogoMovementsDef.gd" id="1_o2dr7"]
 

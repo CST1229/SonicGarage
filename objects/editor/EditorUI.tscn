@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://6coikmp63mmn"]
+[gd_scene format=3 uid="uid://6coikmp63mmn"]
 
 [ext_resource type="Script" uid="uid://2sp8dkbve0go" path="res://objects/editor/EditorUI.gd" id="1_1imr5"]
 [ext_resource type="Script" uid="uid://drlipnqaug6em" path="res://objects/ui/FixedMenuButton.gd" id="2_wor00"]

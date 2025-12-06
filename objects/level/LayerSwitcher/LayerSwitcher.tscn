@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b60n02le4yvf0"]
+[gd_scene format=3 uid="uid://b60n02le4yvf0"]
 
 [ext_resource type="Script" uid="uid://cjnme3nbvobkg" path="res://objects/level/LayerSwitcher/LayerSwitcher.gd" id="1_oamhx"]
 [ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="2_oktun"]

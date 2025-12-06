@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bcjbkb73mtovm"]
+[gd_scene format=3 uid="uid://bcjbkb73mtovm"]
 
 [ext_resource type="Script" uid="uid://dkft2a8s2bw18" path="res://objects/essential/Player/Player.gd" id="1_cniba"]
 [ext_resource type="Script" uid="uid://blu08lbp3rht1" path="res://objects/level/LayerSwitcher/LayerSwitcherSensor.gd" id="2_xh0bu"]
@@ -36,7 +36,7 @@ stacked_shadow_6/offset = Vector2(1, 0)
 stacked_shadow_7/offset = Vector2(0, 1)
 stacked_shadow_8/offset = Vector2(0, 0)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=1547250482]
 collision_layer = 15
 collision_mask = 7
 collision_priority = 3.0
@@ -46,26 +46,26 @@ floor_snap_length = 8.0
 safe_margin = 0.25
 script = ExtResource("1_cniba")
 
-[node name="Shape" type="CollisionShape2D" parent="."]
+[node name="Shape" type="CollisionShape2D" parent="." unique_id=1894356076]
 shape = SubResource("RectangleShape2D_r84wf")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
-[node name="Shape_UNUSED" type="CollisionShape2D" parent="."]
+[node name="Shape_UNUSED" type="CollisionShape2D" parent="." unique_id=1358843356]
 visible = false
 shape = SubResource("CapsuleShape2D_50137")
 disabled = true
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
-[node name="LayerSwitcherSensor" type="Area2D" parent="."]
+[node name="LayerSwitcherSensor" type="Area2D" parent="." unique_id=1048741354]
 collision_layer = 65535
 collision_mask = 65535
 script = ExtResource("2_xh0bu")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LayerSwitcherSensor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LayerSwitcherSensor" unique_id=191154773]
 shape = SubResource("RectangleShape2D_cu8nw")
 debug_color = Color(1, 0.27451, 0.262745, 0.419608)
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="." unique_id=133634933]
 top_level = true
 drag_left_margin = 0.0
 drag_top_margin = 0.0
@@ -73,15 +73,15 @@ drag_right_margin = 0.0
 drag_bottom_margin = 0.0
 script = ExtResource("3_q22vw")
 
-[node name="sprite" type="AnimatedSprite2D" parent="."]
+[node name="sprite" type="AnimatedSprite2D" parent="." unique_id=1097283337]
 sprite_frames = ExtResource("4_voifm")
 animation = &"stand"
 autoplay = "stand"
 offset = Vector2(0, 0.5)
 
-[node name="DebugLabels" type="CanvasLayer" parent="."]
+[node name="DebugLabels" type="CanvasLayer" parent="." unique_id=509983714]
 
-[node name="DebugLabel" type="Label" parent="DebugLabels"]
+[node name="DebugLabel" type="Label" parent="DebugLabels" unique_id=938112031]
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.3625
@@ -99,27 +99,27 @@ vsp: %s"
 label_settings = SubResource("LabelSettings_mfktl")
 metadata/_edit_use_anchors_ = true
 
-[node name="jump_sound" type="AudioStreamPlayer" parent="."]
+[node name="jump_sound" type="AudioStreamPlayer" parent="." unique_id=1921551651]
 stream = ExtResource("5_y8ctc")
 bus = &"SFX"
 
-[node name="roll_sound" type="AudioStreamPlayer" parent="."]
+[node name="roll_sound" type="AudioStreamPlayer" parent="." unique_id=1502703416]
 stream = ExtResource("6_qv3jl")
 volume_db = -5.0
 bus = &"SFX"
 
-[node name="skid_sound" type="AudioStreamPlayer" parent="."]
+[node name="skid_sound" type="AudioStreamPlayer" parent="." unique_id=1561313330]
 stream = ExtResource("7_beujc")
 bus = &"SFX"
 
-[node name="dash_sound" type="AudioStreamPlayer" parent="."]
+[node name="dash_sound" type="AudioStreamPlayer" parent="." unique_id=586495345]
 stream = ExtResource("9_qc8l6")
 bus = &"SFX"
 
-[node name="hurt_sound" type="AudioStreamPlayer" parent="."]
+[node name="hurt_sound" type="AudioStreamPlayer" parent="." unique_id=1513893648]
 stream = ExtResource("9_5gunf")
 
-[node name="ringloss_sound" type="AudioStreamPlayer" parent="."]
+[node name="ringloss_sound" type="AudioStreamPlayer" parent="." unique_id=9726478]
 stream = ExtResource("10_l3uft")
 volume_db = -8.0
 

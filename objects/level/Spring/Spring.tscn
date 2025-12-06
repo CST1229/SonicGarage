@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c85u6jwayp4be"]
+[gd_scene format=3 uid="uid://c85u6jwayp4be"]
 
 [ext_resource type="Script" uid="uid://crjxseuejldc5" path="res://objects/level/Spring/Spring.gd" id="1_bylbm"]
 [ext_resource type="SpriteFrames" uid="uid://c6y2il3h8ub3k" path="res://objects/level/Spring/sprites/spring.tres" id="2_5vw6i"]

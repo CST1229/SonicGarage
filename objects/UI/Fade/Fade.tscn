@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://l73uwkha7tgl"]
+[gd_scene format=3 uid="uid://l73uwkha7tgl"]
 
 [ext_resource type="Script" uid="uid://cb1qnex1bgb2f" path="res://objects/ui/Fade/Fade.gd" id="1_vrlf6"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vrlf6"]
 blend_mode = 2
 
-[node name="Container" type="Control" node_paths=PackedStringArray("fade_rect", "tint_rect")]
+[node name="Container" type="Control" unique_id=785105724 node_paths=PackedStringArray("fade_rect", "tint_rect")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,7 @@ script = ExtResource("1_vrlf6")
 fade_rect = NodePath("FadeRect")
 tint_rect = NodePath("TintRect")
 
-[node name="TintRect" type="ColorRect" parent="."]
+[node name="TintRect" type="ColorRect" parent="." unique_id=1871404904]
 material = SubResource("CanvasItemMaterial_vrlf6")
 layout_mode = 1
 anchors_preset = 15
@@ -26,7 +26,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="FadeRect" type="ColorRect" parent="."]
+[node name="FadeRect" type="ColorRect" parent="." unique_id=1446800782]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

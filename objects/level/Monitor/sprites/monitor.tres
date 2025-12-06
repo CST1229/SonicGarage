@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://btcw48fsrt1hl"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://btcw48fsrt1hl"]
 
 [ext_resource type="Texture2D" uid="uid://b24wmssfxtidl" path="res://objects/level/Monitor/sprites/broken.png" id="1_46sd2"]
 [ext_resource type="Texture2D" uid="uid://bcu021n0q0rnt" path="res://objects/level/Monitor/sprites/monitor.png" id="2_lfc6u"]

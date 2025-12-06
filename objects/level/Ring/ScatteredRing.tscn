@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfx3wfrxpn0xc"]
+[gd_scene format=3 uid="uid://bfx3wfrxpn0xc"]
 
 [ext_resource type="Script" uid="uid://ctf3df664lp5u" path="res://objects/level/Ring/ScatteredRing.gd" id="1_63o4s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_whfgt"]
 size = Vector2(16, 16)
 
-[node name="ScatteredRing" type="CharacterBody2D"]
+[node name="ScatteredRing" type="CharacterBody2D" unique_id=1640901145]
 collision_layer = 0
 collision_mask = 3
 floor_constant_speed = true
@@ -13,5 +13,5 @@ floor_max_angle = 1.22173
 floor_snap_length = 0.0
 script = ExtResource("1_63o4s")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=375428212]
 shape = SubResource("RectangleShape2D_whfgt")

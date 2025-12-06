@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwx5aqvbnwxeh"]
+[gd_scene format=3 uid="uid://cwx5aqvbnwxeh"]
 
 [ext_resource type="Script" uid="uid://5v60k3oa1gxk" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_suyq5"]
 [ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/essential/LevelContainer/LevelContainer.tscn" id="1_xpaws"]
@@ -6,31 +6,31 @@
 [ext_resource type="Texture2D" uid="uid://6kp6a1v2qc4v" path="res://objects/essential/Player/Sonic/stand.png" id="4_3eiji"]
 [ext_resource type="PackedScene" uid="uid://6coikmp63mmn" path="res://objects/editor/EditorUI.tscn" id="4_66box"]
 
-[node name="EditorRoom" type="Node2D" node_paths=PackedStringArray("level_container")]
+[node name="EditorRoom" type="Node2D" unique_id=1785154139 node_paths=PackedStringArray("level_container")]
 script = ExtResource("1_suyq5")
 level_container = NodePath("LevelContainer")
 playtest_room = "res://scenes/EditorRoom/EditorPlaytest.tscn"
 
-[node name="LevelContainer" parent="." node_paths=PackedStringArray("editor") instance=ExtResource("1_xpaws")]
+[node name="LevelContainer" parent="." unique_id=307723273 node_paths=PackedStringArray("editor") instance=ExtResource("1_xpaws")]
 editor_mode = true
 editor = NodePath("../LevelEditor")
 
-[node name="PlayerGhost" type="Sprite2D" parent="."]
+[node name="PlayerGhost" type="Sprite2D" parent="." unique_id=1433567927]
 modulate = Color(1, 1, 1, 0.498039)
 position = Vector2(0, 6)
 texture = ExtResource("4_3eiji")
 offset = Vector2(1, 0)
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="." unique_id=1100701445]
 editor_draw_screen = false
 
-[node name="LevelEditor" parent="." node_paths=PackedStringArray("container", "camera") instance=ExtResource("1_yog1b")]
+[node name="LevelEditor" parent="." unique_id=641379638 node_paths=PackedStringArray("container", "camera") instance=ExtResource("1_yog1b")]
 container = NodePath("../LevelContainer")
 camera = NodePath("../Camera")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1170049336]
 
-[node name="EditorUI" parent="UI" node_paths=PackedStringArray("editor") instance=ExtResource("4_66box")]
+[node name="EditorUI" parent="UI" unique_id=1956929793 node_paths=PackedStringArray("editor") instance=ExtResource("4_66box")]
 editor = NodePath("../../LevelEditor")
 
 [connection signal="dehover_over_gui" from="UI/EditorUI" to="LevelEditor" method="_on_mouse_dehover_gui"]

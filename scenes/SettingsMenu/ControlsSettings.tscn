@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bk04l2wckr1cn"]
+[gd_scene format=3 uid="uid://bk04l2wckr1cn"]
 
 [ext_resource type="Script" uid="uid://c46ai1g1ec7cd" path="res://scenes/SettingsMenu/ControlsSettings.gd" id="1_2uxs1"]
 [ext_resource type="PackedScene" uid="uid://l73uwkha7tgl" path="res://objects/ui/Fade/Fade.tscn" id="2_wtmpj"]

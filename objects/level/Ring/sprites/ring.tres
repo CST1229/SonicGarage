@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=9 format=3 uid="uid://du05f742t6s71"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://du05f742t6s71"]
 
 [ext_resource type="Texture2D" uid="uid://q3srvb5nc56s" path="res://objects/level/Ring/sprites/collect1.png" id="1_1v12c"]
 [ext_resource type="Texture2D" uid="uid://ct0p7x4wc4tw6" path="res://objects/level/Ring/sprites/ring1.png" id="1_vh0k6"]

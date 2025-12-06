@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b2qk3pxe4e8yu"]
+[gd_scene format=3 uid="uid://b2qk3pxe4e8yu"]
 
 [ext_resource type="SpriteFrames" uid="uid://cblk8oa86ji4h" path="res://objects/level/Signpost/sprites/signpost.tres" id="1_inyhf"]
 [ext_resource type="Script" uid="uid://bkhgbggxlvlxi" path="res://objects/level/Signpost/Signpost.gd" id="1_pge2w"]
@@ -8,26 +8,26 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q2gup"]
 size = Vector2(6, 192)
 
-[node name="Signpost" type="Area2D"]
+[node name="Signpost" type="Area2D" unique_id=83182379]
 collision_layer = 8
 collision_mask = 16
 script = ExtResource("1_pge2w")
 
-[node name="shape" type="CollisionShape2D" parent="."]
+[node name="shape" type="CollisionShape2D" parent="." unique_id=2008483822]
 position = Vector2(0, -72)
 shape = SubResource("RectangleShape2D_q2gup")
 
-[node name="sprite" type="AnimatedSprite2D" parent="."]
+[node name="sprite" type="AnimatedSprite2D" parent="." unique_id=840629036]
 sprite_frames = ExtResource("1_inyhf")
 animation = &"spin"
 frame = 2
 frame_progress = 0.783444
 
-[node name="sound" type="AudioStreamPlayer" parent="."]
+[node name="sound" type="AudioStreamPlayer" parent="." unique_id=994774741]
 stream = ExtResource("3_884sj")
 bus = &"SFX"
 
-[node name="EditorObjectBounds" parent="." instance=ExtResource("4_00plm")]
+[node name="EditorObjectBounds" parent="." unique_id=291087633 instance=ExtResource("4_00plm")]
 size = Vector2(48, 48)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

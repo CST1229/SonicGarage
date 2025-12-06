@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b8q0kjk13674u"]
+[gd_scene format=3 uid="uid://b8q0kjk13674u"]
 
 [ext_resource type="Script" uid="uid://c8512uky86pra" path="res://objects/level/Monitor/Monitor.gd" id="1_3s5mw"]
 [ext_resource type="SpriteFrames" uid="uid://btcw48fsrt1hl" path="res://objects/level/Monitor/sprites/monitor.tres" id="2_2trqc"]
@@ -13,37 +13,37 @@ size = Vector2(30, 30)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vkaly"]
 size = Vector2(28, 28)
 
-[node name="Monitor" type="AnimatableBody2D"]
+[node name="Monitor" type="AnimatableBody2D" unique_id=70852989]
 collision_layer = 64
 collision_mask = 83
 sync_to_physics = false
 script = ExtResource("1_3s5mw")
 
-[node name="sprite" type="AnimatedSprite2D" parent="."]
+[node name="sprite" type="AnimatedSprite2D" parent="." unique_id=1716169673]
 sprite_frames = ExtResource("2_2trqc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2026609266]
 visible = false
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_okmh3")
 
-[node name="hitbox" type="Area2D" parent="."]
+[node name="hitbox" type="Area2D" parent="." unique_id=663071236]
 collision_layer = 128
 collision_mask = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=717974557]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_vkaly")
 debug_color = Color(0.984314, 0, 0.360784, 0.419608)
 
-[node name="sound" type="AudioStreamPlayer" parent="."]
+[node name="sound" type="AudioStreamPlayer" parent="." unique_id=917919068]
 stream = ExtResource("3_1wk54")
 
-[node name="EditorObjectBounds" parent="." instance=ExtResource("4_3hsxn")]
+[node name="EditorObjectBounds" parent="." unique_id=1429898750 instance=ExtResource("4_3hsxn")]
 position = Vector2(0, 1)
 size = Vector2(30, 30)
 
-[node name="HandleContainer" type="Control" parent="." node_paths=PackedStringArray("target")]
+[node name="HandleContainer" type="Control" parent="." unique_id=1283003656 node_paths=PackedStringArray("target")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -15.0
@@ -53,7 +53,7 @@ offset_bottom = 16.0
 script = ExtResource("5_b3oyq")
 target = NodePath("..")
 
-[node name="MonitorItemHandle" type="Button" parent="HandleContainer"]
+[node name="MonitorItemHandle" type="Button" parent="HandleContainer" unique_id=217890593]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5

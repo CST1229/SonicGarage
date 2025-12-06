@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://g6e2mtm1nci"]
+[gd_scene format=3 uid="uid://g6e2mtm1nci"]
 
 [ext_resource type="Script" uid="uid://5v60k3oa1gxk" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_5rthq"]
 [ext_resource type="TileSet" uid="uid://crvlb72v4un44" path="res://tilesets/test.tres" id="1_xnd6d"]
@@ -6,11 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://bcjbkb73mtovm" path="res://objects/essential/Player/Player.tscn" id="2_840n1"]
 [ext_resource type="PackedScene" uid="uid://b60n02le4yvf0" path="res://objects/level/LayerSwitcher/LayerSwitcher.tscn" id="4_7sklr"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" unique_id=1635586881]
 texture_filter = 1
 script = ExtResource("1_5rthq")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1744754154]
 offset_left = -48.0
 offset_top = -72.0
 offset_right = 43.0
@@ -18,7 +18,7 @@ offset_bottom = -33.0
 text = "Press 0 or 1 :)
 (+Shift too)"
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="." unique_id=773771507]
 offset_left = 1488.0
 offset_top = -568.0
 offset_right = 1802.0
@@ -27,7 +27,7 @@ theme_type_variation = &"SmallLabel"
 text = "circles are more risky in any Sonic fangame engine
 too fast and he may fall off... /ref"
 
-[node name="Label3" type="Label" parent="."]
+[node name="Label3" type="Label" parent="." unique_id=1190453443]
 offset_left = 1136.0
 offset_top = -472.0
 offset_right = 1200.0
@@ -35,7 +35,7 @@ offset_bottom = -456.0
 theme_type_variation = &"SmallLabel"
 text = "surely not..."
 
-[node name="Label4" type="Label" parent="."]
+[node name="Label4" type="Label" parent="." unique_id=542103469]
 offset_left = 1140.0
 offset_top = 136.0
 offset_right = 1306.0
@@ -45,7 +45,7 @@ text = "i have made a figure eight loop.
 lapperdev you are powerless!!!!!!!
 MWUHAHAHAHAHAHAHAH /jjjj"
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap" parent="." unique_id=1805382595]
 tile_set = ExtResource("1_xnd6d")
 format = 2
 layer_0/name = "Collision AB"
@@ -58,26 +58,26 @@ layer_2/modulate = Color(1, 0.501961, 0, 1)
 layer_2/tile_data = PackedInt32Array(1572919, 65536, 0, 1638455, 65536, 0, 1703991, 65536, 0, 1769527, 65536, 0, 1572920, 393216, 6, 1638456, 393216, 7, 1703992, 393216, 8, 1769528, 393216, 9, 1703993, 458752, 8, 1769529, 458752, 9, 1769530, 524288, 9, 1769531, 589824, 9, 1376330, 458752, 1342177288, 1376329, 458752, 1342177289, 1441865, 524288, 1342177289, 1507401, 589824, 1342177289, 1572937, 393216, 6, 1769548, 589824, 9, 1769547, 524288, 9, 1704010, 458752, 8, 1769546, 458752, 9, 1638473, 393216, 7, 1704009, 393216, 8, 1769545, 393216, 9, 1310796, 393216, 1342177286, 1310795, 393216, 1342177287, 1310794, 393216, 1342177288, 1310793, 393216, 1342177289, 852045, 262144, 805306368, 1245261, 589824, 1342177285, 852046, 196608, 805306368, 1179726, 196608, 268435456, 1245262, 589824, 1342177284, 852047, 524288, 3, 917583, 196608, 1073741824, 983119, 262144, 1073741824, 1048655, 262144, 1610612736, 1114191, 196608, 1610612736, 1179727, 524288, 1342177283, 1245263, 589824, 1342177283, 917584, 589824, 4, 983120, 589824, 5, 1048656, 393216, 1342177282, 1114192, 458752, 1342177282, 1179728, 524288, 1342177282, 786509, 393216, 2, 786510, 458752, 2, 786511, 524288, 2, 852048, 589824, 3, 1310792, 65536, 0, 1376328, 65536, 0, 1441864, 65536, 0, 1507400, 65536, 0, 1572936, 65536, 0, 1638472, 65536, 0, 1704008, 65536, 0, 1769544, 65536, 0, 1245260, 524288, 268435456, 1245259, 589824, 268435456, 1179725, 262144, 268435456, 1245258, 655360, 268435456, 1245257, 720896, 268435456, 1310790, 65536, 0, 1310791, 65536, 0, 1376327, 65536, 0, 1376326, 65536, 0, 1310789, 65536, 0, 1376325, 65536, 0, 852067, 65536, 0, 917603, 65536, 0, 983139, 65536, 0, 1048675, 65536, 0, 1114211, 65536, 0, 1179747, 65536, 0, 1245283, 65536, 0, 1310819, 65536, 0, 1376355, 65536, 0, 1441891, 65536, 0, 1507427, 65536, 0, 1572963, 65536, 0, 1638499, 65536, 0, 1704035, 65536, 0, 1769571, 65536, 0, 852068, 65536, 0, 917604, 65536, 0, 983140, 65536, 0, 1048676, 65536, 0, 1114212, 65536, 0, 1179748, 65536, 0, 1245284, 65536, 0, 1310820, 65536, 0, 1376356, 65536, 0, 1441892, 65536, 0, 1507428, 65536, 0, 1572964, 65536, 0, 1638500, 65536, 0, 1704036, 65536, 0, 1769572, 65536, 0, 983141, 720896, 1879048192, 1048677, 655360, 1879048192, 1114213, 589824, 1879048192, 1179749, 524288, 1879048192, 1245285, 65536, 0, 1310821, 65536, 0, 1376357, 65536, 0, 1441893, 65536, 0, 1507429, 65536, 0, 1572965, 65536, 0, 1638501, 65536, 0, 1704037, 65536, 0, 1769573, 65536, 0, 1245286, 458752, 1879048192, 1310822, 393216, 1879048192, 1376358, 327680, 1879048192, 1441894, 65536, 0, 1507430, 65536, 0, 1572966, 65536, 0, 1638502, 65536, 0, 1704038, 65536, 0, 1769574, 65536, 0, 1441895, 262144, 1879048192, 1507431, 196608, 1879048192, 1572967, 65536, 0, 1638503, 65536, 0, 1704039, 65536, 0, 1769575, 65536, 0, 1572968, 131072, 0, 1638504, 65536, 0, 1704040, 65536, 0, 1769576, 65536, 0, 1638505, 196608, 0, 1704041, 65536, 0, 1769577, 65536, 0, 1638506, 262144, 0, 1704042, 65536, 0, 1769578, 65536, 0, 1704043, 327680, 0, 1769579, 65536, 0, 1704044, 393216, 0, 1769580, 65536, 0, 1704045, 458752, 0, 1769581, 65536, 0, 1769582, 524288, 0, 1769583, 589824, 0, 1769584, 655360, 0, 1769585, 720896, 0, -1572709, 65536, 1342177286, -1507174, 131072, 1342177287, -1441638, 65536, 6, -1376101, 131072, 7, -1376102, 65536, 7, -1572710, 65536, 1342177287, -1572711, 65536, 1342177280, -1507175, 65536, 1342177280, -1441639, 65536, 1342177280, -1376103, 65536, 1342177280, -1441628, 131072, 1342177280, -1376092, 131072, 0, -1441629, 65536, 0, -1376093, 65536, 0, -1507164, 65536, 0, -1507165, 65536, 0, -3473211, 65536, 0, -3407675, 65536, 0, -3342139, 65536, 0, -3276603, 65536, 0, -3211067, 65536, 0, -3145531, 65536, 0, -3079995, 65536, 0, -3014459, 65536, 0, -2948923, 65536, 0, -2883387, 65536, 0, -2817851, 65536, 0, -2752315, 65536, 0, -2686779, 65536, 0, -2621243, 65536, 0, -2555707, 65536, 0, -2490171, 65536, 0, -2424635, 65536, 0, -2359099, 65536, 0, -2293563, 65536, 0, -2228027, 65536, 0, -3473210, 65536, 0, -3407674, 196608, 1342177288, -3342138, 262144, 1342177288, -3276602, 327680, 1342177288, -2490170, 393216, 6, -2424634, 393216, 7, -2359098, 393216, 8, -2293562, 393216, 9, -2228026, 65536, 0, -3473209, 65536, 0, -3407673, 196608, 1342177287, -2359097, 458752, 8, -2293561, 458752, 9, -2228025, 65536, 0, -3473208, 65536, 0, -3407672, 196608, 1342177286, -2293560, 524288, 9, -2228024, 65536, 0, -3473207, 65536, 0, -3079991, 131072, 1610612738, -3014455, 65536, 1610612738, -2948919, 65536, 0, -2883383, 65536, 0, -2817847, 65536, 0, -2752311, 65536, 0, -2686775, 65536, 0, -2293559, 589824, 9, -2228023, 65536, 0, -3473206, 65536, 0, -3079990, 131072, 1610612739, -3014454, 65536, 1610612739, -2948918, 65536, 0, -2883382, 65536, 0, -2817846, 65536, 0, -2752310, 65536, 0, -2686774, 65536, 0, -2228022, 393216, 2, -3473205, 65536, 0, -3079989, 65536, 2, -3014453, 65536, 3, -2948917, 65536, 0, -2883381, 65536, 0, -2817845, 65536, 0, -2752309, 65536, 0, -2686773, 65536, 0, -2228021, 458752, 2, -2162485, 458752, 3, -3473204, 65536, 0, -3407668, 327680, 805306376, -3079988, 131072, 2, -3014452, 131072, 3, -2948916, 65536, 0, -2883380, 65536, 0, -2817844, 65536, 0, -2752308, 65536, 0, -2686772, 65536, 0, -2228020, 524288, 2, -2162484, 524288, 3, -2096948, 524288, 4, -2031412, 524288, 5, -3473203, 65536, 0, -3407667, 262144, 805306376, -2948915, 196608, 6, -2883379, 196608, 7, -2817843, 196608, 8, -2752307, 65536, 0, -2686771, 65536, 0, -3473202, 65536, 0, -3407666, 196608, 805306376, -3342130, 196608, 805306375, -3276594, 196608, 805306374, -2817842, 262144, 8, -2752306, 65536, 0, -2686770, 65536, 0, -3473201, 65536, 0, -3407665, 65536, 0, -3342129, 65536, 0, -3276593, 65536, 0, -2817841, 327680, 8, -2752305, 65536, 0, -2686769, 65536, 0, -3473200, 65536, 0, -3407664, 65536, 0, -3342128, 65536, 0, -3276592, 65536, 0, -3211056, 65536, 0, -3145520, 327680, 805306376, -2817840, 196608, 1610612742, -2752304, 65536, 0, -2686768, 65536, 0, -1769264, 65536, 0, -3211055, 65536, 0, -3145519, 262144, 805306376, -2817839, 196608, 1610612743, -2752303, 65536, 0, -2686767, 65536, 0, -2621231, 65536, 0, -2555695, 65536, 0, -2490159, 65536, 0, -2424623, 65536, 0, -2359087, 65536, 0, -2293551, 65536, 0, -2228015, 65536, 0, -2162479, 65536, 0, -2096943, 65536, 0, -1769263, 196608, 0, -3211054, 65536, 0, -3145518, 196608, 805306376, -3079982, 196608, 805306375, -3014446, 196608, 805306374, -2948910, 327680, 1610612744, -2883374, 262144, 1610612744, -2817838, 196608, 1610612744, -2752302, 65536, 0, -2686766, 393216, 1342177289, -2621230, 458752, 1342177289, -2555694, 524288, 1342177289, -2490158, 589824, 1342177289, -2359086, 393216, 6, -2293550, 393216, 7, -2228014, 393216, 8, -2162478, 393216, 9, -2096942, 65536, 0, -1769262, 262144, 0, -1703726, 65536, 0, -1638190, 65536, 0, -1572654, 65536, 0, -1507118, 65536, 0, -1441582, 65536, 0, -1376046, 65536, 0, -3211053, 65536, 0, -3145517, 65536, 0, -3079981, 65536, 0, -3014445, 65536, 0, -2948909, 65536, 0, -2883373, 65536, 0, -2817837, 65536, 0, -2752301, 65536, 0, -2686765, 393216, 1342177288, -2621229, 458752, 1342177288, -2228013, 458752, 8, -2162477, 458752, 9, -2096941, 65536, 0, -1703725, 131072, 0, -1638189, 65536, 0, -1572653, 65536, 0, -1507117, 65536, 0, -1441581, 65536, 0, -1376045, 65536, 0, -2752300, 65536, 0, -2686764, 393216, 1342177287, -2162476, 524288, 9, -2096940, 65536, 0, -1638188, 131072, 0, -1572652, 65536, 0, -1507116, 65536, 0, -1441580, 65536, 0, -1376044, 65536, 0, -2752299, 65536, 0, -2686763, 393216, 1342177286, -2162475, 589824, 9, -2096939, 65536, 0, -1572651, 131072, 0, -1507115, 65536, 0, -1441579, 65536, 0, -1376043, 65536, 0, -2752298, 65536, 0, -2686762, 327680, 805306376, -2096938, 65536, 0, -1507114, 131072, 0, -1441578, 65536, 0, -1376042, 65536, 0, -2752297, 65536, 0, -2686761, 262144, 805306376, -2096937, 65536, 0, -1441577, 196608, 0, -1376041, 65536, 0, -2752296, 65536, 0, -2686760, 196608, 805306376, -2621224, 196608, 805306375, -2555688, 196608, 805306374, -2162472, 393216, 1610612742, -2096936, 65536, 0, -1441576, 262144, 0, -1376040, 65536, 0, -2752295, 65536, 0, -2686759, 393216, 1342177289, -2621223, 458752, 1342177289, -2555687, 524288, 1342177289, -2490151, 589824, 1342177289, -2162471, 393216, 1610612743, -2096935, 65536, 0, -1376039, 327680, 0, -2752294, 65536, 0, -2686758, 393216, 1342177288, -2621222, 458752, 1342177288, -2228006, 458752, 1610612744, -2162470, 393216, 1610612744, -2096934, 65536, 0, -1376038, 393216, 0, -2752293, 65536, 0, -2686757, 393216, 1342177287, -2359077, 589824, 1610612745, -2293541, 524288, 1610612745, -2228005, 458752, 1610612745, -2162469, 393216, 1610612745, -2096933, 65536, 0, -2031397, 65536, 0, -1965861, 65536, 0, -1900325, 65536, 0, -1834789, 65536, 0, -1769253, 65536, 0, -1703717, 65536, 0, -1376037, 458752, 0, -2752292, 65536, 0, -2686756, 393216, 1342177286, -2359076, 196608, 2, -2293540, 196608, 3, -2228004, 196608, 4, -2162468, 65536, 0, -2096932, 196608, 1342177288, -2031396, 262144, 1342177288, -1965860, 327680, 1342177288, -1900324, 196608, 6, -1834788, 196608, 7, -1769252, 196608, 8, -1703716, 65536, 0, -2752291, 65536, 0, -2359075, 262144, 2, -2293539, 262144, 3, -2228003, 262144, 4, -2162467, 65536, 0, -2096931, 196608, 1342177287, -1769251, 262144, 8, -1703715, 65536, 0, -2752290, 65536, 0, -2686754, 589824, 805306377, -2359074, 327680, 2, -2293538, 327680, 3, -2228002, 327680, 4, -2162466, 65536, 0, -2096930, 196608, 1342177286, -1769250, 327680, 8, -1703714, 65536, 0, -2752289, 65536, 0, -2686753, 524288, 805306377, -1769249, 196608, 1610612742, -1703713, 65536, 0, -2752288, 65536, 0, -2686752, 458752, 805306377, -2621216, 458752, 805306376, -1769248, 196608, 1610612743, -1703712, 65536, 0, -2752287, 65536, 0, -2686751, 393216, 805306377, -2621215, 393216, 805306376, -2555679, 393216, 805306375, -2490143, 393216, 805306374, -1900319, 327680, 1610612744, -1834783, 262144, 1610612744, -1769247, 196608, 1610612744, -1703711, 65536, 0, -2752286, 65536, 0, -2686750, 65536, 0, -2621214, 65536, 0, -2555678, 65536, 0, -2490142, 65536, 0, -2424606, 65536, 0, -2359070, 65536, 0, -2293534, 65536, 0, -2227998, 65536, 0, -2162462, 65536, 0, -2096926, 65536, 0, -2031390, 65536, 0, -1965854, 65536, 0, -1900318, 65536, 0, -1834782, 65536, 0, -1769246, 65536, 0, -1703710, 65536, 0, -2162486, 393216, 3, -2096950, 393216, 4, -2096949, 458752, 4, -2031414, 393216, 5, -2031413, 458752, 5, -2162483, 589824, 3, -2096947, 589824, 4, -2031411, 589824, 5, -1965875, 65536, 0, -1900339, 65536, 0, -1834803, 65536, 0, -1769267, 65536, 0, -1834802, 196608, 8, -1769266, 65536, 0, -1834801, 262144, 8, -1769265, 65536, 0, -1965874, 196608, 6, -1900338, 196608, 7, -1834800, 327680, 8)
 script = ExtResource("2_3x6hd")
 
-[node name="Player" parent="." instance=ExtResource("2_840n1")]
+[node name="Player" parent="." unique_id=1638925984 instance=ExtResource("2_840n1")]
 position = Vector2(2, -5)
 floor_max_angle = 1.22173
 floor_snap_length = 16.0
 DEBUG_MODE = true
 
-[node name="LayerSwitcher" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher" parent="." unique_id=1134254788 instance=ExtResource("4_7sklr")]
 position = Vector2(864, 408)
 scale = Vector2(2, 5)
 size = Vector2(16, 16)
 force_visible = true
 
-[node name="LayerSwitcher2" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher2" parent="." unique_id=336386453 instance=ExtResource("4_7sklr")]
 position = Vector2(1056, 408)
 scale = Vector2(2, 5)
 size = Vector2(16, 16)
 force_visible = true
 layer = "b"
 
-[node name="LayerSwitcher3" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher3" parent="." unique_id=616423019 instance=ExtResource("4_7sklr")]
 position = Vector2(944, 336)
 scale = Vector2(1, 2)
 size = Vector2(16, 16)
@@ -85,14 +85,14 @@ force_visible = true
 layer = "b"
 grounded_only = true
 
-[node name="LayerSwitcher4" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher4" parent="." unique_id=637043989 instance=ExtResource("4_7sklr")]
 position = Vector2(976, 336)
 scale = Vector2(1, 2)
 size = Vector2(16, 16)
 force_visible = true
 grounded_only = true
 
-[node name="LayerSwitcher29" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher29" parent="." unique_id=1679429664 instance=ExtResource("4_7sklr")]
 position = Vector2(3560, -488)
 scale = Vector2(1, 2)
 size = Vector2(16, 16)
@@ -100,14 +100,14 @@ force_visible = true
 layer = "b"
 grounded_only = true
 
-[node name="LayerSwitcher30" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher30" parent="." unique_id=1089190329 instance=ExtResource("4_7sklr")]
 position = Vector2(3576, -488)
 scale = Vector2(1, 2)
 size = Vector2(16, 16)
 force_visible = true
 grounded_only = true
 
-[node name="LayerSwitcher31" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher31" parent="." unique_id=282351196 instance=ExtResource("4_7sklr")]
 position = Vector2(3448, -616)
 rotation = 1.57079
 scale = Vector2(1, 3)
@@ -116,7 +116,7 @@ force_visible = true
 layer = "b"
 grounded_only = true
 
-[node name="LayerSwitcher32" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher32" parent="." unique_id=2005122001 instance=ExtResource("4_7sklr")]
 position = Vector2(3448, -600)
 rotation = 1.57079
 scale = Vector2(1, 3)
@@ -124,14 +124,14 @@ size = Vector2(16, 16)
 force_visible = true
 grounded_only = true
 
-[node name="LayerSwitcher33" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher33" parent="." unique_id=503167046 instance=ExtResource("4_7sklr")]
 position = Vector2(3320, -744)
 scale = Vector2(1, 3)
 size = Vector2(16, 16)
 force_visible = true
 grounded_only = true
 
-[node name="LayerSwitcher34" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher34" parent="." unique_id=502404519 instance=ExtResource("4_7sklr")]
 position = Vector2(3336, -744)
 scale = Vector2(1, 3)
 size = Vector2(16, 16)
@@ -139,33 +139,33 @@ force_visible = true
 layer = "b"
 grounded_only = true
 
-[node name="LayerSwitcher7" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher7" parent="." unique_id=29192636 instance=ExtResource("4_7sklr")]
 position = Vector2(2440, -352)
 scale = Vector2(1, 4)
 size = Vector2(16, 16)
 force_visible = true
 
-[node name="LayerSwitcher27" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher27" parent="." unique_id=1988360817 instance=ExtResource("4_7sklr")]
 position = Vector2(3352, -256)
 scale = Vector2(1, 20)
 size = Vector2(16, 16)
 force_visible = true
 
-[node name="LayerSwitcher28" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher28" parent="." unique_id=1139646353 instance=ExtResource("4_7sklr")]
 position = Vector2(3640, -476)
 scale = Vector2(1, 20)
 size = Vector2(16, 16)
 force_visible = true
 layer = "b"
 
-[node name="LayerSwitcher8" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher8" parent="." unique_id=164889397 instance=ExtResource("4_7sklr")]
 position = Vector2(2552, -352)
 scale = Vector2(1, 4)
 size = Vector2(16, 16)
 force_visible = true
 layer = "b"
 
-[node name="LayerSwitcher21" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher21" parent="." unique_id=2112615186 instance=ExtResource("4_7sklr")]
 position = Vector2(2492, -368)
 scale = Vector2(0.5, 2)
 size = Vector2(16, 16)
@@ -173,27 +173,27 @@ force_visible = true
 layer = "b"
 grounded_only = true
 
-[node name="LayerSwitcher22" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher22" parent="." unique_id=1669129431 instance=ExtResource("4_7sklr")]
 position = Vector2(2500, -368)
 scale = Vector2(0.5, 2)
 size = Vector2(16, 16)
 force_visible = true
 grounded_only = true
 
-[node name="LayerSwitcher23" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher23" parent="." unique_id=1015450689 instance=ExtResource("4_7sklr")]
 position = Vector2(2600, -352)
 scale = Vector2(1, 4)
 size = Vector2(16, 16)
 force_visible = true
 
-[node name="LayerSwitcher24" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher24" parent="." unique_id=1422073905 instance=ExtResource("4_7sklr")]
 position = Vector2(2680, -352)
 scale = Vector2(1, 4)
 size = Vector2(16, 16)
 force_visible = true
 layer = "b"
 
-[node name="LayerSwitcher25" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher25" parent="." unique_id=746003508 instance=ExtResource("4_7sklr")]
 position = Vector2(2636, -348)
 scale = Vector2(0.5, 1.5)
 size = Vector2(16, 16)
@@ -201,27 +201,27 @@ force_visible = true
 layer = "b"
 grounded_only = true
 
-[node name="LayerSwitcher26" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher26" parent="." unique_id=1115552846 instance=ExtResource("4_7sklr")]
 position = Vector2(2644, -348)
 scale = Vector2(0.5, 1.5)
 size = Vector2(16, 16)
 force_visible = true
 grounded_only = true
 
-[node name="LayerSwitcher15" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher15" parent="." unique_id=1447928440 instance=ExtResource("4_7sklr")]
 position = Vector2(1568, 320)
 scale = Vector2(2, 16)
 size = Vector2(16, 16)
 force_visible = true
 
-[node name="LayerSwitcher16" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher16" parent="." unique_id=814434507 instance=ExtResource("4_7sklr")]
 position = Vector2(2160, 320)
 scale = Vector2(2, 16)
 size = Vector2(16, 16)
 force_visible = true
 layer = "b"
 
-[node name="LayerSwitcher17" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher17" parent="." unique_id=852322922 instance=ExtResource("4_7sklr")]
 position = Vector2(1848, -8)
 scale = Vector2(1, 5)
 size = Vector2(16, 16)
@@ -229,53 +229,53 @@ force_visible = true
 layer = "b"
 grounded_only = true
 
-[node name="LayerSwitcher18" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher18" parent="." unique_id=1473782886 instance=ExtResource("4_7sklr")]
 position = Vector2(1880, -8)
 scale = Vector2(1, 5)
 size = Vector2(16, 16)
 force_visible = true
 grounded_only = true
 
-[node name="LayerSwitcher5" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher5" parent="." unique_id=969955583 instance=ExtResource("4_7sklr")]
 position = Vector2(1136, 400)
 scale = Vector2(2, 6)
 size = Vector2(16, 16)
 force_visible = true
 
-[node name="LayerSwitcher11" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher11" parent="." unique_id=946031973 instance=ExtResource("4_7sklr")]
 position = Vector2(1376, 200)
 scale = Vector2(2, 15)
 size = Vector2(16, 16)
 force_visible = true
 
-[node name="LayerSwitcher6" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher6" parent="." unique_id=1980758175 instance=ExtResource("4_7sklr")]
 position = Vector2(1328, 408)
 scale = Vector2(2, 5)
 size = Vector2(16, 16)
 force_visible = true
 layer = "b"
 
-[node name="LayerSwitcher12" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher12" parent="." unique_id=1791336493 instance=ExtResource("4_7sklr")]
 position = Vector2(1072, 200)
 scale = Vector2(2, 15)
 size = Vector2(16, 16)
 force_visible = true
 layer = "b"
 
-[node name="LayerSwitcher13" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher13" parent="." unique_id=1276281821 instance=ExtResource("4_7sklr")]
 position = Vector2(1160, 96)
 scale = Vector2(9, 2)
 size = Vector2(16, 16)
 force_visible = true
 layer = "b"
 
-[node name="LayerSwitcher14" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher14" parent="." unique_id=331269560 instance=ExtResource("4_7sklr")]
 position = Vector2(1296, 96)
 scale = Vector2(8, 2)
 size = Vector2(16, 16)
 force_visible = true
 
-[node name="LayerSwitcher9" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher9" parent="." unique_id=1441474779 instance=ExtResource("4_7sklr")]
 position = Vector2(1236, 228)
 scale = Vector2(0.5, 3)
 size = Vector2(16, 16)
@@ -283,21 +283,21 @@ force_visible = true
 layer = "b"
 grounded_only = true
 
-[node name="LayerSwitcher10" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher10" parent="." unique_id=46537502 instance=ExtResource("4_7sklr")]
 position = Vector2(1228, 228)
 scale = Vector2(0.5, 3)
 size = Vector2(16, 16)
 force_visible = true
 grounded_only = true
 
-[node name="LayerSwitcher19" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher19" parent="." unique_id=796591958 instance=ExtResource("4_7sklr")]
 position = Vector2(1236, 180)
 scale = Vector2(0.5, 1.5)
 size = Vector2(16, 16)
 force_visible = true
 layer = "b"
 
-[node name="LayerSwitcher20" parent="." instance=ExtResource("4_7sklr")]
+[node name="LayerSwitcher20" parent="." unique_id=2017515828 instance=ExtResource("4_7sklr")]
 position = Vector2(1228, 180)
 scale = Vector2(0.5, 1.5)
 size = Vector2(16, 16)

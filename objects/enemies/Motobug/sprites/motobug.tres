@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://b7lsms7gobydo"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://b7lsms7gobydo"]
 
 [ext_resource type="Texture2D" uid="uid://cg832ob03jjp" path="res://objects/enemies/Motobug/sprites/motobug1.png" id="1_se5va"]
 [ext_resource type="Texture2D" uid="uid://xu0xru6q70ie" path="res://objects/enemies/Motobug/sprites/motobug2.png" id="2_q4vna"]

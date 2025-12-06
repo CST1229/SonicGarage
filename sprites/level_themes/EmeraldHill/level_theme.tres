@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelTheme" load_steps=8 format=3 uid="uid://cm6e6q6opijbs"]
+[gd_resource type="Resource" script_class="LevelTheme" format=3 uid="uid://cm6e6q6opijbs"]
 
 [ext_resource type="Script" uid="uid://clpjvskrgnvef" path="res://scripts/LevelDrawing/Decor.gd" id="1_33ohd"]
 [ext_resource type="Texture2D" uid="uid://b2qd22g3xq6r1" path="res://sprites/level_themes/EmeraldHill/grass_edge.png" id="2_6xxb0"]

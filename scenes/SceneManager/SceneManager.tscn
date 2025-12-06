@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1m2cm6yym2j5"]
+[gd_scene format=3 uid="uid://c1m2cm6yym2j5"]
 
 [ext_resource type="Script" uid="uid://bv45d2b6kcqjl" path="res://scenes/SceneManager/SceneManager.gd" id="1_dj5xw"]
 [ext_resource type="FontFile" uid="uid://btxnitovb46ch" path="res://sprites/fonts/tiny_font.png" id="2_412p3"]

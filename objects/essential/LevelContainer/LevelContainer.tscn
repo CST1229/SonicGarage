@@ -1,14 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgbhgjr0rutts"]
+[gd_scene format=3 uid="uid://cgbhgjr0rutts"]
 
 [ext_resource type="Script" uid="uid://dkvobbetxm64j" path="res://objects/essential/LevelContainer/LevelContainer.gd" id="1_13lej"]
 
-[node name="LevelContainer" type="Node2D"]
+[node name="LevelContainer" type="Node2D" unique_id=744718311]
 script = ExtResource("1_13lej")
 
-[node name="BackgroundColor" type="CanvasLayer" parent="."]
+[node name="BackgroundColor" type="CanvasLayer" parent="." unique_id=264460586]
 layer = -2
 
-[node name="BGColor" type="ColorRect" parent="BackgroundColor"]
+[node name="BGColor" type="ColorRect" parent="BackgroundColor" unique_id=587920759]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -21,11 +21,11 @@ size_flags_vertical = 3
 mouse_filter = 2
 color = Color(0.188235, 0.376471, 0.815686, 1)
 
-[node name="Background" type="CanvasLayer" parent="."]
+[node name="Background" type="CanvasLayer" parent="." unique_id=1237309038]
 layer = -1
 follow_viewport_enabled = true
 
-[node name="BackgroundContainer" type="Control" parent="Background"]
+[node name="BackgroundContainer" type="Control" parent="Background" unique_id=1214205415]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,9 +34,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="polygons" type="Node2D" parent="."]
+[node name="polygons" type="Node2D" parent="." unique_id=1819042547]
 
-[node name="objects" type="Node2D" parent="."]
+[node name="objects" type="Node2D" parent="." unique_id=1344292079]
 
-[node name="players" type="Node2D" parent="."]
+[node name="players" type="Node2D" parent="." unique_id=632601734]
 position = Vector2(0, 6)

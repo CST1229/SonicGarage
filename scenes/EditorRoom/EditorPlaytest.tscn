@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://l070ypfkipnj"]
+[gd_scene format=3 uid="uid://l070ypfkipnj"]
 
 [ext_resource type="PackedScene" uid="uid://buap2erp6f7bf" path="res://scenes/CustomLevel/CustomLevel.tscn" id="1_mse4f"]
 
-[node name="CustomLevel" instance=ExtResource("1_mse4f")]
+[node name="CustomLevel" unique_id=1041436105 instance=ExtResource("1_mse4f")]
 playtest_room = "res://scenes/EditorRoom/EditorRoom.tscn"

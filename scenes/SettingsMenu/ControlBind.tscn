@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvmqcpflnh551"]
+[gd_scene format=3 uid="uid://cvmqcpflnh551"]
 
 [ext_resource type="Script" uid="uid://cqvkiark0mcng" path="res://scenes/SettingsMenu/ControlBind.gd" id="1_hlbix"]
 

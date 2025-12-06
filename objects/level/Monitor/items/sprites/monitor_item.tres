@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://daws4vpbx1dlo"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://daws4vpbx1dlo"]
 
 [ext_resource type="Texture2D" uid="uid://bef27pbqcl8yn" path="res://objects/level/Monitor/items/sprites/eggman.png" id="1_jkftv"]
 [ext_resource type="Texture2D" uid="uid://c54oybbhtabmi" path="res://objects/level/Monitor/items/sprites/static1.png" id="2_vftme"]

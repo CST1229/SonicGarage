@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dwyp3iksn6d1t"]
+[gd_scene format=3 uid="uid://dwyp3iksn6d1t"]
 
 [ext_resource type="Script" uid="uid://d1rupueur7d2y" path="res://objects/enemies/Motobug/Motobug.gd" id="1_drjwk"]
 [ext_resource type="SpriteFrames" uid="uid://b7lsms7gobydo" path="res://objects/enemies/Motobug/sprites/motobug.tres" id="2_n7703"]
@@ -11,7 +11,7 @@ size = Vector2(20, 28)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l4kdt"]
 size = Vector2(40, 29)
 
-[node name="Motobug" type="CharacterBody2D"]
+[node name="Motobug" type="CharacterBody2D" unique_id=1021900665]
 collision_layer = 128
 collision_mask = 67
 floor_constant_speed = true
@@ -19,34 +19,34 @@ floor_max_angle = 1.0472
 floor_snap_length = 8.0
 script = ExtResource("1_drjwk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1629696710]
 shape = SubResource("RectangleShape2D_ekxf3")
 
-[node name="visuals" type="Node2D" parent="."]
+[node name="visuals" type="Node2D" parent="." unique_id=1294628636]
 
-[node name="sprite" type="AnimatedSprite2D" parent="visuals"]
+[node name="sprite" type="AnimatedSprite2D" parent="visuals" unique_id=1129664371]
 sprite_frames = ExtResource("2_n7703")
 frame_progress = 0.403392
 
-[node name="smoke_sprite" type="AnimatedSprite2D" parent="visuals"]
+[node name="smoke_sprite" type="AnimatedSprite2D" parent="visuals" unique_id=216844439]
 visible = false
 position = Vector2(-24, 0)
 sprite_frames = ExtResource("2_n7703")
 animation = &"smoke"
 frame_progress = 0.0888012
 
-[node name="hitbox" type="Area2D" parent="."]
+[node name="hitbox" type="Area2D" parent="." unique_id=1788361591]
 collision_layer = 4
 collision_mask = 16
 script = ExtResource("3_im2wx")
 check_areas = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=1290541460]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_l4kdt")
 debug_color = Color(0.984314, 0, 0.356863, 0.419608)
 
-[node name="EditorObjectBounds" parent="." instance=ExtResource("3_25e30")]
+[node name="EditorObjectBounds" parent="." unique_id=521004124 instance=ExtResource("3_25e30")]
 position = Vector2(0, -1)
 size = Vector2(40, 29)
 
