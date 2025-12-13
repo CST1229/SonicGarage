@@ -137,7 +137,11 @@ func do_settings(opt: Callable) -> void:
 func _ready():
 	first_time = true;
 	serialize_binds(default_keybinds);
-	load_settings();
+	if !load_settings():
+		# default settings
+		do_settings(func(val: Variant, _key: StringName) -> Variant:
+			return val;
+		);
 
 func _input(ev: InputEvent) -> void:
 	if false && ev.is_action_pressed("setting_detail"):
@@ -150,14 +154,14 @@ func _input(ev: InputEvent) -> void:
 		hd = !hd;
 
 
-func load_settings() -> void:
+func load_settings() -> bool:
 	var global_settings_path = ProjectSettings.globalize_path(SETTINGS_PATH);
 	
 	var settings_text := FileAccess.get_file_as_string(SETTINGS_PATH);
 	if FileAccess.get_open_error() != OK:
 		if FileAccess.get_open_error() != ERR_FILE_NOT_FOUND:
 			OS.alert("Could not open {0} file. Settings have been reset and will be overwritten next time they are modified.".format([global_settings_path]), "Error loading settings");
-		return;
+		return false;
 	var parser := JSON.new();
 	var err := parser.parse(settings_text);
 	if err != OK && settings_text != "":
@@ -165,10 +169,10 @@ func load_settings() -> void:
 			"Could not parse {2} file: {0}\nat line {1}\nSettings have been reset and will be overwritten next time they are modified.".format([parser.get_error_message(), parser.get_error_line(), global_settings_path]),
 			"Error loading settings"
 		);
-		return;
+		return false;
 	if parser.data is not Dictionary:
 		OS.alert("{0} file is not a dictionary.\nSettings have been reset and will be overwritten next time they are modified.".format([global_settings_path]), "Error loading settings");
-		return;
+		return false;
 	
 	@warning_ignore("unsafe_cast")
 	var json = parser.data as Dictionary;
@@ -176,6 +180,7 @@ func load_settings() -> void:
 	do_settings(func(val: Variant, key: StringName) -> Variant:
 		return deep_get(json, key, val);
 	);
+	return true;
 
 func handle_upgrades(json: Dictionary) -> void:
 	var version = json.get("settings_version", null);
