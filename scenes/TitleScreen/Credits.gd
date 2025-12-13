@@ -4,7 +4,7 @@ func _ready() -> void:
 	super();
 	text = text.replace("[music_credits]", get_music_credits());
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if is_visible_in_tree():
 		get_v_scroll_bar().value += Input.get_axis("ui_up", "ui_down") * delta * 200.0;
 

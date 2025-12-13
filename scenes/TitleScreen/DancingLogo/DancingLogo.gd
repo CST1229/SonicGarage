@@ -46,7 +46,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if recording:
-		if Input.is_action_just_pressed(&"editor_cancel") || Input.is_action_just_pressed(&"editor_quit") || Input.is_action_just_pressed(&"ui_cancel"):
+		if Input.is_action_just_pressed(&"editor_cancel") || Input.is_action_just_pressed(&"pause") || Input.is_action_just_pressed(&"ui_cancel"):
 			_on_click_logo();
 		elif Music.position >= SONG_BEGIN:
 			if !recording_begun:

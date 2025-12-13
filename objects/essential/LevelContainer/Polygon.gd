@@ -90,7 +90,10 @@ func _draw() -> void:
 	
 	# draw vertices
 	for vert in vertices:
-		EditorLib.draw_vert(self, vert.position, 1.0, vert.selected);
+		if container.editor && EditorLib.tool_has_big_verts(container.editor.tool):
+			EditorLib.draw_vert(self, vert.position, 1.0, 4.0 if !vert.selected else 6.0);
+		else:
+			EditorLib.draw_vert(self, vert.position, 1.0, 2.0);
 
 ## re-computes the polygon's vertices
 ## (updating its collision and graphics)

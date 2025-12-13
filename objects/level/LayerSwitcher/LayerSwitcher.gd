@@ -1,5 +1,6 @@
 ## Switches the player between layers.
 ## Most of the code is editor-related stuff.
+@tool
 extends Node2D
 
 @onready var area: Area2D = $area;
@@ -46,7 +47,7 @@ func get_color() -> Color:
 	return c;
 
 func _draw():
-	if Engine.is_editor_hint() || (!force_visible && (!container || !container.editor_mode)): return;
+	if !Engine.is_editor_hint() && (!force_visible && (!container || !container.editor_mode)): return;
 	var color := get_color();
 	var transparent_color := Color(color.r, color.g, color.b, 0.25);
 	var rect := Rect2(-size / 2.0, size).grow(-0.5);
@@ -59,6 +60,8 @@ func _ready():
 		scale = Vector2.ONE;
 	area.area_entered.connect(_on_enter);
 	area.body_entered.connect(_on_enter);
+	if !Engine.is_editor_hint():
+		$HandleContainer.visible = true;
 	set_size();
 	update_icons();
 

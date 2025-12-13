@@ -56,6 +56,7 @@ var editor_object_list: Array[String] = [
 var object_paths_to_id: Dictionary[String, String] = {};
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS;
 	update_object_paths_to_id();
 
 func update_object_paths_to_id() -> void:
@@ -101,11 +102,15 @@ static var CALLABLE_IDENTITY = func(value: Variant) -> Variant:
 func binding(source: Object, source_property: StringName, source_changed: Signal, target: Object, target_property: StringName, target_changed: Signal, map_source_to_target: Callable = CALLABLE_IDENTITY, map_target_to_source: Callable = CALLABLE_IDENTITY):
 	target.set(target_property, map_source_to_target.call(source.get(source_property)));
 	ConnectionLink.add_and_connect(source, source_changed, func(value: Variant):
+		if !target || !source:
+			return;
 		var mapped_value = map_source_to_target.call(value);
 		if mapped_value != target.get(target_property):
 			target.set(target_property, mapped_value);
 	, target);
 	ConnectionLink.add_and_connect(target, target_changed, func(value: Variant):
+		if !target || !source:
+			return;
 		var mapped_value = map_target_to_source.call(value);
 		if mapped_value != source.get(source_property):
 			source.set(source_property, mapped_value);
@@ -117,11 +122,15 @@ func wildcard_binding(source: Node, source_property: StringName, source_changed:
 	ConnectionLink.add_and_connect(source, source_changed, func(prop: StringName):
 		if prop != source_property:
 			return;
+		if !target || !source:
+			return;
 		var new_value = map_source_to_target.call(source.get(source_property));
 		if new_value != target.get(target_property):
 			target.set(target_property, new_value);
 	, target);
 	ConnectionLink.add_and_connect(target, target_changed, func(value: Variant):
+		if !target || !source:
+			return;
 		var mapped_value = map_target_to_source.call(value);
 		if mapped_value != source.get(source_property):
 			source.set(source_property, mapped_value);

@@ -5,7 +5,7 @@
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vrlf6"]
 blend_mode = 2
 
-[node name="Container" type="Control" unique_id=785105724 node_paths=PackedStringArray("fade_rect", "tint_rect")]
+[node name="Fade" type="Control" unique_id=785105724]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,10 +13,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vrlf6")
-fade_rect = NodePath("FadeRect")
-tint_rect = NodePath("TintRect")
 
 [node name="TintRect" type="ColorRect" parent="." unique_id=1871404904]
+modulate = Color(1, 1, 1, 0)
 material = SubResource("CanvasItemMaterial_vrlf6")
 layout_mode = 1
 anchors_preset = 15
@@ -24,9 +23,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+color = Color(1, 1, 0, 1)
 
 [node name="FadeRect" type="ColorRect" parent="." unique_id=1446800782]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,3 +34,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="Button" type="Button" parent="." unique_id=1850020303]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+flat = true
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

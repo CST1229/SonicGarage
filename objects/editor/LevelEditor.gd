@@ -82,7 +82,13 @@ const VERT_SNAP: float = 10 ** 2;
 ## The currently selected tool.
 var mode: Mode = Mode.TERRAIN;
 ## The currently selected tool.
-var tool: Tool = Tool.VERT_SELECT;
+var tool: Tool = Tool.VERT_SELECT:
+	set(value):
+		var old_big_verts := EditorLib.tool_has_big_verts(tool);
+		tool = value;
+		var big_verts := EditorLib.tool_has_big_verts(tool);
+		if old_big_verts != big_verts:
+			get_tree().call_group(&"polygons", &"redraw");
 
 ## The grid-snapped position of the mouse.
 var mouse_pos: Vector2 = Vector2.ZERO;

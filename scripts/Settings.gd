@@ -6,6 +6,8 @@ var settings_dict: Dictionary = {};
 
 var first_time := false;
 
+var settings_version: int = 1;
+
 var terrain_detail: int = 2:
 	set(value):
 		if !first_time && terrain_detail == value:
@@ -105,7 +107,7 @@ var show_fps := false:
 		if !first_time && show_fps == value:
 			return;
 		show_fps = value;
-		changed.emit(&"hd");
+		changed.emit(&"show_fps");
 
 var keybinds: Dictionary[StringName, Array] = {};
 var default_keybinds: Dictionary[StringName, Array] = {};
@@ -115,6 +117,8 @@ var default_keybinds: Dictionary[StringName, Array] = {};
 func do_settings(opt: Callable) -> void:
 	var save_verbatim := func(variable: StringName) -> void:
 		set(variable, opt.call(get(variable), variable));
+	
+	opt.call(settings_version, &"settings_version");
 	save_verbatim.call(&"fullscreen");
 	save_verbatim.call(&"vsync");
 	save_verbatim.call(&"max_fps");
@@ -168,9 +172,23 @@ func load_settings() -> void:
 	
 	@warning_ignore("unsafe_cast")
 	var json = parser.data as Dictionary;
+	handle_upgrades(json);
 	do_settings(func(val: Variant, key: StringName) -> Variant:
 		return deep_get(json, key, val);
 	);
+
+func handle_upgrades(json: Dictionary) -> void:
+	var version = json.get("settings_version", null);
+	if version is not int and version is not float:
+		version = 0;
+	
+	match version:
+		# v1: editor_quit renamed to pause
+		0:
+			if json.has("keybinds") && json.keybinds.has("editor_quit"):
+				json.keybinds.pause = json.keybinds.editor_quit;
+				json.keybinds.erase("editor_quit");
+			
 
 func save_settings() -> void:
 	do_settings(func(val: Variant, key: StringName) -> Variant:
@@ -206,7 +224,7 @@ func deep_get(dict: Dictionary, key: String, default_value: Variant):
 
 # i took most of this keybind serialization code from multibranches lol
 var BINDABLE_KEYS: Array[StringName] = InputMap.get_actions().filter(func(action_name: StringName):
-	return action_name.begins_with("player_") || action_name.begins_with("editor_");
+	return action_name.begins_with("player_") || action_name.begins_with("editor_") || action_name.begins_with("pause");
 ) as Array[StringName];
 
 func serialize_binds(binds: Dictionary[StringName, Array]) -> Dictionary[StringName, Array]:

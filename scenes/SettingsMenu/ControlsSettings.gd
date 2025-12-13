@@ -17,6 +17,7 @@ func _ready() -> void:
 	add_control("Move Right", &"player_right");
 	add_control("Jump", &"player_jump");
 	add_control("Crouch/Roll", &"player_down");
+	add_control("Pause", &"pause");
 	
 	add_controls_heading("Editor");
 	add_control("Scroll Up", &"editor_scroll_up");
@@ -35,10 +36,7 @@ func _ready() -> void:
 	add_control("Cancel Drawing", &"editor_cancel");
 	add_control("Delete", &"editor_delete");
 	add_control("Multiselect", &"editor_multiselect");
-	
-	add_controls_heading("Misc");
-	add_control("Toggle Playtest", &"editor_playtest");
-	add_control("Exit Editor/Level/Menu", &"editor_quit");
+	add_control("Playtest", &"editor_playtest");
 
 func add_controls_heading(text: String) -> void:
 	var heading := Label.new();
@@ -53,7 +51,7 @@ func add_control(text: String, action: StringName) -> void:
 	title.text = text;
 	title.theme_type_variation = &"SmallLabel";
 	title.size_flags_vertical = Control.SIZE_SHRINK_BEGIN;
-	title.custom_minimum_size.x = 80;
+	title.custom_minimum_size.x = 64;
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART;
 	add_child(title);
 	var bind := BIND_SCENE.instantiate();
@@ -103,6 +101,7 @@ func update_interbutton_focus() -> void:
 			last_button.focus_neighbor_right = node.add_binds_button.get_path();
 			node.add_binds_button.focus_neighbor_left = last_button.get_path();
 		last_button = node.last_button_added;
+	last_button.focus_neighbor_right = ^".";
 
 func reset_binds():
 	reset_all_binds.emit();

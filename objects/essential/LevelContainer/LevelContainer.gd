@@ -7,12 +7,13 @@
 extends Node
 class_name LevelContainer
 
-@export var editor_mode: bool = false;
+@export var editor_mode := false;
 @export var editor: LevelEditor = null;
 @export var music: String = "green_hill_zone";
 @export var theme: LevelTheme = null;
+@export var show_background := true;
 
-@export var dirty: bool = true;
+var dirty: bool = true;
 
 @onready var bg_color: ColorRect = $BackgroundColor/BGColor
 @onready var background_container: Control = $Background/BackgroundContainer
@@ -30,6 +31,8 @@ func _ready():
 		objects.process_mode = Node.PROCESS_MODE_DISABLED;
 		background_container.modulate.a8 = 68;
 		bg_color.modulate = background_container.modulate;
+	bg_color.visible = show_background;
+	background_container.visible = show_background;
 
 func deserialize(level: Dictionary) -> String:
 	if !(level is Dictionary):
@@ -105,7 +108,6 @@ func serialize() -> Dictionary:
 	for poly in polygons.get_children():
 		var verts_arr: Array[Dictionary] = [];
 		for vert in poly.vertices:
-			# TODO: "compress" vertices by storing positions relative to the polygon? maybe?
 			verts_arr.append({
 				x = vert.global_position.x,
 				y = vert.global_position.y,

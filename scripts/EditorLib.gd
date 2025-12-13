@@ -31,11 +31,13 @@ const VERT_COLOR = Color("#639bff");
 const VERT_OUTLINE_COLOR = Color("ffffff");
 
 ## Draws a vertex at a certain position.
-func draw_vert(to: CanvasItem, pos: Vector2, alpha: float = 1, selected: bool = false):
+func draw_vert(to: CanvasItem, pos: Vector2, alpha: float = 1, radius: float = 4.0):
 	var blend := Color(1, 1, 1, alpha);
-	var radius := 4.0 if !selected else 6.0;
 	to.draw_circle(pos, radius + 1, VERT_OUTLINE_COLOR * blend);
 	to.draw_circle(pos, radius, VERT_COLOR * blend);
+
+func tool_has_big_verts(tool: LevelEditor.Tool) -> bool:
+	return tool == LevelEditor.Tool.VERT_SELECT || tool == LevelEditor.Tool.LINE;
 
 ## Saves a level to a path and affects level_path. Returns an Error.
 func save_level(dict: Dictionary, path: String) -> Error:

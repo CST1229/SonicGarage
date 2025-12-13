@@ -5,6 +5,8 @@ class_name EditorUI
 ## The [LevelEditor] to control.
 @export var editor: LevelEditor;
 
+@onready var pause_menu: PauseMenu = $PauseMenu;
+
 @onready var terrain_tools: Control = %TerrainTools;
 @onready var polygon_actions: HBoxContainer = %PolygonActions
 @onready var vertex_actions: HBoxContainer = %VertexActions
@@ -177,47 +179,6 @@ func selection_changed() -> void:
 func objects_flap_pressed() -> void:
 	objects_flap_open = !objects_flap_open;
 
-func menu_pressed(id: int) -> void:
-	match id:
-		0: # Save Level
-			if LevelUtil.level_path == "":
-				menu_pressed(4);
-			else:
-				LevelUtil.load_level = editor.container.serialize();
-				EditorLib.save_level(LevelUtil.load_level, LevelUtil.level_path);
-		4: # Save As
-			DisplayServer.file_dialog_show(
-				"Save Level", "",
-				"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
-				PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
-				func(status: bool, selected_paths: PackedStringArray, selected_filter_index: int):
-					if !status: return;
-					if selected_paths.size() < 1: return;
-					var path := selected_paths[0];
-					if selected_filter_index == 0:
-						# Add file extension
-						if !(path.to_lower().ends_with(".sgl")):
-							path += ".sgl";
-					LevelUtil.load_level = editor.container.serialize();
-					EditorLib.save_level(LevelUtil.load_level, path);
-			);
-		1: # Load Level
-			DisplayServer.file_dialog_show(
-				"Load Level", "",
-				"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
-				PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
-				func(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
-					if !status: return;
-					if selected_paths.size() < 1: return;
-					EditorLib.load_level(true, selected_paths[0], false);
-			);
-		2: # Clear Level
-			LevelUtil.load_level = LevelContainer.empty_level();
-			Fades.reload_current_scene();
-		3: # Exit
-			LevelUtil.load_level = editor.container.serialize();
-			Fades.fade_to_scene("res://scenes/TitleScreen/TitleScreen.tscn");
-
 func poly_layer_button_pressed() -> void:
 	editor.poly_layer_button();
 	selection_changed();
@@ -232,3 +193,53 @@ func line_edge_button_pressed() -> void:
 signal hover_over_gui;
 ## Fired when dehovering from any GUI element.
 signal dehover_over_gui;
+
+
+func _on_pause_menu_playtest_pressed(menu: PauseMenu) -> void:
+	get_parent().get_parent().playtest();
+	menu.active = false;
+
+func _on_pause_menu_load_pressed(menu: PauseMenu) -> void:
+	DisplayServer.file_dialog_show(
+		"Load Level", "",
+		"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
+		PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
+		func(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+			if !status: return;
+			if selected_paths.size() < 1: return;
+			if !menu: return;
+			menu.active = false;
+			EditorLib.load_level(true, selected_paths[0], false);
+	);
+
+func _on_pause_menu_save_as_pressed(menu: PauseMenu) -> void:
+	DisplayServer.file_dialog_show(
+		"Save Level", "",
+		"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
+		PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
+		func(status: bool, selected_paths: PackedStringArray, selected_filter_index: int):
+			if !status: return;
+			if selected_paths.size() < 1: return;
+			var path := selected_paths[0];
+			if selected_filter_index == 0:
+				# Add file extension
+				if !(path.to_lower().ends_with(".sgl")):
+					path += ".sgl";
+			LevelUtil.load_level = editor.container.serialize();
+			EditorLib.save_level(LevelUtil.load_level, path);
+	);
+	menu.go_back();
+
+func _on_pause_menu_save_pressed(menu: PauseMenu) -> void:
+	if LevelUtil.level_path == "":
+		_on_pause_menu_save_as_pressed(menu);
+	else:
+		LevelUtil.load_level = editor.container.serialize();
+		EditorLib.save_level(LevelUtil.load_level, LevelUtil.level_path);
+		menu.go_back();
+
+func _on_pause_menu_quit_pressed(_menu: PauseMenu) -> void:
+	LevelUtil.load_level = editor.container.serialize();
+
+func _on_menu_button_pressed() -> void:
+	pause_menu.active = true;

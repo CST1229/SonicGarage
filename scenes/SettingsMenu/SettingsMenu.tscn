@@ -61,7 +61,7 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = 29.0
 grow_horizontal = 0
-focus_neighbor_left = NodePath("../HMargin/ScrollContainer/VMargin/SettingsList/OpenFolderButton")
+focus_neighbor_left = NodePath(".")
 theme = ExtResource("1_nwtdr")
 text = "Back"
 

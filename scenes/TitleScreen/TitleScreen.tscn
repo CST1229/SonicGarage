@@ -6,9 +6,17 @@
 [ext_resource type="Script" uid="uid://hwpdc2sgmx0f" path="res://scenes/TitleScreen/DancingLogo/DancingLogo.gd" id="3_u37po"]
 [ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/fonts/Habbo.ttf" id="4_1tjes"]
 [ext_resource type="FontFile" uid="uid://btxnitovb46ch" path="res://sprites/fonts/tiny_font.png" id="5_c6vk0"]
+[ext_resource type="Texture2D" uid="uid://ctif33ftuqoyh" path="res://sprites/icons/ui_large/load.png" id="6_d3vlm"]
 [ext_resource type="FontFile" uid="uid://bwoa021kuhdit" path="res://sprites/fonts/ui_font.png" id="6_u37po"]
+[ext_resource type="Texture2D" uid="uid://cp828etufek6c" path="res://sprites/icons/ui_large/editor.png" id="7_60dgc"]
 [ext_resource type="Script" uid="uid://duy18kavhs3co" path="res://scenes/TitleScreen/Credits.gd" id="7_u37po"]
+[ext_resource type="Texture2D" uid="uid://c3ccfkg0gyyim" path="res://sprites/icons/ui_large/play.png" id="8_1q6pa"]
 [ext_resource type="PackedScene" uid="uid://rjjanteyns7o" path="res://scenes/SettingsMenu/SettingsMenu.tscn" id="8_u37po"]
+[ext_resource type="Texture2D" uid="uid://bbp2kqquqya8g" path="res://sprites/icons/ui_large/settings.png" id="9_061xr"]
+[ext_resource type="Texture2D" uid="uid://cb64fvpljqd71" path="res://sprites/icons/ui_large/credits.png" id="10_d3vlm"]
+[ext_resource type="Texture2D" uid="uid://spscc07c06pv" path="res://sprites/icons/ui_large/exit.png" id="11_1xuge"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c6vk0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u37po"]
 font = ExtResource("6_u37po")
@@ -53,6 +61,7 @@ offset_right = 140.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_c6vk0")
 current_tab = 0
 tabs_visible = false
 
@@ -100,17 +109,14 @@ texture_normal = ExtResource("3_pj35e")
 
 [node name="Version" type="Label" parent="CanvasLayer/Tabs/Menu" unique_id=1207156389]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -47.0
-offset_top = -20.0
-offset_right = -5.0
-offset_bottom = -5.0
+offset_left = -45.0
+offset_top = 5.0
+offset_right = -3.0
+offset_bottom = 20.0
 grow_horizontal = 0
-grow_vertical = 0
 text = "vVVVVV"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -136,9 +142,9 @@ anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -80.0
+offset_left = -100.0
 offset_top = 72.0
-offset_right = 80.0
+offset_right = 100.0
 offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -149,18 +155,21 @@ custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme = ExtResource("2_trggm")
 text = "Levels"
+icon = ExtResource("6_d3vlm")
 
 [node name="EditorButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer" unique_id=1289735242]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme = ExtResource("2_trggm")
 text = "Editor"
+icon = ExtResource("7_60dgc")
 
 [node name="PlayButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer" unique_id=1635217728]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme = ExtResource("2_trggm")
 text = "Play Level"
+icon = ExtResource("8_1q6pa")
 
 [node name="SettingsButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer" unique_id=1248475790]
 custom_minimum_size = Vector2(0, 24)
@@ -168,6 +177,7 @@ layout_mode = 2
 size_flags_vertical = 10
 theme = ExtResource("2_trggm")
 text = "Settings"
+icon = ExtResource("9_061xr")
 
 [node name="GridContainer" type="HBoxContainer" parent="CanvasLayer/Tabs/Menu/VBoxContainer" unique_id=2000809944]
 layout_mode = 2
@@ -179,6 +189,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_trggm")
 text = "Credits"
+icon = ExtResource("10_d3vlm")
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer/GridContainer" unique_id=1142455218]
 custom_minimum_size = Vector2(0, 24)
@@ -186,6 +197,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_trggm")
 text = "Quit"
+icon = ExtResource("11_1xuge")
 
 [node name="Credits" type="Panel" parent="CanvasLayer/Tabs" unique_id=18110356]
 visible = false

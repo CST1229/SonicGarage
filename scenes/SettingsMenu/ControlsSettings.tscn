@@ -17,7 +17,7 @@ script = ExtResource("1_2uxs1")
 
 [node name="BindWindow" type="CanvasLayer" parent="." unique_id=359359564]
 process_mode = 3
-layer = 5
+layer = 501
 visible = false
 
 [node name="Fade" parent="BindWindow" unique_id=1841523853 instance=ExtResource("2_wtmpj")]

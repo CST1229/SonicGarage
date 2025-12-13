@@ -27,7 +27,7 @@ const INVALID_FILENAME_CHARS = ['"', "\\", "/", ":", "*", "?", "<", ">", "|"]
 
 func _ready():
 	focused_item_stylebox.content_margin_left = 4;
-	Music.play(preload("res://music/s3db_menu.mp3"));
+	Music.play(preload("res://music/s3db_menu.ogg"));
 	DirAccess.make_dir_recursive_absolute(current_dir);
 	current_dir = LevelUtil.FOLDER;
 	if LevelUtil.level_path.begins_with(LevelUtil.FOLDER):

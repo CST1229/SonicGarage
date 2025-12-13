@@ -1,0 +1,191 @@
+[gd_scene format=3 uid="uid://c85hgbcxnf88t"]
+
+[ext_resource type="Script" uid="uid://qsnbvc50aewk" path="res://objects/ui/PauseMenu/PauseMenu.gd" id="1_qdx50"]
+[ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="2_nte4g"]
+[ext_resource type="PackedScene" uid="uid://l73uwkha7tgl" path="res://objects/ui/Fade/Fade.tscn" id="2_ykr4q"]
+[ext_resource type="Texture2D" uid="uid://c3ccfkg0gyyim" path="res://sprites/icons/ui_large/play.png" id="3_ymwk8"]
+[ext_resource type="Texture2D" uid="uid://cf4tt5s1hkg26" path="res://sprites/icons/ui_large/restart.png" id="4_cjk5f"]
+[ext_resource type="Texture2D" uid="uid://bwy1ufqqtw5hq" path="res://sprites/icons/ui_large/playtest.png" id="4_t8wvw"]
+[ext_resource type="Texture2D" uid="uid://cp828etufek6c" path="res://sprites/icons/ui_large/editor.png" id="5_w7ukg"]
+[ext_resource type="Texture2D" uid="uid://bd2gkif4rke0e" path="res://sprites/icons/ui_large/save.png" id="5_yychb"]
+[ext_resource type="Texture2D" uid="uid://bbp2kqquqya8g" path="res://sprites/icons/ui_large/settings.png" id="6_d7nbf"]
+[ext_resource type="Texture2D" uid="uid://ttf4mgs731hf" path="res://sprites/icons/ui_large/62757869.png" id="6_t8wvw"]
+[ext_resource type="Texture2D" uid="uid://y82g7v7jnrbw" path="res://sprites/icons/ui_large/levelsettings.png" id="7_diiiv"]
+[ext_resource type="Texture2D" uid="uid://ctif33ftuqoyh" path="res://sprites/icons/ui_large/load.png" id="9_2pk04"]
+[ext_resource type="Texture2D" uid="uid://spscc07c06pv" path="res://sprites/icons/ui_large/exit.png" id="10_2pk04"]
+[ext_resource type="PackedScene" uid="uid://rjjanteyns7o" path="res://scenes/SettingsMenu/SettingsMenu.tscn" id="12_diiiv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_diiiv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_diiiv"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.0509804, 0.380392, 0.243137, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
+anti_aliasing = false
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=1265953789]
+process_mode = 3
+layer = 500
+script = ExtResource("1_qdx50")
+
+[node name="Fade" parent="." unique_id=785105724 instance=ExtResource("2_ykr4q")]
+fade = 0.25
+
+[node name="TabContainer" type="TabContainer" parent="." unique_id=1542978509]
+custom_minimum_size = Vector2(280, 0)
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_diiiv")
+current_tab = 0
+tabs_visible = false
+
+[node name="Pause" type="MarginContainer" parent="TabContainer" unique_id=974268921]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+metadata/_tab_index = 0
+
+[node name="Pause" type="Panel" parent="TabContainer/Pause" unique_id=712488822]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_nte4g")
+theme_override_styles/panel = SubResource("StyleBoxFlat_diiiv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Pause/Pause" unique_id=760984879]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -233.0
+offset_right = 100.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="PausedLabel" type="Label" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=1130366929 groups=["level"]]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="Resume" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=972043367 groups=["editor", "level"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Quit")
+theme = ExtResource("2_nte4g")
+text = "Resume"
+icon = ExtResource("3_ymwk8")
+
+[node name="Playtest" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=1723832384 groups=["editor"]]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+theme = ExtResource("2_nte4g")
+text = "Play Level"
+icon = ExtResource("4_t8wvw")
+
+[node name="Restart" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=361219138 groups=["level"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+theme = ExtResource("2_nte4g")
+text = "Restart Level"
+icon = ExtResource("4_cjk5f")
+
+[node name="Editor" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=2034302997 groups=["level"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+theme = ExtResource("2_nte4g")
+text = "Return to Editor"
+icon = ExtResource("5_w7ukg")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=854751779 groups=["editor"]]
+visible = false
+layout_mode = 2
+
+[node name="Save" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer/HBoxContainer" unique_id=302899651]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_nte4g")
+text = "Save Level"
+icon = ExtResource("5_yychb")
+
+[node name="SaveAs" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer/HBoxContainer" unique_id=1016104271]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("2_nte4g")
+theme_override_constants/h_separation = 2
+text = "As..."
+icon = ExtResource("6_t8wvw")
+
+[node name="Load" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=135778738 groups=["editor"]]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_nte4g")
+text = "Load Level"
+icon = ExtResource("9_2pk04")
+
+[node name="LevelProperties" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=792031455 groups=["editor"]]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+theme = ExtResource("2_nte4g")
+disabled = true
+text = "Level Properties... (WIP)"
+icon = ExtResource("7_diiiv")
+
+[node name="Settings" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=995931731 groups=["editor", "level"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_vertical = 10
+theme = ExtResource("2_nte4g")
+text = "Settings...
+"
+icon = ExtResource("6_d7nbf")
+
+[node name="Quit" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=280324250 groups=["editor", "level"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_vertical = 8
+focus_neighbor_bottom = NodePath("../Resume")
+theme = ExtResource("2_nte4g")
+text = "Quit to Title
+"
+icon = ExtResource("10_2pk04")
+
+[node name="Settings" parent="TabContainer" unique_id=292201666 instance=ExtResource("12_diiiv")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1

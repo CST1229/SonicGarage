@@ -12,7 +12,8 @@ shadow_color = Color(0, 0, 0.39607844, 0.60784316)
 script = ExtResource("1_dj5xw")
 
 [node name="FPSDisplay" type="CanvasLayer" parent="." unique_id=1072557657]
-layer = 11
+process_mode = 3
+layer = 1000
 
 [node name="FPSDisplay" type="Label" parent="FPSDisplay" unique_id=1525627237]
 anchors_preset = 3

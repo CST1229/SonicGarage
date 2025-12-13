@@ -3,8 +3,10 @@ extends Panel
 @export var save_custom_logo_movements_button: Button;
 
 @onready var back_button: Button = $BackButton;
+@onready var scroll_container: ScrollContainer = $HMargin/ScrollContainer
 
 func entered() -> void:
+	scroll_container.scroll_vertical = 0;
 	back_button.grab_focus();
 
 func show_custom_logo_movements_button() -> void:

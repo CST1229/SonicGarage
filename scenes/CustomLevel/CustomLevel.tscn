@@ -3,11 +3,17 @@
 [ext_resource type="Script" uid="uid://5v60k3oa1gxk" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_kiua1"]
 [ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/essential/LevelContainer/LevelContainer.tscn" id="2_bjubq"]
 [ext_resource type="PackedScene" uid="uid://di2h7pqwt8bpr" path="res://objects/essential/LevelManager/LevelManager.tscn" id="3_1x3rk"]
+[ext_resource type="PackedScene" uid="uid://c85hgbcxnf88t" path="res://objects/ui/PauseMenu/PauseMenu.tscn" id="4_tynpe"]
 
 [node name="CustomLevel" type="Node2D" unique_id=1376749045 node_paths=PackedStringArray("level_container")]
 script = ExtResource("1_kiua1")
 level_container = NodePath("LevelContainer")
 
 [node name="LevelContainer" parent="." unique_id=283099192 instance=ExtResource("2_bjubq")]
+show_background = true
 
 [node name="LevelManager" parent="." unique_id=179909296 instance=ExtResource("3_1x3rk")]
+
+[node name="PauseMenu" parent="." unique_id=1265953789 instance=ExtResource("4_tynpe")]
+
+[connection signal="editor_pressed" from="PauseMenu" to="." method="_on_pause_menu_editor_pressed"]

@@ -19,6 +19,7 @@ const RESET_BINDS_ICON = preload("res://sprites/icons/ui/reset_binds.png");
 
 func _ready():
 	add_binds_button = add_button("", start_binding, "Add");
+	add_binds_button.focus_neighbor_left = ^".";
 	add_binds_button.icon = ADD_BIND_ICON;
 	reset_button = add_button("", func(_btn):
 		reset_binds();
@@ -34,7 +35,7 @@ func reset_binds() -> void:
 	if action in Settings.default_keybinds:
 		Settings.deserialize_action(Settings.default_keybinds[action], action);
 	else:
-		InputMap.action_erase_events(action);
+		push_error("Action does not exist in default keybinds: " + str(action));
 	update_labels();
 	
 
@@ -92,7 +93,7 @@ func clear_labels() -> void:
 			child.queue_free();
 	last_button_added = reset_button;
 	num_bind_buttons = 0;
-	reset_button.focus_neighbor_right = ^"";
+	reset_button.focus_neighbor_right = ^".";
 
 func update_labels() -> void:
 	clear_labels();
@@ -105,6 +106,7 @@ func add_input_button(event: InputEvent) -> void:
 	button.add_to_group(&"binds");
 	button.icon = UNBIND_ICON;
 	button.icon_alignment = HORIZONTAL_ALIGNMENT_RIGHT;
+	button.focus_neighbor_right = ^".";
 	num_bind_buttons += 1;
 	if last_button_added:
 		last_button_added.focus_neighbor_right = button.get_path();

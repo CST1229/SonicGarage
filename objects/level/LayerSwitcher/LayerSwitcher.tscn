@@ -18,14 +18,17 @@ script = ExtResource("1_oamhx")
 scale = Vector2(2, 2)
 
 [node name="shape" type="CollisionShape2D" parent="area" unique_id=1510052369]
+visible = false
 shape = SubResource("RectangleShape2D_3hue5")
 debug_color = Color(0, 0.5, 1, 0.392157)
 
 [node name="bounds" parent="." unique_id=1836011248 instance=ExtResource("2_oktun")]
+visible = false
 size = Vector2(32, 32)
 outline_alpha = 0.5
 
 [node name="HandleContainer" type="Control" parent="." unique_id=1363000106 node_paths=PackedStringArray("target")]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 16.0

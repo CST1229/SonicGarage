@@ -59,7 +59,6 @@ func enable_process():
 		child.process_mode = Node.PROCESS_MODE_ALWAYS;
 
 ## Finds the level container.
-## TODO: maybe this should be part of [EditorLib].
 func find_container() -> LevelContainer:
 	var new_container: Node = self;
 	while !(new_container is LevelContainer):

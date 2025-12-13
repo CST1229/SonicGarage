@@ -15,7 +15,7 @@ extends Node2D
 
 func _ready():
 	version.text = "v" + str(ProjectSettings.get_setting("application/config/version"));
-	Music.play(preload("res://music/takeoff.mp3"));
+	Music.play(preload("res://music/takeoff.ogg"));
 	goto_menu();
 	levels_button.grab_focus();
 	%NotCopyright.gui_input.connect(func(ev: InputEvent):
@@ -31,7 +31,7 @@ func goto_levels() -> void:
 
 func load_level():
 	if Input.is_key_pressed(KEY_CTRL) && Input.is_key_pressed(KEY_SHIFT):
-		Fades.fade_to_scene("res://scenes/test.tscn");
+		Fades.fade_to_scene("res://scenes/test.tscn", {is_white = true, extra_wait = 0.5});
 		return;
 	LevelUtil.coming_from_my_levels = false;
 	DisplayServer.file_dialog_show(

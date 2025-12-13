@@ -25,13 +25,19 @@ var fade_volume: float = 1.0:
 const EDITOR_VOLUME_MULTIPLIER = 1.0;
 
 var focus_volume: float = 1.0;
+var prev_focus_volume: float = focus_volume;
 const FOCUS_VOLUME_SPEED = 1.0 / 0.2;
 
 var current_song := "";
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS;
 	focus_volume = 0 if should_focus_mute() else 1;
 	update_audio();
+	Settings.changed.connect(func(setting: StringName):
+		if setting == &"master_volume" || setting == &"music_volume" || setting == &"sfx_volume" || setting == &"mute_on_focus_lost":
+			update_audio();
+	);
 	player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM;
 	
 	player.bus = &"Music";
@@ -40,7 +46,9 @@ func _ready():
 
 func _process(delta: float) -> void:
 	focus_volume = move_toward(focus_volume, 0 if should_focus_mute() else 1, FOCUS_VOLUME_SPEED * delta);
-	update_audio();
+	if prev_focus_volume != focus_volume:
+		prev_focus_volume = focus_volume;
+		update_audio();
 
 func update_audio() -> void:
 	set_bus_volume(&"Master", Settings.master_volume * focus_volume);

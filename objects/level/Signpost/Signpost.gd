@@ -25,7 +25,7 @@ func _process(delta: float):
 				exit_timer = 2;
 			else:
 				exit_timer = 8;
-				Music.play(load("res://music/levelcomplete.mp3"))
+				Music.play(load("res://music/levelcomplete.ogg"))
 	
 	if exit_timer > 0:
 		exit_timer = move_toward(exit_timer, 0, delta);

@@ -1,6 +1,8 @@
 class_name SettingsMenu
 extends VBoxContainer
 
+@onready var options: GridContainer = $Options
+
 @onready var terrain_detail: OptionButton = $Options/TerrainDetail;
 
 func _ready() -> void:
@@ -9,6 +11,11 @@ func _ready() -> void:
 	, func(value: int) -> int: return 2 - value;
 	);
 	handle_save(terrain_detail.item_selected);
+	
+	for option in options.get_children():
+		if option is BaseButton:
+			option.focus_neighbor_left = ^".";
+			option.focus_neighbor_right = ^".";
 
 func handle_save(listen: Signal):
 	listen.connect(func(_arg: Variant):

@@ -4,30 +4,32 @@
 extends Node2D
 class_name EditorRoom
 
+@export var should_load_level := true;
+
 @export var level_container: LevelContainer;
 @export_file("*.tscn", "*.scn") var playtest_room: String;
 
+@onready var pause_menu: PauseMenu = get_node_or_null(^"PauseMenu");
+
 func _ready():
-	if level_container:
-		if LevelUtil.load_level:
-			var err := level_container.deserialize(LevelUtil.load_level);
-			if err != "":
-				OS.alert(err, "Error loading level!");
-				push_error(err);
-	if level_container && level_container.music:
+	if !level_container:
+		return;
+	if LevelUtil.load_level && should_load_level:
+		var err := level_container.deserialize(LevelUtil.load_level);
+		if err != "":
+			OS.alert(err, "Error loading level!");
+			push_error(err);
+	if level_container.music:
 		if level_container.music != "":
 			if level_container.music in LevelUtil.songs:
 				Music.play.call_deferred(load(LevelUtil.songs[level_container.music].path));
 			else:
 				push_error("Unknown song {0}".format(level_container.music));
-	else:
-		Music.play(preload("res://music/blue_ska.mp3"));
+	
 
 func _unhandled_input(ev: InputEvent):
 	if ev.is_action_pressed("editor_playtest") && !ev.is_action_pressed("setting_fullscreen"):
 		playtest();
-	if ev.is_action_pressed("editor_quit"):
-		exit();
 
 func playtest():
 	if playtest_room:
@@ -39,6 +41,9 @@ func exit():
 	if level_container && level_container.editor_mode:
 		LevelUtil.load_level = level_container.serialize();
 	if LevelUtil.coming_from_my_levels:
-		Fades.fade_to_scene("res://scenes/MyLevels/MyLevels.tscn");
+		return Fades.fade_to_scene("res://scenes/MyLevels/MyLevels.tscn");
 	else:
-		Fades.fade_to_scene("res://scenes/TitleScreen/TitleScreen.tscn");
+		return Fades.fade_to_scene("res://scenes/TitleScreen/TitleScreen.tscn");
+
+func _on_pause_menu_editor_pressed(_menu: PauseMenu) -> void:
+	playtest();

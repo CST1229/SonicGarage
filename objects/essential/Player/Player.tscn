@@ -66,6 +66,7 @@ shape = SubResource("RectangleShape2D_cu8nw")
 debug_color = Color(1, 0.27451, 0.262745, 0.419608)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=133634933]
+process_mode = 3
 top_level = true
 drag_left_margin = 0.0
 drag_top_margin = 0.0

@@ -14,6 +14,7 @@ playtest_room = "res://scenes/EditorRoom/EditorPlaytest.tscn"
 [node name="LevelContainer" parent="." unique_id=307723273 node_paths=PackedStringArray("editor") instance=ExtResource("1_xpaws")]
 editor_mode = true
 editor = NodePath("../LevelEditor")
+show_background = true
 
 [node name="PlayerGhost" type="Sprite2D" parent="." unique_id=1433567927]
 modulate = Color(1, 1, 1, 0.498039)
