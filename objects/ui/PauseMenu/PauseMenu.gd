@@ -9,7 +9,8 @@ extends CanvasLayer
 		if !Engine.is_editor_hint() && is_inside_tree():
 			get_tree().paused = value;
 			if visible && resume:
-				resume.grab_focus(); 
+				resume.grab_focus();
+		Music.update_audio();
 
 @export var is_in_editor: bool = false:
 	set(value):

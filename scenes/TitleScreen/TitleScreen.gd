@@ -35,7 +35,7 @@ func load_level():
 		return;
 	LevelUtil.coming_from_my_levels = false;
 	DisplayServer.file_dialog_show(
-		"Load Level", "",
+		"Load Level", ProjectSettings.globalize_path("res://"),
 		"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
 		PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
 		func(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):

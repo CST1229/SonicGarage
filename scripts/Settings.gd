@@ -135,6 +135,7 @@ func do_settings(opt: Callable) -> void:
 	first_time = false;
 
 func _ready():
+	process_mode = PROCESS_MODE_ALWAYS;
 	first_time = true;
 	serialize_binds(default_keybinds);
 	if !load_settings():

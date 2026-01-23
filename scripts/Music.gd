@@ -9,7 +9,7 @@ var volume: float = 1.0:
 	set(value):
 		volume = value;
 		var player_volume := volume * fade_volume;
-		if is_in_editor():
+		if should_muffle_audio():
 			player_volume *= EDITOR_VOLUME_MULTIPLIER;
 		player.volume_linear = player_volume;
 var position: float:
@@ -55,7 +55,7 @@ func update_audio() -> void:
 	set_bus_volume(&"Music", Settings.music_volume);
 	set_bus_volume(&"SFX", Settings.sfx_volume);
 	var music_bus := AudioServer.get_bus_index(&"Music");
-	AudioServer.set_bus_effect_enabled(music_bus, 0, is_in_editor());
+	AudioServer.set_bus_effect_enabled(music_bus, 0, should_muffle_audio());
 	
 func should_focus_mute() -> bool:
 	return Settings.mute_on_focus_lost && !DisplayServer.window_is_focused();
@@ -78,11 +78,12 @@ func stop():
 	player.stop();
 	current_song = "";
 
-func is_in_editor():
-	if Fades.current_scene is not EditorRoom:
-		return false;
-	var scene := Fades.current_scene as EditorRoom;
-	return scene.level_container && scene.level_container.editor_mode;
+func should_muffle_audio():
+	if Fades.current_scene is EditorRoom:
+		var scene := Fades.current_scene as EditorRoom;
+		if scene.level_container && scene.level_container.editor_mode:
+			return true;
+	return get_tree().paused;
 
 func _on_scene_changed(_scene: PackedScene) -> void:
 	# update volume for editor

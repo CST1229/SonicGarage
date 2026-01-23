@@ -201,7 +201,7 @@ func _on_pause_menu_playtest_pressed(menu: PauseMenu) -> void:
 
 func _on_pause_menu_load_pressed(menu: PauseMenu) -> void:
 	DisplayServer.file_dialog_show(
-		"Load Level", "",
+		"Load Level", ProjectSettings.globalize_path("res://"),
 		"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
 		PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
 		func(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
@@ -214,8 +214,11 @@ func _on_pause_menu_load_pressed(menu: PauseMenu) -> void:
 
 func _on_pause_menu_save_as_pressed(menu: PauseMenu) -> void:
 	DisplayServer.file_dialog_show(
-		"Save Level", "",
-		"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
+		"Save Level",
+		LevelUtil.level_path.get_base_dir() if LevelUtil.level_path else
+			ProjectSettings.globalize_path("res://"),
+		LevelUtil.level_path.get_file() if LevelUtil.level_path else "level.sgl",
+		false, DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
 		PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
 		func(status: bool, selected_paths: PackedStringArray, selected_filter_index: int):
 			if !status: return;
