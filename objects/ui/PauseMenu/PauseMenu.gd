@@ -6,11 +6,12 @@ extends CanvasLayer
 	set(value):
 		active = value;
 		visible = value;
-		if !Engine.is_editor_hint() && is_inside_tree():
-			get_tree().paused = value;
-			if visible && resume:
-				resume.grab_focus();
-		Music.update_audio();
+		if !Engine.is_editor_hint():
+			if is_inside_tree():
+				get_tree().paused = value;
+				if visible && resume:
+					resume.grab_focus();
+			Music.update_audio();
 
 @export var is_in_editor: bool = false:
 	set(value):
@@ -49,6 +50,9 @@ func _ready() -> void:
 	
 	if is_playtest && !Engine.is_editor_hint():
 		editor.text = "Enter Editor";
+	
+	if Engine.is_editor_hint():
+		return;
 	
 	resume.pressed.connect(func():
 		active = false;

@@ -10,7 +10,6 @@ script = ExtResource("1_kiua1")
 level_container = NodePath("LevelContainer")
 
 [node name="LevelContainer" parent="." unique_id=283099192 instance=ExtResource("2_bjubq")]
-show_background = true
 
 [node name="LevelManager" parent="." unique_id=179909296 instance=ExtResource("3_1x3rk")]
 
