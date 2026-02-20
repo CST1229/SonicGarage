@@ -42,9 +42,14 @@ var object_list: Dictionary = {
 		"Spring", "res://objects/level/Spring/Spring.tscn",
 		"res://objects/level/Spring/icon.png"
 	),
+	player_start = obj(
+		"Player Start", "res://objects/level/PlayerStart/PlayerStart.tscn",
+		"res://objects/level/PlayerStart/icon.png"
+	),
 };
 ## A list of object IDs that are visible in the editor.
 var editor_object_list: Array[String] = [
+	"player_start",
 	"ring",
 	"layer_switcher",
 	"signpost",

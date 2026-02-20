@@ -13,6 +13,8 @@ class_name LevelEditor
 ## THe collision shape of the object detector.
 @onready var object_detector_shape: CollisionShape2D = $object_detector/shape;
 
+@onready var player_ghost: Sprite2D = $PlayerGhost
+
 ## Modes are essentially completely different work modes,
 ## with their own set of tools.
 enum Mode {
@@ -114,6 +116,8 @@ var place_object = null:
 			ghost_object = null;
 		if place_object != null:
 			ghost_object = EditorLib.create_object(place_object, container);
+			if "is_ghost" in ghost_object:
+				ghost_object.is_ghost = true;
 			ghost_object.visible = !hovering_over_gui;
 			ghost_object.modulate = Color(1, 1, 1, 0.5);
 			add_child(ghost_object);
@@ -138,6 +142,12 @@ func _ready():
 	object_detector.body_entered.connect(do_polygon_detector.bind(false));
 	object_detector.body_exited.connect(do_polygon_detector.bind(true));
 	selection_changed.emit();
+	
+	do_start_pos.call_deferred();
+
+func do_start_pos():
+	if camera && container:
+		camera.position = container.player_start_pos;
 
 func _draw():
 	if drawing == DrawingMode.NONE && !hovering_over_gui:

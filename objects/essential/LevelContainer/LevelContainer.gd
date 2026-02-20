@@ -21,6 +21,8 @@ var dirty: bool = true;
 @onready var objects = $objects;
 @onready var players = $players;
 
+var player_start_pos := Vector2(0, 0);
+
 const FORMAT_VERSION = 2;
 
 const POLYGON_SCENE = preload("res://objects/essential/LevelContainer/Polygon.tscn");
@@ -82,6 +84,7 @@ func deserialize_polygons(polys: Array) -> void:
 		polygons.add_child(poly);
 
 func deserialize_objects(objs: Array) -> void:
+	player_start_pos = Vector2(0, 0);
 	for node in objects.get_children():
 		node.queue_free();
 	for obj_def in objs:
@@ -95,6 +98,7 @@ func add_players() -> void:
 		node.queue_free();
 	if !editor_mode:
 		var player: Player = PLAYER_SCENE.instantiate();
+		player.position = player_start_pos;
 		players.add_child(player);
 
 static func empty_level() -> Dictionary:

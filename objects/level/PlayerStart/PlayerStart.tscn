@@ -1,9 +1,16 @@
-[gd_scene format=3 uid="uid://qc40pxpc7x3"]
+[gd_scene format=3 uid="uid://iau1tbfg7wu2"]
 
 [ext_resource type="Texture2D" uid="uid://6kp6a1v2qc4v" path="res://objects/essential/Player/Sonic/stand.png" id="1_13j30"]
+[ext_resource type="Script" uid="uid://bcg5emjnqbgrl" path="res://objects/level/PlayerStart/PlayerStart.gd" id="1_ebpu5"]
+[ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="3_isrj5"]
 
-[node name="PlayerStart" type="Node2D" unique_id=1202551086]
+[node name="PlayerStart" type="Node2D" unique_id=663754743 groups=["player_start"]]
+script = ExtResource("1_ebpu5")
 
-[node name="Stand" type="Sprite2D" parent="." unique_id=2031380771]
-position = Vector2(0, 6)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=167543551]
+position = Vector2(1, 6)
 texture = ExtResource("1_13j30")
+
+[node name="EditorObjectBounds" parent="." unique_id=521004124 instance=ExtResource("3_isrj5")]
+position = Vector2(1, 5)
+size = Vector2(18, 38)

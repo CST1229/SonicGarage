@@ -4,7 +4,6 @@
 
 [node name="LevelContainer" type="Node2D" unique_id=744718311]
 script = ExtResource("1_13lej")
-show_background = null
 
 [node name="BackgroundColor" type="CanvasLayer" parent="." unique_id=264460586]
 layer = -2

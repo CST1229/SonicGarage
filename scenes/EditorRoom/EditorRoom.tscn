@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://5v60k3oa1gxk" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_suyq5"]
 [ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/essential/LevelContainer/LevelContainer.tscn" id="1_xpaws"]
 [ext_resource type="PackedScene" uid="uid://c02hx83n7d86p" path="res://objects/editor/LevelEditor.tscn" id="1_yog1b"]
-[ext_resource type="Texture2D" uid="uid://6kp6a1v2qc4v" path="res://objects/essential/Player/Sonic/stand.png" id="4_3eiji"]
 [ext_resource type="PackedScene" uid="uid://6coikmp63mmn" path="res://objects/editor/EditorUI.tscn" id="4_66box"]
 
 [node name="EditorRoom" type="Node2D" unique_id=1785154139 node_paths=PackedStringArray("level_container")]
@@ -15,12 +14,6 @@ playtest_room = "res://scenes/EditorRoom/EditorPlaytest.tscn"
 editor_mode = true
 editor = NodePath("../LevelEditor")
 show_background = true
-
-[node name="PlayerGhost" type="Sprite2D" parent="." unique_id=1433567927]
-modulate = Color(1, 1, 1, 0.498039)
-position = Vector2(0, 6)
-texture = ExtResource("4_3eiji")
-offset = Vector2(1, 0)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1100701445]
 editor_draw_screen = false

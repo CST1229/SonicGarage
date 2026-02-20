@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c02hx83n7d86p"]
 
 [ext_resource type="Script" uid="uid://t5pljfbq0elw" path="res://objects/editor/LevelEditor.gd" id="1_wmeon"]
+[ext_resource type="Texture2D" uid="uid://6kp6a1v2qc4v" path="res://objects/essential/Player/Sonic/stand.png" id="2_wb07y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xplnu"]
 size = Vector2(0, 0)
@@ -14,3 +15,10 @@ collision_mask = 8
 
 [node name="shape" type="CollisionShape2D" parent="object_detector" unique_id=1670604912]
 shape = SubResource("RectangleShape2D_xplnu")
+
+[node name="PlayerGhost" type="Sprite2D" parent="." unique_id=150411090]
+modulate = Color(1, 1, 1, 0.498039)
+z_index = -1
+position = Vector2(0, 6)
+texture = ExtResource("2_wb07y")
+offset = Vector2(1, 0)
