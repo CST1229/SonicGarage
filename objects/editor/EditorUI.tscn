@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://2sp8dkbve0go" path="res://objects/editor/EditorUI.gd" id="1_1imr5"]
 [ext_resource type="PackedScene" uid="uid://c85hgbcxnf88t" path="res://objects/ui/PauseMenu/PauseMenu.tscn" id="2_g8ptt"]
+[ext_resource type="PackedScene" uid="uid://d106n6j8js3tu" path="res://objects/ui/LevelFileDialog.tscn" id="2_i2omc"]
 [ext_resource type="Texture2D" uid="uid://db4xdgglk11ip" path="res://sprites/icons/tools/more.png" id="3_3i0ho"]
 [ext_resource type="Texture2D" uid="uid://cogpggkowmc4k" path="res://sprites/icons/tools/poly_select.png" id="3_61nxk"]
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="3_mmcx7"]
@@ -38,21 +39,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_1imr5")
 
-[node name="MenuButton" type="Button" parent="." unique_id=1075243450]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.990566
-anchor_right = 1.0
-anchor_bottom = 0.0178571
-offset_left = -34.98114
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = 34.0
-grow_horizontal = 0
-theme = ExtResource("3_mmcx7")
-theme_override_font_sizes/font_size = 16
-icon = ExtResource("3_3i0ho")
-clip_text = true
+[node name="FileDialog" parent="." unique_id=1074549882 instance=ExtResource("2_i2omc")]
 
 [node name="TerrainTools" type="Control" parent="." unique_id=283608965]
 unique_name_in_owner = true
@@ -279,14 +266,30 @@ theme = ExtResource("3_mmcx7")
 theme_override_font_sizes/font_size = 12
 icon = ExtResource("10_vtoee")
 
+[node name="MenuButton" type="Button" parent="." unique_id=1075243450]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -30.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 30.0
+grow_horizontal = 0
+theme = ExtResource("3_mmcx7")
+theme_override_font_sizes/font_size = 16
+icon = ExtResource("3_3i0ho")
+clip_text = true
+
 [node name="PauseMenu" parent="." unique_id=1265953789 instance=ExtResource("2_g8ptt")]
 is_in_editor = true
 
-[connection signal="pressed" from="MenuButton" to="." method="_on_menu_button_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
 [connection signal="pressed" from="TerrainTools/PolygonActions/ToggleSemisolidButton" to="." method="semisolid_button_pressed"]
 [connection signal="pressed" from="TerrainTools/PolygonActions/PolyLayerButton" to="." method="poly_layer_button_pressed"]
 [connection signal="pressed" from="TerrainTools/VertexActions/LineEdgeButton" to="." method="line_edge_button_pressed"]
 [connection signal="pressed" from="ObjectTools/ObjectSelector/Flap" to="." method="objects_flap_pressed"]
+[connection signal="pressed" from="MenuButton" to="." method="_on_menu_button_pressed"]
 [connection signal="load_pressed" from="PauseMenu" to="." method="_on_pause_menu_load_pressed"]
 [connection signal="playtest_pressed" from="PauseMenu" to="." method="_on_pause_menu_playtest_pressed"]
 [connection signal="quit_pressed" from="PauseMenu" to="." method="_on_pause_menu_quit_pressed"]

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://d106n6j8js3tu"]
+
+[node name="LevelFileDialog" type="FileDialog" unique_id=1074549882]
+oversampling_override = 1.0
+title = "Load  Level"
+initial_position = 2
+popup_window = true
+dialog_hide_on_ok = true
+mode_overrides_title = false
+file_mode = 0
+filters = PackedStringArray("*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)")
+show_hidden_files = true
+use_native_dialog = true

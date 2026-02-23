@@ -28,7 +28,9 @@ func _run():
 				var json_dict := json as Dictionary;
 				var strings := PackedStringArray();
 				var frames := dict_to_arr(json_dict.frames);
-				for cel: Dictionary in json_dict.meta.layers[0].cels:
+				
+				var layer = json_dict.meta.layers[0];
+				for cel: Dictionary in layer.cels:
 					if "data" in cel and cel.data:
 						var frame_no := int(cel.frame);
 						var frame: Dictionary = frames[frame_no];

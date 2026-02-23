@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelThemeDef" format=3 uid="uid://b4immal0he2o1"]
+
+[ext_resource type="Texture2D" uid="uid://bafq2gylv0ihg" path="res://sprites/level_themes/Marble/icon.png" id="1_miaqi"]
+[ext_resource type="Script" uid="uid://n33v7wbpjbtk" path="res://scripts/LevelDrawing/LevelThemeDef.gd" id="2_cxm1o"]
+
+[resource]
+script = ExtResource("2_cxm1o")
+name = "Marble Zone"
+icon = ExtResource("1_miaqi")
+theme_file = "res://sprites/level_themes/EmeraldHill/level_theme.tres"
+metadata/_custom_type_script = "uid://n33v7wbpjbtk"

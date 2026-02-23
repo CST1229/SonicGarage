@@ -19,6 +19,7 @@ enum State {
 	DEAD,
 }
 var state := State.NORMAL;
+var queue_level_complete := false;
 
 # normal running constants
 const SPEED = 6 * 60;
@@ -83,6 +84,8 @@ var just_sprung := 0;
 
 var controllock_timer := 0.0;
 var jump_buffer := 0.0;
+# "multi-bind-press" input proxies
+var jump_pressed := false;
 
 var spindashing := false;
 var spindash_charge := 0.0;
@@ -143,7 +146,7 @@ func _physics_process(delta: float):
 	# inputs
 	if jump_buffer > 0:
 		jump_buffer = move_toward(jump_buffer, 0, delta);
-	if Input.is_action_just_pressed("player_jump"):
+	if jump_pressed:
 		jump_buffer = JUMP_BUFFER_TIME;
 	
 	if (state == State.NORMAL || state == State.HURT) && invulnerable > 0:
@@ -155,6 +158,12 @@ func _physics_process(delta: float):
 	else:
 		invulnerable = 0;
 		sprite.visible = true;
+	
+	if queue_level_complete && is_on_floor():
+		velocity.x = 0;
+		if velocity.y < 0: velocity.y = 0;
+		state = State.LEVEL_COMPLETE;
+		queue_level_complete = false;
 	
 	match state:
 		State.NORMAL:
@@ -169,6 +178,7 @@ func _physics_process(delta: float):
 	
 	if just_sprung > 0:
 		just_sprung -= 1;
+	jump_pressed = false;
 	
 	if DEBUG_MODE:
 		queue_redraw();
@@ -268,7 +278,7 @@ func player_control_grounded(direction: float, delta: float):
 	
 	# spindashing
 	if spindashing:
-		if Input.is_action_just_pressed("player_jump") && !started_spindashing:
+		if jump_pressed && !started_spindashing:
 			# charge
 			sprite.frame = 0;
 			sprite.frame_progress = 0;
@@ -639,6 +649,8 @@ func player_sprites(direction: float):
 		sprite.speed_scale = 1.0 / (0.016 + max(0, 4 - absf(ground_speed) / 60.0));
 	elif sprite.animation == "push":
 		sprite.speed_scale = 1.0 / (0.016 + max(0, 8 - absf(ground_speed) / 60.0 * 4));
+	elif sprite.animation == "spindash":
+		sprite.speed_scale = lerp(0.33, 1.0, spindash_charge / 10.0);
 	else:
 		sprite.speed_scale = 1;
 	
@@ -696,5 +708,9 @@ func do_layer_color():
 		c = Color(c.r + 1, c.g + 0.5, c.b);
 	c.a8 = 100;
 	shape.debug_color = c;
+
+func _input(ev: InputEvent):
+	if ev.is_action_pressed("player_jump"):
+		jump_pressed = true;
 
 signal touch_badnik(badnik: Node2D, bounce_type: Badnik.BounceType);

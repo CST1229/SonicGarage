@@ -21,6 +21,9 @@ class_name EditorUI
 @onready var object_list: FlowContainer = %ObjectList;
 @onready var selected_object_name: Label = %SelectedObjectName;
 
+@onready var file_dialog: FileDialog = $FileDialog;
+var last_pause_menu: PauseMenu;
+
 var objects_flap_open := false;
 var objects_flap_transition := 0.0;
 
@@ -200,38 +203,38 @@ func _on_pause_menu_playtest_pressed(menu: PauseMenu) -> void:
 	menu.active = false;
 
 func _on_pause_menu_load_pressed(menu: PauseMenu) -> void:
-	DisplayServer.file_dialog_show(
-		"Load Level", ProjectSettings.globalize_path("res://"),
-		"level.sgl", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
-		PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
-		func(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
-			if !status: return;
-			if selected_paths.size() < 1: return;
-			if !menu: return;
-			menu.active = false;
-			EditorLib.load_level(true, selected_paths[0], false);
-	);
+	file_dialog.hide();
+	last_pause_menu = menu;
+	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE;
+	file_dialog.title = "Load Level";
+	file_dialog.current_dir = LevelUtil.level_path.get_base_dir() if LevelUtil.level_path \
+		else ProjectSettings.globalize_path(LevelUtil.FOLDER);
+	file_dialog.current_file = LevelUtil.level_path.get_file() if LevelUtil.level_path \
+		else "level.sgl";
+	file_dialog.popup();
 
 func _on_pause_menu_save_as_pressed(menu: PauseMenu) -> void:
-	DisplayServer.file_dialog_show(
-		"Save Level",
-		LevelUtil.level_path.get_base_dir() if LevelUtil.level_path else
-			ProjectSettings.globalize_path("res://"),
-		LevelUtil.level_path.get_file() if LevelUtil.level_path else "level.sgl",
-		false, DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
-		PackedStringArray(["*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)"]),
-		func(status: bool, selected_paths: PackedStringArray, selected_filter_index: int):
-			if !status: return;
-			if selected_paths.size() < 1: return;
-			var path := selected_paths[0];
-			if selected_filter_index == 0:
-				# Add file extension
-				if !(path.to_lower().ends_with(".sgl")):
-					path += ".sgl";
-			LevelUtil.load_level = editor.container.serialize();
-			EditorLib.save_level(LevelUtil.load_level, path);
-	);
+	file_dialog.hide();
+	file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE;
+	file_dialog.title = "Save Level";
+	file_dialog.current_dir = LevelUtil.level_path.get_base_dir() if LevelUtil.level_path \
+		else ProjectSettings.globalize_path(LevelUtil.FOLDER);
+	file_dialog.current_file = LevelUtil.level_path.get_file() if LevelUtil.level_path \
+		else "level.sgl";
 	menu.go_back();
+	file_dialog.popup();
+
+func _on_file_dialog_file_selected(path: String) -> void:
+	if file_dialog.file_mode == FileDialog.FILE_MODE_OPEN_FILE:
+		if !last_pause_menu: return;
+		last_pause_menu.active = false;
+		EditorLib.load_level(true, path, false);
+	elif file_dialog.file_mode == FileDialog.FILE_MODE_SAVE_FILE:
+		# Add file extension
+		if !(path.to_lower().ends_with(".sgl")) && !FileAccess.file_exists(path):
+			path += ".sgl";
+		LevelUtil.load_level = editor.container.serialize();
+		EditorLib.save_level(LevelUtil.load_level, path);
 
 func _on_pause_menu_save_pressed(menu: PauseMenu) -> void:
 	if LevelUtil.level_path == "":

@@ -110,8 +110,10 @@ script = ExtResource("6_0f8tw")
 tags = PackedStringArray("android", "web")
 
 [node name="Fullscreen" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=9555590]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"FlatCheckButton"
 flat = true
 script = ExtResource("7_krksl")
 setting_name = &"fullscreen"
@@ -125,10 +127,12 @@ script = ExtResource("6_0f8tw")
 tags = PackedStringArray("android", "web")
 
 [node name="VSync" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=249486458]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Disabling this uncaps the framerate.
 How fast can your device run the game?"
+theme_type_variation = &"FlatCheckButton"
 flat = true
 script = ExtResource("7_krksl")
 setting_name = &"vsync"
@@ -141,8 +145,10 @@ script = ExtResource("6_0f8tw")
 tags = PackedStringArray("android", "web")
 
 [node name="IntegerScale" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=618862599]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"FlatCheckButton"
 flat = true
 script = ExtResource("7_krksl")
 setting_name = &"integer_scale"
@@ -155,9 +161,11 @@ script = ExtResource("6_0f8tw")
 tags = PackedStringArray("android", "web")
 
 [node name="43" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=373914408]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "If disabled, aspect ratio is uncapped."
+theme_type_variation = &"FlatCheckButton"
 flat = true
 script = ExtResource("7_krksl")
 setting_name = &"is_43"
@@ -185,11 +193,13 @@ layout_mode = 2
 text = "High Res Mode (F3)"
 
 [node name="RetroScale" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=982855145]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Useful when zooming in the editor,
 but disabling increases performance
 and might make terrain look better."
+theme_type_variation = &"FlatCheckButton"
 flat = true
 script = ExtResource("7_krksl")
 setting_name = &"hd"
@@ -199,8 +209,10 @@ layout_mode = 2
 text = "Show FPS"
 
 [node name="ShowFPS" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=931081765]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"FlatCheckButton"
 flat = true
 script = ExtResource("7_krksl")
 setting_name = &"show_fps"
@@ -211,6 +223,7 @@ layout_mode = 2
 text = "Master Volume"
 
 [node name="MasterVolume" type="HSlider" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=633179923]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -227,6 +240,7 @@ layout_mode = 2
 text = "SFX Volume"
 
 [node name="SFXVolume" type="HSlider" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=807644312]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -243,6 +257,7 @@ layout_mode = 2
 text = "Music Volume"
 
 [node name="MusicVolume" type="HSlider" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=1751541890]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -261,8 +276,10 @@ script = ExtResource("6_0f8tw")
 tags = PackedStringArray("web", "android")
 
 [node name="MuteOnFocusLost" type="CheckButton" parent="HMargin/ScrollContainer/VMargin/SettingsList/Options" unique_id=2015840921]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"FlatCheckButton"
 flat = true
 script = ExtResource("7_krksl")
 setting_name = &"mute_on_focus_lost"

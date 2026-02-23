@@ -2,7 +2,7 @@
 class_name PauseMenu
 extends CanvasLayer
 
-@export var active := true:
+@export var active := false:
 	set(value):
 		active = value;
 		visible = value;
@@ -22,6 +22,7 @@ extends CanvasLayer
 					child.visible = child.is_in_group(&"editor");
 				else:
 					child.visible = child.is_in_group(&"level");
+			editor.visible = editor.visible && editor_pressed.has_connections();
 @export var is_playtest: bool = false;
 
 var level_container: LevelContainer;
@@ -45,13 +46,13 @@ var level_container: LevelContainer;
 @onready var bg_fade: Fade = $Fade;
 
 func _ready() -> void:
-	active = Engine.is_editor_hint();
-	is_in_editor = is_in_editor;
+	active = false;
 	
 	if is_playtest && !Engine.is_editor_hint():
 		editor.text = "Enter Editor";
 	
 	if Engine.is_editor_hint():
+		is_in_editor = is_in_editor;
 		return;
 	
 	resume.pressed.connect(func():
@@ -59,6 +60,10 @@ func _ready() -> void:
 	);
 	restart.pressed.connect(func():
 		var fade: Fade = Fades.fade_to_scene("restart");
+		if !fade:
+			active = false;
+			get_viewport().gui_release_focus();
+			return;
 		fade.process_mode = PROCESS_MODE_ALWAYS;
 		fade.tween.tween_callback(func():
 			active = false;
@@ -99,6 +104,7 @@ func _ready() -> void:
 	bg_fade.clicked.connect(func():
 		go_back();
 	);
+	is_in_editor = is_in_editor;
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"pause"):

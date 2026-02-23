@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://d3lqxbbjxr1sm" path="res://sprites/icons/ui/dropdown_arrow.png" id="4_nu61b"]
 [ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/fonts/Habbo.ttf" id="5_s0aln"]
 [ext_resource type="FontFile" uid="uid://dcjbl32ea48c0" path="res://sprites/hud/font_hud_numbers.png" id="7_mbk3s"]
+[ext_resource type="FontFile" uid="uid://btxnitovb46ch" path="res://sprites/fonts/tiny_font.png" id="9_cpbce"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jfic0"]
 content_margin_left = 3.0
@@ -23,7 +24,7 @@ border_color = Color(0.615686, 0.615686, 0.615686, 1)
 corner_detail = 1
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mbk3s"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghqaj"]
 bg_color = Color(1, 1, 0, 0.192157)
 border_width_left = 1
 border_width_top = 1
@@ -31,7 +32,7 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(1, 1, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3fcow"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7eerc"]
 content_margin_left = 3.0
 content_margin_top = 3.0
 content_margin_right = 3.0
@@ -45,7 +46,7 @@ border_color = Color(1, 1, 1, 1)
 corner_detail = 1
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y1aaj"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_euboo"]
 content_margin_left = 3.0
 content_margin_top = 3.0
 content_margin_right = 3.0
@@ -59,7 +60,7 @@ border_color = Color(1, 1, 1, 1)
 corner_detail = 1
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxshk"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qb76"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 2.0
@@ -72,6 +73,26 @@ border_width_bottom = 1
 border_color = Color(1, 1, 1, 1)
 corner_detail = 1
 anti_aliasing = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2s1cw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7qb76"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jbjjg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0pel1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e5yu7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fdycm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p3ae1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1anxk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qivka"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0580f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s0aln"]
 content_margin_left = 0.0
@@ -432,14 +453,25 @@ Button/colors/font_color = Color(1, 1, 1, 1)
 Button/font_sizes/font_size = 14
 Button/fonts/font = ExtResource("1_wup4d")
 Button/styles/disabled = SubResource("StyleBoxFlat_jfic0")
-Button/styles/focus = SubResource("StyleBoxFlat_mbk3s")
-Button/styles/hover = SubResource("StyleBoxFlat_3fcow")
-Button/styles/normal = SubResource("StyleBoxFlat_y1aaj")
-Button/styles/pressed = SubResource("StyleBoxFlat_lxshk")
+Button/styles/focus = SubResource("StyleBoxFlat_ghqaj")
+Button/styles/hover = SubResource("StyleBoxFlat_7eerc")
+Button/styles/normal = SubResource("StyleBoxFlat_euboo")
+Button/styles/pressed = SubResource("StyleBoxFlat_7qb76")
 CheckButton/font_sizes/font_size = 14
 CheckButton/fonts/font = ExtResource("1_wup4d")
 CheckButton/icons/checked = ExtResource("2_ig84p")
 CheckButton/icons/unchecked = ExtResource("3_nvays")
+FlatCheckButton/base_type = &"CheckButton"
+FlatCheckButton/styles/disabled = SubResource("StyleBoxEmpty_2s1cw")
+FlatCheckButton/styles/disabled_mirrored = SubResource("StyleBoxEmpty_7qb76")
+FlatCheckButton/styles/hover = SubResource("StyleBoxEmpty_jbjjg")
+FlatCheckButton/styles/hover_mirrored = SubResource("StyleBoxEmpty_0pel1")
+FlatCheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_e5yu7")
+FlatCheckButton/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_fdycm")
+FlatCheckButton/styles/normal = SubResource("StyleBoxEmpty_p3ae1")
+FlatCheckButton/styles/normal_mirrored = SubResource("StyleBoxEmpty_1anxk")
+FlatCheckButton/styles/pressed = SubResource("StyleBoxEmpty_qivka")
+FlatCheckButton/styles/pressed_mirrored = SubResource("StyleBoxEmpty_0580f")
 HSlider/icons/grabber = ExtResource("2_c4i6b")
 HSlider/icons/grabber_highlight = ExtResource("3_nu61b")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_s0aln")
@@ -490,12 +522,17 @@ PopupMenu/colors/font_disabled_color = Color(0.678431, 0.678431, 0.678431, 0.8)
 PopupMenu/colors/font_hover_color = Color(1, 1, 1, 1)
 PopupMenu/colors/font_separator_color = Color(1, 1, 1, 1)
 PopupMenu/colors/font_separator_outline_color = Color(1, 1, 1, 1)
+PopupMenu/constants/close_h_offset = 0
+PopupMenu/constants/gutter_compact = 1
 PopupMenu/constants/item_end_padding = 4
-PopupMenu/constants/item_start_padding = 4
+PopupMenu/constants/item_start_padding = 2
+PopupMenu/constants/v_separation = 0
 PopupMenu/font_sizes/font_separator_size = 28
 PopupMenu/font_sizes/font_size = 14
 PopupMenu/fonts/font = ExtResource("1_wup4d")
 PopupMenu/fonts/font_separator = ExtResource("1_wup4d")
+PopupMenu/icons/checked = ExtResource("2_ig84p")
+PopupMenu/icons/unchecked = ExtResource("3_nvays")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_h1epi")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_tqfsi")
 PopupMenu/styles/separator = SubResource("StyleBoxLine_epmwg")
@@ -518,6 +555,9 @@ SmallLabel/base_type = &"Label"
 SmallLabel/constants/line_spacing = -2
 SmallLabel/font_sizes/font_size = 16
 SmallLabel/fonts/font = ExtResource("5_s0aln")
+TinyLabel/base_type = &"Label"
+TinyLabel/font_sizes/font_size = 5
+TinyLabel/fonts/font = ExtResource("9_cpbce")
 TooltipLabel/base_type = &"Label"
 TooltipLabel/colors/font_color = Color(1, 1, 1, 1)
 TooltipLabel/font_sizes/font_size = 14

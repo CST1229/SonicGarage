@@ -35,17 +35,29 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.356863, 0.270588, 0.152941, 1)
 
+[node name="FullDir" type="Label" parent="." unique_id=1493478661]
+modulate = Color(1, 1, 1, 0.37254903)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 8
+theme_type_variation = &"TinyLabel"
+text = "/home/cst/.local/share/godot/app_userdata/Sonic Garage/levels/"
+
 [node name="CurrentDir" type="Label" parent="." unique_id=343603527]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -144.0
-offset_top = 4.0
+offset_top = 5.0
 offset_right = 152.0
-offset_bottom = 19.0
+offset_bottom = 20.0
 grow_horizontal = 0
+grow_vertical = 0
 size_flags_vertical = 8
-text = "/Levels"
+text = "/levels"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=596353956]
 anchors_preset = 13

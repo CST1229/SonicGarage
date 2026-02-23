@@ -3,6 +3,7 @@ extends Control
 
 @export var logo: BaseButton;
 @export var ghost_logo: TextureRect;
+@export var not_copyright: Label;
 
 var clicks := 0;
 
@@ -38,7 +39,7 @@ func _ready() -> void:
 	logo.pressed.connect(func():
 		clicks += 1;
 		if clicks == 100:
-			%NotCopyright.show();
+			not_copyright.show();
 		);
 	logo.pressed.connect(_on_click_logo);
 	current_position = Vector2.ZERO;

@@ -6,6 +6,7 @@ extends Node
 
 ## The audio stream player for [Ring]s.
 var ring_player := AudioStreamPlayer.new();
+var ring_player_2 := AudioStreamPlayer.new();
 ## Toggles the channel ring sounds play on.
 var other_ring_sound := false;
 
@@ -17,33 +18,36 @@ var spindash_player := AudioStreamPlayer.new();
 var spindash_pitch = 0;
 
 func _ready():
-	ring_player.bus = "SFX";
+	ring_player.bus = "RingLeft";
 	ring_player.volume_db = -5;
+	ring_player.stream = preload("res://objects/level/Ring/sounds/collect1.wav");
+	ring_player_2.bus = "RingRight";
+	ring_player_2.volume_db = -5;
+	ring_player_2.stream = preload("res://objects/level/Ring/sounds/collect1.wav");
+	
+	AudioServer.get_bus_effect(AudioServer.get_bus_index("RingLeft"), 0).pan = -1.0;
+	AudioServer.get_bus_effect(AudioServer.get_bus_index("RingRight"), 0).pan = 1.0;
+	
 	spindash_player.bus = "Spindash";
 	spindash_player.stream = preload("res://objects/essential/Player/sounds/spindash.wav")
 	spindash_player.volume_db = -8;
 	
-	var root = get_tree().root;
+	var root := get_tree().root;
 	root.add_child.call_deferred(ring_player);
+	root.add_child.call_deferred(ring_player_2);
 	root.add_child.call_deferred(spindash_player);
 
 ## Plays a ring sound.
 func play_ring():
-	if !other_ring_sound:
-		ring_player.stream = preload("res://objects/level/Ring/sounds/collect1.wav");
+	if other_ring_sound:
+		ring_player_2.play();
 	else:
-		ring_player.stream = preload("res://objects/level/Ring/sounds/collect2.wav");
-	ring_player.play();
+		ring_player.play();
 	other_ring_sound = !other_ring_sound;
 
 ## Plays a spindash sound.
 func play_spindash():
 	if !spindash_player.playing: spindash_pitch = 1;
-	#var bus = AudioServer.get_bus_index("Spindash");
-	#for i in range(AudioServer.get_bus_effect_count(bus)):
-		#var effect = AudioServer.get_bus_effect(bus, i);
-		#if effect is AudioEffectPitchShift:
-			#effect.pitch_scale = spindash_pitch;
 	spindash_player.play();
 	spindash_player.pitch_scale = spindash_pitch;
 	spindash_pitch += 0.075;

@@ -34,6 +34,7 @@ anti_aliasing = false
 [node name="PauseMenu" type="CanvasLayer" unique_id=1265953789]
 process_mode = 3
 layer = 500
+visible = false
 script = ExtResource("1_qdx50")
 
 [node name="Fade" parent="." unique_id=785105724 instance=ExtResource("2_ykr4q")]
@@ -115,6 +116,7 @@ icon = ExtResource("4_cjk5f")
 
 [node name="Editor" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=2034302997 groups=["level"]]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 theme = ExtResource("2_nte4g")

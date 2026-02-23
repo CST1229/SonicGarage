@@ -7,6 +7,12 @@ cutoff_hz = 500.0
 [sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_t3b1j"]
 resource_name = "PitchShift"
 
+[sub_resource type="AudioEffectPanner" id="AudioEffectPanner_f4lrx"]
+resource_name = "Panner"
+
+[sub_resource type="AudioEffectPanner" id="AudioEffectPanner_vhoym"]
+resource_name = "Panner"
+
 [resource]
 bus/1/name = &"SFX"
 bus/1/solo = false
@@ -29,4 +35,20 @@ bus/3/bypass_fx = false
 bus/3/volume_db = 0.0
 bus/3/send = &"SFX"
 bus/3/effect/0/effect = SubResource("AudioEffectPitchShift_t3b1j")
-bus/3/effect/0/enabled = true
+bus/3/effect/0/enabled = false
+bus/4/name = &"RingLeft"
+bus/4/solo = false
+bus/4/mute = false
+bus/4/bypass_fx = false
+bus/4/volume_db = 0.0
+bus/4/send = &"SFX"
+bus/4/effect/0/effect = SubResource("AudioEffectPanner_f4lrx")
+bus/4/effect/0/enabled = true
+bus/5/name = &"RingRight"
+bus/5/solo = false
+bus/5/mute = false
+bus/5/bypass_fx = false
+bus/5/volume_db = 0.0
+bus/5/send = &"SFX"
+bus/5/effect/0/effect = SubResource("AudioEffectPanner_vhoym")
+bus/5/effect/0/enabled = true

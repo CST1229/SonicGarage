@@ -1,6 +1,7 @@
 extends Node
 
 @onready var container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer;
+@onready var full_dir_label: Label = $FullDir;
 @onready var current_dir_label: Label = $CurrentDir;
 
 var current_dir: String:
@@ -8,6 +9,7 @@ var current_dir: String:
 		current_dir = value;
 		if !current_dir.ends_with("/"):
 			current_dir += "/";
+		full_dir_label.text = ProjectSettings.globalize_path(current_dir);
 		current_dir_label.text = current_dir.replace("user://", "");
 		reload();
 		focus_file = "";
@@ -28,7 +30,6 @@ const INVALID_FILENAME_CHARS = ['"', "\\", "/", ":", "*", "?", "<", ">", "|"]
 func _ready():
 	focused_item_stylebox.content_margin_left = 4;
 	Music.play(preload("res://music/s3db_menu.ogg"));
-	DirAccess.make_dir_recursive_absolute(current_dir);
 	current_dir = LevelUtil.FOLDER;
 	if LevelUtil.level_path.begins_with(LevelUtil.FOLDER):
 		current_dir = LevelUtil.level_path.get_base_dir();
@@ -59,37 +60,37 @@ func reload():
 		container.add_child(error);
 		return;
 	
-	var create_arr := add_text_edit_item("Create Level...", "Enter name...", "+", func(value: String):
+	var create_arr := add_text_edit_item("Create Level...", "Enter filename...", "+", func(value: String):
 		value = value.strip_edges();
 		if value == "":
 			return;
 		value = value + ".sgl";
 		for invalid_char in INVALID_FILENAME_CHARS:
 			if value.contains(invalid_char):
-				create_folder_button.text = "+ Name can't contain " + "".join(INVALID_FILENAME_CHARS);
+				create_level_button.text = "+ Filename can't contain " + "".join(INVALID_FILENAME_CHARS);
 				return;
 		var full_path := current_dir.path_join(value);
 		if FileAccess.file_exists(full_path):
-			create_folder_button.text = "+ Level already exists";
+			create_level_button.text = "+ Level already exists";
 			return;
 		
 		var dict := LevelContainer.empty_level();
 		var err := EditorLib.save_level_static(dict, full_path);
 		if err:
-			create_folder_button.text = "+ Error: " + error_string(err);
+			create_level_button.text = "+ Error: " + error_string(err);
 			return;
 		
 		reload();
 		create_level_button.grab_focus();
 	);
 	create_level_button = create_arr[0];
-	var create_folder_arr := add_text_edit_item("Create Folder...", "Enter name...", "📁+", func(value: String):
+	var create_folder_arr := add_text_edit_item("Create Folder...", "Enter filename...", "📁+", func(value: String):
 		value = value.strip_edges();
 		if value == "":
 			return;
 		for invalid_char in INVALID_FILENAME_CHARS:
 			if value.contains(invalid_char):
-				create_folder_button.text = "📁+ Name can't contain " + "".join(INVALID_FILENAME_CHARS);
+				create_folder_button.text = "📁+ Filename can't contain " + "".join(INVALID_FILENAME_CHARS);
 				return;
 		var error := dir.make_dir_recursive(current_dir.path_join(value));
 		if error != OK:
@@ -103,12 +104,18 @@ func reload():
 	if current_dir != LevelUtil.FOLDER:
 		var del_folder := add_item("📁X Delete Folder");
 		del_folder.pressed.connect(func():
-			var check_files := dir.get_files();
-			if !check_files.is_empty():
+			var check_files := dir.get_files().size() + dir.get_directories().size();
+			if check_files > 0:
 				del_folder.text = "📁X Folder must be empty.";
 				return;
 			dir.remove(".");
 			go_back();
+		);
+	else:
+		var edit_last := add_item("📁← Edit Last");
+		edit_last.pressed.connect(func():
+			LevelUtil.coming_from_my_levels = true;
+			Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
 		);
 	
 	
@@ -178,7 +185,7 @@ func add_text_edit_item(item_name: String, placeholder: String, text_icon: Strin
 	textbox.offset_bottom = -3;
 	textbox.theme_type_variation = &"LevelsListButton";
 	textbox.visible = true;
-	textbox.max_length = 64;
+	textbox.max_length = 128;
 	textbox.focus_neighbor_left = ^".";
 	textbox.focus_neighbor_right = ^".";
 	var icon: Label;

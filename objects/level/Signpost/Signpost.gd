@@ -16,9 +16,7 @@ func _process(delta: float):
 		end_timer = move_toward(end_timer, 0, delta);
 		if end_timer <= 0:
 			sprite.play("sonic");
-			passed_player.velocity.x = 0;
-			if passed_player.velocity.y < 0: passed_player.velocity.y = 0;
-			passed_player.state = Player.State.LEVEL_COMPLETE;
+			passed_player.queue_level_complete = true;
 			
 			var scene = Fades.current_scene;
 			if "playtest_room" in scene && scene.playtest_room:
