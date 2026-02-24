@@ -8,6 +8,7 @@ popup_window = true
 dialog_hide_on_ok = true
 mode_overrides_title = false
 file_mode = 0
+access = 2
 filters = PackedStringArray("*.sgl;Sonic Garage Levels (*.sgl)", "*;All Files (*.*)")
 show_hidden_files = true
 use_native_dialog = true

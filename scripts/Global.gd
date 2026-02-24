@@ -46,6 +46,10 @@ var object_list: Dictionary = {
 		"Player Start", "res://objects/level/PlayerStart/PlayerStart.tscn",
 		"res://objects/level/PlayerStart/icon.png"
 	),
+	bumper = obj(
+		"Bumper", "res://objects/level/Bumper/Bumper.tscn",
+		"res://objects/level/Bumper/sprites/idle.png"
+	),
 };
 ## A list of object IDs that are visible in the editor.
 var editor_object_list: Array[String] = [
@@ -57,6 +61,7 @@ var editor_object_list: Array[String] = [
 	"monitor",
 	"spike",
 	"spring",
+	"bumper",
 ];
 var object_paths_to_id: Dictionary[String, String] = {};
 

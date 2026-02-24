@@ -1,0 +1,30 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://b3fddfnt6vetn"]
+
+[ext_resource type="Texture2D" uid="uid://hefulu6barma" path="res://objects/level/Bumper/sprites/hit1.png" id="1_x4se3"]
+[ext_resource type="Texture2D" uid="uid://bv1g6x8j0aglm" path="res://objects/level/Bumper/sprites/hit2.png" id="2_dhtx2"]
+[ext_resource type="Texture2D" uid="uid://bwi7b3ooy14vk" path="res://objects/level/Bumper/sprites/idle.png" id="3_luck8"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_x4se3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_dhtx2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_luck8")
+}],
+"loop": false,
+"name": &"bump",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_luck8")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]

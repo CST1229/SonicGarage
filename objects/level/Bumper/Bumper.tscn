@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://533hyqpwbgkl"]
+
+[ext_resource type="Script" uid="uid://bbwu2qwo7rjvv" path="res://objects/level/Bumper/Bumper.gd" id="1_sk8pi"]
+[ext_resource type="SpriteFrames" uid="uid://b3fddfnt6vetn" path="res://objects/level/Bumper/sprites/bumper.tres" id="2_10u70"]
+[ext_resource type="AudioStream" uid="uid://cm7qf1hbhtwe5" path="res://objects/level/Bumper/sounds/bumper.wav" id="3_77bmh"]
+[ext_resource type="PackedScene" uid="uid://dw7syfbdxqvkk" path="res://objects/general/EditorObjectBounds/EditorObjectBounds.tscn" id="4_u7o31"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10u70"]
+size = Vector2(16, 16)
+
+[node name="Bumper" type="Node2D" unique_id=1929260651]
+script = ExtResource("1_sk8pi")
+
+[node name="sprite" type="AnimatedSprite2D" parent="." unique_id=1771706885]
+sprite_frames = ExtResource("2_10u70")
+animation = &"bump"
+autoplay = "default"
+frame = 2
+frame_progress = 1.0
+
+[node name="sound" type="AudioStreamPlayer2D" parent="." unique_id=1437381049]
+stream = ExtResource("3_77bmh")
+volume_db = 20.0
+bus = &"SFX"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2078505663]
+collision_layer = 8
+collision_mask = 144
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=982063055]
+shape = SubResource("RectangleShape2D_10u70")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="EditorObjectBounds" parent="." unique_id=874206853 instance=ExtResource("4_u7o31")]
+size = Vector2(16, 16)
+
+[connection signal="animation_finished" from="sprite" to="." method="animation_finished"]
+[connection signal="body_entered" from="Area2D" to="." method="bump"]
