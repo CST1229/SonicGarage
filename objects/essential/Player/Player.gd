@@ -341,6 +341,8 @@ func player_control_grounded(direction: float, delta: float):
 				ground_speed -= SLIP;
 			else:
 				ground_speed += SLIP;
+	elif controllock_timer > 0 && absf(angle_diff) < FLOOR_SLIP_ANGLE:
+		controllock_timer = 0;
 	
 	if direction != 0 && signf(ground_speed) != -signf(direction) && !crouching:
 		facing_dir = direction;
@@ -668,6 +670,8 @@ func player_sprites(direction: float):
 			sprite.offset.x = 1;
 		elif absf(ground_normal.angle_to(Vector2(0, -1))) <= deg_to_rad(45):
 			sprite.offset.y = 1;
+	if sprite.animation != "skid" && skid_sound.playing:
+		skid_sound.stop();
 
 func _on_layer_switch(layer: int, grounded_only: bool):
 	if grounded_only && falling: return;
