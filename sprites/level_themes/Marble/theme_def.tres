@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://n33v7wbpjbtk" path="res://scripts/LevelDrawing/LevelThemeDef.gd" id="2_cxm1o"]
 
 [resource]
+resource_name = "Marble Zone"
 script = ExtResource("2_cxm1o")
-name = "Marble Zone"
 icon = ExtResource("1_miaqi")
 theme_file = "res://sprites/level_themes/EmeraldHill/level_theme.tres"
 metadata/_custom_type_script = "uid://n33v7wbpjbtk"

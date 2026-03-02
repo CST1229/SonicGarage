@@ -437,9 +437,9 @@ func set_hitbox_height():
 		shape.shape.size.x = width;
 	if shape.shape.size.y != height:
 		var align: float = shape.shape.size.y - height;
-		var mult := 0.75 if (is_on_floor() && !jumping) else 0.5;
-		shape.shape.size.y = height;
+		var mult := 0.5;
 		global_position += Vector2(0, align).rotated(shape.global_rotation) * mult;
+		shape.shape.size.y = height;
 		if is_on_floor():
 			apply_floor_snap();
 
@@ -656,20 +656,6 @@ func player_sprites(direction: float):
 	else:
 		sprite.speed_scale = 1;
 	
-	# correct dumb sprite alignment issues
-	if sprite.animation != "spin":
-		sprite.offset.x = 1 if facing_dir == 1 else 0;
-		var should_offset = absf(ground_normal.angle_to(Vector2(-1, -1))) < deg_to_rad(90);
-		sprite.offset.y = 1 if should_offset else 0;
-	else:
-		sprite.offset.x = 0;
-		sprite.offset.y = 0;
-		if absf(ground_normal.angle_to(Vector2(0, 1))) <= deg_to_rad(45):
-			sprite.offset.y = 2;
-		elif absf(ground_normal.angle_to(Vector2(1, 0))) <= deg_to_rad(45):
-			sprite.offset.x = 1;
-		elif absf(ground_normal.angle_to(Vector2(0, -1))) <= deg_to_rad(45):
-			sprite.offset.y = 1;
 	if sprite.animation != "skid" && skid_sound.playing:
 		skid_sound.stop();
 
@@ -714,7 +700,7 @@ func do_layer_color():
 	shape.debug_color = c;
 
 func _input(ev: InputEvent):
-	if ev.is_action_pressed("player_jump"):
+	if ev.is_action_pressed("player_jump") && !ev.is_echo():
 		jump_pressed = true;
 
 signal touch_badnik(badnik: Node2D, bounce_type: Badnik.BounceType);

@@ -1,6 +1,19 @@
 ## global stuff and utilities
 extends Node
 
+const MUSIC_PATH = "res://music/";
+class SongDef:
+	var name: String = "Unknown";
+	var author: String = "Unknown";
+	var as_seen_in: String = "Unknown";
+	var path: String;
+	
+	func _init(_name: String, _author: String, _music_path: String, _as_seen_in: String = "") -> void:
+		name = _name;
+		author = _author;
+		path = MUSIC_PATH + _music_path if _music_path != "" else _music_path;
+		as_seen_in = _as_seen_in;
+
 class ObjectDef:
 	var scene: String;
 	var name: String;
@@ -64,6 +77,21 @@ var editor_object_list: Array[String] = [
 	"bumper",
 ];
 var object_paths_to_id: Dictionary[String, String] = {};
+
+var songs: Dictionary[StringName, SongDef] = {
+	none = SongDef.new("Silence", "", "", "None"),
+	green_hill_zone = SongDef.new("Green Hill Zone - Sonic the Hedgehog", "SEGA Sound Team", "green_hill_zone.ogg", "Green Hill Zone"),
+	takeoff = SongDef.new("Take Off - Knuckles Chaotix", "SEGA Sound Team", "takeoff.ogg", "Title Screen"),
+	s3db_menu = SongDef.new("Menu - Sonic 3D Blast", "SEGA Sound Team?", "s3db_menu.ogg", "Level List"),
+	blue_ska = SongDef.new("Blue Ska", "Kevin MacLeod", "blue_ska.ogg", "Secret"),
+};
+
+var level_themes: Dictionary[StringName, String] = {
+	green_hill = "res://sprites/level_themes/GreenHill/theme_def.tres",
+	emerald_hill = "res://sprites/level_themes/EmeraldHill/theme_def.tres",
+	marble = "res://sprites/level_themes/Marble/theme_def.tres",
+};
+
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS;

@@ -10,7 +10,7 @@ func _physics_process(delta: float) -> void:
 
 func get_music_credits() -> String:
 	var credits = "";
-	for song in LevelUtil.songs.values():
+	for song in Global.songs.values():
 		if song.path != "":
 			credits += " - {0}: {1}, by {2}\n".format([song.as_seen_in, song.name, song.author]);
 	return credits.strip_edges(false, true);

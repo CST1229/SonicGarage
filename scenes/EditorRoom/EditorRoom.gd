@@ -21,8 +21,8 @@ func _ready():
 			push_error(err);
 	if level_container.music:
 		if level_container.music != "":
-			if level_container.music in LevelUtil.songs:
-				Music.play.call_deferred(load(LevelUtil.songs[level_container.music].path));
+			if level_container.music in Global.songs:
+				Music.play.call_deferred(load(Global.songs[level_container.music].path));
 			else:
 				push_error("Unknown song {0}".format(level_container.music));
 	

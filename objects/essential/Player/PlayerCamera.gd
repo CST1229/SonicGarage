@@ -13,6 +13,8 @@ func _ready():
 	_physics_process(10);
 
 func _physics_process(delta: float):
+	if get_tree().paused:
+		return;
 	if target.state == Player.State.DEAD:
 		return;
 	

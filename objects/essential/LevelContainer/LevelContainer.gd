@@ -10,7 +10,13 @@ class_name LevelContainer
 @export var editor_mode := false;
 @export var editor: LevelEditor = null;
 @export var music: String = "green_hill_zone";
-@export var theme: LevelTheme = null;
+@export var theme_id: String:
+	set(value):
+		theme_id = value;
+		if theme_id not in Global.level_themes:
+			theme_id = "green_hill";
+		theme = load(load(Global.level_themes[theme_id]).theme_file);
+var theme: LevelTheme = null;
 @export var show_background := true;
 
 var dirty: bool = true;
@@ -51,11 +57,9 @@ func deserialize(level: Dictionary) -> String:
 		return "Level is too new! Has format version: {0} (current is {1})".format([level.format, FORMAT_VERSION])
 	
 	if "theme" in level:
-		var _theme = str(level.theme);
-		if _theme.is_valid_filename() && _theme != ".." && _theme != ".": 
-			theme = load("res://sprites/level_themes/%s/level_theme.tres" % _theme);
-	if theme is not LevelTheme:
-		theme = load("res://sprites/level_themes/GreenHill/level_theme.tres");
+		theme_id = str(level.theme);
+	else:
+		theme_id = "green_hill";
 	deserialize_polygons(level.get("polygons", []));
 	deserialize_objects(level.get("objects", []));
 	add_players();
@@ -106,6 +110,7 @@ static func empty_level() -> Dictionary:
 
 func serialize() -> Dictionary:
 	var data := empty_level();
+	data.theme = theme_id;
 	data.polygons = [];
 	data.objects = [];
 	

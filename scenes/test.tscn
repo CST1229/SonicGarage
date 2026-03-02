@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://b60n02le4yvf0" path="res://objects/level/LayerSwitcher/LayerSwitcher.tscn" id="4_7sklr"]
 
 [node name="Node2D" type="Node2D" unique_id=1635586881 node_paths=PackedStringArray("level_container")]
-texture_filter = 1
 script = ExtResource("1_5rthq")
 should_load_level = false
 level_container = NodePath("LevelContainer")
