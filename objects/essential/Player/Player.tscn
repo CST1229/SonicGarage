@@ -46,6 +46,12 @@ floor_snap_length = 8.0
 safe_margin = 0.25
 script = ExtResource("1_cniba")
 
+[node name="sprite" type="AnimatedSprite2D" parent="." unique_id=1097283337]
+sprite_frames = ExtResource("4_voifm")
+animation = &"stand"
+autoplay = "stand"
+offset = Vector2(0, 0.5)
+
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=1894356076]
 shape = SubResource("RectangleShape2D_r84wf")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
@@ -73,12 +79,6 @@ drag_top_margin = 0.0
 drag_right_margin = 0.0
 drag_bottom_margin = 0.0
 script = ExtResource("3_q22vw")
-
-[node name="sprite" type="AnimatedSprite2D" parent="." unique_id=1097283337]
-sprite_frames = ExtResource("4_voifm")
-animation = &"stand"
-autoplay = "stand"
-offset = Vector2(0, 0.5)
 
 [node name="DebugLabels" type="CanvasLayer" parent="." unique_id=509983714]
 

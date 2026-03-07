@@ -21,13 +21,11 @@ const LAYER_MONITORS = (1 << 6);
 const LAYER_A_NAME = "Collision A";
 const LAYER_B_NAME = "Collision B";
 
-const POP_SCENE := preload("res://objects/enemies/badnik/BadnikPop.tscn");
-
 ## Spwans a [BadnikPop].
 # unused argument so it can be easily connected
 # to the hurt signal (which is the case for most badniks)
 func pop(node: Node2D):
-	var explosion: BadnikPop = POP_SCENE.instantiate();
+	var explosion: BadnikPop = load("res://objects/enemies/badnik/BadnikPop.tscn").instantiate();
 	explosion.global_position = node.global_position;
 	explosion.play_sound = true;
 	var parent := node.get_parent();

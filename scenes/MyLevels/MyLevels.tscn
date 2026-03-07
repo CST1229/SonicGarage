@@ -24,7 +24,7 @@ border_width_top = 1
 border_width_right = 1
 border_color = Color(1, 1, 1, 1)
 
-[node name="MyLevels" type="Node" unique_id=1660242958]
+[node name="MyLevels" type="CanvasLayer" unique_id=40960315]
 script = ExtResource("1_fn2a6")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1604165497]
@@ -88,34 +88,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="TextboxTestButton" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1120120096]
-layout_mode = 2
-theme_type_variation = &"LevelsListButton"
-text = "Text"
-flat = true
-alignment = 0
-
-[node name="TextboxTestEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=992371248]
-visible = false
-clip_contents = true
-layout_mode = 2
-theme_type_variation = &"LevelsListLineEdit"
-text = "Enter name..."
-placeholder_text = "text..."
-
-[node name="AnotherButton" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1339332372]
-layout_mode = 2
-theme_type_variation = &"LevelsListButton"
-text = "Hello person looking at this!"
-flat = true
-alignment = 0
-
 [node name="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=411729663 instance=ExtResource("2_q5wy1")]
 layout_mode = 2
 
 [node name="Filler" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1949317336]
 layout_mode = 2
-text = "asdfasdf sfd 
+text = "Hello person looking at this!
+
+If you're seeing this ingame...
+...then something went VERY wrong.
+
+asdfasdf sfd 
 asdfasdf sfd 
 asdfasdf sfd 
 asdfasdf sfd 

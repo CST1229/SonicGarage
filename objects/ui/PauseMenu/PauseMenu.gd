@@ -38,8 +38,9 @@ var level_container: LevelContainer;
 @onready var settings: Button = %Settings;
 @onready var quit: Button = %Quit;
 
+@onready var tab_container: TabContainer = $TabContainer;
 @onready var pause_tab: MarginContainer = $TabContainer/Pause;
-@onready var settings_tab = $TabContainer/Settings;
+var settings_tab: Panel;
 
 @onready var v_box_container: VBoxContainer = pause_tab.get_node(^"Pause/VBoxContainer");
 
@@ -74,9 +75,20 @@ func _ready() -> void:
 		Fades.fade_container.layer = 501;
 		get_viewport().gui_release_focus();
 	);
+	
 	settings.pressed.connect(func():
+		settings_tab = load("res://scenes/SettingsMenu/SettingsMenu.tscn").instantiate();
+		tab_container.add_child(settings_tab);
+		settings_tab.visibility_changed.connect(func():
+			if !settings_tab.visible:
+				settings_tab.queue_free();
+		);
+		
 		settings_tab.visible = true;
 		settings_tab.entered();
+		settings_tab.go_back.connect.call_deferred(func():
+			go_back();
+		);
 	);
 	quit.pressed.connect(func():
 		quit_pressed.emit(self);
@@ -98,9 +110,7 @@ func _ready() -> void:
 	save.pressed.connect(save_pressed.emit.bind(self));
 	save_as.pressed.connect(save_as_pressed.emit.bind(self));
 	load_button.pressed.connect(load_pressed.emit.bind(self));
-	
-	settings_tab.go_back.connect(go_back);
-	
+		
 	bg_fade.clicked.connect(func():
 		go_back();
 	);
@@ -114,7 +124,7 @@ func _input(event: InputEvent) -> void:
 			active = true;
 
 func go_back():
-	if settings_tab.visible:
+	if settings_tab:
 		pause_tab.show();
 		settings.grab_focus();
 	else:

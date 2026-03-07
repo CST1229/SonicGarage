@@ -23,6 +23,7 @@ func _ready() -> void:
 func check_run_current_scene():
 	create_fade(false, true);
 	if get_tree().current_scene.scene_file_path != SCENE_MANAGER_PATH:
+		await get_tree().process_frame;
 		scene_manager_default_scene = get_tree().current_scene.scene_file_path;
 		get_tree().change_scene_to_file(SCENE_MANAGER_PATH);
 

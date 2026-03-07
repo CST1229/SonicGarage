@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://bsova313pu5ck"]
+
+[ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="1_oweh8"]
+[ext_resource type="Script" uid="uid://pabsv5oqybod" path="res://objects/editor/LevelProperties/LevelProperties.gd" id="2_hlqei"]
+[ext_resource type="FontFile" uid="uid://bwoa021kuhdit" path="res://sprites/fonts/ui_font.png" id="3_5uud0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8eswu"]
+font = ExtResource("3_5uud0")
+font_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucmnd"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 1.0
+bg_color = Color(0.0277759, 0.27676, 0.172298, 1)
+corner_detail = 1
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=2146087969]
+script = ExtResource("2_hlqei")
+
+[node name="Settings" type="Panel" parent="." unique_id=292201666]
+custom_minimum_size = Vector2(280, 0)
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -1.0
+offset_right = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme = ExtResource("1_oweh8")
+metadata/_tab_index = 2
+
+[node name="Title" type="Label" parent="Settings" unique_id=7542874]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -131.0
+offset_top = 1.0
+offset_right = 94.0
+offset_bottom = 40.0
+grow_horizontal = 2
+text = "Level Properties"
+label_settings = SubResource("LabelSettings_8eswu")
+vertical_alignment = 1
+clip_text = true
+
+[node name="BackButton" type="Button" parent="Settings" unique_id=882808503]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -43.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 29.0
+grow_horizontal = 0
+focus_neighbor_left = NodePath(".")
+theme = ExtResource("1_oweh8")
+text = "Back"
+
+[node name="HMargin" type="MarginContainer" parent="Settings" unique_id=1716329979]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 0
+metadata/_edit_lock_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Settings/HMargin" unique_id=1590713472]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ucmnd")
+follow_focus = true
+
+[node name="VMargin" type="MarginContainer" parent="Settings/HMargin/ScrollContainer" unique_id=628387247]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 16
+
+[node name="SettingsList" type="VBoxContainer" parent="Settings/HMargin/ScrollContainer/VMargin" unique_id=970399142]
+layout_mode = 2
+
+[connection signal="pressed" from="Settings/BackButton" to="." method="_on_back_button_pressed"]

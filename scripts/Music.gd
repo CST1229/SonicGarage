@@ -83,6 +83,8 @@ func should_muffle_audio():
 		var scene := Fades.current_scene as EditorRoom;
 		if scene.level_container && scene.level_container.editor_mode:
 			return true;
+	if !is_inside_tree():
+		return false;
 	return get_tree().paused;
 
 func _on_scene_changed(_scene: PackedScene) -> void:

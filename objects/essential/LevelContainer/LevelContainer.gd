@@ -31,8 +31,8 @@ var player_start_pos := Vector2(0, 0);
 
 const FORMAT_VERSION = 2;
 
-const POLYGON_SCENE = preload("res://objects/essential/LevelContainer/Polygon.tscn");
-const PLAYER_SCENE = preload("res://objects/essential/Player/Player.tscn");
+var POLYGON_SCENE = load("res://objects/essential/LevelContainer/Polygon.tscn");
+var PLAYER_SCENE = load("res://objects/essential/Player/Player.tscn");
 
 func _ready():
 	if editor_mode:
@@ -60,6 +60,10 @@ func deserialize(level: Dictionary) -> String:
 		theme_id = str(level.theme);
 	else:
 		theme_id = "green_hill";
+	if "music" in level:
+		music = str(level.music);
+	else:
+		music = "green_hill_zone";
 	deserialize_polygons(level.get("polygons", []));
 	deserialize_objects(level.get("objects", []));
 	add_players();

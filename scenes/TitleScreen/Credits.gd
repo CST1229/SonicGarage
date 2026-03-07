@@ -10,7 +10,15 @@ func _physics_process(delta: float) -> void:
 
 func get_music_credits() -> String:
 	var credits = "";
-	for song in Global.songs.values():
+	for song_id in Global.songs:
+		var song := Global.songs[song_id];
 		if song.path != "":
-			credits += " - {0}: {1}, by {2}\n".format([song.as_seen_in, song.name, song.author]);
+			var start_tag := "";
+			var end_tag := "";
+			if song_id == "blue_ska":
+				start_tag = '[hint="Ctrl+Shift+Play?"]'
+				end_tag = "[/hint]";
+			credits += " - {0}{1}{4}: {2}, by {3}\n".format(
+				[start_tag, song.as_seen_in, song.name, song.author, end_tag]
+			);
 	return credits.strip_edges(false, true);

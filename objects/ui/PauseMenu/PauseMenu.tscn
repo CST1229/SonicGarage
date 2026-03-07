@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://y82g7v7jnrbw" path="res://sprites/icons/ui_large/levelsettings.png" id="7_diiiv"]
 [ext_resource type="Texture2D" uid="uid://ctif33ftuqoyh" path="res://sprites/icons/ui_large/load.png" id="9_2pk04"]
 [ext_resource type="Texture2D" uid="uid://spscc07c06pv" path="res://sprites/icons/ui_large/exit.png" id="10_2pk04"]
-[ext_resource type="PackedScene" uid="uid://rjjanteyns7o" path="res://scenes/SettingsMenu/SettingsMenu.tscn" id="12_diiiv"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_diiiv"]
 
@@ -186,8 +185,3 @@ theme = ExtResource("2_nte4g")
 text = "Quit to Title
 "
 icon = ExtResource("10_2pk04")
-
-[node name="Settings" parent="TabContainer" unique_id=292201666 instance=ExtResource("12_diiiv")]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 1

@@ -547,11 +547,11 @@ func hurt(direction := 0) -> bool:
 	return true;
 
 # https://info.sonicretro.org/SPG:Ring_Loss#Ring_Distribution
+var SCATTERED_RING = load("res://objects/level/Ring/ScatteredRing.tscn");
 func scatter_rings(rings: int):
 	rings = min(rings, 32);
 	
 	const RING_STARTING_ANGLE = deg_to_rad(101.25);
-	const SCATTERED_RING = preload("res://objects/level/Ring/ScatteredRing.tscn");
 	
 	var ring_angle := RING_STARTING_ANGLE; 
 	var ring_flip := false;

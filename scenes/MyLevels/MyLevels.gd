@@ -102,7 +102,7 @@ func reload():
 	create_folder_button = create_folder_arr[0];
 	
 	if current_dir != LevelUtil.FOLDER:
-		var del_folder := add_item("📁X Delete Folder");
+		var del_folder := add_item("📁X Delete Empty Folder");
 		del_folder.pressed.connect(func():
 			var check_files := dir.get_files().size() + dir.get_directories().size();
 			if check_files > 0:
@@ -138,7 +138,11 @@ func reload():
 		if !level_name.to_lower().ends_with(".sgl"):
 			continue;
 		has_levels = true;
-		var level_item := add_item(level_name.get_basename());
+		
+		var filtered_level_name := level_name.get_basename();
+		if filtered_level_name.strip_edges(true, false).begins_with("📁"):
+			filtered_level_name = "(level) " + filtered_level_name;
+		var level_item := add_item(filtered_level_name);
 		level_item.pressed.connect(func():
 			LevelUtil.coming_from_my_levels = true;
 			var full_path := current_dir.path_join(level_name);

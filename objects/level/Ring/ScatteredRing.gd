@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name ScatteredRing
 
-const RING_SCENE = preload("res://objects/level/Ring/Ring.tscn");
+var RING_SCENE = load("res://objects/level/Ring/Ring.tscn");
 
 const GRAVITY = 0.09375 * 60 * 60;
 const LIFESPAN = 4.25;
