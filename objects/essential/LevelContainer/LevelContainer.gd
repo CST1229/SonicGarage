@@ -60,6 +60,7 @@ func deserialize(level: Dictionary) -> String:
 		theme_id = str(level.theme);
 	else:
 		theme_id = "green_hill";
+	
 	if "music" in level:
 		music = str(level.music);
 	else:
@@ -131,7 +132,7 @@ func serialize() -> Dictionary:
 			layer = poly.layer,
 			semisolid = poly.semisolid,
 		});
-		
+	
 	for obj in objects.get_children():
 		if obj.has_method("serialize"):
 			var obj_id: String = Global.object_paths_to_id.get(obj.scene_file_path, "");

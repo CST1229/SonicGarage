@@ -436,12 +436,8 @@ func set_hitbox_height():
 	if shape.shape.size.x != width:
 		shape.shape.size.x = width;
 	if shape.shape.size.y != height:
-		var align: float = shape.shape.size.y - height;
-		var mult := 0.5;
-		global_position += Vector2(0, align).rotated(shape.global_rotation) * mult;
 		shape.shape.size.y = height;
-		if is_on_floor():
-			apply_floor_snap();
+		shape.position.y = (HITBOX_HEIGHT - height) / 2.0;
 
 func tick_levelcomplete(delta: float):
 	if sprite.animation != "levelcomplete_loop":

@@ -13,9 +13,9 @@ dest_files=["res://.godot/imported/spike.wav-7b4e963cbe5547c458102a078f977b84.sa
 [params]
 
 force/8_bit=false
-force/mono=false
+force/mono=true
 force/max_rate=false
-force/max_rate_hz=44100
+force/max_rate_hz=22050.0
 edit/trim=true
 edit/normalize=false
 edit/loop_mode=0

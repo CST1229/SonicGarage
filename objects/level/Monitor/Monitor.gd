@@ -79,7 +79,7 @@ func on_hit_hitbox(body: Node2D):
 	var player: Player = body as Player;
 	
 	if player.velocity.y <= 0 && (player.falling >= 0.075 || player.jumping || player.springing):
-		if player.global_position.y >= (global_position.y + 16):
+		if player.global_position.y >= (global_position.y + 24):
 			velocity.y = -1.5 * 60;
 			gravity = 0.21875 * 60 * 60;
 			player.velocity.y *= -1.0;

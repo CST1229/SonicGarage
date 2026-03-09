@@ -7,5 +7,5 @@
 resource_name = "Green Hill Zone"
 script = ExtResource("2_68ury")
 icon = ExtResource("1_g6krq")
-theme_file = "res://sprites/level_themes/EmeraldHill/level_theme.tres"
+theme_file = "res://sprites/level_themes/GreenHill/level_theme.tres"
 metadata/_custom_type_script = "uid://n33v7wbpjbtk"

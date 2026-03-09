@@ -9,3 +9,11 @@ The `master` branch of this repo is likely to be even more unfinished and broken
 ## Development
 
 Open the repo in Godot 4.6.1.
+
+<!--
+cst's build setup:
+
+git checkout 4.6.1-stable
+scons platform=linuxbsd lto=full build_profile=../../Godot/SonicGarage/buildprofile.build target=template_release
+strip ./bin/godot.linuxbsd.template_release.x86_64 
+-->

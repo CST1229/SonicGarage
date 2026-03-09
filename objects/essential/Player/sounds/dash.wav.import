@@ -13,12 +13,12 @@ dest_files=["res://.godot/imported/dash.wav-ffb5a1e359779fc0ef0df0c842725b11.sam
 [params]
 
 force/8_bit=false
-force/mono=false
+force/mono=true
 force/max_rate=false
-force/max_rate_hz=44100
+force/max_rate_hz=22050.0
 edit/trim=true
 edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

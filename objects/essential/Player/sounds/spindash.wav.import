@@ -13,9 +13,9 @@ dest_files=["res://.godot/imported/spindash.wav-137e3751a98dbb5b88736990a3aeb9f8
 [params]
 
 force/8_bit=false
-force/mono=false
+force/mono=true
 force/max_rate=false
-force/max_rate_hz=44100
+force/max_rate_hz=22050.0
 edit/trim=true
 edit/normalize=false
 edit/loop_mode=0

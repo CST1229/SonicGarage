@@ -13,9 +13,9 @@ dest_files=["res://.godot/imported/pass.wav-52669a5a2c77e77cd2857d7e17a3360e.sam
 [params]
 
 force/8_bit=false
-force/mono=false
+force/mono=true
 force/max_rate=false
-force/max_rate_hz=44100
+force/max_rate_hz=22050.0
 edit/trim=true
 edit/normalize=false
 edit/loop_mode=0

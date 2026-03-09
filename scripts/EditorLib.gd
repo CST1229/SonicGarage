@@ -53,7 +53,7 @@ func save_level_static(dict: Dictionary, path: String) -> Error:
 	var file := FileAccess.open(path, FileAccess.WRITE);
 	if file == null:
 		return FileAccess.get_open_error();
-	file.store_string(JSON.stringify(dict));
+	file.store_string(JSON.stringify(dict, "", false, true));
 	return OK;
 
 ## Loads a level.

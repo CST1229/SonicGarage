@@ -12,10 +12,8 @@ func _ready():
 	# move to the player position instantly
 	_physics_process(100);
 
-func _physics_process(delta: float):
-	if get_tree().paused:
-		return;
-	if target.state == Player.State.DEAD:
+func _physics_process(delta: float) -> void:
+	if !target || target.state == Player.State.DEAD:
 		return;
 	
 	if end_sign:
@@ -25,6 +23,7 @@ func _physics_process(delta: float):
 		global_position.y = move_toward(global_position.y, epos.y - 16, speed * delta);
 		return;
 	
+
 	var off := (target.global_position + Vector2(0, v_focus)) - global_position;
 	
 	var h_border: float = 8.0;
@@ -55,4 +54,8 @@ func _physics_process(delta: float):
 		else:
 			move_speed = 28 * 60;
 		
-		global_position.y = move_toward(global_position.y, target.global_position.y + v_focus, move_speed * delta);
+		global_position.y = move_toward(
+			global_position.y,
+			global_position.y + off.y,
+			move_speed * delta
+		);
