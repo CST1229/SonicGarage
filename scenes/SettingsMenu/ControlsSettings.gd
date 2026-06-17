@@ -28,7 +28,7 @@ func _ready() -> void:
 	add_control("Mouse Down", &"editor_mouse_down");
 	add_control("Mouse Left", &"editor_mouse_left");
 	add_control("Mouse Right", &"editor_mouse_right");
-	add_control("Move Faster", &"editor_scroll_fast");
+	add_control("Scroll Faster,\nPlaytest at Mouse", &"editor_scroll_fast");
 	add_control("Zoom In", &"editor_zoom_in");
 	add_control("Zoom Out", &"editor_zoom_out");
 	add_control("Reset Zoom", &"editor_zoom_reset");
@@ -51,7 +51,7 @@ func add_control(text: String, action: StringName) -> void:
 	title.text = text;
 	title.theme_type_variation = &"SmallLabel";
 	title.size_flags_vertical = Control.SIZE_SHRINK_BEGIN;
-	title.custom_minimum_size.x = 64;
+	title.custom_minimum_size.x = 72;
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART;
 	add_child(title);
 	var bind := BIND_SCENE.instantiate();

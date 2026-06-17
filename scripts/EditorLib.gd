@@ -73,7 +73,7 @@ func load_level(editor: bool, path: String, fade: bool = false) -> Error:
 		);
 		return err;
 	var json = parser.data;
-	LevelUtil.load_level = json;
+	LevelUtil.load_params.level = json;
 	
 	if editor:
 		LevelUtil.level_path = path;

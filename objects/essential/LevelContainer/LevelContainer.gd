@@ -108,7 +108,10 @@ func add_players() -> void:
 		node.queue_free();
 	if !editor_mode:
 		var added_player: Player = PLAYER_SCENE.instantiate();
-		added_player.position = player_start_pos;
+		if LevelUtil.load_params.is_playtesting_from_pos:
+			added_player.position = LevelUtil.load_params.playtest_pos;
+		else:
+			added_player.position = player_start_pos;
 		players.add_child(added_player);
 		player = added_player;
 

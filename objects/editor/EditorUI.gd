@@ -231,24 +231,24 @@ func _on_file_dialog_file_selected(path: String) -> void:
 		if !last_pause_menu: return;
 		last_pause_menu.active = false;
 		EditorLib.load_level(true, path, false);
-		LevelUtil.newly_loaded_level = true;
+		LevelUtil.load_params.newly_loaded_level = true;
 	elif file_dialog.file_mode == FileDialog.FILE_MODE_SAVE_FILE:
 		# Add file extension
 		if !(path.to_lower().ends_with(".sgl")) && !FileAccess.file_exists(path):
 			path += ".sgl";
-		LevelUtil.load_level = editor.container.serialize();
-		EditorLib.save_level(LevelUtil.load_level, path);
+		LevelUtil.load_params.level = editor.container.serialize();
+		EditorLib.save_level(LevelUtil.load_params.level, path);
 
 func _on_pause_menu_save_pressed(menu: PauseMenu) -> void:
 	if LevelUtil.level_path == "":
 		_on_pause_menu_save_as_pressed(menu);
 	else:
-		LevelUtil.load_level = editor.container.serialize();
-		EditorLib.save_level(LevelUtil.load_level, LevelUtil.level_path);
+		LevelUtil.load_params.level = editor.container.serialize();
+		EditorLib.save_level(LevelUtil.load_params.level, LevelUtil.level_path);
 		menu.go_back();
 
 func _on_pause_menu_quit_pressed(_menu: PauseMenu) -> void:
-	LevelUtil.load_level = editor.container.serialize();
+	LevelUtil.load_params.level = editor.container.serialize();
 
 func _on_menu_button_pressed() -> void:
 	pause_menu.active = true;

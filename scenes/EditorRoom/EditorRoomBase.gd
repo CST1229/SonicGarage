@@ -11,11 +11,11 @@ class_name EditorRoomBase
 
 @onready var pause_menu: PauseMenu = get_node_or_null(^"PauseMenu");
 
-func _ready():
+func _ready() -> void:
 	if !level_container:
 		return;
-	if LevelUtil.load_level && should_load_level:
-		var err := level_container.deserialize(LevelUtil.load_level);
+	if LevelUtil.load_params.level && should_load_level:
+		var err := level_container.deserialize(LevelUtil.load_params.level);
 		if err != "":
 			OS.alert(err, "Error loading level!");
 			push_error(err);
@@ -25,22 +25,19 @@ func _ready():
 				Music.play.call_deferred(load(Global.songs[level_container.music].path));
 			else:
 				push_error("Unknown song {0}".format(level_container.music));
+	LevelUtil.load_params.is_playtesting_from_pos = false;
 	
 
-func _unhandled_input(ev: InputEvent):
+func _unhandled_input(ev: InputEvent) -> void:
 	if ev.is_action_pressed("editor_playtest") && !ev.is_action_pressed("setting_fullscreen"):
 		playtest();
 
-func playtest():
+func playtest() -> void:
 	if playtest_room:
-		if level_container && level_container.editor_mode:
-			LevelUtil.load_level = level_container.serialize();
 		Fades.change_scene_to_file(playtest_room);
 
-func exit():
-	if level_container && level_container.editor_mode:
-		LevelUtil.load_level = level_container.serialize();
-	LevelUtil.newly_loaded_level = true;
+func exit() -> void:
+	LevelUtil.load_params.newly_loaded_level = true;
 	if LevelUtil.coming_from_my_levels:
 		return Fades.fade_to_scene("res://scenes/MyLevels/MyLevels.tscn");
 	else:

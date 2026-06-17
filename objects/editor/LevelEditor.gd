@@ -142,12 +142,6 @@ func _ready():
 	object_detector.body_entered.connect(do_polygon_detector.bind(false));
 	object_detector.body_exited.connect(do_polygon_detector.bind(true));
 	selection_changed.emit();
-	
-	do_start_pos.call_deferred();
-
-func do_start_pos():
-	if camera && container:
-		camera.position = container.player_start_pos;
 
 func _draw():
 	if drawing == DrawingMode.NONE && !hovering_over_gui:
@@ -300,11 +294,17 @@ func scroll_camera(delta: float):
 	if camera:
 		if Input.is_action_just_pressed("editor_zoom_reset"):
 			zoom = 0;
-			apply_camera_zoom();
+			apply_camera_zoom(true);
+			if Input.is_action_pressed("editor_scroll_fast"):
+				var pos := Vector2.ZERO;
+				var player_start: Node2D = get_tree().get_first_node_in_group(&"player_start");
+				if player_start:
+					pos = player_start.position;
+				camera.position = pos;
 		var zoom_by := int(Input.is_action_just_pressed("editor_zoom_in")) - int(Input.is_action_just_pressed("editor_zoom_out"));
 		if zoom_by != 0:
 			zoom = clampf(zoom + zoom_by, MIN_ZOOM, MAX_ZOOM);
-			apply_camera_zoom();
+			apply_camera_zoom(true);
 		
 		# deliberately use a rectangular vector,
 		# not a circular one
@@ -329,13 +329,14 @@ func scroll_camera(delta: float):
 		
 		camera.position += scroll / camera.zoom;
 
-func apply_camera_zoom():
+func apply_camera_zoom(from_mouse := false):
 	var zoom_factor := sqrt(sqrt(2)) ** zoom;
 	var old_mouse_pos_from_camera := camera.get_local_mouse_position();
 	camera.zoom = Vector2(zoom_factor, zoom_factor);
 	var new_mouse_pos_from_camera := camera.get_local_mouse_position();
-
-	camera.position += old_mouse_pos_from_camera - new_mouse_pos_from_camera;
+	
+	if from_mouse:
+		camera.position += old_mouse_pos_from_camera - new_mouse_pos_from_camera;
 	
 
 ## Updates the ghost object.

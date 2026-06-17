@@ -1,10 +1,20 @@
 extends Node
 
-## this is where the serialized level is stored between scenes.
-var load_level: Dictionary = LevelContainer.empty_level();
-## if true, the level load isn't a playtest switch
-var newly_loaded_level := true;
-var playtest_trails := PackedVector2Array();
+# level loading params
+class LevelLoadParams:
+	## this is where the serialized level is stored between scenes.
+	var level: Dictionary = LevelContainer.empty_level();
+	## if true, the level load isn't a playtest switch
+	var newly_loaded_level := true;
+	var playtest_trails := PackedVector2Array();
+	var editor_camera_pos := Vector2();
+	var editor_camera_zoom := 0.0;
+	
+	var is_playtesting_from_pos := false;
+	var playtest_pos := Vector2();
+
+var load_params := LevelLoadParams.new();
+
 var level_path := "";
 var level_manager: LevelManager = null;
 var coming_from_my_levels := false;
