@@ -62,11 +62,10 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6vk0")
-current_tab = 1
+current_tab = 0
 tabs_visible = false
 
 [node name="Menu" type="Panel" parent="CanvasLayer/Tabs" unique_id=118398819]
-visible = false
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -217,6 +216,7 @@ text = "Quit"
 icon = ExtResource("11_1xuge")
 
 [node name="Credits" type="Panel" parent="CanvasLayer/Tabs" unique_id=18110356]
+visible = false
 layout_mode = 2
 theme = ExtResource("2_trggm")
 metadata/_tab_index = 1

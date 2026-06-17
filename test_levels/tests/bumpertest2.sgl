@@ -1,0 +1,1 @@
+{"format":2,"objects":[{"id":"bumper","x":-16.0,"y":40.0},{"id":"bumper","x":16.0,"y":40.0},{"flip_h":false,"id":"player_start","x":0.0,"y":8.0}],"polygons":[],"theme":"green_hill"}

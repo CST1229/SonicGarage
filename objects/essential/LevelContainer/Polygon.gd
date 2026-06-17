@@ -135,7 +135,9 @@ func update_polygon() -> void:
 	
 	fill.polygons = [];
 	if valid:
-		collision_polygon.build_mode = CollisionPolygon2D.BUILD_SOLIDS;
+		collision_polygon.build_mode = CollisionPolygon2D.BUILD_SEGMENTS if (
+			!is_in_editor() && semisolid
+		) else CollisionPolygon2D.BUILD_SOLIDS;
 		collision_polygon.polygon = vectors;
 		fill.polygon = vectors;
 		decor_sections = LevelDrawing.compute_polygon(actual_theme, parsed_vertices, self);
