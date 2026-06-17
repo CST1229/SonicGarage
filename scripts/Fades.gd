@@ -7,7 +7,8 @@ const FADE_DURATION = 0.4;
 
 @onready var fade_container: CanvasLayer = CanvasLayer.new();
 
-var scene_manager_default_scene: String = "res://scenes/TitleScreen/TitleScreen.tscn";
+var scene_manager_default_scene: String = "res://scenes/Disclaimer/Disclaimer.tscn";
+const scene_manager_default_scene_nodisclaimer = "res://scenes/TitleScreen/TitleScreen.tscn";
 var is_fading_to_scene: Fade = null;
 
 var scene_manager: SceneManager;
@@ -16,6 +17,9 @@ var current_scene: Node:
 		return scene_manager.current_scene if scene_manager else null;
 
 func _ready() -> void:
+	if !Settings.show_disclaimer:
+		scene_manager_default_scene = scene_manager_default_scene_nodisclaimer;
+	
 	fade_container.layer = 499;
 	add_child(fade_container);
 	check_run_current_scene.call_deferred();

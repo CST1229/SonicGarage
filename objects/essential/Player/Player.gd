@@ -7,6 +7,8 @@ class_name Player
 
 ## If true, enables stuff like instant speed boosts.
 @export var DEBUG_MODE: bool = OS.has_feature("editor");
+## fun debug stuff
+const DEBUG_ALWAYSJUMP = false;
 
 enum State {
 	## Normal gameplay.
@@ -146,6 +148,8 @@ func _physics_process(delta: float):
 	# inputs
 	if jump_buffer > 0:
 		jump_buffer = move_toward(jump_buffer, 0, delta);
+	if DEBUG_ALWAYSJUMP:
+		jump_pressed = true
 	if jump_pressed:
 		jump_buffer = JUMP_BUFFER_TIME;
 	
@@ -197,6 +201,7 @@ func tick_normal(delta: float):
 	
 	if jump_buffer > 0 && falling <= COYOTE_TIME && (!crouching || rolling):
 		velocity += ground_normal * JUMP_VELOCITY;
+		emit_sudden_momentum_change();
 		jumping = true;
 		jump_buffer = 0;
 		falling = 100;
@@ -358,7 +363,7 @@ func player_control_falling(direction: float, delta: float):
 		# acceleration, deceleration
 		# a lot simpler than when grounded
 		var accel_mult := 0.25 if (rolling && jumping) else 1.0;
-		if signf(velocity.x) == -direction || velocity.x < SPEED:
+		if signf(velocity.x) == -direction || absf(velocity.x) < SPEED:
 			velocity.x = move_toward(velocity.x, SPEED * direction, AIR_ACCELERATION * accel_mult * delta);
 	
 	# air drag
@@ -510,7 +515,7 @@ func tick_dead(delta: float):
 	
 	dead_timer = move_toward(dead_timer, 0, delta);
 	if dead_timer <= 0:
-		var scene = Fades.current_scene as EditorRoom;
+		var scene = Fades.current_scene as EditorRoomBase;
 		if scene.has_method("playtest") && scene.has_method("exit"):
 			if scene.playtest_room:
 				scene.playtest();
@@ -520,6 +525,8 @@ func tick_dead(delta: float):
 func hurt(direction := 0) -> bool:
 	if state != State.NORMAL || invulnerable > 0:
 		return false;
+	
+	emit_sudden_momentum_change();
 	
 	if LevelUtil.level_manager && LevelUtil.level_manager.rings <= 0:
 		kill();
@@ -670,11 +677,13 @@ func _on_touch_badnik(badnik: Node2D, bounce_type: Badnik.BounceType):
 		if !is_on_floor():
 			match bounce_type:
 				Badnik.BounceType.NORMAL:
+					emit_sudden_momentum_change();
 					if global_position.y < badnik.global_position.y && velocity.y > 0:
 						velocity.y *= -1;
 					else:
 						velocity.y -= signf(velocity.y) * 60;
 				Badnik.BounceType.BOSS:
+					emit_sudden_momentum_change();
 					velocity.x *= -0.5;
 					velocity.y *= -0.5;
 	else:
@@ -695,8 +704,13 @@ func do_layer_color():
 	c.a8 = 100;
 	shape.debug_color = c;
 
+func emit_sudden_momentum_change() -> void:
+	sudden_momentum_change.emit();
+
 func _input(ev: InputEvent):
 	if ev.is_action_pressed("player_jump") && !ev.is_echo():
 		jump_pressed = true;
 
 signal touch_badnik(badnik: Node2D, bounce_type: Badnik.BounceType);
+## Instantly records a player trail position when emitted.
+signal sudden_momentum_change();

@@ -4,6 +4,8 @@ extends HFlowContainer
 @export var action: StringName = &"left";
 @export var player: int = 0;
 
+const MAX_EVENTS = 32;
+
 var padding: Control;
 var add_binds_button: Button;
 var reset_button: Button;
@@ -18,7 +20,7 @@ const ADD_BIND_ICON = preload("res://sprites/icons/ui/add_binding.png");
 const RESET_BINDS_ICON = preload("res://sprites/icons/ui/reset_binds.png");
 
 func _ready():
-	add_binds_button = add_button("", start_binding, "Add");
+	add_binds_button = add_button("", start_binding, "");
 	add_binds_button.focus_neighbor_left = ^".";
 	add_binds_button.icon = ADD_BIND_ICON;
 	reset_button = add_button("", func(_btn):
@@ -29,6 +31,15 @@ func _ready():
 	padding = Control.new();
 	padding.custom_minimum_size.x = 1;
 	add_child(padding);
+	
+	changed.connect(func():
+		if InputMap.action_get_events(action).size() >= MAX_EVENTS:
+			add_binds_button.disabled = true;
+			add_binds_button.tooltip_text = "Max of %s keys reached." % [MAX_EVENTS];
+		else:
+			add_binds_button.disabled = false;
+			add_binds_button.tooltip_text = "Add";
+	);
 	update_labels();
 
 func reset_binds() -> void:

@@ -88,6 +88,8 @@ func spring(_node: Node2D):
 		var node: PhysicsBody2D = _node as PhysicsBody2D;
 		var mirror: Vector2 = Vector2(-1 if flip_h else 1, -1 if flip_v else 1);
 		var force := 16.0 if type == &"red" else 10.0;
+		if node is Player:
+			node.emit_sudden_momentum_change();
 		if direction == SpringDirection.DIAGONAL:
 			node.global_position += Vector2(24, -24) * mirror;
 			node.velocity = mirror * force * 60 * Vector2(1, -1);

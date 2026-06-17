@@ -147,6 +147,8 @@ func select_mode(m: LevelEditor.Mode, t: LevelEditor.Tool) -> void:
 	
 	tools_visible(terrain_tools, LevelEditor.Mode.TERRAIN);
 	tools_visible(object_tools, LevelEditor.Mode.OBJECTS);
+	editor.container.objects.modulate.a = 1.0 if m == LevelEditor.Mode.OBJECTS else 0.33;
+	editor.container.polygons.modulate.a = 1.0 if m == LevelEditor.Mode.TERRAIN else 0.33;
 	
 	for mode: LevelEditor.Mode in mode_buttons.keys():
 		var button: Button = mode_buttons[mode];
@@ -229,6 +231,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 		if !last_pause_menu: return;
 		last_pause_menu.active = false;
 		EditorLib.load_level(true, path, false);
+		LevelUtil.newly_loaded_level = true;
 	elif file_dialog.file_mode == FileDialog.FILE_MODE_SAVE_FILE:
 		# Add file extension
 		if !(path.to_lower().ends_with(".sgl")) && !FileAccess.file_exists(path):

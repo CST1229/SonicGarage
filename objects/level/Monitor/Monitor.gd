@@ -83,7 +83,9 @@ func on_hit_hitbox(body: Node2D):
 			velocity.y = -1.5 * 60;
 			gravity = 0.21875 * 60 * 60;
 			player.velocity.y *= -1.0;
-		return;
+			return;
+		elif player.global_position.y >= (global_position.y + 8):
+			return;
 	if !player.is_curled():
 		return;
 	

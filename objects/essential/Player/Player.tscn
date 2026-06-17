@@ -53,6 +53,7 @@ autoplay = "stand"
 offset = Vector2(0, 0.5)
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=1894356076]
+visible = false
 shape = SubResource("RectangleShape2D_r84wf")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 

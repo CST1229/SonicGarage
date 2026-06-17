@@ -4,28 +4,35 @@ extends EditorScript
 # Puts a non-monospaced font from Aseprite (single-row only) into an imported font image.
 # How to use:
 # 1. Make sure Aseprite is in your PATH (so typing `aseprite` in the terminal should launch it)
-#    except on Linux and maybe macOS, where you have to add it to the hardcoded_path array
 # 2. Run this script (Ctrl+Shift+X), and select the exported font JSON.
 
-func exec(cmd: String, args: PackedStringArray) -> int:
+# executes from PATH
+func exec(cmd: String, args: PackedStringArray, debug := false) -> int:
 	var out := [];
+	
+	if !OS.has_feature("windows"):
+		args = PackedStringArray([cmd]) + args;
+		cmd = "/usr/bin/env";
+	
 	var exitcode := OS.execute(cmd, args, out, true);
-	prints(cmd, "with args", args, "exited with exitcode", exitcode);
+	var result := "exitcode %s: %s %s" % [exitcode, cmd, " ".join(args)];
+	if exitcode:
+		print("\n".join(out).rstrip("\n"));
+		printerr(result);
+	elif debug:
+		print("\n".join(out).rstrip("\n"));
+		# print(result);
 	return exitcode;
 
 func _run():
-	var ase_path := "aseprite";
-	# hacky but OS.execute doesnt seem to play well with PATH
-	for hardcoded_path in [
-		"/home/cst/Documents/Projects/Other/aseprite/aseprite-release/bin/aseprite"
-	]:
-		if FileAccess.file_exists(hardcoded_path):
-			ase_path = hardcoded_path;
-			break;
+	const ase_path = "aseprite";
 	
-	for font_name in ["ui_font"]:
-		var font_msgname := \
-			ProjectSettings.globalize_path("res://sprites/fonts/" + font_name);
+	if exec(ase_path, PackedStringArray(["--version"]), true):
+		OS.alert("Aseprite not found in PATH! (or otherwise failed to start)", "Error");
+		return;
+	
+	for font_name: String in ["ui_font"]:
+		var font_msgname := "res://sprites/fonts/" + font_name;
 		var font_png := \
 			ProjectSettings.globalize_path("res://sprites/fonts/" + font_name + ".png");
 		var font_aseprite := \

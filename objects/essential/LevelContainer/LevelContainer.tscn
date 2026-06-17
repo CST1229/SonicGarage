@@ -34,9 +34,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="polygons" type="Node2D" parent="." unique_id=1819042547]
+[node name="polygons" type="Node2D" parent="." unique_id=1195066194]
 
-[node name="objects" type="Node2D" parent="." unique_id=1344292079]
+[node name="objects" type="Node2D" parent="." unique_id=105975579]
 
 [node name="players" type="Node2D" parent="." unique_id=632601734]
 position = Vector2(0, 6)

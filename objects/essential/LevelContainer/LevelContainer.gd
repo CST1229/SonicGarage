@@ -23,9 +23,10 @@ var dirty: bool = true;
 
 @onready var bg_color: ColorRect = $BackgroundColor/BGColor
 @onready var background_container: Control = $Background/BackgroundContainer
-@onready var polygons = $polygons;
-@onready var objects = $objects;
-@onready var players = $players;
+@onready var polygons: Node2D = $polygons;
+@onready var objects: Node2D = $objects;
+@onready var players: Node2D = $players;
+var player: Player;
 
 var player_start_pos := Vector2(0, 0);
 
@@ -106,9 +107,10 @@ func add_players() -> void:
 	for node in players.get_children():
 		node.queue_free();
 	if !editor_mode:
-		var player: Player = PLAYER_SCENE.instantiate();
-		player.position = player_start_pos;
-		players.add_child(player);
+		var added_player: Player = PLAYER_SCENE.instantiate();
+		added_player.position = player_start_pos;
+		players.add_child(added_player);
+		player = added_player;
 
 static func empty_level() -> Dictionary:
 	return {format = FORMAT_VERSION};

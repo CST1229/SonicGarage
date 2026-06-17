@@ -81,3 +81,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") && event is not InputEventMouse:
 		goto_menu();
 		get_viewport().set_input_as_handled();
+	elif event.is_action_released("setting_disclaimer"):
+		get_viewport().set_input_as_handled();
+		if Settings.show_disclaimer:
+			Settings.show_disclaimer = false;
+			GlobalSounds.play_ring();
+			OS.alert("Disclaimer disabled.", "You pressed F7");
+		else:
+			Settings.show_disclaimer = true;
+			GlobalSounds.play_spindash();
+			OS.alert("Disclaimer enabled.", "You pressed F7");
+		Settings.save_settings();

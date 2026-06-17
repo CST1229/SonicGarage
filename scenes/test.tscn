@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://g6e2mtm1nci"]
 
-[ext_resource type="Script" uid="uid://5v60k3oa1gxk" path="res://scenes/EditorRoom/EditorRoom.gd" id="1_5rthq"]
+[ext_resource type="Script" uid="uid://5v60k3oa1gxk" path="res://scenes/EditorRoom/EditorRoomBase.gd" id="1_5rthq"]
 [ext_resource type="TileSet" uid="uid://crvlb72v4un44" path="res://tilesets/test.tres" id="1_xnd6d"]
 [ext_resource type="PackedScene" uid="uid://bcjbkb73mtovm" path="res://objects/essential/Player/Player.tscn" id="2_840n1"]
 [ext_resource type="PackedScene" uid="uid://cgbhgjr0rutts" path="res://objects/essential/LevelContainer/LevelContainer.tscn" id="2_at5dv"]

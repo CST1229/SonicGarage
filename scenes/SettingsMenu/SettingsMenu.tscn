@@ -196,9 +196,8 @@ text = "High Res Mode (F3)"
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
-tooltip_text = "Useful when zooming in the editor,
-but disabling increases performance
-and might make terrain look better."
+tooltip_text = "Renders terrain smoothly, at full resolution.
+(Always enabled in the editor.)"
 theme_type_variation = &"FlatCheckButton"
 flat = true
 script = ExtResource("7_krksl")

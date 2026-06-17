@@ -98,8 +98,7 @@ var hd := false:
 		if !first_time && hd == value:
 			return;
 		hd = value;
-		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT if !hd else Window.CONTENT_SCALE_MODE_CANVAS_ITEMS;
-		get_window().snap_2d_transforms_to_pixel = !hd;
+		update_hd();
 		changed.emit(&"hd");
 
 var show_fps := false:
@@ -108,6 +107,12 @@ var show_fps := false:
 			return;
 		show_fps = value;
 		changed.emit(&"show_fps");
+var show_disclaimer := true:
+	set(value):
+		if !first_time && show_disclaimer == value:
+			return;
+		show_disclaimer = value;
+		changed.emit(&"show_disclaimer");
 
 var keybinds: Dictionary[StringName, Array] = {};
 var default_keybinds: Dictionary[StringName, Array] = {};
@@ -132,9 +137,10 @@ func do_settings(opt: Callable) -> void:
 	save_verbatim.call(&"mute_on_focus_lost");
 	save_verbatim.call(&"hd");
 	save_verbatim.call(&"show_fps");
+	save_verbatim.call(&"show_disclaimer");
 	first_time = false;
 
-func _ready():
+func _ready() -> void:
 	process_mode = PROCESS_MODE_ALWAYS;
 	first_time = true;
 	serialize_binds(default_keybinds);
@@ -143,6 +149,16 @@ func _ready():
 		do_settings(func(val: Variant, _key: StringName) -> Variant:
 			return val;
 		);
+	
+	Fades.scene_changed.connect(func(_scene: PackedScene):
+		update_hd.call_deferred();
+	);
+
+func update_hd() -> void:
+	var is_hd := hd || Fades.current_scene is EditorRoom;
+	get_window().content_scale_mode = \
+		Window.CONTENT_SCALE_MODE_VIEWPORT if !is_hd else Window.CONTENT_SCALE_MODE_CANVAS_ITEMS;
+	get_window().snap_2d_transforms_to_pixel = !is_hd;
 
 func _input(ev: InputEvent) -> void:
 	if false && ev.is_action_pressed("setting_detail"):
@@ -153,6 +169,7 @@ func _input(ev: InputEvent) -> void:
 		save_settings();
 	if ev.is_action_pressed("setting_hd"):
 		hd = !hd;
+		save_settings();
 
 
 func load_settings() -> bool:

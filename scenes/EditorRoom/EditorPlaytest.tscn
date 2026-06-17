@@ -1,6 +1,15 @@
 [gd_scene format=3 uid="uid://l070ypfkipnj"]
 
 [ext_resource type="PackedScene" uid="uid://buap2erp6f7bf" path="res://scenes/CustomLevel/CustomLevel.tscn" id="1_mse4f"]
+[ext_resource type="Script" uid="uid://cpywuejyummvw" path="res://scenes/EditorRoom/EditorPlaytest.gd" id="2_b67bq"]
 
-[node name="CustomLevel" unique_id=1041436105 instance=ExtResource("1_mse4f")]
+[node name="EditorPlaytest" unique_id=1041436105 instance=ExtResource("1_mse4f")]
+script = ExtResource("2_b67bq")
 playtest_room = "res://scenes/EditorRoom/EditorRoom.tscn"
+
+[node name="TrailTimer" type="Timer" parent="." index="3" unique_id=992678636]
+process_callback = 0
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="TrailTimer" to="." method="_on_trail_timer_timeout"]

@@ -80,9 +80,7 @@ func stop():
 
 func should_muffle_audio():
 	if Fades.current_scene is EditorRoom:
-		var scene := Fades.current_scene as EditorRoom;
-		if scene.level_container && scene.level_container.editor_mode:
-			return true;
+		return true;
 	if !is_inside_tree():
 		return false;
 	return get_tree().paused;
