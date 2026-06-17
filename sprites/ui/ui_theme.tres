@@ -306,13 +306,13 @@ expand_margin_top = 1.0
 expand_margin_right = 1.0
 expand_margin_bottom = 1.0
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ui2n2"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_apokc"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7whrw"]
-content_margin_left = 3.0
-content_margin_top = 3.0
-content_margin_right = 3.0
-content_margin_bottom = 3.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5j1ws"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
 bg_color = Color(0.0470588, 0.364706, 0.278431, 1)
 border_width_left = 1
 border_width_top = 1
@@ -322,11 +322,11 @@ border_color = Color(0.576471, 0.576471, 0.576471, 1)
 corner_detail = 1
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pg8ie"]
-content_margin_left = 3.0
-content_margin_top = 3.0
-content_margin_right = 3.0
-content_margin_bottom = 3.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyl4y"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
 bg_color = Color(0.0470588, 0.364706, 0.278431, 1)
 border_width_left = 1
 border_width_top = 1
@@ -336,11 +336,11 @@ border_color = Color(0.576471, 0.576471, 0.576471, 1)
 corner_detail = 1
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r5a5f"]
-content_margin_left = 3.0
-content_margin_top = 3.0
-content_margin_right = 3.0
-content_margin_bottom = 3.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwss6"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
 bg_color = Color(0.0470588, 0.364706, 0.278431, 1)
 border_width_left = 1
 border_width_top = 1
@@ -541,10 +541,10 @@ ScoreLabel/base_type = &"Label"
 ScoreLabel/font_sizes/font_size = 16
 ScoreLabel/fonts/font = ExtResource("7_mbk3s")
 SelectedButton/base_type = &"Button"
-SelectedButton/styles/focus = SubResource("StyleBoxEmpty_ui2n2")
-SelectedButton/styles/hover = SubResource("StyleBoxFlat_7whrw")
-SelectedButton/styles/normal = SubResource("StyleBoxFlat_pg8ie")
-SelectedButton/styles/pressed = SubResource("StyleBoxFlat_r5a5f")
+SelectedButton/styles/focus = SubResource("StyleBoxEmpty_apokc")
+SelectedButton/styles/hover = SubResource("StyleBoxFlat_5j1ws")
+SelectedButton/styles/normal = SubResource("StyleBoxFlat_hyl4y")
+SelectedButton/styles/pressed = SubResource("StyleBoxFlat_hwss6")
 SmallButton/base_type = &"Button"
 SmallButton/font_sizes/font_size = 16
 SmallButton/fonts/font = ExtResource("5_s0aln")
