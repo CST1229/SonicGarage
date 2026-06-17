@@ -78,6 +78,9 @@ const MAX_ZOOM: float = 16.0;
 
 ## The vertex that is currently being snapped to.
 var snapped_vert: Vertex;
+var vert_create_between_first: Vertex;
+var vert_create_between_second: Vertex;
+var vert_create_between_pos: Vector2;
 ## The distance that vertex snapping should happen.
 const VERT_SNAP: float = 10 ** 2;
 
@@ -145,7 +148,11 @@ func _ready():
 
 func _draw():
 	if drawing == DrawingMode.NONE && !hovering_over_gui:
-		if (tool == Tool.LINE || (snapped_vert != null && !snapped_vert.selected)):
+		if (
+			tool == Tool.LINE || 
+			(snapped_vert != null && !snapped_vert.selected) ||
+			vert_create_between_first
+		):
 			EditorLib.draw_vert(self, snapped_mouse_pos, 0.5);
 	elif drawing == DrawingMode.LINE:
 		var polyline := PackedVector2Array();
@@ -209,6 +216,7 @@ func _process(delta: float):
 		if tool == Tool.VERT_SELECT || tool == Tool.LINE:
 			var snapped_dist := INF;
 			snapped_vert = null;
+			vert_create_between_first = null;
 			
 			# i know this doesn't square the true_zoom.
 			# it makes it snap more, but not as much as if it was squared
@@ -224,12 +232,29 @@ func _process(delta: float):
 						snapped_dist = dist;
 						snapped_mouse_pos = vert.global_position;
 						snapped_vert = vert;
+				if snapped_vert == null:
+					# minimum distance
+					snapped_dist = snap * 0.5;
+					for i in poly.vertices.size():
+						var prev_vert := poly.vertices[i - 1];
+						var vert := poly.vertices[i];
+						var closest_point := Geometry2D.get_closest_point_to_segment(
+							mouse_pos, prev_vert.global_position, vert.global_position
+						);
+						var dist := closest_point.distance_squared_to(actual_mp);
+						if dist < snapped_dist:
+							snapped_dist = dist;
+							vert_create_between_first = prev_vert;
+							vert_create_between_second = vert;
+							snapped_mouse_pos = closest_point;
 		else:
 			snapped_vert = null;
+			vert_create_between_first = null;
 	else:
 		object_detector.collision_layer = LevelUtil.LAYER_EDITOR_OBJECTS;
 		object_detector.collision_mask = object_detector.collision_layer;
 		snapped_vert = null;
+		vert_create_between_first = null;
 	
 	if drawing == DrawingMode.MOVE_VERT:
 		var polys_to_update: Array[Polygon] = [];
@@ -386,6 +411,22 @@ func _unhandled_input(ev: InputEvent):
 				if snapped_vert != null:
 					if !Input.is_action_pressed("editor_multiselect") && !snapped_vert.selected:
 						deselect_verts();
+					if !Input.is_action_pressed("editor_multiselect") || !snapped_vert.selected:
+						select_vert(snapped_vert);
+						drawing = DrawingMode.MOVE_VERT;
+					else:
+						deselect_vert(snapped_vert);
+					selection_changed.emit();
+				elif vert_create_between_first != null:
+					if !Input.is_action_pressed("editor_multiselect"):
+						deselect_verts();
+					snapped_vert = vert_create_between_first.duplicate();
+					snapped_vert.position = actual_mp.snapped(Vector2(grid_size, grid_size));
+					snapped_vert.polygon.vertices.insert(
+						snapped_vert.polygon.vertices.find(vert_create_between_first) + 1,
+						snapped_vert
+					);
+					snapped_vert.polygon.update_polygon();
 					if !Input.is_action_pressed("editor_multiselect") || !snapped_vert.selected:
 						select_vert(snapped_vert);
 						drawing = DrawingMode.MOVE_VERT;

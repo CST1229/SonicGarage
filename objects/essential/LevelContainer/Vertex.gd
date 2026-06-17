@@ -16,3 +16,12 @@ var global_position: Vector2:
 var polygon: Polygon = null;
 var selected: bool = false;
 var edge: StringName = &"auto";
+
+func duplicate() -> Vertex:
+	var new_vert := Vertex.new();
+	new_vert.position = position;
+	new_vert.polygon = polygon;
+	new_vert.edge = edge;
+	new_vert.selected = selected;
+	
+	return new_vert;
