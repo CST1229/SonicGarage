@@ -60,8 +60,14 @@ func reload():
 		container.add_child(error);
 		return;
 	
+	var create_container := HBoxContainer.new();
 	var create_arr := add_text_edit_item("Create Level...", "Enter filename...", "+", func(value: String):
 		value = value.strip_edges();
+		if value == "/empty":
+			LevelUtil.coming_from_my_levels = true;
+			LevelUtil.load_params.level = LevelContainer.empty_level();
+			Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
+			return;
 		if value == "":
 			return;
 		value = value + ".sgl";
@@ -82,7 +88,7 @@ func reload():
 		
 		reload();
 		create_level_button.grab_focus();
-	);
+	, Callable(), create_container);
 	create_level_button = create_arr[0];
 	var create_folder_arr := add_text_edit_item("Create Folder...", "Enter filename...", "📁+", func(value: String):
 		value = value.strip_edges();
@@ -98,8 +104,12 @@ func reload():
 			return;
 		reload();
 		create_folder_button.grab_focus();
-	);
+	, Callable(), create_container);
 	create_folder_button = create_folder_arr[0];
+	container.add_child(create_container);
+	
+	create_level_button.focus_neighbor_right = create_level_button.get_path_to(create_folder_button);
+	create_folder_button.focus_neighbor_left = create_folder_button.get_path_to(create_level_button);
 	
 	if current_dir != LevelUtil.FOLDER:
 		var del_folder := add_item("📁X Delete Empty Folder");
@@ -112,11 +122,22 @@ func reload():
 			go_back();
 		);
 	else:
-		var edit_last := add_item("📁← Edit Last");
+		var hb_container := HBoxContainer.new();
+		var edit_last := add_item("📁← Edit Last", hb_container);
 		edit_last.pressed.connect(func():
 			LevelUtil.coming_from_my_levels = true;
 			Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
 		);
+		var open_folder := add_item("📁! Browse Folder", hb_container);
+		open_folder.pressed.connect(func():
+			OS.shell_show_in_file_manager(
+				ProjectSettings.globalize_path(LevelUtil.FOLDER)
+			);
+		);
+		container.add_child(hb_container);
+		
+		edit_last.focus_neighbor_right = edit_last.get_path_to(open_folder);
+		open_folder.focus_neighbor_left = open_folder.get_path_to(edit_last);
 	
 	
 	var padding := Control.new();
@@ -174,13 +195,18 @@ func _unhandled_input(event: InputEvent) -> void:
 # on_submit takes in a String
 # on_edit, if passed, should return a string (which becomes the default value for the textbox)
 # returns: [Button, LineEdit, Control (container)]
-func add_text_edit_item(item_name: String, placeholder: String, text_icon: String = "", on_submit: Callable = Callable(), on_edit: Callable = Callable()) -> Array:
+func add_text_edit_item(
+	item_name: String, placeholder: String, text_icon: String = "",
+	on_submit: Callable = Callable(), on_edit: Callable = Callable(),
+	to: Node = container
+) -> Array:
 	var full_item_name := item_name;
 	if text_icon != "":
 		full_item_name = text_icon + " " + item_name;
-	var button := add_item(full_item_name);
+	var button := add_item(full_item_name, to);
 	var textbox_container := Control.new();
 	textbox_container.custom_minimum_size.y = ITEM_HEIGHT;
+	textbox_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL;
 	textbox_container.visible = false;
 	
 	var textbox := LineEdit.new();
@@ -227,7 +253,7 @@ func add_text_edit_item(item_name: String, placeholder: String, text_icon: Strin
 		on_submit.call(value);
 	);
 	textbox_container.add_child(textbox);
-	container.add_child(textbox_container);
+	to.add_child(textbox_container);
 	
 	button.pressed.connect(func():
 		textbox_container.visible = true;
@@ -240,15 +266,16 @@ func add_text_edit_item(item_name: String, placeholder: String, text_icon: Strin
 	);
 	return [button, textbox];
 
-func add_item(item_name: String) -> Button:
+func add_item(item_name: String, to: Node = container) -> Button:
 	var level := Button.new();
-	level.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY;
+	level.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART;
 	level.theme_type_variation = &"LevelsListButton";
 	level.text = item_name;
 	level.custom_minimum_size.y = ITEM_HEIGHT;
 	level.alignment = HORIZONTAL_ALIGNMENT_LEFT;
 	level.clip_text = true;
 	level.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS;
+	level.size_flags_horizontal = Control.SIZE_EXPAND_FILL;
 	level.focus_entered.connect(func():
 		level.begin_bulk_theme_override();
 		for key in ["disabled", "hover", "hover_pressed", "normal", "pressed"]:
@@ -262,7 +289,7 @@ func add_item(item_name: String) -> Button:
 		level.end_bulk_theme_override();
 	);
 	do_focus_yellowing(level);
-	container.add_child(level);
+	to.add_child(level);
 	if !first_item:
 		first_item = level;
 	last_item = level;
