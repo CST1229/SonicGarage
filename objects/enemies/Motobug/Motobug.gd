@@ -5,6 +5,9 @@ extends Badnik
 @onready var smoke_sprite = $visuals/smoke_sprite;
 var container: LevelContainer;
 
+@onready var turn_sensor_left: RayCast2D = $TurnSensorLeft;
+@onready var turn_sensor_right: RayCast2D = $TurnSensorRight;
+
 var gravity := 1000.0;
 var speed := 64.0;
 const ACCELERATION := 35.0 ** 2;
@@ -29,6 +32,26 @@ func _physics_process(delta: float):
 	var old_vel_x := velocity.x;
 	velocity.x = move_toward(velocity.x, (-1 if flip_h else 1) * speed, ACCELERATION * delta);
 	velocity.y += gravity * delta;
+	
+	smoke_sprite.visible = true;
+	sprite.speed_scale = 1.0;
+	if is_on_floor():
+		var turn_sensor_front := turn_sensor_right;
+		var turn_sensor_back := turn_sensor_left;
+		if flip_h:
+			turn_sensor_front = turn_sensor_left;
+			turn_sensor_back = turn_sensor_right;
+		turn_sensor_front.force_raycast_update();
+		turn_sensor_back.force_raycast_update();
+		if !turn_sensor_front.is_colliding():
+			if !turn_sensor_back.is_colliding():
+				velocity.x = 0;
+				smoke_sprite.visible = false;
+				sprite.speed_scale = 0.0;
+			else:
+				flip_h = !flip_h;
+				velocity.x = -velocity.x;
+	
 	move_and_slide();
 	if is_on_wall():
 		var old_flip_h := flip_h;

@@ -56,7 +56,10 @@ func redraw() -> void:
 	queue_redraw();
 
 func _draw() -> void:
-	if !is_in_editor(): return;
+	if !is_in_editor() || (
+		container.editor && container.editor.mode != LevelEditor.Mode.TERRAIN
+	):
+		return;
 	
 	if !valid:
 		# invalid outline

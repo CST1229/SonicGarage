@@ -232,9 +232,11 @@ func _process(delta: float):
 						snapped_dist = dist;
 						snapped_mouse_pos = vert.global_position;
 						snapped_vert = vert;
-				if snapped_vert == null:
-					# minimum distance
-					snapped_dist = snap * 0.5;
+			if snapped_vert == null:
+				# minimum distance
+				snapped_dist = snap * 0.5;
+				for body in object_detector.get_overlapping_bodies():
+					var poly := body.get_parent() as Polygon;
 					for i in poly.vertices.size():
 						var prev_vert := poly.vertices[i - 1];
 						var vert := poly.vertices[i];
@@ -316,6 +318,8 @@ func _process(delta: float):
 
 ## Handles the camera scroll controls and zooming.
 func scroll_camera(delta: float):
+	if Input.is_action_pressed("editor_shortcut_save"):
+		return;
 	if camera:
 		if Input.is_action_just_pressed("editor_zoom_reset"):
 			zoom = 0;

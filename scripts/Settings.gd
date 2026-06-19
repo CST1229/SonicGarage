@@ -117,7 +117,6 @@ var show_disclaimer := true:
 var keybinds: Dictionary[StringName, Array] = {};
 var default_keybinds: Dictionary[StringName, Array] = {};
 
-
 # opt: func(Variant (value to set to), StringName (JSON name)) -> Variant (value that gets get)
 func do_settings(opt: Callable) -> void:
 	var save_verbatim := func(variable: StringName) -> void:
@@ -250,6 +249,9 @@ var BINDABLE_KEYS: Array[StringName] = InputMap.get_actions().filter(func(action
 	return action_name.begins_with("player_") || action_name.begins_with("editor_") || action_name.begins_with("pause");
 ) as Array[StringName];
 
+func is_action_not_physical(action: StringName) -> bool:
+	return action.begins_with("editor_shortcut_");
+
 func serialize_binds(binds: Dictionary[StringName, Array]) -> Dictionary[StringName, Array]:
 	for key: StringName in BINDABLE_KEYS:
 		binds[key] = serialize_action(key);
@@ -266,7 +268,7 @@ func serialize_action(action: StringName) -> Array[Array]:
 	if !InputMap.has_action(action):
 		return arr;
 	for event: InputEvent in InputMap.action_get_events(action):
-		var serialized = serialize_input_event(event);
+		var serialized = serialize_input_event(event, action);
 		if serialized.size() > 0:
 			arr.append(serialized);
 	return arr;
@@ -276,16 +278,20 @@ func deserialize_action(events: Array, action: StringName) -> void:
 		InputMap.add_action(action);
 	InputMap.action_erase_events(action);
 	for serialized: Array in events:
-		var ev := deserialize_input_event(serialized);
+		var ev := deserialize_input_event(serialized, action);
 		if ev == null:
 			push_error("{0} has unknown keybind type {1}".format([action, serialized[0]]));
 		else:
 			InputMap.action_add_event(action, ev);
 
-func serialize_input_event(event: InputEvent) -> Array:
+func serialize_input_event(event: InputEvent, for_action: StringName) -> Array:
 	var device := event.device;
 	if event is InputEventKey:
-		var keycode = (event as InputEventKey).get_physical_keycode_with_modifiers();
+		var keycode := 0;
+		if is_action_not_physical(for_action):
+			keycode = (event as InputEventKey).get_keycode_with_modifiers();
+		else:
+			keycode = (event as InputEventKey).get_physical_keycode_with_modifiers();
 		return ["key", device, OS.get_keycode_string(keycode)];
 	elif event is InputEventJoypadButton:
 		return ["joypadbutton", device, (event as InputEventJoypadButton).button_index];
@@ -295,11 +301,11 @@ func serialize_input_event(event: InputEvent) -> Array:
 		return ["joypadmotion", device, (event as InputEventJoypadMotion).axis, (event as InputEventJoypadMotion).axis_value];
 	return [];
 
-## Filters an input event as if it were just deserialized.1
-func filter_input_event(event: InputEvent) -> InputEvent:
-	return deserialize_input_event(serialize_input_event(event));
+## Filters an input event as if it were just deserialized.
+func filter_input_event(event: InputEvent, for_action: StringName) -> InputEvent:
+	return deserialize_input_event(serialize_input_event(event, for_action), for_action);
 
-func deserialize_input_event(serialized: Array) -> InputEvent:
+func deserialize_input_event(serialized: Array, for_action: StringName) -> InputEvent:
 	var type: String = serialized[0];
 	var device: int = serialized[1];
 	match type:
@@ -307,10 +313,27 @@ func deserialize_input_event(serialized: Array) -> InputEvent:
 			var ev := InputEventKey.new();
 			ev.device = device;
 			ev.pressed = true;
-			var key = serialized[2];
-			if key is String:
-				key = OS.find_keycode_from_string(key);
-			ev.physical_keycode = key;
+			var key := 0;
+			if serialized[2] is String:
+				key = OS.find_keycode_from_string(serialized[2]);
+			else:
+				key = int(serialized[2]);
+			if key & KEY_MASK_CTRL:
+				key = key & ~KEY_MASK_CTRL;
+				ev.ctrl_pressed = true;
+			if key & KEY_MASK_ALT:
+				key = key & ~KEY_MASK_ALT;
+				ev.alt_pressed = true;
+			if key & KEY_MASK_META:
+				key = key & ~KEY_MASK_SHIFT;
+				ev.shift_pressed = true;
+			if key & KEY_MASK_META:
+				key = key & ~KEY_MASK_META;
+				ev.meta_pressed = true;
+			if is_action_not_physical(for_action):
+				ev.keycode = key as Key;
+			else:
+				ev.physical_keycode = key as Key;
 			return ev;
 		"joypadbutton":
 			var ev := InputEventJoypadButton.new();
@@ -332,25 +355,31 @@ func deserialize_input_event(serialized: Array) -> InputEvent:
 			return ev;
 	return null;
 
-func get_bind_name(event: InputEvent, include_pad := true) -> String:
+func get_bind_name(event: InputEvent, for_action: StringName, include_pad := true) -> String:
 	if event is InputEventJoypadButton:
-		var pad_name: String = "Pad{0}: ".format([event.device + 1]) if include_pad else "";
+		var pad_name: String = "Joy{0}: ".format([event.device + 1]) if include_pad else "";
 		return "{0}{1}".format([pad_name, get_joypad_button_name(event.button_index)])
 	elif event is InputEventJoypadMotion:
-		var pad_name: String = "Pad{0}: ".format([event.device + 1]) if include_pad else "";
+		var pad_name: String = "Joy{0}: ".format([event.device + 1]) if include_pad else "";
 		return "{0}{1}".format([pad_name, get_joypad_axis_name(event.axis, event.axis_value)])
 	elif event is InputEventKey:
-		var keycode := DisplayServer.keyboard_get_keycode_from_physical(event.get_physical_keycode_with_modifiers());
+		var keycode := 0;
+		if is_action_not_physical(for_action):
+			keycode = event.get_keycode_with_modifiers();
+		else:
+			keycode = DisplayServer.keyboard_get_keycode_from_physical(
+				event.get_physical_keycode_with_modifiers()
+			);
 		return OS.get_keycode_string(keycode);
 	else:
 		return event.as_text().replace(" (Physical)", "");
 
 func get_joypad_button_name(button: JoyButton) -> String:
 	match button:
-		JOY_BUTTON_A: return "A";
-		JOY_BUTTON_B: return "B";
-		JOY_BUTTON_X: return "X";
-		JOY_BUTTON_Y: return "Y";
+		JOY_BUTTON_A: return "A (v)";
+		JOY_BUTTON_B: return "B (>)";
+		JOY_BUTTON_X: return "X (<)";
+		JOY_BUTTON_Y: return "Y (^)";
 		JOY_BUTTON_BACK: return "Back";
 		JOY_BUTTON_START: return "Start";
 		JOY_BUTTON_GUIDE: return "Guide";
@@ -358,10 +387,10 @@ func get_joypad_button_name(button: JoyButton) -> String:
 		JOY_BUTTON_DPAD_DOWN: return "D-Pad Down";
 		JOY_BUTTON_DPAD_LEFT: return "D-Pad Left";
 		JOY_BUTTON_DPAD_RIGHT: return "D-Pad Right";
-		JOY_BUTTON_LEFT_STICK: return "L Stick Press";
-		JOY_BUTTON_RIGHT_STICK: return "R Stick Press";
-		JOY_BUTTON_LEFT_SHOULDER: return "L Shoulder";
-		JOY_BUTTON_RIGHT_SHOULDER: return "R Shoulder";
+		JOY_BUTTON_LEFT_STICK: return "LStick Press";
+		JOY_BUTTON_RIGHT_STICK: return "RStick Press";
+		JOY_BUTTON_LEFT_SHOULDER: return "LShoulder";
+		JOY_BUTTON_RIGHT_SHOULDER: return "RShoulder";
 		JOY_BUTTON_MISC1: return "Misc.";
 		JOY_BUTTON_PADDLE1: return "Paddle 1";
 		JOY_BUTTON_PADDLE2: return "Paddle 2";
@@ -374,12 +403,12 @@ func get_joypad_axis_name(axis: JoyAxis, value: float = 1) -> String:
 	var hor_axis := "Left" if value < 0 else "Right";
 	var ver_axis := "Up" if value < 0 else "Down";
 	match axis:
-		JOY_AXIS_LEFT_X: return "L Stick {0}".format([hor_axis]);
-		JOY_AXIS_LEFT_Y: return "L Stick {0}".format([ver_axis]);
-		JOY_AXIS_RIGHT_X: return "R Stick {0}".format([hor_axis]);
-		JOY_AXIS_RIGHT_Y: return "R Stick {0}".format([ver_axis]);
-		JOY_AXIS_TRIGGER_LEFT: return "L Trigger";
-		JOY_AXIS_TRIGGER_RIGHT: return "R Trigger";
+		JOY_AXIS_LEFT_X: return "LStick {0}".format([hor_axis]);
+		JOY_AXIS_LEFT_Y: return "LStick {0}".format([ver_axis]);
+		JOY_AXIS_RIGHT_X: return "RStick {0}".format([hor_axis]);
+		JOY_AXIS_RIGHT_Y: return "RStick {0}".format([ver_axis]);
+		JOY_AXIS_TRIGGER_LEFT: return "LTrigger";
+		JOY_AXIS_TRIGGER_RIGHT: return "RTrigger";
 		_: return "Unknown";
 
 signal changed(setting: StringName);

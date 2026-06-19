@@ -24,6 +24,8 @@ class_name EditorUI
 @onready var file_dialog: FileDialog = $FileDialog;
 var last_pause_menu: PauseMenu;
 
+@onready var save_sound: AudioStreamPlayer = $SaveSound;
+
 var objects_flap_open := false;
 var objects_flap_transition := 0.0;
 
@@ -85,6 +87,8 @@ func do_dehover() -> void:
 func _process(delta: float) -> void:
 	objects_flap_transition = move_toward(objects_flap_transition, float(objects_flap_open), delta * 5);
 	object_selector.offset_right = ease(objects_flap_transition, -2) * -(object_selector_panel.offset_right - 1);
+	if Input.is_action_just_pressed("editor_shortcut_save"):
+		_on_pause_menu_save_pressed(null);
 
 var mouse_entrance_token = null;
 func populate_object_list(objects: Array[String]) -> void:
@@ -147,8 +151,8 @@ func select_mode(m: LevelEditor.Mode, t: LevelEditor.Tool) -> void:
 	
 	tools_visible(terrain_tools, LevelEditor.Mode.TERRAIN);
 	tools_visible(object_tools, LevelEditor.Mode.OBJECTS);
-	editor.container.objects.modulate.a = 1.0 if m == LevelEditor.Mode.OBJECTS else 0.33;
-	editor.container.polygons.modulate.a = 1.0 if m == LevelEditor.Mode.TERRAIN else 0.33;
+	editor.container.objects.modulate.a = 1.0 if m == LevelEditor.Mode.OBJECTS else 0.5;
+	editor.container.polygons.modulate.a = 1.0 if m == LevelEditor.Mode.TERRAIN else 0.5;
 	
 	for mode: LevelEditor.Mode in mode_buttons.keys():
 		var button: Button = mode_buttons[mode];
@@ -223,7 +227,8 @@ func _on_pause_menu_save_as_pressed(menu: PauseMenu) -> void:
 		else ProjectSettings.globalize_path(LevelUtil.FOLDER);
 	file_dialog.current_file = LevelUtil.level_path.get_file() if LevelUtil.level_path \
 		else "level.sgl";
-	menu.go_back();
+	if menu:
+		menu.go_back();
 	file_dialog.popup();
 
 func _on_file_dialog_file_selected(path: String) -> void:
@@ -238,6 +243,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 			path += ".sgl";
 		LevelUtil.load_params.level = editor.container.serialize();
 		EditorLib.save_level(LevelUtil.load_params.level, path);
+		save_sound.play();
 
 func _on_pause_menu_save_pressed(menu: PauseMenu) -> void:
 	if LevelUtil.level_path == "":
@@ -245,7 +251,9 @@ func _on_pause_menu_save_pressed(menu: PauseMenu) -> void:
 	else:
 		LevelUtil.load_params.level = editor.container.serialize();
 		EditorLib.save_level(LevelUtil.load_params.level, LevelUtil.level_path);
-		menu.go_back();
+		save_sound.play();
+		if menu:
+			menu.go_back();
 
 func _on_pause_menu_quit_pressed(_menu: PauseMenu) -> void:
 	LevelUtil.load_params.level = editor.container.serialize();

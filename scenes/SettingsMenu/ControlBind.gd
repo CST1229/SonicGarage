@@ -62,19 +62,24 @@ func _input(event: InputEvent) -> void:
 		return
 		
 	get_tree().root.set_input_as_handled();
-	if event is InputEventKey || event is InputEventJoypadButton || event is InputEventJoypadMotion || event is InputEventMouseButton:
+	if event is InputEventKey || event is InputEventJoypadButton || \
+		event is InputEventJoypadMotion || event is InputEventMouseButton:
 		if event is InputEventJoypadMotion:
 			if absf(event.axis_value) < 0.8: return;
 		if event is InputEventKey:
-			if !event.is_released():
-				return;
+			if event.physical_keycode in [KEY_CTRL, KEY_SHIFT, KEY_ALT, KEY_META]:
+				if !event.is_released():
+					return;
+			else:
+				if !event.is_pressed():
+					return;
 			if event.echo:
 				return;
 		else:
 			if !event.is_pressed():
 				return;
 		
-		var filtered_event: InputEvent = Settings.filter_input_event(event);
+		var filtered_event: InputEvent = Settings.filter_input_event(event, action);
 		var already_exists: bool = false;
 		for existing_event in InputMap.action_get_events(action):
 			if filtered_event.is_match(existing_event):
@@ -113,7 +118,9 @@ func update_labels() -> void:
 	changed.emit();
 
 func add_input_button(event: InputEvent) -> void:
-	var button := add_button(Settings.get_bind_name(event), remove_event.bind(event), "Click to remove");
+	var button := add_button(
+		Settings.get_bind_name(event, action), remove_event.bind(event), "Click to remove"
+	);
 	button.add_to_group(&"binds");
 	button.icon = UNBIND_ICON;
 	button.icon_alignment = HORIZONTAL_ALIGNMENT_RIGHT;

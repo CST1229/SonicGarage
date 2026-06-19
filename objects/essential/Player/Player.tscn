@@ -13,7 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://swfmynw0abdm" path="res://objects/essential/Player/sounds/ringloss.wav" id="10_l3uft"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r84wf"]
-size = Vector2(18, 38)
+size = Vector2(0, 0)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_50137"]
 radius = 9.0
@@ -26,7 +26,6 @@ size = Vector2(0, 0)
 line_spacing = 2.0
 font_size = 5
 stacked_shadow_count = 9
-stacked_shadow_0/offset = Vector2(1, 1)
 stacked_shadow_1/offset = Vector2(-1, 1)
 stacked_shadow_2/offset = Vector2(1, -1)
 stacked_shadow_3/offset = Vector2(-1, -1)
@@ -56,6 +55,10 @@ offset = Vector2(0, 0.5)
 visible = false
 shape = SubResource("RectangleShape2D_r84wf")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="CeilingNormal" type="RayCast2D" parent="Shape" unique_id=1857908604]
+enabled = false
+target_position = Vector2(0, -19)
 
 [node name="Shape_UNUSED" type="CollisionShape2D" parent="." unique_id=1358843356]
 visible = false

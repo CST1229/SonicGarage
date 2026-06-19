@@ -19,6 +19,8 @@ enum State {
 	HURT,
 	## Death state.
 	DEAD,
+	## Debug fly state.
+	DEBUG,
 }
 var state := State.NORMAL;
 var queue_level_complete := false;
@@ -107,6 +109,8 @@ var terrain_layer: int = LevelUtil.LAYER_A | LevelUtil.LAYER_B;
 var invulnerable := 0.0;
 var dead_timer := 0.0;
 
+var debug_velocity := 0.0;
+
 @onready var shape: CollisionShape2D = $Shape;
 @onready var sprite: AnimatedSprite2D = $sprite;
 @onready var camera: Camera2D = $Camera;
@@ -118,6 +122,8 @@ var dead_timer := 0.0;
 @onready var hurt_sound: AudioStreamPlayer = $hurt_sound;
 @onready var ringloss_sound: AudioStreamPlayer = $ringloss_sound;
 
+@onready var ceiling_normal_raycast: RayCast2D = $Shape/CeilingNormal;
+
 @onready var debug_labels: CanvasLayer = $DebugLabels;
 @onready var debug_label: Label = $DebugLabels/DebugLabel;
 @onready var old_debug_label_text := debug_label.text;
@@ -127,7 +133,9 @@ func _ready():
 	set_animation("stand");
 	update_layer();
 	do_layer_color();
+	set_hitbox_height();
 	debug_labels.visible = DEBUG_MODE; 
+	
 
 func _draw():
 	# the debug line(tm)
@@ -169,6 +177,16 @@ func _physics_process(delta: float):
 		state = State.LEVEL_COMPLETE;
 		queue_level_complete = false;
 	
+	if Input.is_action_just_pressed("debug"):
+		if state == State.DEBUG:
+			state = State.NORMAL;
+			debug_velocity = 0;
+			shape.disabled = false;
+		else:
+			state = State.DEBUG;
+			debug_velocity = 0;
+			shape.disabled = true;
+		
 	match state:
 		State.NORMAL:
 			tick_normal(delta);
@@ -179,6 +197,8 @@ func _physics_process(delta: float):
 			tick_hurt(delta);
 		State.DEAD:
 			tick_dead(delta);
+		State.DEBUG:
+			tick_debug(delta);
 	
 	if just_sprung > 0:
 		just_sprung -= 1;
@@ -375,12 +395,15 @@ func player_control_falling(direction: float, delta: float):
 func player_react_to_collision(prev_floor: bool, prev_velocity: Vector2, delta: float):
 	# ceiling collisions
 	var hit_floor = is_on_floor();
-	if !hit_floor && is_on_ceiling():
-		if test_move(transform, Vector2(-2, -8)) && test_move(transform, Vector2(2, -8)):
-			if !test_move(transform, Vector2(-8, -6), null, 0.08, true):
+	ceiling_normal_raycast.force_raycast_update();
+	if !hit_floor && is_on_ceiling() && ceiling_normal_raycast.is_colliding():
+		# get_ceiling_normal doesnt exist aaaaa
+		var ceiling_normal := ceiling_normal_raycast.get_collision_normal();
+		if absf(ceiling_normal.x) < 0.95 && absf(ceiling_normal.x) > 0.75:
+			if ceiling_normal.x < 0:
 				ground_normal = Vector2.LEFT;
 				hit_floor = true;
-			elif !test_move(transform, Vector2(8, -6), null, 0.08, true):
+			else:
 				ground_normal = Vector2.RIGHT;
 				hit_floor = true;
 		if hit_floor:
@@ -437,12 +460,13 @@ func set_hitbox_height():
 	var small_w := rolling || jumping;
 	var height := HITBOX_HEIGHT if !small else CROUCHING_HITBOX_HEIGHT;
 	var width := HITBOX_WIDTH if !small_w else CROUCHING_HITBOX_WIDTH;
-
-	if shape.shape.size.x != width:
-		shape.shape.size.x = width;
-	if shape.shape.size.y != height:
-		shape.shape.size.y = height;
-		shape.position.y = (HITBOX_HEIGHT - height) / 2.0;
+	
+	shape.shape.size.x = width;
+	shape.shape.size.y = height;
+	ceiling_normal_raycast.target_position = Vector2(
+		0, -height / 2.0 - 16.0
+	);
+	shape.position.y = (HITBOX_HEIGHT - height) / 2.0;
 
 func tick_levelcomplete(delta: float):
 	if sprite.animation != "levelcomplete_loop":
@@ -521,6 +545,56 @@ func tick_dead(delta: float):
 				scene.playtest();
 			else:
 				scene.exit();
+
+func tick_debug(delta: float) -> void:
+	const DEBUG_MIN_VELOCITY := 5.0 * 60;
+	const DEBUG_ACCELERATION := 0.1 * 60 * 60;
+	var vec := Input.get_vector(
+		"player_left", "player_right", "player_up", "player_down"
+	);
+	if vec == Vector2.ZERO:
+		if (
+			!Input.is_action_pressed("player_up") &&
+			!Input.is_action_pressed("player_down") &&
+			!Input.is_action_pressed("player_left") &&
+			!Input.is_action_pressed("player_right")
+		):
+			debug_velocity = 0;
+		elif (
+			Input.is_action_pressed("player_up") &&
+			Input.is_action_pressed("player_down") &&
+			Input.is_action_pressed("player_left") &&
+			Input.is_action_pressed("player_right")
+		):
+			debug_velocity += DEBUG_ACCELERATION * delta;
+	else:
+		debug_velocity += DEBUG_ACCELERATION * delta;
+	
+	var actual_velocity := 0.0;
+	if vec == Vector2.ZERO:
+		actual_velocity = 0;
+	elif Input.is_action_pressed("player_jump"):
+		actual_velocity = DEBUG_MIN_VELOCITY + debug_velocity * 2.0;
+	else:
+		actual_velocity = DEBUG_MIN_VELOCITY + debug_velocity;
+	
+	velocity = vec * actual_velocity;
+	position += velocity * delta;
+	
+	sprite.rotation = 0;
+	ground_normal = Vector2.UP;
+	if vec.x != 0:
+		facing_dir = signf(vec.x);
+	crouching = false;
+	rolling = false;
+	spindashing = false;
+	jumping = false;
+	springing = false;
+	no_rollcancel = false;
+	falling = 999;
+	
+	sprite.play("stand");
+	sprite.flip_h = facing_dir == -1.0;
 
 func hurt(direction := 0) -> bool:
 	if state != State.NORMAL || invulnerable > 0:
@@ -664,6 +738,7 @@ func player_sprites(direction: float):
 
 func _on_layer_switch(layer: int, grounded_only: bool):
 	if grounded_only && falling: return;
+	if state == State.DEBUG: return;
 	terrain_layer = layer;
 	update_layer();
 
@@ -692,6 +767,7 @@ func _on_touch_badnik(badnik: Node2D, bounce_type: Badnik.BounceType):
 func update_layer():
 	collision_layer = LevelUtil.LAYER_PLAYER;
 	collision_mask = terrain_layer;
+	ceiling_normal_raycast.collision_mask = terrain_layer;
 	if !is_curled():
 		collision_mask |= LevelUtil.LAYER_MONITORS;
 

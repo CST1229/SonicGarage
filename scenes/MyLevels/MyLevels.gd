@@ -65,6 +65,7 @@ func reload():
 		value = value.strip_edges();
 		if value == "/empty":
 			LevelUtil.coming_from_my_levels = true;
+			LevelUtil.level_path = "";
 			LevelUtil.load_params.level = LevelContainer.empty_level();
 			Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
 			return;
@@ -108,8 +109,8 @@ func reload():
 	create_folder_button = create_folder_arr[0];
 	container.add_child(create_container);
 	
-	create_level_button.focus_neighbor_right = create_level_button.get_path_to(create_folder_button);
-	create_folder_button.focus_neighbor_left = create_folder_button.get_path_to(create_level_button);
+	create_level_button.focus_neighbor_right = create_folder_button.get_path();
+	create_folder_button.focus_neighbor_left = create_level_button.get_path();
 	
 	if current_dir != LevelUtil.FOLDER:
 		var del_folder := add_item("📁X Delete Empty Folder");
@@ -136,8 +137,8 @@ func reload():
 		);
 		container.add_child(hb_container);
 		
-		edit_last.focus_neighbor_right = edit_last.get_path_to(open_folder);
-		open_folder.focus_neighbor_left = open_folder.get_path_to(edit_last);
+		edit_last.focus_neighbor_right = open_folder.get_path();
+		open_folder.focus_neighbor_left = edit_last.get_path();
 	
 	
 	var padding := Control.new();
@@ -178,8 +179,15 @@ func reload():
 		note.self_modulate = Color(0.5, 0.5, 0.5);
 		container.add_child(note);
 	
-	last_item.focus_neighbor_bottom = first_item.get_path();
 	first_item.focus_neighbor_top = last_item.get_path();
+	last_item.focus_neighbor_bottom = first_item.get_path();
+	
+	if last_item.get_parent() is HBoxContainer && last_item.get_index() > 0:
+		last_item = last_item.get_parent().get_child(0);
+		first_item.focus_neighbor_top = last_item.get_path();
+		var first_path := first_item.get_path();
+		for child in last_item.get_parent().get_children():
+			child.focus_neighbor_bottom = first_path;
 
 func go_back():
 	if current_dir != LevelUtil.FOLDER:

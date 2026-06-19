@@ -11,6 +11,8 @@ var bind_label_name := "";
 var cancel_countdown := 5;
 var will_refresh := false;
 
+var current_layout := DisplayServer.keyboard_get_current_layout();
+
 func _ready() -> void:
 	add_controls_heading("Gameplay");
 	add_control("Move Left", &"player_left");
@@ -37,6 +39,14 @@ func _ready() -> void:
 	add_control("Delete", &"editor_delete");
 	add_control("Multiselect", &"editor_multiselect");
 	add_control("Playtest", &"editor_playtest");
+	add_control("Save", &"editor_shortcut_save");
+
+func _process(_delta: float) -> void:
+	var new_layout := DisplayServer.keyboard_get_current_layout();
+	if new_layout != current_layout:
+		current_layout = new_layout;
+		for node in get_tree().get_nodes_in_group(&"controlbinds"):
+			node.update_labels();
 
 func add_controls_heading(text: String) -> void:
 	var heading := Label.new();
