@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8bct6m81p10j"
-path="res://.godot/imported/rings.png-edbc4e7b57df0c4ddc21c01454097953.ctex"
+uid="uid://cpdg6vd18j7mx"
+path="res://.godot/imported/time.png-dc7247c7277c6a8beb5fc4f5aa9376f5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/hud/rings.png"
-dest_files=["res://.godot/imported/rings.png-edbc4e7b57df0c4ddc21c01454097953.ctex"]
+source_file="res://objects/essential/LevelManager/sprites/time.png"
+dest_files=["res://.godot/imported/time.png-dc7247c7277c6a8beb5fc4f5aa9376f5.ctex"]
 
 [params]
 

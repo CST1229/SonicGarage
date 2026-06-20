@@ -111,7 +111,7 @@ bus = &"SFX"
 
 [node name="roll_sound" type="AudioStreamPlayer" parent="." unique_id=1502703416]
 stream = ExtResource("6_qv3jl")
-volume_db = -5.0
+volume_db = -10.0
 bus = &"SFX"
 
 [node name="skid_sound" type="AudioStreamPlayer" parent="." unique_id=1561313330]

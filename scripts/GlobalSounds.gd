@@ -19,10 +19,10 @@ var spindash_pitch = 0;
 
 func _ready():
 	ring_player.bus = "RingLeft";
-	ring_player.volume_db = -5;
+	ring_player.volume_db = -10;
 	ring_player.stream = preload("res://objects/level/Ring/sounds/collect1.wav");
 	ring_player_2.bus = "RingRight";
-	ring_player_2.volume_db = -5;
+	ring_player_2.volume_db = -10;
 	ring_player_2.stream = preload("res://objects/level/Ring/sounds/collect1.wav");
 	
 	AudioServer.get_bus_effect(AudioServer.get_bus_index("RingLeft"), 0).pan = -1.0;

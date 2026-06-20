@@ -42,6 +42,8 @@ func _on_body_entered(body):
 			passed_player = body;
 			if passed_player.camera:
 				passed_player.camera.end_sign = self;
+			if LevelUtil.level_manager:
+				LevelUtil.level_manager.tick_time = false;
 			
 			sprite.play("spin");
 			sound.play();

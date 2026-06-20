@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://di2h7pqwt8bpr"]
 
 [ext_resource type="Script" uid="uid://ccyc3aodggt58" path="res://objects/essential/LevelManager/LevelManager.gd" id="1_ttuna"]
-[ext_resource type="Texture2D" uid="uid://b8bct6m81p10j" path="res://sprites/hud/rings.png" id="2_kni5t"]
+[ext_resource type="Texture2D" uid="uid://cpdg6vd18j7mx" path="res://objects/essential/LevelManager/sprites/time.png" id="2_fbars"]
+[ext_resource type="Texture2D" uid="uid://b8bct6m81p10j" path="res://objects/essential/LevelManager/sprites/rings.png" id="2_rrjof"]
 
 [node name="LevelManager" type="Node2D" unique_id=1434690835]
 script = ExtResource("1_ttuna")
@@ -17,17 +18,29 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="RingsLabel" type="Sprite2D" parent="UI/HUD" unique_id=829715691]
-position = Vector2(12, 12)
-texture = ExtResource("2_kni5t")
+[node name="Stats" type="VBoxContainer" parent="UI/HUD" unique_id=1776709039]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 108.0
+offset_bottom = 39.0
+theme_override_constants/separation = 5
+
+[node name="Time" type="Label" parent="UI/HUD/Stats" unique_id=576420155]
+layout_mode = 2
+theme_type_variation = &"ScoreLabel"
+text = "     00:00:0"
+
+[node name="Label" type="Sprite2D" parent="UI/HUD/Stats/Time" unique_id=829715691]
+texture = ExtResource("2_fbars")
 centered = false
 
-[node name="RingCount" type="Label" parent="UI/HUD" unique_id=576420155]
-layout_mode = 0
-offset_left = 52.0
-offset_top = 12.0
-offset_right = 88.0
-offset_bottom = 24.0
+[node name="RingCount" type="Label" parent="UI/HUD/Stats" unique_id=1852143924]
+layout_mode = 2
 theme_type_variation = &"ScoreLabel"
 text = "0"
 horizontal_alignment = 2
+
+[node name="Label" type="Sprite2D" parent="UI/HUD/Stats/RingCount" unique_id=1246732077]
+texture = ExtResource("2_rrjof")
+centered = false

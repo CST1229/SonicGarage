@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b0wgamqk5ouk5" path="res://sprites/ui/checkbutton_unchecked.png" id="3_nvays"]
 [ext_resource type="Texture2D" uid="uid://d3lqxbbjxr1sm" path="res://sprites/icons/ui/dropdown_arrow.png" id="4_nu61b"]
 [ext_resource type="FontFile" uid="uid://c4bitm3hxvmo8" path="res://sprites/fonts/Habbo.ttf" id="5_s0aln"]
-[ext_resource type="FontFile" uid="uid://dcjbl32ea48c0" path="res://sprites/hud/font_hud_numbers.png" id="7_mbk3s"]
+[ext_resource type="FontFile" uid="uid://dcjbl32ea48c0" path="res://objects/essential/LevelManager/sprites/font_hud_numbers.png" id="7_cpbce"]
 [ext_resource type="FontFile" uid="uid://btxnitovb46ch" path="res://sprites/fonts/tiny_font.png" id="9_cpbce"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jfic0"]
@@ -539,7 +539,7 @@ PopupMenu/styles/separator = SubResource("StyleBoxLine_epmwg")
 RichTextLabel/styles/focus = SubResource("StyleBoxFlat_cpbce")
 ScoreLabel/base_type = &"Label"
 ScoreLabel/font_sizes/font_size = 16
-ScoreLabel/fonts/font = ExtResource("7_mbk3s")
+ScoreLabel/fonts/font = ExtResource("7_cpbce")
 SelectedButton/base_type = &"Button"
 SelectedButton/styles/focus = SubResource("StyleBoxEmpty_apokc")
 SelectedButton/styles/hover = SubResource("StyleBoxFlat_5j1ws")
