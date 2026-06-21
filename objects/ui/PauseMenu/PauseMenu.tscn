@@ -33,8 +33,8 @@ anti_aliasing = false
 [node name="PauseMenu" type="CanvasLayer" unique_id=1265953789]
 process_mode = 3
 layer = 500
-visible = false
 script = ExtResource("1_qdx50")
+is_in_editor = true
 
 [node name="Fade" parent="." unique_id=785105724 instance=ExtResource("2_ykr4q")]
 fade = 0.25
@@ -82,6 +82,7 @@ grow_vertical = 2
 theme_override_constants/separation = 8
 
 [node name="PausedLabel" type="Label" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=1130366929 groups=["level"]]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Paused"
@@ -98,7 +99,6 @@ icon = ExtResource("3_ymwk8")
 
 [node name="Playtest" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=1723832384 groups=["editor"]]
 unique_name_in_owner = true
-visible = false
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 theme = ExtResource("2_nte4g")
@@ -107,6 +107,7 @@ icon = ExtResource("4_t8wvw")
 
 [node name="Restart" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=361219138 groups=["level"]]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 theme = ExtResource("2_nte4g")
@@ -123,7 +124,6 @@ text = "Return to Editor"
 icon = ExtResource("5_w7ukg")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=854751779 groups=["editor"]]
-visible = false
 layout_mode = 2
 
 [node name="Save" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer/HBoxContainer" unique_id=302899651]
@@ -147,7 +147,6 @@ icon = ExtResource("6_t8wvw")
 
 [node name="Load" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=135778738 groups=["editor"]]
 unique_name_in_owner = true
-visible = false
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -157,12 +156,10 @@ icon = ExtResource("9_2pk04")
 
 [node name="LevelProperties" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=792031455 groups=["editor"]]
 unique_name_in_owner = true
-visible = false
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 theme = ExtResource("2_nte4g")
-disabled = true
-text = "Level Properties... (WIP)"
+text = "Level Properties..."
 icon = ExtResource("7_diiiv")
 
 [node name="Settings" type="Button" parent="TabContainer/Pause/Pause/VBoxContainer" unique_id=995931731 groups=["editor", "level"]]

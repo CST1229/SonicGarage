@@ -32,6 +32,10 @@ func goto_editor():
 	Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
 
 func goto_levels() -> void:
+	if Input.is_key_pressed(KEY_CTRL) || Input.is_key_pressed(KEY_SHIFT):
+		LevelUtil.coming_from_my_levels = true;
+		Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
+		return;
 	Fades.fade_to_scene("res://scenes/MyLevels/MyLevels.tscn");
 
 func load_level():

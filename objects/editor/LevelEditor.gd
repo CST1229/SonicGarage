@@ -437,6 +437,7 @@ func _unhandled_input(ev: InputEvent):
 					else:
 						deselect_vert(snapped_vert);
 					selection_changed.emit();
+					container.dirty = true;
 				else:
 					if !Input.is_action_pressed("editor_multiselect"): deselect_verts();
 					selection_changed.emit();

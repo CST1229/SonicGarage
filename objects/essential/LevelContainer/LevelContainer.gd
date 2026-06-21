@@ -118,9 +118,13 @@ func add_players() -> void:
 static func empty_level() -> Dictionary:
 	return {format = FORMAT_VERSION};
 
+func play_music() -> void:
+	Music.play_id(music);
+
 func serialize() -> Dictionary:
 	var data := empty_level();
 	data.theme = theme_id;
+	data.music = music;
 	data.polygons = [];
 	data.objects = [];
 	

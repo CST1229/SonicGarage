@@ -25,7 +25,7 @@ extends CanvasLayer
 			editor.visible = editor.visible && editor_pressed.has_connections();
 @export var is_playtest: bool = false;
 
-var level_container: LevelContainer;
+@export var level_container: LevelContainer;
 
 @onready var resume: Button = %Resume;
 @onready var playtest: Button = %Playtest;
@@ -40,7 +40,8 @@ var level_container: LevelContainer;
 
 @onready var tab_container: TabContainer = $TabContainer;
 @onready var pause_tab: MarginContainer = $TabContainer/Pause;
-var settings_tab: Panel;
+var subtab: Panel;
+var subtab_go_back_to: Button;
 
 @onready var v_box_container: VBoxContainer = pause_tab.get_node(^"Pause/VBoxContainer");
 
@@ -76,18 +77,17 @@ func _ready() -> void:
 		get_viewport().gui_release_focus();
 	);
 	
-	settings.pressed.connect(func():
-		settings_tab = load("res://scenes/SettingsMenu/SettingsMenu.tscn").instantiate();
-		tab_container.add_child(settings_tab);
-		settings_tab.visibility_changed.connect(func():
-			if !settings_tab.visible:
-				settings_tab.queue_free();
+	level_properties.pressed.connect(func():
+		enter_subtab(
+			load("res://scenes/EditorRoom/LevelProperties/LevelProperties.tscn"),
+			level_properties
 		);
-		
-		settings_tab.visible = true;
-		settings_tab.entered();
-		settings_tab.go_back.connect.call_deferred(func():
-			go_back();
+	);
+	
+	settings.pressed.connect(func():
+		enter_subtab(
+			load("res://scenes/SettingsMenu/SettingsMenu.tscn"),
+			settings
 		);
 	);
 	quit.pressed.connect(func():
@@ -123,10 +123,27 @@ func _input(event: InputEvent) -> void:
 		else:
 			active = true;
 
-func go_back():
-	if settings_tab:
+func enter_subtab(scene: PackedScene, go_back_to: Button) -> void:
+	subtab = scene.instantiate();
+	subtab_go_back_to = go_back_to;
+	if "level_container" in subtab:
+		subtab.level_container = level_container;
+	tab_container.add_child(subtab);
+	subtab.visibility_changed.connect(func():
+		if !subtab.visible:
+			subtab.queue_free();
+	);
+	
+	subtab.visible = true;
+	subtab.entered();
+	subtab.go_back.connect.call_deferred(func():
+		go_back();
+	);
+
+func go_back() -> void:
+	if subtab:
 		pause_tab.show();
-		settings.grab_focus();
+		subtab_go_back_to.grab_focus();
 	else:
 		active = false;
 

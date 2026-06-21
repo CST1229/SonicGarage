@@ -52,11 +52,16 @@ autoplay = "stand"
 offset = Vector2(0, 0.5)
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=1894356076]
-visible = false
 shape = SubResource("RectangleShape2D_r84wf")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="CeilingNormal" type="RayCast2D" parent="Shape" unique_id=1857908604]
+position = Vector2(-4, 0)
+enabled = false
+target_position = Vector2(0, -19)
+
+[node name="CeilingNormal2" type="RayCast2D" parent="Shape" unique_id=1810313991]
+position = Vector2(4, 0)
 enabled = false
 target_position = Vector2(0, -19)
 
@@ -98,10 +103,11 @@ offset_bottom = 24.0
 grow_horizontal = 0
 theme_override_fonts/font = ExtResource("5_8dh6u")
 theme_override_font_sizes/font_size = 5
-text = "x:   %s
-y:   %s
-hsp: %s
-vsp: %s"
+text = "x:   %12f
+y:   %12f
+hsp: %12f x 60
+vsp: %12f x 60
+gsp: %12f x 60"
 label_settings = SubResource("LabelSettings_mfktl")
 metadata/_edit_use_anchors_ = true
 
@@ -110,6 +116,11 @@ stream = ExtResource("5_y8ctc")
 bus = &"SFX"
 
 [node name="roll_sound" type="AudioStreamPlayer" parent="." unique_id=1502703416]
+stream = ExtResource("6_qv3jl")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="CeilingNormal2" type="AudioStreamPlayer" parent="." unique_id=64248184]
 stream = ExtResource("6_qv3jl")
 volume_db = -10.0
 bus = &"SFX"

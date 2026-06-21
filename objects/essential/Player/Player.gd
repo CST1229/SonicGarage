@@ -75,6 +75,10 @@ const HURT_SPEED_Y = -4.0 * 60;
 const HURT_GRAVITY = 0.1875 * 60 * 60;
 const DEAD_SPEED_Y = -7 * 60;
 
+const AIR_FLOOR_MAX_ANGLE = deg_to_rad(70);
+const AIR_FLOOR_MAX_ANGLE_DOWN = deg_to_rad(85);
+const GROUND_FLOOR_MAX_ANGLE =  deg_to_rad(65);
+
 # the variables, i don't feel like
 # categorizing them
 var gravity := 0.21875 * 60 * 60;
@@ -123,6 +127,7 @@ var debug_velocity := 0.0;
 @onready var ringloss_sound: AudioStreamPlayer = $ringloss_sound;
 
 @onready var ceiling_normal_raycast: RayCast2D = $Shape/CeilingNormal;
+@onready var ceiling_normal_raycast_2: RayCast2D = $Shape/CeilingNormal2;
 
 @onready var debug_labels: CanvasLayer = $DebugLabels;
 @onready var debug_label: Label = $DebugLabels/DebugLabel;
@@ -143,7 +148,11 @@ func _draw():
 		draw_line(Vector2.ZERO, ground_normal * 32, Color.CYAN, 2, false);
 		draw_line(Vector2.ZERO, velocity / 15.0, Color.MEDIUM_AQUAMARINE, 2, false);
 		
-		debug_label.text = old_debug_label_text % [pad_minus(position.x), pad_minus(position.y), pad_minus(velocity.x), pad_minus(velocity.y)];
+		debug_label.text = old_debug_label_text % [
+			position.x, position.y,
+			velocity.x / 60, velocity.y / 60,
+			ground_speed / 60
+		];
 # pad a leading minus in a number
 func pad_minus(num: float):
 	num = snappedf(num, 0.00001);
@@ -177,7 +186,7 @@ func _physics_process(delta: float):
 		state = State.LEVEL_COMPLETE;
 		queue_level_complete = false;
 	
-	if Input.is_action_just_pressed("debug"):
+	if Input.is_action_just_pressed("debug") && DEBUG_MODE:
 		if state == State.DEBUG:
 			state = State.NORMAL;
 			debug_velocity = 0;
@@ -396,10 +405,24 @@ func player_react_to_collision(prev_floor: bool, prev_velocity: Vector2, delta: 
 	# ceiling collisions
 	var hit_floor = is_on_floor();
 	ceiling_normal_raycast.force_raycast_update();
-	if !hit_floor && is_on_ceiling() && ceiling_normal_raycast.is_colliding():
+	ceiling_normal_raycast_2.force_raycast_update();
+	if !hit_floor && is_on_ceiling() && (ceiling_normal_raycast.is_colliding() \
+		|| ceiling_normal_raycast_2.is_colliding()):
 		# get_ceiling_normal doesnt exist aaaaa
-		var ceiling_normal := ceiling_normal_raycast.get_collision_normal();
-		if absf(ceiling_normal.x) < 0.95 && absf(ceiling_normal.x) > 0.75:
+		var ceiling_normal := Vector2.ZERO;
+		if (ceiling_normal_raycast.is_colliding() && ceiling_normal_raycast_2.is_colliding()):
+			ceiling_normal = Vector2.from_angle(
+				lerp_angle(
+					ceiling_normal_raycast.get_collision_normal().angle(),
+					ceiling_normal_raycast_2.get_collision_normal().angle(),
+					0.5
+				)
+			);
+		elif ceiling_normal_raycast.is_colliding():
+			ceiling_normal = ceiling_normal_raycast.get_collision_normal();
+		else:
+			ceiling_normal = ceiling_normal_raycast_2.get_collision_normal();
+		if absf(ceiling_normal.x) < 0.95 && absf(ceiling_normal.x) > 0.8:
 			if ceiling_normal.x < 0:
 				ground_normal = Vector2.LEFT;
 				hit_floor = true;
@@ -410,10 +433,13 @@ func player_react_to_collision(prev_floor: bool, prev_velocity: Vector2, delta: 
 			prev_floor = false;
 	
 	if !hit_floor:
-		floor_max_angle = deg_to_rad(89);
 		on_floor = 0;
 		falling += delta;
 		velocity.y += gravity * delta;
+		if velocity.y > 0:
+			floor_max_angle = AIR_FLOOR_MAX_ANGLE_DOWN;
+		else:
+			floor_max_angle = AIR_FLOOR_MAX_ANGLE;
 		
 		if falling > COYOTE_TIME:
 			ground_normal = Vector2.UP;
@@ -429,7 +455,7 @@ func player_react_to_collision(prev_floor: bool, prev_velocity: Vector2, delta: 
 		if falling > 0.1:
 			shape.rotation = 0;
 	else:
-		floor_max_angle = deg_to_rad(70.0);
+		floor_max_angle = GROUND_FLOOR_MAX_ANGLE;
 		falling = 0;
 		jumping = false;
 		var old_norm = ground_normal;
@@ -462,10 +488,13 @@ func set_hitbox_height():
 	var width := HITBOX_WIDTH if !small_w else CROUCHING_HITBOX_WIDTH;
 	
 	shape.shape.size.x = width;
+	ceiling_normal_raycast.position.x = width / 2.0;
+	ceiling_normal_raycast_2.position.x = width / -2.0;
 	shape.shape.size.y = height;
 	ceiling_normal_raycast.target_position = Vector2(
-		0, -height / 2.0 - 16.0
+		0, -height / 2.0 - 24.0
 	);
+	ceiling_normal_raycast_2.target_position = ceiling_normal_raycast.target_position;
 	shape.position.y = (HITBOX_HEIGHT - height) / 2.0;
 
 func tick_levelcomplete(delta: float):
@@ -476,7 +505,7 @@ func tick_levelcomplete(delta: float):
 	velocity.y += gravity * delta;
 	
 	floor_stop_on_slope = true;
-	floor_max_angle = deg_to_rad(89);
+	floor_max_angle = GROUND_FLOOR_MAX_ANGLE;
 	up_direction = Vector2.UP;
 	ground_normal = Vector2.UP;
 	
@@ -500,7 +529,10 @@ func tick_hurt(delta: float):
 	falling = 1000;
 	on_floor = 0;
 	on_wall = 0;
-	floor_max_angle = deg_to_rad(80);
+	if velocity.y > 0:
+		floor_max_angle = AIR_FLOOR_MAX_ANGLE_DOWN;
+	else:
+		floor_max_angle = AIR_FLOOR_MAX_ANGLE;
 	
 	shape.rotation = 0;
 	sprite.rotation = 0;
@@ -722,10 +754,12 @@ func player_sprites(direction: float):
 	else:
 		sprite.rotation = lerp_angle(sprite.rotation, -ground_normal.angle_to(Vector2.UP), 0.25);
 	
-	if sprite.animation == "walk" || sprite.animation == "run":
+	if sprite.animation == "walk":
 		sprite.speed_scale = 1.0 / (0.016 + max(0, 8 - absf(ground_speed) / 60.0));
+	elif sprite.animation == "run":
+		sprite.speed_scale = 1.0 / (0.016 + max(0, 8 - absf(ground_speed) / 70.0));
 	elif sprite.animation == "spin":
-		sprite.speed_scale = 1.0 / (0.016 + max(0, 4 - absf(ground_speed) / 60.0));
+		sprite.speed_scale = 1.0 / (0.016 + max(0, 4 - absf(ground_speed) / 120.0));
 	elif sprite.animation == "push":
 		sprite.speed_scale = 1.0 / (0.016 + max(0, 8 - absf(ground_speed) / 60.0 * 4));
 	elif sprite.animation == "spindash":
@@ -768,6 +802,7 @@ func update_layer():
 	collision_layer = LevelUtil.LAYER_PLAYER;
 	collision_mask = terrain_layer;
 	ceiling_normal_raycast.collision_mask = terrain_layer;
+	ceiling_normal_raycast_2.collision_mask = terrain_layer;
 	if !is_curled():
 		collision_mask |= LevelUtil.LAYER_MONITORS;
 

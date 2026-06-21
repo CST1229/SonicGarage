@@ -70,6 +70,14 @@ func play(song: AudioStream):
 		player.stream = song;
 		player.play();
 
+func play_id(id: StringName):
+	if id not in Global.songs:
+		push_error("Unknown song {0}".format(id));
+	elif Global.songs[id].path == "":
+		Music.stop();
+	else:
+		Music.play(load(Global.songs[id].path));
+
 func restart():
 	if player.has_stream_playback():
 		player.play();

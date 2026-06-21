@@ -71,6 +71,8 @@ func _ready() -> void:
 		button.pressed.connect(select_mode.bind(mode, default_tool));
 	
 	selection_changed();
+	
+	pause_menu.level_container = editor.container;
 
 func do_gui_hover(node: Node) -> void:
 	for child in node.get_children():
