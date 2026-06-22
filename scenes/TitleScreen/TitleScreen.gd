@@ -32,7 +32,8 @@ func _ready():
 
 func on_files_dropped(files: PackedStringArray) -> void:
 	if files.size() == 1:
-		if files[0].to_lower().ends_with(".sgl"):
+		if files[0].to_lower().ends_with(".sgl") || \
+			files[0].to_lower().ends_with(".sgl.txt"):
 			LevelUtil.coming_from_my_levels = false;
 			LevelUtil.load_params.newly_loaded_level = true;
 			EditorLib.load_level(false, files[0], true);
