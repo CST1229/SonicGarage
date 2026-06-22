@@ -41,4 +41,4 @@ func exit() -> void:
 		return Fades.fade_to_scene("res://scenes/TitleScreen/TitleScreen.tscn");
 
 func _on_pause_menu_editor_pressed(_menu: PauseMenu) -> void:
-	playtest();
+	Fades.change_scene_to_file("res://scenes/EditorRoom/EditorRoom.tscn");

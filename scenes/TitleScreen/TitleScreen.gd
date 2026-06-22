@@ -27,6 +27,15 @@ func _ready():
 		if ev is InputEventMouseButton and (ev as InputEventMouseButton).pressed and (ev as InputEventMouseButton).button_index == 1:
 			OS.shell_open("https://www.github.com/CST1229/SonicGarage");
 	);
+	
+	get_window().files_dropped.connect(on_files_dropped);
+
+func on_files_dropped(files: PackedStringArray) -> void:
+	if files.size() == 1:
+		if files[0].to_lower().ends_with(".sgl"):
+			LevelUtil.coming_from_my_levels = false;
+			LevelUtil.load_params.newly_loaded_level = true;
+			EditorLib.load_level(false, files[0], true);
 
 func goto_editor():
 	Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");

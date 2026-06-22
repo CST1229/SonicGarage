@@ -179,6 +179,7 @@ icon = ExtResource("7_60dgc")
 [node name="PlayButton" type="Button" parent="CanvasLayer/Tabs/Menu/VBoxContainer" unique_id=1635217728]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+tooltip_text = "(Hint: drop a .sgl file to play it)"
 theme = ExtResource("2_trggm")
 text = "Play Level"
 icon = ExtResource("8_1q6pa")
