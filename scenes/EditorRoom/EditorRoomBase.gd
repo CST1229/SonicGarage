@@ -24,6 +24,16 @@ func _ready() -> void:
 			level_container.play_music();
 	LevelUtil.load_params.is_playtesting_from_pos = false;
 	
+	get_window().files_dropped.connect(on_files_dropped);
+
+func on_files_dropped(files: PackedStringArray) -> void:
+	if files.size() == 1:
+		if files[0].to_lower().ends_with(".sgl"):
+			LevelUtil.coming_from_my_levels = false;
+			LevelUtil.load_params.newly_loaded_level = true;
+			EditorLib.load_level(
+				playtest_room != "", files[0], playtest_room == ""
+			);
 
 func _unhandled_input(ev: InputEvent) -> void:
 	if ev.is_action_pressed("editor_playtest") && !ev.is_action_pressed("setting_fullscreen"):
