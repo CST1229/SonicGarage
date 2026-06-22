@@ -1,6 +1,6 @@
 # Sonic Garage
 
-A Classic Sonic level editor fangame, very much inspired by Lapper's [Sonic Studio](https://sonicstudiofangame.weebly.com/information.html). Go play that once it's out, it'll absolutely be way better than this!
+A polygon-based Classic Sonic level editor fangame, very much inspired by Lapper's [Sonic Studio](https://sonicstudiofangame.weebly.com/information.html). Go play that once it's out, it'll absolutely be way better than this!
 
 For downloads, see [the releases page](../../releases).
 
