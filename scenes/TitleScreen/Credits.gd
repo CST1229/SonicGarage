@@ -18,7 +18,10 @@ func get_music_credits() -> String:
 			if song_id == "blue_ska":
 				start_tag = '[hint="Ctrl+Shift+Play?"]'
 				end_tag = "[/hint]";
-			credits += " - {0}{1}{4}: {2}, by {3}\n".format(
-				[start_tag, song.as_seen_in, song.name, song.author, end_tag]
+			credits += " - {0}{1}{4}{5}{2}, by {3}\n".format(
+				[
+					start_tag, song.as_seen_in, song.name,
+					song.author, end_tag, ": " if song.as_seen_in else ""
+				]
 			);
 	return credits.strip_edges(false, true);

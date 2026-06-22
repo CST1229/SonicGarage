@@ -50,7 +50,7 @@ var subtab_go_back_to: Button;
 func _ready() -> void:
 	active = false;
 	
-	if is_playtest && !Engine.is_editor_hint():
+	if !is_playtest && !Engine.is_editor_hint():
 		editor.text = "Enter Editor";
 	
 	if Engine.is_editor_hint():

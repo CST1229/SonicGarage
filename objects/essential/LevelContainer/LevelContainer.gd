@@ -121,6 +121,10 @@ static func empty_level() -> Dictionary:
 func play_music() -> void:
 	Music.play_id(music);
 
+func update_theme() -> void:
+	for poly: Polygon in get_tree().get_nodes_in_group(&"polygons"):
+		poly.update_polygon();
+
 func serialize() -> Dictionary:
 	var data := empty_level();
 	data.theme = theme_id;

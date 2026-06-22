@@ -67,6 +67,7 @@ func reload():
 			LevelUtil.coming_from_my_levels = true;
 			LevelUtil.level_path = "";
 			LevelUtil.load_params.level = LevelContainer.empty_level();
+			LevelUtil.load_params.newly_loaded_level = true;
 			Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
 			return;
 		if value == "":
@@ -167,6 +168,7 @@ func reload():
 		var level_item := add_item(filtered_level_name);
 		level_item.pressed.connect(func():
 			LevelUtil.coming_from_my_levels = true;
+			LevelUtil.load_params.newly_loaded_level = true;
 			var full_path := current_dir.path_join(level_name);
 			EditorLib.load_level(true, full_path, true);
 		);

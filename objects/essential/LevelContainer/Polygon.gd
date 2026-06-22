@@ -37,7 +37,6 @@ var is_counterclockwise := false;
 
 func _ready() -> void:
 	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED;
-	add_to_group(&"polygons");
 	update_polygon();
 	update_layer();
 	

@@ -3,7 +3,6 @@
 [ext_resource type="Theme" uid="uid://dsc2sl34kqmp" path="res://sprites/ui/ui_theme.tres" id="1_ja7ue"]
 [ext_resource type="Script" uid="uid://cn7vfguar2jb5" path="res://scenes/EditorRoom/LevelProperties/LevelProperties.gd" id="2_6unvb"]
 [ext_resource type="FontFile" uid="uid://bwoa021kuhdit" path="res://sprites/fonts/ui_font.png" id="3_03xc0"]
-[ext_resource type="Script" uid="uid://ddpbm30cqff4w" path="res://scenes/EditorRoom/LevelProperties/LevelPropertiesList.gd" id="4_fbkhe"]
 [ext_resource type="Script" uid="uid://cm6j04skkafab" path="res://objects/ui/FixedOptionButton.gd" id="7_8fmfp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8eswu"]
@@ -85,10 +84,8 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 16
 
-[node name="List" type="VBoxContainer" parent="HMargin/ScrollContainer/VMargin" unique_id=970399142 node_paths=PackedStringArray("level_container_from")]
+[node name="List" type="VBoxContainer" parent="HMargin/ScrollContainer/VMargin" unique_id=970399142]
 layout_mode = 2
-script = ExtResource("4_fbkhe")
-level_container_from = NodePath("../../../..")
 
 [node name="Grid" type="GridContainer" parent="HMargin/ScrollContainer/VMargin/List" unique_id=1383042034]
 layout_mode = 2
@@ -100,20 +97,37 @@ layout_mode = 2
 text = "Music"
 
 [node name="Music" type="OptionButton" parent="HMargin/ScrollContainer/VMargin/List/Grid" unique_id=1704746109]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
 autowrap_mode = 3
 fit_to_longest_item = false
 script = ExtResource("7_8fmfp")
+no_radio_buttons = true
 
 [node name="Control" type="Control" parent="HMargin/ScrollContainer/VMargin/List/Grid" unique_id=1077859159]
 layout_mode = 2
 
 [node name="MusicCredit" type="Label" parent="HMargin/ScrollContainer/VMargin/List/Grid" unique_id=1244678153]
+unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.48235294)
 layout_mode = 2
-text = "Music"
+text = "Music credit"
 horizontal_alignment = 2
+
+[node name="ThemeLabel" type="Label" parent="HMargin/ScrollContainer/VMargin/List/Grid" unique_id=1564026139]
+layout_mode = 2
+text = "Level Theme"
+
+[node name="Theme" type="OptionButton" parent="HMargin/ScrollContainer/VMargin/List/Grid" unique_id=1881126337]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 3
+fit_to_longest_item = false
+script = ExtResource("7_8fmfp")
+no_radio_buttons = true
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

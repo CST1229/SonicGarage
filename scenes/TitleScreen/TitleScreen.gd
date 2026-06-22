@@ -33,7 +33,7 @@ func goto_editor():
 
 func goto_levels() -> void:
 	if Input.is_key_pressed(KEY_CTRL) || Input.is_key_pressed(KEY_SHIFT):
-		LevelUtil.coming_from_my_levels = true;
+		LevelUtil.coming_from_my_levels = false;
 		Fades.fade_to_scene("res://scenes/EditorRoom/EditorRoom.tscn");
 		return;
 	Fades.fade_to_scene("res://scenes/MyLevels/MyLevels.tscn");
@@ -50,6 +50,7 @@ func load_level():
 
 func _on_play_file_dialog_file_selected(path: String) -> void:
 	LevelUtil.coming_from_my_levels = false;
+	LevelUtil.load_params.newly_loaded_level = true;
 	EditorLib.load_level(false, path, true);
 
 func quit():

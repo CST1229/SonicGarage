@@ -274,11 +274,11 @@ content_margin_bottom = 0.0
 bg_color = Color(1, 1, 1, 0.180392)
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tqfsi"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jbjjg"]
 content_margin_left = 0.0
-content_margin_top = 0.0
+content_margin_top = 1.0
 content_margin_right = 0.0
-content_margin_bottom = 0.0
+content_margin_bottom = 1.0
 bg_color = Color(0.0941176, 0.588235, 0.384314, 1)
 border_width_left = 1
 border_width_top = 1
@@ -534,7 +534,7 @@ PopupMenu/fonts/font_separator = ExtResource("1_wup4d")
 PopupMenu/icons/checked = ExtResource("2_ig84p")
 PopupMenu/icons/unchecked = ExtResource("3_nvays")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_h1epi")
-PopupMenu/styles/panel = SubResource("StyleBoxFlat_tqfsi")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_jbjjg")
 PopupMenu/styles/separator = SubResource("StyleBoxLine_epmwg")
 RichTextLabel/styles/focus = SubResource("StyleBoxFlat_cpbce")
 ScoreLabel/base_type = &"Label"

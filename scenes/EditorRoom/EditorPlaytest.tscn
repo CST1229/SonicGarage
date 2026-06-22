@@ -7,6 +7,9 @@
 script = ExtResource("2_b67bq")
 playtest_room = "res://scenes/EditorRoom/EditorRoom.tscn"
 
+[node name="PauseMenu" parent="." index="2" unique_id=1265953789]
+is_playtest = true
+
 [node name="TrailTimer" type="Timer" parent="." index="3" unique_id=992678636]
 process_callback = 0
 wait_time = 0.1

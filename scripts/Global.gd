@@ -80,7 +80,9 @@ var object_paths_to_id: Dictionary[String, String] = {};
 
 var songs: Dictionary[StringName, SongDef] = {
 	none = SongDef.new("Silence", "Nonexisty", "", "None"),
-	green_hill_zone = SongDef.new("Green Hill Zone - Sonic the Hedgehog", "SEGA...?", "green_hill_zone.ogg", "Green Hill Zone"),
+	green_hill_zone = SongDef.new("Green Hill Zone - Sonic the Hedgehog", "SEGA...?", "green_hill_zone.ogg", ""),
+	marble_zone = SongDef.new("Marble Zone - Sonic the Hedgehog", "SEGA...?", "marble_zone.ogg", ""),
+	emerald_hill_zone = SongDef.new("Emerald Hill Zone - Sonic the Hedgehog 2", "SEGA...?", "emerald_hill_zone.ogg", ""),
 	takeoff = SongDef.new("Take Off - Knuckles Chaotix", "SEGA...?", "takeoff.ogg", "Title Screen"),
 	s3db_menu = SongDef.new("Menu - Sonic 3D Blast", "SEGA...?", "s3db_menu.ogg", "Level List"),
 	blue_ska = SongDef.new("Blue Ska", "Kevin MacLeod", "blue_ska.ogg", "Secret"),
@@ -88,8 +90,8 @@ var songs: Dictionary[StringName, SongDef] = {
 
 var level_themes: Dictionary[StringName, String] = {
 	green_hill = "res://sprites/level_themes/GreenHill/theme_def.tres",
-	emerald_hill = "res://sprites/level_themes/EmeraldHill/theme_def.tres",
 	marble = "res://sprites/level_themes/Marble/theme_def.tres",
+	emerald_hill = "res://sprites/level_themes/EmeraldHill/theme_def.tres",
 };
 
 

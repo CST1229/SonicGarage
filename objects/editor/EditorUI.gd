@@ -237,8 +237,8 @@ func _on_file_dialog_file_selected(path: String) -> void:
 	if file_dialog.file_mode == FileDialog.FILE_MODE_OPEN_FILE:
 		if !last_pause_menu: return;
 		last_pause_menu.active = false;
-		EditorLib.load_level(true, path, false);
 		LevelUtil.load_params.newly_loaded_level = true;
+		EditorLib.load_level(true, path, false);
 	elif file_dialog.file_mode == FileDialog.FILE_MODE_SAVE_FILE:
 		# Add file extension
 		if !(path.to_lower().ends_with(".sgl")) && !FileAccess.file_exists(path):
