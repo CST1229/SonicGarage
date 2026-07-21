@@ -734,20 +734,30 @@ func player_sprites(direction: float):
 	else:
 		if crouching:
 			set_animation("crouch");
+		elif (sprite.animation == "crouch" && sprite.frame > 0) || \
+			(sprite.animation == "crouchend" && sprite.is_playing()):
+			set_animation("crouchend");
 		elif direction == wall_dir && direction == facing_dir && on_wall > 0:
 			set_animation("push");
 		elif (absf(ground_speed) > SKID_SPEED || sprite.animation == "skid") && direction == -signf(ground_speed):
 			if sprite.animation != "skid":
 				skid_sound.play();
 			set_animation("skid");
-		elif (sprite.animation == "skid" && absf(ground_speed) < 50) || (sprite.animation == "skidturn" && sprite.frame < 1):
+		elif (sprite.animation == "skid" && absf(ground_speed) < 50) || \
+			(sprite.animation == "skidturn" && sprite.frame < 1):
 			set_animation("skidturn");
 		elif absf(ground_speed) >= RUN_SPEED:
 			set_animation("run");
 		elif direction != 0 || absf(ground_speed) > 5:
 			set_animation("walk");
 		else:
-			set_animation("stand");
+			if Input.is_action_pressed("player_up"):
+				set_animation("lookup");
+			elif (sprite.animation == "lookup" && sprite.frame > 0) || \
+				(sprite.animation == "lookupend" && sprite.is_playing()):
+				set_animation("lookupend");
+			else:
+				set_animation("stand");
 	sprite.flip_h = facing_dir == -1;
 	if sprite.animation == "spin":
 		sprite.rotation = 0;

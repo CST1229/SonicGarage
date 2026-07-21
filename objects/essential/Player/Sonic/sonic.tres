@@ -10,7 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://bw25yueb7pxr4" path="res://objects/essential/Player/Sonic/levelcomplete3.png" id="8_43o6c"]
 [ext_resource type="Texture2D" uid="uid://dl1idhgd7lmdr" path="res://objects/essential/Player/Sonic/levelcomplete4.png" id="9_jjxr8"]
 [ext_resource type="Texture2D" uid="uid://bqk7lmslc14ew" path="res://objects/essential/Player/Sonic/levelcomplete5.png" id="10_cn2x8"]
+[ext_resource type="Texture2D" uid="uid://bwr2rda1es68g" path="res://objects/essential/Player/Sonic/lookup1.png" id="11_0cjkr"]
 [ext_resource type="Texture2D" uid="uid://c78nljqa0vn37" path="res://objects/essential/Player/Sonic/push1.png" id="11_n7nm0"]
+[ext_resource type="Texture2D" uid="uid://ds6qmjiv7vvgc" path="res://objects/essential/Player/Sonic/lookup2.png" id="12_q0pij"]
 [ext_resource type="Texture2D" uid="uid://c8y8rbfmtrd8h" path="res://objects/essential/Player/Sonic/push2.png" id="12_toe2l"]
 [ext_resource type="Texture2D" uid="uid://bscgpcm1tytqf" path="res://objects/essential/Player/Sonic/push3.png" id="13_km1kh"]
 [ext_resource type="Texture2D" uid="uid://csmt37x6fff3q" path="res://objects/essential/Player/Sonic/push4.png" id="14_0gibf"]
@@ -56,15 +58,23 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("2_ai85m")
 }],
-"loop": false,
+"loop": 0,
 "name": &"crouch",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pfpi5")
+}],
+"loop": 0,
+"name": &"crouchend",
 "speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_8gpo0")
 }],
-"loop": true,
+"loop": 1,
 "name": &"dead",
 "speed": 5.0
 }, {
@@ -75,7 +85,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_tl51y")
 }],
-"loop": true,
+"loop": 1,
 "name": &"hurt",
 "speed": 6.0
 }, {
@@ -89,7 +99,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("7_6nxig")
 }],
-"loop": false,
+"loop": 0,
 "name": &"levelcomplete",
 "speed": 10.0
 }, {
@@ -106,9 +116,28 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("10_cn2x8")
 }],
-"loop": true,
+"loop": 1,
 "name": &"levelcomplete_loop",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_0cjkr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_q0pij")
+}],
+"loop": 0,
+"name": &"lookup",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_0cjkr")
+}],
+"loop": 0,
+"name": &"lookupend",
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -123,7 +152,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("14_0gibf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"push",
 "speed": 60.0
 }, {
@@ -140,7 +169,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("18_somos")
 }],
-"loop": true,
+"loop": 1,
 "name": &"run",
 "speed": 60.0
 }, {
@@ -154,7 +183,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("21_bu6a2")
 }],
-"loop": false,
+"loop": 0,
 "name": &"skid",
 "speed": 15.0
 }, {
@@ -165,7 +194,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("22_8uayx")
 }],
-"loop": false,
+"loop": 0,
 "name": &"skidturn",
 "speed": 15.0
 }, {
@@ -194,7 +223,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("30_vm2or")
 }],
-"loop": true,
+"loop": 1,
 "name": &"spin",
 "speed": 60.0
 }, {
@@ -217,7 +246,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("36_ky2ei")
 }],
-"loop": true,
+"loop": 1,
 "name": &"spindash",
 "speed": 60.0
 }, {
@@ -225,7 +254,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("37_ljvnd")
 }],
-"loop": true,
+"loop": 1,
 "name": &"spring",
 "speed": 5.0
 }, {
@@ -233,7 +262,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("38_ie1fh")
 }],
-"loop": true,
+"loop": 1,
 "name": &"stand",
 "speed": 15.0
 }, {
@@ -262,7 +291,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("46_tbbcd")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk",
 "speed": 60.0
 }]
